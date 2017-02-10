@@ -1,2 +1,2 @@
-# harambe
-cmput 301
+# Harambe
+CMPUT 301
