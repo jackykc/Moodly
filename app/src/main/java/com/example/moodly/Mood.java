@@ -17,6 +17,7 @@ public class Mood {
     private String socialSituation;
     private String reasonText;
     private ImageFormat image;
+    // not sure about what format to use for the picture
 
     public Date getDate() {
         return date;
