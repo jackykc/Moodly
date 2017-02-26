@@ -1,6 +1,7 @@
 package com.example.moodly;
 
 import android.graphics.ImageFormat;
+import android.widget.TextView;
 
 import java.util.Date;
 
@@ -9,10 +10,10 @@ import java.util.Date;
  */
 
 public class MoodHolder {
-    private Mood mood;
-    private String emotion;
-    private Date date;
-    private String username;
-    private ImageFormat reasonPicture;
+    Mood mood;
+    TextView emotion;
+    TextView date;
+    TextView username;
+    TextView reasonPicture;
     // not sure about what format to use for the picture
 }

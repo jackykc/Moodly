@@ -116,6 +116,7 @@ public class MoodTest extends ActivityInstrumentationTestCase2{
         assertFalse(moodList.contains(mood));
     }
 
+
     public void testRegister() {}
 
     public void testFilter() {
@@ -130,5 +131,4 @@ public class MoodTest extends ActivityInstrumentationTestCase2{
         moodList.add(anotherMood);
         //Add stuff here
     }
-
 }

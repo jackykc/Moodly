@@ -10,4 +10,11 @@ public class User {
     private String name;
     public ArrayList<Mood> moodList = new ArrayList<>();
 
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 }
