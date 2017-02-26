@@ -43,4 +43,8 @@ public class MoodTest extends ActivityInstrumentationTestCase2{
         moodList.remove(mood);
         assertFalse(moodList.contains(mood));
     }
+
+    public void testsetAttributes(){
+
+    }
 }
