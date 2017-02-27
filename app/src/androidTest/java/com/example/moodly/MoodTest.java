@@ -34,8 +34,7 @@ public class MoodTest extends ActivityInstrumentationTestCase2{
         String emotion = "Happy";
         mood.setEmotion(emotion);
         moodList.add(mood);
-        Integer sizes = moodList.size()-1;
-        assertEquals(moodList.get(sizes).getEmotion(),emotion);
+        assertEquals(moodList.get(0).getEmotion(),emotion);
     }
 
     public void testAddTextReason() {
@@ -44,29 +43,18 @@ public class MoodTest extends ActivityInstrumentationTestCase2{
         String textReason = "Happy";
         mood.setReasonText(textReason);
         moodList.add(mood);
-        Integer sizes = moodList.size()-1;
-        assertEquals(moodList.get(sizes).getReasonText(),textReason);
-    }
-
-    public void testAddSocialSituation() {
-        ArrayList<Mood> moodList = new ArrayList<>();
-        Mood mood = new Mood();
-        String location = "Cincinnatti";
-        mood.setLocation(location);
-        moodList.add(mood);
-        Integer sizes = moodList.size()-1;
-        assertEquals(moodList.get(sizes).getLocation(),location);
+        assertEquals(moodList.get(0).getReasonText(),textReason);
     }
 
     public void testAddLocation() {
         ArrayList<Mood> moodList = new ArrayList<>();
         Mood mood = new Mood();
-        String emotion = "Happy";
-        mood.setEmotion(emotion);
+        String location = "Cincinnatti";
+        mood.setLocation(location);
         moodList.add(mood);
-        Integer sizes = moodList.size()-1;
-        assertEquals(moodList.get(sizes).getEmotion(),emotion);
+        assertEquals(moodList.get(0).getLocation(),location);
     }
+
 
     public void testViewMoodDetails(){
         ArrayList<Mood> moodList = new ArrayList<>();
@@ -80,10 +68,9 @@ public class MoodTest extends ActivityInstrumentationTestCase2{
         mood.setTrigger(trigger);
         mood.setReasonText(reasonText);
         moodList.add(mood);
-        Integer sizes = moodList.size()-1;
-        assertEquals(emotion,moodList.get(sizes).getEmotion());
-        assertEquals(trigger,moodList.get(sizes).getTrigger());
-        assertEquals(reasonText,moodList.get(sizes).getReasonText());
+        assertEquals(emotion,moodList.get(0).getEmotion());
+        assertEquals(trigger,moodList.get(0).getTrigger());
+        assertEquals(reasonText,moodList.get(0).getReasonText());
     }
 
     public void testEditMood() {
@@ -99,13 +86,12 @@ public class MoodTest extends ActivityInstrumentationTestCase2{
         mood.setReasonText(reasonText);
         moodList.add(mood);
         String newTrigger = "a kid";
-        Integer sizes = moodList.size()-1;
-        moodList.get(sizes).setTrigger(newTrigger);
-        assertEquals(emotion,moodList.get(sizes).getEmotion());
-        assertEquals(newTrigger,moodList.get(sizes).getTrigger());
-        assertEquals(reasonText,moodList.get(sizes).getReasonText());
+        moodList.get(0).setTrigger(newTrigger);
+        assertEquals(emotion,moodList.get(0).getEmotion());
+        assertEquals(newTrigger,moodList.get(0).getTrigger());
+        assertEquals(reasonText,moodList.get(0).getReasonText());
     }
-
+    
     public void testDeleteMood(){
         ArrayList<Mood> moodList = new ArrayList<>();
         Mood mood = new Mood();
