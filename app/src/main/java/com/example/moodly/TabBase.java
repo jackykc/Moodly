@@ -35,6 +35,9 @@ public class TabBase extends Fragment {
         displayMoodList = (ListView) rootView.findViewById(R.id.display_mood_list);
         displayMoodList.setAdapter(adapter);
 
+        FloatingActionButton fab = (FloatingActionButton) rootView.findViewById(R.id.fab);
+        fab.hide();
+
         return rootView;
     }
 

@@ -65,28 +65,6 @@ public class TabHistory extends TabBase {
 
 }
 
-//    @Override
-//    protected void onCreate(Bundle savedInstanceState) {
-//        super.onCreate(savedInstanceState);
-//        setContentView(R.layout.activity_view_mood_list);
-//
-//        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-//        fab.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//
-//                mood = new Mood();
-//                Intent intent = new Intent(ViewMoodList.this, ViewMood.class);
-//                intent.putExtra("PLACEHOLDER_MOOD", mood);
-//                startActivityForResult(intent, 0);
-//
-//                //Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-//                //        .setAction("Action", null).show();
-//
-//            }
-//        });
-//
-//    }
 
 
 
