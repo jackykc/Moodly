@@ -57,22 +57,6 @@ public class ViewMoodList extends AppCompatActivity {
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(mViewPager);
 
-//        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-//        fab.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//
-//                mood = new Mood();
-//                Intent intent = new Intent(ViewMoodList.this, ViewMood.class);
-//                intent.putExtra("PLACEHOLDER_MOOD", mood);
-//                startActivityForResult(intent, 0);
-//
-//                //Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-//                //        .setAction("Action", null).show();
-//
-//            }
-//        });
-
     }
 
 
@@ -99,9 +83,6 @@ public class ViewMoodList extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-
-
-    //history- deleted PlaceholderFragment class from here
     /**
      * A {@link FragmentPagerAdapter} that returns a fragment corresponding to
      * one of the sections/tabs/pages.
@@ -112,6 +93,10 @@ public class ViewMoodList extends AppCompatActivity {
             super(fm);
         }
 
+        /**
+         * This medthod takes a position for the selected tabs and returns the tab
+         * @param position the position of the selected tab (For history or following)
+         */
         @Override
         public Fragment getItem(int position) {
             // return current tab

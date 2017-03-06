@@ -17,19 +17,20 @@ import java.util.ArrayList;
  * Created by jkc1 on 2017-03-05.
  */
 
+/**
+ * This class is a fragment to display moods from the mood history
+ */
 public class TabHistory extends TabBase {
 
     private int index = 0; // this should be used when selecting a mood from the list?
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-
-
         View rootView = inflater.inflate(R.layout.mood_history, container, false);
 
+        // adapt the moodlist onto our fragment using a custom MoodAdapter
         adapter = new MoodAdapter(getActivity(), R.layout.mood_list_item, moodList);
         displayMoodList = (ListView) rootView.findViewById(R.id.display_mood_list);
         displayMoodList.setAdapter(adapter);

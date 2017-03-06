@@ -20,6 +20,10 @@ import java.util.List;
 * for references
 *
 * */
+
+/**
+ * Custom adapter to adapt moods onto a listview
+ */
 public class MoodAdapter extends ArrayAdapter<Mood> {
 
     private ArrayList<Mood> items;
@@ -27,6 +31,12 @@ public class MoodAdapter extends ArrayAdapter<Mood> {
     private MoodHolder holder;
     private Context context;
 
+    /**
+     * Constructor for our MoodAdapter
+     * @param context
+     * @param layoutResourceId resource id for our single list item
+     * @param items ArrayList of moods
+     */
     public MoodAdapter(Context context, int layoutResourceId, ArrayList<Mood> items) {
         super(context, layoutResourceId, items);
         this.layoutResourceId = layoutResourceId;
@@ -34,6 +44,13 @@ public class MoodAdapter extends ArrayAdapter<Mood> {
         this.items = items;
     }
 
+    /**
+     * Gets the view in which to setup the row of our custom list
+     * @param position
+     * @param convertView
+     * @param parent
+     * @return
+     */
     public View getView(int position, View convertView, ViewGroup parent) {
         View row;
         LayoutInflater inflater = ((Activity) context).getLayoutInflater();
@@ -50,14 +67,21 @@ public class MoodAdapter extends ArrayAdapter<Mood> {
         return row;
     }
 
+    /**
+     * Sets up the XML elements in our MoodHolder
+     * @param holder
+     */
     private void setupItem(MoodHolder holder) {
         String emotionString = toStringEmotion(holder.mood.getEmotion());
         holder.emotion.setText(emotionString);
         holder.date.setText(holder.mood.getDate().toString());
-        //holder.date.setText((CharSequence) holder.mood.getDate());
-        //holder.username.setText(holder.mood.getOwner());
     }
 
+    /**
+     * From our emotion enum, return the string representation of it
+     * @param emotion an enum of emotions
+     * @return a string repesentation of our emotion
+     */
     private String toStringEmotion(Emotion emotion) {
         switch (emotion) {
             case ANGER:

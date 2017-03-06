@@ -10,6 +10,9 @@ import java.util.Date;
  * Created by mliew on 2017-02-25.
  */
 
+/**
+ * Enum for emotion
+ */
 enum Emotion {
     NONE,
     ANGER,
@@ -22,6 +25,9 @@ enum Emotion {
     SUPRISE
 }
 
+/**
+ * Enum for social situation
+ */
 enum SocialSituation {
     NONE,
     ALONE,
@@ -40,7 +46,9 @@ public class Mood implements Parcelable {
     private Emotion emotion;
     private SocialSituation socialSituation;
 
-
+    /**
+     * The constructor for the mood class
+     */
     public Mood() {
         this.date = new Date();
         this.owner = "Placeholder";
@@ -52,6 +60,10 @@ public class Mood implements Parcelable {
         this.image = null;
     }
 
+    /**
+     * Used to read mood object passed from another activity
+     * @param in
+     */
     private Mood(Parcel in) {
 
         //http://stackoverflow.com/questions/21017404/reading-and-writing-java-util-date-from-parcelable-class
@@ -66,6 +78,11 @@ public class Mood implements Parcelable {
         image = in.readString();
     }
 
+    /**
+     * Used to write object to be passed to another activity
+     * @param out
+     * @param flags
+     */
     public void writeToParcel(Parcel out, int flags) {
         out.writeLong(date != null ? date.getTime() : -1);
         out.writeString(owner);
@@ -77,7 +94,6 @@ public class Mood implements Parcelable {
         out.writeString(image);
     }
 
-    // not sure about what format to use for the picture
     public int describeContents() {
         return 0;
     }
@@ -91,6 +107,7 @@ public class Mood implements Parcelable {
             return new Mood[size];
         }
     };
+
 
     public Date getDate() {
         return date;
