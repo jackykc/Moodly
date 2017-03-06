@@ -1,6 +1,8 @@
 package com.example.moodly;
 
-import android.graphics.ImageFormat;
+import android.os.Parcel;
+import android.os.Parcelable;
+import android.os.SystemClock;
 
 import java.util.Date;
 
@@ -8,16 +10,87 @@ import java.util.Date;
  * Created by mliew on 2017-02-25.
  */
 
-public class Mood {
+enum Emotion {
+    NONE,
+    ANGER,
+    CONFUSION,
+    DISGUST,
+    FEAR,
+    HAPPINESS,
+    SADNESS,
+    SHAME,
+    SUPRISE
+}
+
+enum SocialSituation {
+    NONE,
+    ALONE,
+    ONE,
+    SEVERAL,
+    CROWD,
+}
+
+public class Mood implements Parcelable {
     private Date date;
     private String owner;
     private String location;
     private String trigger;
-    private String emotion;
-    private String socialSituation;
     private String reasonText;
-    private ImageFormat image;
+    private String image;
+    private Emotion emotion;
+    private SocialSituation socialSituation;
+
+
+    public Mood() {
+        this.date = new Date();
+        this.owner = "Placeholder";
+        this.location = "";
+        this.trigger = "";
+        this.emotion = Emotion.NONE;
+        this.socialSituation = SocialSituation.NONE;
+        this.reasonText = "";
+        this.image = null;
+    }
+
+    private Mood(Parcel in) {
+
+        //http://stackoverflow.com/questions/21017404/reading-and-writing-java-util-date-from-parcelable-class
+        long tempDate = in.readLong();
+        this.date = tempDate == -1 ? null : new Date(tempDate);
+        owner = in.readString();
+        location = in.readString();
+        trigger = in.readString();
+        reasonText = in.readString();
+        emotion = Emotion.valueOf(in.readString());
+        socialSituation = socialSituation.valueOf(in.readString());
+        image = in.readString();
+    }
+
+    public void writeToParcel(Parcel out, int flags) {
+        out.writeLong(date != null ? date.getTime() : -1);
+        out.writeString(owner);
+        out.writeString(location);
+        out.writeString(trigger);
+        out.writeString(reasonText);
+        out.writeString(emotion.name());
+        out.writeString(socialSituation.name());
+        out.writeString(image);
+    }
+
     // not sure about what format to use for the picture
+    public int describeContents() {
+        return 0;
+    }
+
+    public static final Parcelable.Creator<Mood> CREATOR = new Parcelable.Creator<Mood>() {
+        public Mood createFromParcel(Parcel in) {
+            return new Mood(in);
+        }
+
+        public Mood[] newArray(int size) {
+            return new Mood[size];
+        }
+    };
 
     public Date getDate() {
         return date;
@@ -51,19 +124,19 @@ public class Mood {
         this.trigger = trigger;
     }
 
-    public String getEmotion() {
+    public Emotion getEmotion() {
         return emotion;
     }
 
-    public void setEmotion(String emotion) {
+    public void setEmotion(Emotion emotion) {
         this.emotion = emotion;
     }
 
-    public String getSocialSituation() {
+    public SocialSituation getSocialSituation() {
         return socialSituation;
     }
 
-    public void setSocialSituation(String socialSituation) {
+    public void setSocialSituation(SocialSituation socialSituation) {
         this.socialSituation = socialSituation;
     }
 
@@ -75,11 +148,11 @@ public class Mood {
         this.reasonText = reasonText;
     }
 
-    public ImageFormat getImage() {
+    public String getImage() {
         return image;
     }
 
-    public void setImage(ImageFormat image) {
+    public void setImage(String image) {
         this.image = image;
     }
 }
