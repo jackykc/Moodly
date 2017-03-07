@@ -16,6 +16,12 @@ public class User {
         following = new ArrayList<>();
     }
 
+    public User(String myName) {
+        name = myName;
+        follower = new ArrayList<>();
+        following = new ArrayList<>();
+    }
+
     public ArrayList<Mood> moodList = new ArrayList<>();
 
     public String getName() {

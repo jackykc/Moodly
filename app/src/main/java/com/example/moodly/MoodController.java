@@ -1,6 +1,7 @@
 package com.example.moodly;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 /**
  * Created by MinhNguyen on 06/03/2017.
@@ -36,7 +37,33 @@ public class MoodController {
         return m.getLocation();
     }
 
-    protected ArrayList<Mood> filer(){
-        return moodList;
+    protected ArrayList<Mood> filterByDate(Date startDate, Date endDate) {
+        ArrayList<Mood> result = new ArrayList<>();
+        for (Mood m: moodList) {
+            if (m.getDate().after(startDate) && m.getDate().before(endDate)){
+                result.add(m);
+            }
+        }
+        return result;
+    }
+
+    protected ArrayList<Mood> filterByEmoState(Emotion e) {
+        ArrayList<Mood> result = new ArrayList<>();
+        for (Mood m: moodList) {
+            if (m.getEmotion().equals(e)){
+                result.add(m);
+            }
+        }
+        return  result;
+    }
+
+    protected ArrayList<Mood> filterByTextReason(String reason) {
+        ArrayList<Mood> result = new ArrayList<>();
+        for(Mood m:moodList) {
+            if (m.getReasonText().contains(reason)) {
+                result.add(m);
+            }
+        }
+        return result;
     }
 }

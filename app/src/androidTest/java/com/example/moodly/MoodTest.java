@@ -3,6 +3,7 @@ package com.example.moodly;
 import android.test.ActivityInstrumentationTestCase2;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 /**
  * Created by mliew on 2017-02-25.
@@ -118,17 +119,26 @@ public class MoodTest extends ActivityInstrumentationTestCase2 {
     }
 
     public void testFilter() {
+        //TODO test filterByDate
         Mood mood = new Mood();
         Emotion emotion = Emotion.ANGER;
+        String reason = "not happy";
         mood.setEmotion(emotion);
+        mood.setReasonText(reason);
         con.addMood(mood);
 
         Mood anotherMood = new Mood();
         Emotion newEmotion = Emotion.CONFUSION;
+        String newReason = "cant understand";
+        anotherMood.setReasonText(newReason);
         anotherMood.setEmotion(newEmotion);
         con.addMood(anotherMood);
 
-        //Use con.filter in the future. Not implemented yet
+        ArrayList<Mood> result = con.filterByEmoState(Emotion.ANGER);
+        assertEquals(result.get(0), mood);
+
+        result = con.filterByTextReason("understand");
+        assertEquals(result.get(0), anotherMood);
     }
 
 }
