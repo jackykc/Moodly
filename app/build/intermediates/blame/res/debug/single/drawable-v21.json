@@ -1,0 +1,34 @@
+[
+    {
+        "merged": "/Users/Brockl/GIT/Harambe/app/build/intermediates/res/merged/debug/drawable-v21/notification_action_background.xml",
+        "source": "/Users/Brockl/.android/build-cache/4d0c7bcf14fbd7418e4501459a73160249a77918/output/res/drawable-v21/notification_action_background.xml"
+    },
+    {
+        "merged": "/Users/Brockl/GIT/Harambe/app/build/intermediates/res/merged/debug/drawable-v21/design_bottom_navigation_item_background.xml",
+        "source": "/Users/Brockl/.android/build-cache/b55452328255e9b2d5d352bef83d26558a6382b0/output/res/drawable-v21/design_bottom_navigation_item_background.xml"
+    },
+    {
+        "merged": "/Users/Brockl/GIT/Harambe/app/build/intermediates/res/merged/debug/drawable-v21/abc_edit_text_material.xml",
+        "source": "/Users/Brockl/.android/build-cache/4d0c7bcf14fbd7418e4501459a73160249a77918/output/res/drawable-v21/abc_edit_text_material.xml"
+    },
+    {
+        "merged": "/Users/Brockl/GIT/Harambe/app/build/intermediates/res/merged/debug/drawable-v21/avd_show_password.xml",
+        "source": "/Users/Brockl/.android/build-cache/b55452328255e9b2d5d352bef83d26558a6382b0/output/res/drawable-v21/avd_show_password.xml"
+    },
+    {
+        "merged": "/Users/Brockl/GIT/Harambe/app/build/intermediates/res/merged/debug/drawable-v21/design_password_eye.xml",
+        "source": "/Users/Brockl/.android/build-cache/b55452328255e9b2d5d352bef83d26558a6382b0/output/res/drawable-v21/design_password_eye.xml"
+    },
+    {
+        "merged": "/Users/Brockl/GIT/Harambe/app/build/intermediates/res/merged/debug/drawable-v21/abc_btn_colored_material.xml",
+        "source": "/Users/Brockl/.android/build-cache/4d0c7bcf14fbd7418e4501459a73160249a77918/output/res/drawable-v21/abc_btn_colored_material.xml"
+    },
+    {
+        "merged": "/Users/Brockl/GIT/Harambe/app/build/intermediates/res/merged/debug/drawable-v21/abc_action_bar_item_background_material.xml",
+        "source": "/Users/Brockl/.android/build-cache/4d0c7bcf14fbd7418e4501459a73160249a77918/output/res/drawable-v21/abc_action_bar_item_background_material.xml"
+    },
+    {
+        "merged": "/Users/Brockl/GIT/Harambe/app/build/intermediates/res/merged/debug/drawable-v21/avd_hide_password.xml",
+        "source": "/Users/Brockl/.android/build-cache/b55452328255e9b2d5d352bef83d26558a6382b0/output/res/drawable-v21/avd_hide_password.xml"
+    }
+]

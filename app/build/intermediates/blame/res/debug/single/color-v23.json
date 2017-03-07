@@ -1,0 +1,46 @@
+[
+    {
+        "merged": "/Users/Brockl/GIT/Harambe/app/build/intermediates/res/merged/debug/color-v23/abc_tint_btn_checkable.xml",
+        "source": "/Users/Brockl/.android/build-cache/4d0c7bcf14fbd7418e4501459a73160249a77918/output/res/color-v23/abc_tint_btn_checkable.xml"
+    },
+    {
+        "merged": "/Users/Brockl/GIT/Harambe/app/build/intermediates/res/merged/debug/color-v23/abc_tint_default.xml",
+        "source": "/Users/Brockl/.android/build-cache/4d0c7bcf14fbd7418e4501459a73160249a77918/output/res/color-v23/abc_tint_default.xml"
+    },
+    {
+        "merged": "/Users/Brockl/GIT/Harambe/app/build/intermediates/res/merged/debug/color-v23/abc_tint_edittext.xml",
+        "source": "/Users/Brockl/.android/build-cache/4d0c7bcf14fbd7418e4501459a73160249a77918/output/res/color-v23/abc_tint_edittext.xml"
+    },
+    {
+        "merged": "/Users/Brockl/GIT/Harambe/app/build/intermediates/res/merged/debug/color-v23/abc_btn_colored_borderless_text_material.xml",
+        "source": "/Users/Brockl/.android/build-cache/4d0c7bcf14fbd7418e4501459a73160249a77918/output/res/color-v23/abc_btn_colored_borderless_text_material.xml"
+    },
+    {
+        "merged": "/Users/Brockl/GIT/Harambe/app/build/intermediates/res/merged/debug/color-v23/abc_tint_seek_thumb.xml",
+        "source": "/Users/Brockl/.android/build-cache/4d0c7bcf14fbd7418e4501459a73160249a77918/output/res/color-v23/abc_tint_seek_thumb.xml"
+    },
+    {
+        "merged": "/Users/Brockl/GIT/Harambe/app/build/intermediates/res/merged/debug/color-v23/abc_tint_spinner.xml",
+        "source": "/Users/Brockl/.android/build-cache/4d0c7bcf14fbd7418e4501459a73160249a77918/output/res/color-v23/abc_tint_spinner.xml"
+    },
+    {
+        "merged": "/Users/Brockl/GIT/Harambe/app/build/intermediates/res/merged/debug/color-v23/abc_tint_switch_thumb.xml",
+        "source": "/Users/Brockl/.android/build-cache/4d0c7bcf14fbd7418e4501459a73160249a77918/output/res/color-v23/abc_tint_switch_thumb.xml"
+    },
+    {
+        "merged": "/Users/Brockl/GIT/Harambe/app/build/intermediates/res/merged/debug/color-v23/abc_color_highlight_material.xml",
+        "source": "/Users/Brockl/.android/build-cache/4d0c7bcf14fbd7418e4501459a73160249a77918/output/res/color-v23/abc_color_highlight_material.xml"
+    },
+    {
+        "merged": "/Users/Brockl/GIT/Harambe/app/build/intermediates/res/merged/debug/color-v23/design_tint_password_toggle.xml",
+        "source": "/Users/Brockl/.android/build-cache/b55452328255e9b2d5d352bef83d26558a6382b0/output/res/color-v23/design_tint_password_toggle.xml"
+    },
+    {
+        "merged": "/Users/Brockl/GIT/Harambe/app/build/intermediates/res/merged/debug/color-v23/abc_btn_colored_text_material.xml",
+        "source": "/Users/Brockl/.android/build-cache/4d0c7bcf14fbd7418e4501459a73160249a77918/output/res/color-v23/abc_btn_colored_text_material.xml"
+    },
+    {
+        "merged": "/Users/Brockl/GIT/Harambe/app/build/intermediates/res/merged/debug/color-v23/abc_tint_switch_track.xml",
+        "source": "/Users/Brockl/.android/build-cache/4d0c7bcf14fbd7418e4501459a73160249a77918/output/res/color-v23/abc_tint_switch_track.xml"
+    }
+]

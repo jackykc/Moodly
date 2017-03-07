@@ -1,0 +1,90 @@
+-- Merging decision tree log ---
+manifest
+ADDED from /Users/Brockl/GIT/Harambe/app/src/main/AndroidManifest.xml:2:1-37:12
+	package
+		ADDED from /Users/Brockl/GIT/Harambe/app/src/main/AndroidManifest.xml:3:5-33
+		INJECTED from /Users/Brockl/GIT/Harambe/app/src/main/AndroidManifest.xml
+		INJECTED from /Users/Brockl/GIT/Harambe/app/src/main/AndroidManifest.xml
+	android:versionName
+		INJECTED from /Users/Brockl/GIT/Harambe/app/src/main/AndroidManifest.xml
+		INJECTED from /Users/Brockl/GIT/Harambe/app/src/main/AndroidManifest.xml
+	xmlns:android
+		ADDED from /Users/Brockl/GIT/Harambe/app/src/main/AndroidManifest.xml:2:11-69
+	android:versionCode
+		INJECTED from /Users/Brockl/GIT/Harambe/app/src/main/AndroidManifest.xml
+		INJECTED from /Users/Brockl/GIT/Harambe/app/src/main/AndroidManifest.xml
+application
+ADDED from /Users/Brockl/GIT/Harambe/app/src/main/AndroidManifest.xml:5:5-35:19
+MERGED from [com.android.support:design:25.1.1] /Users/Brockl/.android/build-cache/b55452328255e9b2d5d352bef83d26558a6382b0/output/AndroidManifest.xml:25:5-20
+MERGED from [com.android.support:appcompat-v7:25.1.1] /Users/Brockl/.android/build-cache/4d0c7bcf14fbd7418e4501459a73160249a77918/output/AndroidManifest.xml:25:5-20
+MERGED from [com.android.support:animated-vector-drawable:25.1.1] /Users/Brockl/.android/build-cache/237cee7144fb46fe5a1ffaef971a9251db6acd77/output/AndroidManifest.xml:22:5-20
+MERGED from [com.android.support:support-vector-drawable:25.1.1] /Users/Brockl/.android/build-cache/5987f2e7514de1181267b837a1e4bb751bc4dc09/output/AndroidManifest.xml:23:5-20
+MERGED from [com.android.support:transition:25.1.1] /Users/Brockl/.android/build-cache/dcac57d07fbe340e50435ce2b7a94427c8741e2b/output/AndroidManifest.xml:22:5-20
+MERGED from [com.android.support:support-v4:25.1.1] /Users/Brockl/.android/build-cache/ba64fdd2fe37c8a72cf59b339fe8ea8198a50d11/output/AndroidManifest.xml:25:5-20
+MERGED from [com.android.support:support-fragment:25.1.1] /Users/Brockl/.android/build-cache/f940760ade586594de7f226013ca78e7a4ea0a47/output/AndroidManifest.xml:25:5-20
+MERGED from [com.android.support:support-media-compat:25.1.1] /Users/Brockl/.android/build-cache/31d9ec8b1c89665efe18a1e68737d11a23d0dc7d/output/AndroidManifest.xml:25:5-20
+MERGED from [com.android.support:support-core-ui:25.1.1] /Users/Brockl/.android/build-cache/37c19ef12d47c8c1e2576e997b08e079e58d5ff6/output/AndroidManifest.xml:25:5-20
+MERGED from [com.android.support:support-core-utils:25.1.1] /Users/Brockl/.android/build-cache/329efbc9311ed8919c01a78356fa37db50abedae/output/AndroidManifest.xml:25:5-20
+MERGED from [com.android.support:support-compat:25.1.1] /Users/Brockl/.android/build-cache/489824b52424987ddeb4a19c8b18a658dc701ed2/output/AndroidManifest.xml:25:5-20
+	android:label
+		ADDED from /Users/Brockl/GIT/Harambe/app/src/main/AndroidManifest.xml:8:9-41
+	android:supportsRtl
+		ADDED from /Users/Brockl/GIT/Harambe/app/src/main/AndroidManifest.xml:9:9-35
+	android:allowBackup
+		ADDED from /Users/Brockl/GIT/Harambe/app/src/main/AndroidManifest.xml:6:9-35
+	android:icon
+		ADDED from /Users/Brockl/GIT/Harambe/app/src/main/AndroidManifest.xml:7:9-43
+	android:theme
+		ADDED from /Users/Brockl/GIT/Harambe/app/src/main/AndroidManifest.xml:10:9-40
+activity#com.example.moodly.MainActivity
+ADDED from /Users/Brockl/GIT/Harambe/app/src/main/AndroidManifest.xml:11:9-20:20
+	android:name
+		ADDED from /Users/Brockl/GIT/Harambe/app/src/main/AndroidManifest.xml:11:19-47
+activity#com.example.moodly.ViewMoodList
+ADDED from /Users/Brockl/GIT/Harambe/app/src/main/AndroidManifest.xml:21:9-30:20
+	android:label
+		ADDED from /Users/Brockl/GIT/Harambe/app/src/main/AndroidManifest.xml:23:13-66
+	android:theme
+		ADDED from /Users/Brockl/GIT/Harambe/app/src/main/AndroidManifest.xml:24:13-56
+	android:name
+		ADDED from /Users/Brockl/GIT/Harambe/app/src/main/AndroidManifest.xml:22:13-41
+intent-filter#android.intent.action.MAIN+android.intent.category.LAUNCHER
+ADDED from /Users/Brockl/GIT/Harambe/app/src/main/AndroidManifest.xml:25:13-29:29
+action#android.intent.action.MAIN
+ADDED from /Users/Brockl/GIT/Harambe/app/src/main/AndroidManifest.xml:26:17-69
+	android:name
+		ADDED from /Users/Brockl/GIT/Harambe/app/src/main/AndroidManifest.xml:26:25-66
+category#android.intent.category.LAUNCHER
+ADDED from /Users/Brockl/GIT/Harambe/app/src/main/AndroidManifest.xml:28:17-77
+	android:name
+		ADDED from /Users/Brockl/GIT/Harambe/app/src/main/AndroidManifest.xml:28:27-74
+activity#com.example.moodly.ViewMood
+ADDED from /Users/Brockl/GIT/Harambe/app/src/main/AndroidManifest.xml:31:9-34:59
+	android:label
+		ADDED from /Users/Brockl/GIT/Harambe/app/src/main/AndroidManifest.xml:33:13-61
+	android:theme
+		ADDED from /Users/Brockl/GIT/Harambe/app/src/main/AndroidManifest.xml:34:13-56
+	android:name
+		ADDED from /Users/Brockl/GIT/Harambe/app/src/main/AndroidManifest.xml:32:13-37
+uses-sdk
+INJECTED from /Users/Brockl/GIT/Harambe/app/src/main/AndroidManifest.xml reason: use-sdk injection requested
+MERGED from [com.android.support:design:25.1.1] /Users/Brockl/.android/build-cache/b55452328255e9b2d5d352bef83d26558a6382b0/output/AndroidManifest.xml:21:5-23:62
+MERGED from [com.android.support:appcompat-v7:25.1.1] /Users/Brockl/.android/build-cache/4d0c7bcf14fbd7418e4501459a73160249a77918/output/AndroidManifest.xml:21:5-23:78
+MERGED from [com.android.support:animated-vector-drawable:25.1.1] /Users/Brockl/.android/build-cache/237cee7144fb46fe5a1ffaef971a9251db6acd77/output/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-vector-drawable:25.1.1] /Users/Brockl/.android/build-cache/5987f2e7514de1181267b837a1e4bb751bc4dc09/output/AndroidManifest.xml:21:5-43
+MERGED from [com.android.support:recyclerview-v7:25.1.1] /Users/Brockl/.android/build-cache/1e6d6bd234525365a62b1b6fec92b255ab31c5e9/output/AndroidManifest.xml:20:5-43
+MERGED from [com.android.support:transition:25.1.1] /Users/Brockl/.android/build-cache/dcac57d07fbe340e50435ce2b7a94427c8741e2b/output/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-v4:25.1.1] /Users/Brockl/.android/build-cache/ba64fdd2fe37c8a72cf59b339fe8ea8198a50d11/output/AndroidManifest.xml:21:5-23:54
+MERGED from [com.android.support:support-fragment:25.1.1] /Users/Brockl/.android/build-cache/f940760ade586594de7f226013ca78e7a4ea0a47/output/AndroidManifest.xml:21:5-23:60
+MERGED from [com.android.support:support-media-compat:25.1.1] /Users/Brockl/.android/build-cache/31d9ec8b1c89665efe18a1e68737d11a23d0dc7d/output/AndroidManifest.xml:21:5-23:63
+MERGED from [com.android.support:support-core-ui:25.1.1] /Users/Brockl/.android/build-cache/37c19ef12d47c8c1e2576e997b08e079e58d5ff6/output/AndroidManifest.xml:21:5-23:58
+MERGED from [com.android.support:support-core-utils:25.1.1] /Users/Brockl/.android/build-cache/329efbc9311ed8919c01a78356fa37db50abedae/output/AndroidManifest.xml:21:5-23:61
+MERGED from [com.android.support:support-compat:25.1.1] /Users/Brockl/.android/build-cache/489824b52424987ddeb4a19c8b18a658dc701ed2/output/AndroidManifest.xml:21:5-23:58
+	tools:overrideLibrary
+		ADDED from [com.android.support:design:25.1.1] /Users/Brockl/.android/build-cache/b55452328255e9b2d5d352bef83d26558a6382b0/output/AndroidManifest.xml:23:9-59
+	android:targetSdkVersion
+		INJECTED from /Users/Brockl/GIT/Harambe/app/src/main/AndroidManifest.xml
+		INJECTED from /Users/Brockl/GIT/Harambe/app/src/main/AndroidManifest.xml
+	android:minSdkVersion
+		INJECTED from /Users/Brockl/GIT/Harambe/app/src/main/AndroidManifest.xml
+		INJECTED from /Users/Brockl/GIT/Harambe/app/src/main/AndroidManifest.xml

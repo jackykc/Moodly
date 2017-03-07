@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        is-multidex="false"
+        jar="/Users/Brockl/.android/build-cache/ba64fdd2fe37c8a72cf59b339fe8ea8198a50d11/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="d7c42c80f6509b9ea4db28ca7859ffae08ec5741">
+        <dex dex="/Users/Brockl/GIT/Harambe/app/build/intermediates/pre-dexed/debug/classes_aa111dad3d34ba5869ffa44333087c52c17cbdec.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/Brockl/.android/build-cache/f940760ade586594de7f226013ca78e7a4ea0a47/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="e2719c102dca3a7a5b02ce07f769362da6ddb4ab">
+        <dex dex="/Users/Brockl/GIT/Harambe/app/build/intermediates/pre-dexed/debug/classes_5521a1ef60480675ec972b01f1087d4f6787be01.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/Brockl/.android/build-cache/4d0c7bcf14fbd7418e4501459a73160249a77918/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="ecb496cc08dd52551fc5ec6db3bc0632e95a89bb">
+        <dex dex="/Users/Brockl/GIT/Harambe/app/build/intermediates/pre-dexed/debug/classes_ed34b117cad15cfcd982006fabda299605eda3c1.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/Brockl/.android/build-cache/dcac57d07fbe340e50435ce2b7a94427c8741e2b/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="15b049fedbd8e3926bf99d9e45dfc9b2a1043bb9">
+        <dex dex="/Users/Brockl/GIT/Harambe/app/build/intermediates/pre-dexed/debug/classes_e9e7a6fb75c2ea3347dcfee362d67cc3b2f7feab.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/Brockl/.android/build-cache/237cee7144fb46fe5a1ffaef971a9251db6acd77/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="0d191c1a09e4892d059e5ce749e4ad4e08129e35">
+        <dex dex="/Users/Brockl/GIT/Harambe/app/build/intermediates/pre-dexed/debug/classes_70533f6229f0bf6594f5e4af4e31c57c8a5c53ac.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/Brockl/.android/build-cache/489824b52424987ddeb4a19c8b18a658dc701ed2/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="02741d05d4b697fba5e279e9881aaa1da0ca7c7f">
+        <dex dex="/Users/Brockl/GIT/Harambe/app/build/intermediates/pre-dexed/debug/classes_9edb6bc0ebd421df154139c68148d6d603866235.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/Brockl/.android/build-cache/b55452328255e9b2d5d352bef83d26558a6382b0/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="cd7951e04cfb9a8bf008d544a478d9a8d8192d38">
+        <dex dex="/Users/Brockl/GIT/Harambe/app/build/intermediates/pre-dexed/debug/classes_a682a1982fba94be3050b0ed4f9103d5b7613a07.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/Brockl/.android/build-cache/5987f2e7514de1181267b837a1e4bb751bc4dc09/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="c03bf57f358aa10d253f21989e93bcf6014b3b17">
+        <dex dex="/Users/Brockl/GIT/Harambe/app/build/intermediates/pre-dexed/debug/classes_df99a28f0d885bec14ba3df786f53504f8dffb76.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/Brockl/.android/build-cache/31d9ec8b1c89665efe18a1e68737d11a23d0dc7d/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="7bde4c34162092e0a77e7f12dc85ed77c484cf5c">
+        <dex dex="/Users/Brockl/GIT/Harambe/app/build/intermediates/pre-dexed/debug/classes_52ff95274c9b6276ec616d05c619fd8d62eed013.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/Brockl/.android/build-cache/329efbc9311ed8919c01a78356fa37db50abedae/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="0fb891e8f0cfba0513043a7bb357513d229ca2cd">
+        <dex dex="/Users/Brockl/GIT/Harambe/app/build/intermediates/pre-dexed/debug/classes_602e3a6298b1bc5baa2a19e60c7fe0954ac664bd.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/Brockl/.android/build-cache/37c19ef12d47c8c1e2576e997b08e079e58d5ff6/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="3e04ac8ca644ea7baddf6fdcf72e15c79e9df94a">
+        <dex dex="/Users/Brockl/GIT/Harambe/app/build/intermediates/pre-dexed/debug/classes_26b5cc79fcc56a71cd5d2ea1d1898cdb6dc96442.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/Brockl/.android/build-cache/1e6d6bd234525365a62b1b6fec92b255ab31c5e9/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="c9649557905bf7a80fca9e0d54cbcb7662627860">
+        <dex dex="/Users/Brockl/GIT/Harambe/app/build/intermediates/pre-dexed/debug/classes_1866f1ea476beda46e8ce281a5a7dea40196d201.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/Brockl/Library/Android/sdk/extras/android/m2repository/com/android/support/support-annotations/25.1.1/support-annotations-25.1.1.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="b59b6ee8d6ecc03e672d253800430343493a6ed8">
+        <dex dex="/Users/Brockl/GIT/Harambe/app/build/intermediates/pre-dexed/debug/support-annotations-25.1.1_a77ec10e0c83f7013aaa936a04bac78469002680.jar" />
+    </item>
+
+</items>
