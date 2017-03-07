@@ -6,6 +6,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -44,6 +45,10 @@ public class TabHistory extends TabBase {
                 mood = new Mood();
                 Intent intent = new Intent(getActivity(), ViewMood.class);
                 intent.putExtra("PLACEHOLDER_MOOD", mood);
+                Log.i("CREATION", "Activity result");
+
+                System.out.println("Start adding");
+
                 startActivityForResult(intent, 0);
 
                 //Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
@@ -57,9 +62,14 @@ public class TabHistory extends TabBase {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-
+        Log.i("CREATION", "Activity result");
         mood = data.getParcelableExtra("VIEWMOOD_MOOD");
         MoodController.getInstance().addMood(mood);
+
+        //MoodController.AddMoodTask addMoodTask = new MoodController.AddMoodTask();
+        //addMoodTask.execute(mood);
+        //Log.i("CREATION", "Activity result");
+
         adapter = new MoodAdapter(getActivity(), R.layout.mood_list_item, MoodController.getInstance().getFiltered());
         displayMoodList.setAdapter(adapter);
         // needed ?
