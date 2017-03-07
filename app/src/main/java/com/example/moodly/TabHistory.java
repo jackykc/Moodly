@@ -29,10 +29,10 @@ public class TabHistory extends TabBase {
                              Bundle savedInstanceState) {
 
         View rootView = inflater.inflate(R.layout.mood_history, container, false);
+        displayMoodList = (ListView) rootView.findViewById(R.id.display_mood_list);
 
         // adapt the moodlist onto our fragment using a custom MoodAdapter
-        adapter = new MoodAdapter(getActivity(), R.layout.mood_list_item, moodList);
-        displayMoodList = (ListView) rootView.findViewById(R.id.display_mood_list);
+        adapter = new MoodAdapter(getActivity(), R.layout.mood_list_item, MoodController.getInstance().getFiltered());
         displayMoodList.setAdapter(adapter);
 
 
@@ -59,7 +59,10 @@ public class TabHistory extends TabBase {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
 
         mood = data.getParcelableExtra("VIEWMOOD_MOOD");
-        moodList.add(mood);
+        MoodController.getInstance().addMood(mood);
+        adapter = new MoodAdapter(getActivity(), R.layout.mood_list_item, MoodController.getInstance().getFiltered());
+        displayMoodList.setAdapter(adapter);
+        // needed ?
         adapter.notifyDataSetChanged();
     }
 
