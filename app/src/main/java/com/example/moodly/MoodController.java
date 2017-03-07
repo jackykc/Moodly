@@ -8,7 +8,7 @@ import java.util.ArrayList;
 
 public class MoodController {
     private static final MoodController instance = new MoodController();
-    ArrayList<Mood> moodList;
+    protected static ArrayList<Mood> moodList;
 
     private MoodController() {
         moodList = new ArrayList<Mood>();
@@ -18,25 +18,25 @@ public class MoodController {
         return instance;
     }
 
-    private void addMood(Mood m){
+    protected void addMood(Mood m){
         instance.moodList.add(m);
     }
 
-    private void editMood (int position, Mood newMood) {
+    protected void editMood (int position, Mood newMood) {
         moodList.remove(position);
         moodList.add(position, newMood);
     }
 
-    private void deleteMood(int position) {
+    protected void deleteMood(int position) {
         moodList.remove(position);
     }
 
-    private String getLocation(int position) {
+    protected String getLocation(int position) {
         Mood m = moodList.get(position);
         return m.getLocation();
     }
 
-    private ArrayList<Mood> filer(){
+    protected ArrayList<Mood> filer(){
         return moodList;
     }
 }
