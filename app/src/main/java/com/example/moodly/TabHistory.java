@@ -1,5 +1,6 @@
 package com.example.moodly;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -11,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -31,6 +33,7 @@ public class TabHistory extends TabBase {
 
         View rootView = inflater.inflate(R.layout.mood_history, container, false);
         displayMoodList = (ListView) rootView.findViewById(R.id.display_mood_list);
+
 
         // adapt the moodlist onto our fragment using a custom MoodAdapter
         adapter = new MoodAdapter(getActivity(), R.layout.mood_list_item, MoodController.getInstance().getFiltered());
@@ -62,12 +65,22 @@ public class TabHistory extends TabBase {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        Log.i("CREATION", "Activity result");
+        Context debugContext = getContext();
+        CharSequence debugText = "App creation";
+        int duration = Toast.LENGTH_SHORT;
+        Toast toast = Toast.makeText(debugContext, debugText, duration);
+        toast.show();
+
         mood = data.getParcelableExtra("VIEWMOOD_MOOD");
         MoodController.getInstance().addMood(mood);
 
         //MoodController.AddMoodTask addMoodTask = new MoodController.AddMoodTask();
         //addMoodTask.execute(mood);
+
+        MoodController.GetMoodTask getMoodTask = new MoodController.GetMoodTask();
+        getMoodTask.execute("Jacky");
+
+
         //Log.i("CREATION", "Activity result");
 
         adapter = new MoodAdapter(getActivity(), R.layout.mood_list_item, MoodController.getInstance().getFiltered());

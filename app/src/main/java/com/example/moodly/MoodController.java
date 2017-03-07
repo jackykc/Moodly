@@ -89,12 +89,18 @@
 
 package com.example.moodly;
 
+        import android.content.Context;
         import android.os.AsyncTask;
         import android.util.Log;
+        import android.widget.Toast;
 
+        import com.google.gson.JsonObject;
         import com.searchly.jestdroid.DroidClientConfig;
         import com.searchly.jestdroid.JestClientFactory;
         import com.searchly.jestdroid.JestDroidClient;
+
+        import org.json.JSONArray;
+        import org.json.JSONObject;
 
         import java.util.ArrayList;
         import java.util.List;
@@ -115,7 +121,7 @@ public class MoodController {
     // i don't know how to verify that, but i guess we will find out
     // soon
     private static MoodController instance = null;
-    private ArrayList<Mood> moodList;
+    private static ArrayList<Mood> moodList;
     private ArrayList<Mood> moodFollowList;
     private ArrayList<Mood> filteredList;
 
@@ -139,6 +145,7 @@ public class MoodController {
 
     public static class AddMoodTask extends AsyncTask<Mood, Void, Void> {
 
+        int completion = 0;
         @Override
         protected Void doInBackground(Mood... moods){
             verifySettings();
@@ -146,17 +153,22 @@ public class MoodController {
             for(Mood mood : moods) {
                 // should probably create custom builder?
                 String source = "{" +
-                        "\"date\": " + mood.getDate().toString() + ", " +
-                        "\"owner\": " + mood.getOwner() + ", " +
-                        "\"location\": " + mood.getLocation() + ", " +
-                        "\"trigger\": " + mood.getTrigger() + ", " +
-                        "\"reasonText\": " + mood.getReasonText() + ", " +
-                        "\"image\": " + mood.getImage() + ", " +
-                        "\"emotion\": " + "2" + ", " +
-                        "\"socialSituation\": " + "1" +
+                        "\"date\": \"" + mood.getDate().toString() + "\", " +
+                        "\"owner\": \"" + mood.getOwner() + "\", " +
+                        "\"location\": \"" + mood.getLocation() + "\", " +
+                        "\"trigger\": \"" + mood.getTrigger() + "\", " +
+                        "\"reasonText\": \"" + mood.getReasonText() + "\", " +
+                        "\"image\": \"" + mood.getImage() + "\", " +
+                        "\"emotion\": \"" + "2" + "\", " +
+                        "\"socialSituation\": \"" + "1" + "\"" +
                         "}";
 
                 Index index = new Index.Builder(source).index("cmput301w17t20").type("mood").build();
+
+//                CharSequence debugText = "App creation";
+//                int duration = Toast.LENGTH_SHORT;
+//                Toast toast = Toast.makeText(debugContext, debugText, duration);
+//                toast.show();
 
                 try {
                     DocumentResult result = client.execute(index);
@@ -176,43 +188,46 @@ public class MoodController {
             return null;
         }
     }
-//
-//    public static class GetTweetsTask extends AsyncTask<String, Void, ArrayList<Mood>> {
-//        @Override
-//        protected ArrayList<Mood> doInBackground(String... search_parameters) {
-//            verifySettings();
-//
-//            ArrayList<Mood> currentMoodList = new ArrayList<Mood>();
+
+    public static class GetMoodTask extends AsyncTask<String, Void, ArrayList<Mood>> {
+        @Override
+        protected ArrayList<Mood> doInBackground(String... search_parameters) {
+            verifySettings();
+
+            ArrayList<Mood> currentMoodList = new ArrayList<Mood>();
 //            String query =
 //                    "{ \n\"query\" : {\n" +
-//                            "    \"term\" : { \"message\" : \"" + search_parameters[0] +
+//                            "    \"term\" : { \"owner\" : \"" + search_parameters[0] +
 //                            "\"     }\n " +
 //                            "    }\n" +
 //                            " } ";
-//
-//            // TODO Build the query
-//            Search search = new Search.Builder(query)
-//                    .addIndex("cmput301w17t20")
-//                    .addType("mood")
-//                    .build();
-//
-//            try {
-//                // TODO get the results of the query
-//                SearchResult result = client.execute(search);
-//                if(result.isSucceeded()) {
-//                    List<Mood> foundMoods = result.getSourceAsObjectList(Mood.class);
-//                    currentMoodList.addAll(foundMoods);
-//                } else {
-//                    Log.i("Error", "Search query failed to find any tweets that matched");
-//                }
-//            }
-//            catch (Exception e) {
-//                Log.i("Error", "Something went wrong when we tried to communicate with the elasticsearch server!");
-//            }
-//
-//            return currentMoodList;
-//        }
-//    }
+
+            String query = "";
+            // TODO Build the query
+            Search search = new Search.Builder(query)
+                    .addIndex("cmput301w17t20")
+                    .addType("mood")
+                    .build();
+
+            try {
+                // TODO get the results of the query
+                SearchResult result = client.execute(search);
+                if(result.isSucceeded()) {
+                    JsonObject testResult = result.getJsonObject();
+                    List<Mood> foundMoods = result.getSourceAsObjectList(Mood.class);
+                    currentMoodList.addAll(foundMoods);
+                } else {
+                    Log.i("Error", "Search query failed to find any tweets that matched");
+                }
+            }
+            catch (Exception e) {
+                Log.i("Error", "Something went wrong when we tried to communicate with the elasticsearch server!");
+            }
+
+            moodList = currentMoodList;
+            return null;
+        }
+    }
 
 
     public void addMood(Mood m){
@@ -254,7 +269,7 @@ public class MoodController {
     // move this out of the mood controller?
     private static void verifySettings() {
         if (client == null) {
-            DroidClientConfig.Builder builder = new DroidClientConfig.Builder("http://localhost:9200");
+            DroidClientConfig.Builder builder = new DroidClientConfig.Builder("http://cmput301.softwareprocess.es:8080");
             DroidClientConfig config = builder.build();
 
             JestClientFactory factory = new JestClientFactory();
