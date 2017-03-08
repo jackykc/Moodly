@@ -34,14 +34,6 @@ public class TabHistory extends TabBase {
         View rootView = inflater.inflate(R.layout.mood_history, container, false);
         displayMoodList = (ListView) rootView.findViewById(R.id.display_mood_list);
 
-        // uses controller to get moods from elastic search
-        //MoodController.GetMoodTask getMoodTask = new MoodController.GetMoodTask();
-        //moodList = getMoodTask.execute("Jacky");
-
-        // adapt the moodlist onto our fragment using a custom MoodAdapter
-        //adapter = new MoodAdapter(getActivity(), R.layout.mood_list_item, MoodController.getInstance().getFiltered());
-        //displayMoodList.setAdapter(adapter);
-
         FloatingActionButton fab = (FloatingActionButton) rootView.findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -65,6 +57,7 @@ public class TabHistory extends TabBase {
     public void onStart() {
         super.onStart();
 
+        // tries to get moods from elastic search server
         MoodController.GetMoodTask getMoodTask = new MoodController.GetMoodTask();
         getMoodTask.execute("");
         try {
@@ -88,18 +81,7 @@ public class TabHistory extends TabBase {
         Toast toast = Toast.makeText(debugContext, debugText, duration);
         toast.show();
 
-        // either use the get mood task
-//        MoodController.GetMoodTask getMoodTask = new MoodController.GetMoodTask();
-//        getMoodTask.execute("");
-//        try {
-//            moodList = getMoodTask.get();
-//            adapter = new MoodAdapter(getActivity(), R.layout.mood_list_item, MoodController.getInstance().getFiltered());
-//            displayMoodList.setAdapter(adapter);
-//        } catch (Exception e) {
-//            Log.i("Error", "Failed to get mood out of async object");
-//        }
-//        // or
-
+        // adds mood to moodlist to display
         moodList.add(MoodController.getInstance().getMood());
 
         adapter = new MoodAdapter(getActivity(), R.layout.mood_list_item, moodList);

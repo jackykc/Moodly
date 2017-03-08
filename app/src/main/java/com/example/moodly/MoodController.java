@@ -206,6 +206,7 @@ public class MoodController {
                 // get the results of our query
                 SearchResult result = client.execute(search);
                 if(result.isSucceeded()) {
+                    // hits
                     List<SearchResult.Hit<Mood, Void>> foundMoods = result.getHits(Mood.class);
 
                     for(int i = 0; i < foundMoods.size(); i++) {
@@ -246,8 +247,6 @@ public class MoodController {
         return tempMood;
     }
     public void setMood(Mood mood) { tempMood = mood;}
-
-
 
     public String getLocation(int position) {
         Mood m = moodList.get(position);

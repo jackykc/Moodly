@@ -71,6 +71,7 @@ public class ViewMood extends AppCompatActivity {
                 mood.setReasonText(reasonText);
                 mood.setEmotion(emotionEnum);
                 // do i need to set it? is it a good idea?
+                // adds mood to controller/elastic search server
                 MoodController.getInstance().setMood(mood);
                 MoodController.AddMoodTask addMoodTask = new MoodController.AddMoodTask();
                 addMoodTask.execute(mood);
@@ -78,7 +79,6 @@ public class ViewMood extends AppCompatActivity {
 
                 Intent output = new Intent();
 
-                //output.putExtra("VIEWMOOD_MOOD", mood);
                 setResult(RESULT_OK, output);
 
                 finish();
