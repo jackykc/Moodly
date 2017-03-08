@@ -74,7 +74,7 @@ public class MoodAdapter extends ArrayAdapter<Mood> {
     private void setupItem(MoodHolder holder) {
         String emotionString = toStringEmotion(holder.mood.getEmotion());
         holder.emotion.setText(emotionString);
-        holder.date.setText(holder.mood.getDate().toString());
+        holder.date.setText(holder.mood.getOwner());
     }
 
     /**

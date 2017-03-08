@@ -248,6 +248,24 @@ public class Mood implements Parcelable {
         this.image = null;
     }
 
+    public Mood(Mood1 mood1) {
+        this.date = mood1.date;
+        this.owner = mood1.owner;
+        this.location = mood1.location;
+        this.trigger = mood1.trigger;
+        if(mood1.emotion == 2) {
+            this.emotion = Emotion.CONFUSION;
+        }
+        else if(mood1.emotion == 4) {
+            this.emotion = Emotion.FEAR;
+        } else {
+            this.emotion = Emotion.NONE;
+        }
+        this.socialSituation = SocialSituation.NONE;
+        this.reasonText = mood1.reasonText;
+        this.image = mood1.image;
+
+    }
     /**
      * Used to read mood object passed from another activity
      * @param in

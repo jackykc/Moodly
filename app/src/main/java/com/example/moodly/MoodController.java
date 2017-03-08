@@ -109,6 +109,8 @@ package com.example.moodly;
         import io.searchbox.core.Index;
         import io.searchbox.core.Search;
         import io.searchbox.core.SearchResult;
+
+        import static junit.framework.Assert.assertEquals;
 //import com.jest
 /**
  * Created by MinhNguyen on 06/03/2017.
@@ -213,9 +215,19 @@ public class MoodController {
                 // TODO get the results of the query
                 SearchResult result = client.execute(search);
                 if(result.isSucceeded()) {
+                    List<SearchResult.Hit<Mood1, Void>> foundMoods = result.getHits(Mood1.class);
+                    Mood1 temp2 = foundMoods.get(0).source;
+
                     JsonObject testResult = result.getJsonObject();
-                    List<Mood> foundMoods = result.getSourceAsObjectList(Mood.class);
-                    currentMoodList.addAll(foundMoods);
+
+                    //List<Mood1> foundMoods = result.g(Mood1.class);
+                    //assertEquals(1, foundMoods.size());
+                    for(int i = 0; i < foundMoods.size(); i++) {
+                        Mood1 temp1 = foundMoods.get(i).source;
+                        Mood temp = new Mood(foundMoods.get(i).source);
+                        currentMoodList.add(temp);
+                    }
+                    //currentMoodList.addAll(foundMoods);
                 } else {
                     Log.i("Error", "Search query failed to find any tweets that matched");
                 }
@@ -270,6 +282,8 @@ public class MoodController {
     private static void verifySettings() {
         if (client == null) {
             DroidClientConfig.Builder builder = new DroidClientConfig.Builder("http://cmput301.softwareprocess.es:8080");
+//            DroidClientConfig.Builder builder = new DroidClientConfig.Builder("localhost:9200");
+
             DroidClientConfig config = builder.build();
 
             JestClientFactory factory = new JestClientFactory();
