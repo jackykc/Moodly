@@ -9,10 +9,13 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
 import android.view.MenuItem;
 
-public class ViewMoodList extends AppCompatActivity {
+/**
+ * Created by Victor on 2017-03-07.
+ */
+
+public class SocialBase extends AppCompatActivity {
 
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
@@ -49,14 +52,6 @@ public class ViewMoodList extends AppCompatActivity {
 
     }
 
-
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_view_mood_list, menu);
-        return true;
-    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -102,6 +97,9 @@ public class ViewMoodList extends AppCompatActivity {
                 case 1:
                     TabBase tab2 = new TabBase();
                     return tab2;
+                case 2:
+                    TabBase tab3 = new TabBase();
+                    return  tab3;
                 default:
                     return null;
             }
@@ -110,20 +108,20 @@ public class ViewMoodList extends AppCompatActivity {
         @Override
         public int getCount() {
             // Show 3 total pages.
-            return 2;
+            return 3;
         }
 
         @Override
         public CharSequence getPageTitle(int position) {
             switch (position) {
                 case 0:
-                    return "History";
+                    return "Find People";
                 case 1:
+                    return "Follow Requests";
+                case 2:
                     return "Following";
             }
             return null;
         }
     }
-
-
 }

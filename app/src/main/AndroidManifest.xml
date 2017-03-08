@@ -29,6 +29,11 @@
             </intent-filter>
         </activity>
         <activity
+            android:name=".SocialBase"
+            android:label="@string/title_activity_view_mood_list"
+            android:theme="@style/AppTheme.NoActionBar">
+        </activity>
+        <activity
             android:name=".ViewMood"
             android:label="@string/title_activity_view_mood"
             android:theme="@style/AppTheme.NoActionBar" />

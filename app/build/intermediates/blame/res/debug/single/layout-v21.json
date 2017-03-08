@@ -1,18 +1,18 @@
 [
     {
-        "merged": "/Users/Brockl/GIT/Harambe/app/build/intermediates/res/merged/debug/layout-v21/notification_template_icon_group.xml",
-        "source": "/Users/Brockl/.android/build-cache/4d0c7bcf14fbd7418e4501459a73160249a77918/output/res/layout-v21/notification_template_icon_group.xml"
+        "merged": "C:\\Users\\Victor\\Documents\\Uni Homework\\Comp Sci\\301\\Project\\Harambe\\app\\build\\intermediates\\res\\merged\\debug\\layout-v21\\notification_template_icon_group.xml",
+        "source": "C:\\Users\\Victor\\.android\\build-cache\\de73b9870c658c6e78db81c4f9873aa76935d151\\output\\res\\layout-v21\\notification_template_icon_group.xml"
     },
     {
-        "merged": "/Users/Brockl/GIT/Harambe/app/build/intermediates/res/merged/debug/layout-v21/notification_action.xml",
-        "source": "/Users/Brockl/.android/build-cache/4d0c7bcf14fbd7418e4501459a73160249a77918/output/res/layout-v21/notification_action.xml"
+        "merged": "C:\\Users\\Victor\\Documents\\Uni Homework\\Comp Sci\\301\\Project\\Harambe\\app\\build\\intermediates\\res\\merged\\debug\\layout-v21\\notification_action_tombstone.xml",
+        "source": "C:\\Users\\Victor\\.android\\build-cache\\de73b9870c658c6e78db81c4f9873aa76935d151\\output\\res\\layout-v21\\notification_action_tombstone.xml"
     },
     {
-        "merged": "/Users/Brockl/GIT/Harambe/app/build/intermediates/res/merged/debug/layout-v21/notification_action_tombstone.xml",
-        "source": "/Users/Brockl/.android/build-cache/4d0c7bcf14fbd7418e4501459a73160249a77918/output/res/layout-v21/notification_action_tombstone.xml"
+        "merged": "C:\\Users\\Victor\\Documents\\Uni Homework\\Comp Sci\\301\\Project\\Harambe\\app\\build\\intermediates\\res\\merged\\debug\\layout-v21\\notification_action.xml",
+        "source": "C:\\Users\\Victor\\.android\\build-cache\\de73b9870c658c6e78db81c4f9873aa76935d151\\output\\res\\layout-v21\\notification_action.xml"
     },
     {
-        "merged": "/Users/Brockl/GIT/Harambe/app/build/intermediates/res/merged/debug/layout-v21/notification_template_custom_big.xml",
-        "source": "/Users/Brockl/.android/build-cache/4d0c7bcf14fbd7418e4501459a73160249a77918/output/res/layout-v21/notification_template_custom_big.xml"
+        "merged": "C:\\Users\\Victor\\Documents\\Uni Homework\\Comp Sci\\301\\Project\\Harambe\\app\\build\\intermediates\\res\\merged\\debug\\layout-v21\\notification_template_custom_big.xml",
+        "source": "C:\\Users\\Victor\\.android\\build-cache\\de73b9870c658c6e78db81c4f9873aa76935d151\\output\\res\\layout-v21\\notification_template_custom_big.xml"
     }
 ]

@@ -1,38 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
 <instant-run
     abi="x86"
-    api-level="25"
+    api-level="22"
     build-mode="FULL"
-    density="420dpi"
+    density="xxhdpi"
     format="10"
     plugin-version="2.3.0"
-    timestamp="1488851120940"
-    token="3078797457088239877"
+    timestamp="1488915542090"
+    token="4938234202873998887"
     verifier="FULL_BUILD_REQUESTED" >
 
     <task
         name="javac"
-        duration="2890" />
+        duration="910" />
     <task
         name="instant-run-dex"
         duration="0" />
     <task
         name="instant-run-transform"
-        duration="1087" />
+        duration="372" />
     <task
         name="verifier"
-        duration="295" />
+        duration="127" />
 
     <artifact
-        location="/Users/Brockl/GIT/Harambe/app/build/outputs/apk/app-debug.apk"
+        location="C:\Users\Victor\Documents\Uni Homework\Comp Sci\301\Project\Harambe\app\build\outputs\apk\app-debug.apk"
         type="MAIN" />
 
     <build
         build-mode="FULL"
-        timestamp="1488851120940"
+        timestamp="1488915542090"
         verifier="FULL_BUILD_REQUESTED" >
         <artifact
-            location="/Users/Brockl/GIT/Harambe/app/build/outputs/apk/app-debug.apk"
+            location="C:\Users\Victor\Documents\Uni Homework\Comp Sci\301\Project\Harambe\app\build\outputs\apk\app-debug.apk"
             type="MAIN" />
     </build>
 
