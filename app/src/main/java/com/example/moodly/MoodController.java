@@ -223,7 +223,7 @@ public class MoodController {
                 Log.i("Error", "Something went wrong when we tried to communicate with the elasticsearch server!");
             }
             // ??? not needed?
-            return null;
+            return currentMoodList;
         }
     }
 

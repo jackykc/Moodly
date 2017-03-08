@@ -28,6 +28,7 @@ public class TabBase extends Fragment {
     protected Mood mood;
     protected MoodAdapter adapter;
     protected ListView displayMoodList;
+    protected ArrayList<Mood> moodList;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,

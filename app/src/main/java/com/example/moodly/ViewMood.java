@@ -72,10 +72,11 @@ public class ViewMood extends AppCompatActivity {
                 mood.setEmotion(emotionEnum);
                 // do i need to set it? is it a good idea?
                 MoodController.getInstance().setMood(mood);
-
-                Intent output = new Intent();
                 MoodController.AddMoodTask addMoodTask = new MoodController.AddMoodTask();
                 addMoodTask.execute(mood);
+
+
+                Intent output = new Intent();
 
                 //output.putExtra("VIEWMOOD_MOOD", mood);
                 setResult(RESULT_OK, output);

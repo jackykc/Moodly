@@ -35,12 +35,12 @@ public class TabHistory extends TabBase {
         displayMoodList = (ListView) rootView.findViewById(R.id.display_mood_list);
 
         // uses controller to get moods from elastic search
-        MoodController.GetMoodTask getMoodTask = new MoodController.GetMoodTask();
-        getMoodTask.execute("Jacky");
+        //MoodController.GetMoodTask getMoodTask = new MoodController.GetMoodTask();
+        //moodList = getMoodTask.execute("Jacky");
 
         // adapt the moodlist onto our fragment using a custom MoodAdapter
-        adapter = new MoodAdapter(getActivity(), R.layout.mood_list_item, MoodController.getInstance().getFiltered());
-        displayMoodList.setAdapter(adapter);
+        //adapter = new MoodAdapter(getActivity(), R.layout.mood_list_item, MoodController.getInstance().getFiltered());
+        //displayMoodList.setAdapter(adapter);
 
         FloatingActionButton fab = (FloatingActionButton) rootView.findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -58,11 +58,22 @@ public class TabHistory extends TabBase {
     }
 
     // problem with this on onCreateView
+    // actually its either this or onCreateView that gets run right after
+    // onActivityResult, it nullifies the add mood being shown as this onStart
+    // resets the adapter with only the first 10 moods
     @Override
     public void onStart() {
         super.onStart();
 
-        adapter = new MoodAdapter(getActivity(), R.layout.mood_list_item, MoodController.getInstance().getFiltered());
+        MoodController.GetMoodTask getMoodTask = new MoodController.GetMoodTask();
+        getMoodTask.execute("");
+        try {
+            moodList = getMoodTask.get();
+        } catch (Exception e) {
+            Log.i("Error", "Failed to get mood out of async object");
+        }
+
+        adapter = new MoodAdapter(getActivity(), R.layout.mood_list_item, moodList);
         displayMoodList.setAdapter(adapter);
 
     }
@@ -77,14 +88,21 @@ public class TabHistory extends TabBase {
         Toast toast = Toast.makeText(debugContext, debugText, duration);
         toast.show();
 
-        // This adds the mood,
-        // I feel like this can be moved into ViewMood.java?
-//        mood = MoodController.getInstance().getMood();
-//        MoodController.AddMoodTask addMoodTask = new MoodController.AddMoodTask();
-//        addMoodTask.execute(mood);
+        // either use the get mood task
+//        MoodController.GetMoodTask getMoodTask = new MoodController.GetMoodTask();
+//        getMoodTask.execute("");
+//        try {
+//            moodList = getMoodTask.get();
+//            adapter = new MoodAdapter(getActivity(), R.layout.mood_list_item, MoodController.getInstance().getFiltered());
+//            displayMoodList.setAdapter(adapter);
+//        } catch (Exception e) {
+//            Log.i("Error", "Failed to get mood out of async object");
+//        }
+//        // or
 
-        // reset adapter
-        adapter = new MoodAdapter(getActivity(), R.layout.mood_list_item, MoodController.getInstance().getFiltered());
+        moodList.add(MoodController.getInstance().getMood());
+
+        adapter = new MoodAdapter(getActivity(), R.layout.mood_list_item, moodList);
         displayMoodList.setAdapter(adapter);
         // needed ?
         adapter.notifyDataSetChanged();
