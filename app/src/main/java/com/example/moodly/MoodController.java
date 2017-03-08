@@ -123,19 +123,23 @@ public class MoodController {
     // i don't know how to verify that, but i guess we will find out
     // soon
     private static MoodController instance = null;
+    private Mood tempMood;
     private static ArrayList<Mood> moodList;
     private ArrayList<Mood> moodFollowList;
     private ArrayList<Mood> filteredList;
 
-    // move this out of the moodController
+    // move this out of the moodController??
     private static JestDroidClient client;
 
+    // constructor for our mood controller
     private MoodController() {
         moodList = new ArrayList<Mood>();
         moodFollowList = new ArrayList<Mood>();
         filteredList = new ArrayList<Mood>();
+        tempMood = new Mood();
     }
 
+    // gets an instance of our controller
     public static MoodController getInstance() {
 
         if(instance == null) {
@@ -145,6 +149,7 @@ public class MoodController {
         return instance;
     }
 
+    // this adds the mood onto elastic search server
     public static class AddMoodTask extends AsyncTask<Mood, Void, Void> {
 
         int completion = 0;
@@ -153,36 +158,21 @@ public class MoodController {
             verifySettings();
 
             for(Mood mood : moods) {
-                // should probably create custom builder?
-                String source = "{" +
-                        "\"date\": \"" + mood.getDate().toString() + "\", " +
-                        "\"owner\": \"" + mood.getOwner() + "\", " +
-                        "\"location\": \"" + mood.getLocation() + "\", " +
-                        "\"trigger\": \"" + mood.getTrigger() + "\", " +
-                        "\"reasonText\": \"" + mood.getReasonText() + "\", " +
-                        "\"image\": \"" + mood.getImage() + "\", " +
-                        "\"emotion\": \"" + "2" + "\", " +
-                        "\"socialSituation\": \"" + "1" + "\"" +
-                        "}";
 
-                Index index = new Index.Builder(source).index("cmput301w17t20").type("mood").build();
-
-//                CharSequence debugText = "App creation";
-//                int duration = Toast.LENGTH_SHORT;
-//                Toast toast = Toast.makeText(debugContext, debugText, duration);
-//                toast.show();
+                Index index = new Index.Builder(mood).index("cmput301w17t20").type("mood").build();
 
                 try {
                     DocumentResult result = client.execute(index);
                     if (result.isSucceeded()) {
                         mood.setId(result.getId());
+                        moodList.add(mood);
                     } else {
-                        Log.i("Error", "Elasticsearch was not able to add the tweet");
+                        Log.i("Error", "Elasticsearch was not able to add the mood");
                     }
                     // where is the client?
                 }
                 catch (Exception e) {
-                    Log.i("Error", "The application failed to build and send the tweets");
+                    Log.i("Error", "The application failed to build and send the mood");
                 }
 
             }
@@ -204,6 +194,7 @@ public class MoodController {
 //                            "    }\n" +
 //                            " } ";
 
+            // using this for now as we do not filter
             String query = "";
             // TODO Build the query
             Search search = new Search.Builder(query)
@@ -212,31 +203,26 @@ public class MoodController {
                     .build();
 
             try {
-                // TODO get the results of the query
+                // get the results of our query
                 SearchResult result = client.execute(search);
                 if(result.isSucceeded()) {
-                    List<SearchResult.Hit<Mood1, Void>> foundMoods = result.getHits(Mood1.class);
-                    Mood1 temp2 = foundMoods.get(0).source;
+                    List<SearchResult.Hit<Mood, Void>> foundMoods = result.getHits(Mood.class);
 
-                    JsonObject testResult = result.getJsonObject();
-
-                    //List<Mood1> foundMoods = result.g(Mood1.class);
-                    //assertEquals(1, foundMoods.size());
                     for(int i = 0; i < foundMoods.size(); i++) {
-                        Mood1 temp1 = foundMoods.get(i).source;
-                        Mood temp = new Mood(foundMoods.get(i).source);
+                        Mood temp = foundMoods.get(i).source;
                         currentMoodList.add(temp);
+
                     }
-                    //currentMoodList.addAll(foundMoods);
+                    moodList = currentMoodList;
+
                 } else {
-                    Log.i("Error", "Search query failed to find any tweets that matched");
+                    Log.i("Error", "Search query failed to find any moods that matched");
                 }
             }
             catch (Exception e) {
                 Log.i("Error", "Something went wrong when we tried to communicate with the elasticsearch server!");
             }
-
-            moodList = currentMoodList;
+            // ??? not needed?
             return null;
         }
     }
@@ -255,6 +241,12 @@ public class MoodController {
     public void deleteMood(int position) {
         moodList.remove(position);
     }
+
+    public Mood getMood() {
+        return tempMood;
+    }
+    public void setMood(Mood mood) { tempMood = mood;}
+
 
 
     public String getLocation(int position) {
@@ -275,6 +267,7 @@ public class MoodController {
     // so, currently all this does is set filteredList to reference
     // each of its elemnts from moodList, this is not a deep copy
     private void filter(){
+
         filteredList = (ArrayList<Mood>) moodList.clone();
     }
 

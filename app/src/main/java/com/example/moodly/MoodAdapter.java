@@ -82,23 +82,23 @@ public class MoodAdapter extends ArrayAdapter<Mood> {
      * @param emotion an enum of emotions
      * @return a string repesentation of our emotion
      */
-    private String toStringEmotion(Emotion emotion) {
+    private String toStringEmotion(int emotion) {
         switch (emotion) {
-            case ANGER:
+            case 1:
                 return "Anger";
-            case CONFUSION:
+            case 2:
                 return "Confusion";
-            case DISGUST:
+            case 3:
                 return "Disgust";
-            case FEAR:
+            case 4:
                 return "Fear";
-            case HAPPINESS:
+            case 5:
                 return "Happiness";
-            case SADNESS:
+            case 6:
                 return "Sadness";
-            case SHAME:
+            case 7:
                 return "Shame";
-            case SUPRISE:
+            case 8:
                 return "Suprise";
             default:
                 return "None";

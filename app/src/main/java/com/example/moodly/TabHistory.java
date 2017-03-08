@@ -34,28 +34,22 @@ public class TabHistory extends TabBase {
         View rootView = inflater.inflate(R.layout.mood_history, container, false);
         displayMoodList = (ListView) rootView.findViewById(R.id.display_mood_list);
 
+        // uses controller to get moods from elastic search
+        MoodController.GetMoodTask getMoodTask = new MoodController.GetMoodTask();
+        getMoodTask.execute("Jacky");
 
         // adapt the moodlist onto our fragment using a custom MoodAdapter
         adapter = new MoodAdapter(getActivity(), R.layout.mood_list_item, MoodController.getInstance().getFiltered());
         displayMoodList.setAdapter(adapter);
-
 
         FloatingActionButton fab = (FloatingActionButton) rootView.findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                mood = new Mood();
+                MoodController.getInstance().setMood(new Mood());
                 Intent intent = new Intent(getActivity(), ViewMood.class);
-                intent.putExtra("PLACEHOLDER_MOOD", mood);
-                Log.i("CREATION", "Activity result");
-
-                System.out.println("Start adding");
-
                 startActivityForResult(intent, 0);
-
-                //Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                //        .setAction("Action", null).show();
 
             }
         });
@@ -63,32 +57,38 @@ public class TabHistory extends TabBase {
         return rootView;
     }
 
+    // problem with this on onCreateView
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        adapter = new MoodAdapter(getActivity(), R.layout.mood_list_item, MoodController.getInstance().getFiltered());
+        displayMoodList.setAdapter(adapter);
+
+    }
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        // below is just for debugging
         Context debugContext = getContext();
-        CharSequence debugText = "App creation";
+        CharSequence debugText = "Adding mood";
         int duration = Toast.LENGTH_SHORT;
         Toast toast = Toast.makeText(debugContext, debugText, duration);
         toast.show();
 
-        mood = data.getParcelableExtra("VIEWMOOD_MOOD");
-        MoodController.getInstance().addMood(mood);
+        // This adds the mood,
+        // I feel like this can be moved into ViewMood.java?
+//        mood = MoodController.getInstance().getMood();
+//        MoodController.AddMoodTask addMoodTask = new MoodController.AddMoodTask();
+//        addMoodTask.execute(mood);
 
-        //MoodController.AddMoodTask addMoodTask = new MoodController.AddMoodTask();
-        //addMoodTask.execute(mood);
-
-        MoodController.GetMoodTask getMoodTask = new MoodController.GetMoodTask();
-        getMoodTask.execute("Jacky");
-
-
-        //Log.i("CREATION", "Activity result");
-
+        // reset adapter
         adapter = new MoodAdapter(getActivity(), R.layout.mood_list_item, MoodController.getInstance().getFiltered());
         displayMoodList.setAdapter(adapter);
         // needed ?
         adapter.notifyDataSetChanged();
     }
-
 
 }
 

@@ -214,15 +214,15 @@ enum SocialSituation {
     CROWD,
 }
 
-public class Mood implements Parcelable {
+public class Mood {
     private Date date;
     private String owner;
     private String location;
     private String trigger;
     private String reasonText;
     private String image;
-    private Emotion emotion;
-    private SocialSituation socialSituation;
+    private Integer emotion;
+    private Integer socialSituation;
 
     @JestId
     private String id;
@@ -242,80 +242,11 @@ public class Mood implements Parcelable {
         this.owner = "Placeholder";
         this.location = "";
         this.trigger = "";
-        this.emotion = Emotion.NONE;
-        this.socialSituation = SocialSituation.NONE;
+        this.emotion = 0;
+        this.socialSituation = 0;
         this.reasonText = "";
         this.image = null;
     }
-
-    public Mood(Mood1 mood1) {
-        this.date = mood1.date;
-        this.owner = mood1.owner;
-        this.location = mood1.location;
-        this.trigger = mood1.trigger;
-        if(mood1.emotion == 2) {
-            this.emotion = Emotion.CONFUSION;
-        }
-        else if(mood1.emotion == 4) {
-            this.emotion = Emotion.FEAR;
-        } else {
-            this.emotion = Emotion.NONE;
-        }
-        this.socialSituation = SocialSituation.NONE;
-        this.reasonText = mood1.reasonText;
-        this.image = mood1.image;
-
-    }
-    /**
-     * Used to read mood object passed from another activity
-     * @param in
-     */
-    private Mood(Parcel in) {
-
-        //http://stackoverflow.com/questions/21017404/reading-and-writing-java-util-date-from-parcelable-class
-        long tempDate = in.readLong();
-        this.date = tempDate == -1 ? null : new Date(tempDate);
-        owner = in.readString();
-        location = in.readString();
-        trigger = in.readString();
-        reasonText = in.readString();
-        emotion = Emotion.valueOf(in.readString());
-        socialSituation = socialSituation.valueOf(in.readString());
-        image = in.readString();
-        id = in.readString();
-    }
-
-    /**
-     * Used to write object to be passed to another activity
-     * @param out
-     * @param flags
-     */
-    public void writeToParcel(Parcel out, int flags) {
-        out.writeLong(date != null ? date.getTime() : -1);
-        out.writeString(owner);
-        out.writeString(location);
-        out.writeString(trigger);
-        out.writeString(reasonText);
-        out.writeString(emotion.name());
-        out.writeString(socialSituation.name());
-        out.writeString(image);
-        out.writeString(id);
-    }
-
-    public int describeContents() {
-        return 0;
-    }
-
-    public static final Parcelable.Creator<Mood> CREATOR = new Parcelable.Creator<Mood>() {
-        public Mood createFromParcel(Parcel in) {
-            return new Mood(in);
-        }
-
-        public Mood[] newArray(int size) {
-            return new Mood[size];
-        }
-    };
-
 
     public Date getDate() {
         return date;
@@ -349,19 +280,19 @@ public class Mood implements Parcelable {
         this.trigger = trigger;
     }
 
-    public Emotion getEmotion() {
+    public int getEmotion() {
         return emotion;
     }
 
-    public void setEmotion(Emotion emotion) {
+    public void setEmotion(int emotion) {
         this.emotion = emotion;
     }
 
-    public SocialSituation getSocialSituation() {
+    public int getSocialSituation() {
         return socialSituation;
     }
 
-    public void setSocialSituation(SocialSituation socialSituation) {
+    public void setSocialSituation(int socialSituation) {
         this.socialSituation = socialSituation;
     }
 

@@ -47,7 +47,9 @@ public class ViewMood extends AppCompatActivity {
 
 
 
-        mood = getIntent().getParcelableExtra("PLACEHOLDER_MOOD");
+        //mood = getIntent().getParcelableExtra("PLACEHOLDER_MOOD");
+        mood = MoodController.getInstance().getMood();
+
 
         // get views
         editDate = (EditText) findViewById(R.id.edit_date);
@@ -61,14 +63,21 @@ public class ViewMood extends AppCompatActivity {
 
             public void onClick(View v) {
                 // might be best to do a calendar for the date?
-                // Date date = editDate.getText().toString();
+                //Date date = editDate.getText().toString();
                 String reasonText = editReasonText.getText().toString();
-                Emotion emotionEnum = Emotion.values()[emotionSpinner.getSelectedItemPosition()];
+                int emotionEnum = emotionSpinner.getSelectedItemPosition();
 
+                //mood.setDate(editDate.getText().toD);
                 mood.setReasonText(reasonText);
                 mood.setEmotion(emotionEnum);
+                // do i need to set it? is it a good idea?
+                MoodController.getInstance().setMood(mood);
+
                 Intent output = new Intent();
-                output.putExtra("VIEWMOOD_MOOD", mood);
+                MoodController.AddMoodTask addMoodTask = new MoodController.AddMoodTask();
+                addMoodTask.execute(mood);
+
+                //output.putExtra("VIEWMOOD_MOOD", mood);
                 setResult(RESULT_OK, output);
 
                 finish();
