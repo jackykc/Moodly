@@ -91,7 +91,7 @@ public class TabHistory extends TabBase {
 
         // tries to get moods from elastic search server
         MoodController.GetMoodTask getMoodTask = new MoodController.GetMoodTask();
-        getMoodTask.execute("");
+        getMoodTask.execute("Jacky");
         try {
             moodList = getMoodTask.get();
         } catch (Exception e) {

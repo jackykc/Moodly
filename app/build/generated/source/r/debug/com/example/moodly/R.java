@@ -2680,13 +2680,13 @@ containing a value of this type.
         public static final int action_container=0x7f0d0095;
         public static final int action_context_bar=0x7f0d0065;
         public static final int action_divider=0x7f0d009c;
+        public static final int action_filter=0x7f0d00af;
         public static final int action_image=0x7f0d0096;
         public static final int action_menu_divider=0x7f0d0002;
         public static final int action_menu_presenter=0x7f0d0003;
         public static final int action_mode_bar=0x7f0d0061;
         public static final int action_mode_bar_stub=0x7f0d0060;
         public static final int action_mode_close_button=0x7f0d0043;
-        public static final int action_settings=0x7f0d00af;
         public static final int action_social=0x7f0d00ae;
         public static final int action_text=0x7f0d0097;
         public static final int actions=0x7f0d00a5;
@@ -2804,7 +2804,6 @@ containing a value of this type.
         public static final int snackbar_action=0x7f0d0089;
         public static final int snackbar_text=0x7f0d0088;
         public static final int snap=0x7f0d001d;
-        public static final int social=0x7f0d00b1;
         public static final int spacer=0x7f0d004c;
         public static final int spinner_SS=0x7f0d0079;
         public static final int spinner_emotion=0x7f0d0075;

@@ -122,8 +122,6 @@ import static junit.framework.Assert.assertEquals;
 
 // https://www.youtube.com/watch?v=NZaXM67fxbs singleton design pattern Mar 06
 public class MoodController {
-    private static final MoodController instance = new MoodController();
-    protected static ArrayList<Mood> moodList;
 
     // this isn't safe from synchronization, does it need to be?
     // i don't know how to verify that, but i guess we will find out
@@ -193,15 +191,16 @@ public class MoodController {
             verifySettings();
 
             ArrayList<Mood> currentMoodList = new ArrayList<Mood>();
-//            String query =
-//                    "{ \n\"query\" : {\n" +
-//                            "    \"term\" : { \"owner\" : \"" + search_parameters[0] +
-//                            "\"     }\n " +
-//                            "    }\n" +
-//                            " } ";
+            String query =
+                    "{ \n\"query\" : {\n" +
+                            "    \"term\" : { \"owner\" : \"" + search_parameters[0] +
+                            "\"     }\n " +
+                            "    }\n" +
+                            " } ";
 
-            // using this for now as we do not filter
-            String query = "";
+            //String query = "";
+
+            query = "";
             // TODO Build the query
             Search search = new Search.Builder(query)
                     .addIndex("cmput301w17t20")
@@ -258,36 +257,36 @@ public class MoodController {
         Mood m = moodList.get(position);
         return m.getLocation();
     }
-
-    protected ArrayList<Mood> filterByDate(Date startDate, Date endDate) {
-        ArrayList<Mood> result = new ArrayList<>();
-        for (Mood m: moodList) {
-            if (m.getDate().after(startDate) && m.getDate().before(endDate)){
-                result.add(m);
-            }
-        }
-        return result;
-    }
-
-    protected ArrayList<Mood> filterByEmoState(Emotion e) {
-        ArrayList<Mood> result = new ArrayList<>();
-        for (Mood m: moodList) {
-            if (m.getEmotion().equals(e)){
-                result.add(m);
-            }
-        }
-        return  result;
-    }
-
-    protected ArrayList<Mood> filterByTextReason(String reason) {
-        ArrayList<Mood> result = new ArrayList<>();
-        for(Mood m:moodList) {
-            if (m.getReasonText().contains(reason)) {
-                result.add(m);
-            }
-        }
-        return result;
-    }
+//    LEAVE THIS COMMENTED OUT FOR NOW, USE WHEN WE HAVE ABILITY TO FILTER IN GUI
+//    protected ArrayList<Mood> filterByDate(Date startDate, Date endDate) {
+//        ArrayList<Mood> result = new ArrayList<>();
+//        for (Mood m: moodList) {
+//            if (m.getDate().after(startDate) && m.getDate().before(endDate)){
+//                result.add(m);
+//            }
+//        }
+//        return result;
+//    }
+//
+//    protected ArrayList<Mood> filterByEmoState(Emotion e) {
+//        ArrayList<Mood> result = new ArrayList<>();
+//        for (Mood m: moodList) {
+//            if (m.getEmotion().equals(e)){
+//                result.add(m);
+//            }
+//        }
+//        return  result;
+//    }
+//
+//    protected ArrayList<Mood> filterByTextReason(String reason) {
+//        ArrayList<Mood> result = new ArrayList<>();
+//        for(Mood m:moodList) {
+//            if (m.getReasonText().contains(reason)) {
+//                result.add(m);
+//            }
+//        }
+//        return result;
+//    }
 
     public ArrayList<Mood> getFiltered() {
         this.filter();

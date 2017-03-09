@@ -702,13 +702,13 @@ int id action_bar_title 0x7f0d0041
 int id action_container 0x7f0d0095
 int id action_context_bar 0x7f0d0065
 int id action_divider 0x7f0d009c
+int id action_filter 0x7f0d00af
 int id action_image 0x7f0d0096
 int id action_menu_divider 0x7f0d0002
 int id action_menu_presenter 0x7f0d0003
 int id action_mode_bar 0x7f0d0061
 int id action_mode_bar_stub 0x7f0d0060
 int id action_mode_close_button 0x7f0d0043
-int id action_settings 0x7f0d00af
 int id action_social 0x7f0d00ae
 int id action_text 0x7f0d0097
 int id actions 0x7f0d00a5
@@ -826,7 +826,6 @@ int id smallLabel 0x7f0d0084
 int id snackbar_action 0x7f0d0089
 int id snackbar_text 0x7f0d0088
 int id snap 0x7f0d001d
-int id social 0x7f0d00b1
 int id spacer 0x7f0d004c
 int id spinner_SS 0x7f0d0079
 int id spinner_emotion 0x7f0d0075

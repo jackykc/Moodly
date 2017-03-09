@@ -86,26 +86,23 @@ public class ViewMoodList extends AppCompatActivity {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-//        switch (item.getItemId()) {
-//            case R.id.filter:
-//                Toast.makeText(this, "Filters", Toast.LENGTH_SHORT).show();
-//                return true;
-//            case R.id.show_map:
-//                Toast.makeText(this,"Showing Map", Toast.LENGTH_SHORT).show();
-//                return true;
-//            case R.id.social:
-//                Toast.makeText(this,"Social", Toast.LENGTH_SHORT).show();
-//                return true;
-//            default:
-//                return super.onOptionsItemSelected(item);
-//        }
-//
-        if (item.getItemId() == R.id.action_social) {
-            Intent intent = new Intent(this, SocialBase.class);
-            startActivity(intent);
+        switch (item.getItemId()) {
+            case R.id.action_filter:
+                Toast.makeText(this, "Filters", Toast.LENGTH_SHORT).show();
+                return true;
+            case R.id.show_map:
+                Toast.makeText(this,"Showing Map", Toast.LENGTH_SHORT).show();
+                return true;
+            case R.id.action_social:
+                Toast.makeText(this,"Social", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(this, SocialBase.class);
+                startActivity(intent);
+                return super.onOptionsItemSelected(item);
+            default:
+                return super.onOptionsItemSelected(item);
         }
 
-        return super.onOptionsItemSelected(item);
+
     }
 
     //history- deleted PlaceholderFragment class from here

@@ -131,7 +131,7 @@ public class ViewMood extends AppCompatActivity {
                     addMoodTask.execute(mood);
 
                     Intent output = new Intent(ViewMood.this, ViewMoodList.class);
-                    
+
                     setResult(RESULT_OK, output);
                     finish();
                 }
