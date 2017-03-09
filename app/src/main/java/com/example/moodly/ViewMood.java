@@ -1,6 +1,7 @@
 package com.example.moodly;
 
 import android.content.Intent;
+import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -75,16 +76,18 @@ public class ViewMood extends AppCompatActivity {
                 String reasonText = editReasonText.getText().toString();
                 Emotion emotionEnum = Emotion.values()[emotionSpinner.getSelectedItemPosition()];
                 SocialSituation socialEnum = SocialSituation.values()[socialSituationSpinner.getSelectedItemPosition()];
-                if (emotionEnum.equals("NONE"))
-
+//                if (emotionEnum == 0)
+//                    ((TextView)emotionSpinner.getSelectedView()).setError("Mood required");
+//                else {
                     mood.setReasonText(reasonText);
-                mood.setEmotion(emotionEnum);
-                mood.setSocialSituation(socialEnum);
+                    mood.setEmotion(emotionEnum);
+                    mood.setSocialSituation(socialEnum);
 
-                Intent output = new Intent(ViewMood.this,ViewMoodList.class);
-                output.putExtra("VIEWMOOD_MOOD", mood);
-                setResult(RESULT_OK, output);
-                finish();
+                    Intent output = new Intent(ViewMood.this, ViewMoodList.class);
+                    output.putExtra("VIEWMOOD_MOOD", mood);
+                    setResult(RESULT_OK, output);
+                    finish();
+//                }
             }
 
         });
