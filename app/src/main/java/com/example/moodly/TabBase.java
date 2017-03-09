@@ -19,22 +19,29 @@ import android.support.design.widget.FloatingActionButton;
 import java.util.ArrayList;
 
 
+/**
+ * This class is a fragment to display moods from followed users
+ */
 public class TabBase extends Fragment {
 
+    // we want to move the arraylist onto the controller
     protected Mood mood;
-    protected ArrayList<Mood> moodList = new ArrayList<Mood>();
     protected MoodAdapter adapter;
     protected ListView displayMoodList;
+    protected ArrayList<Mood> moodList;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
+        // adapt the moodlist onto our fragment using a custom MoodAdapter
         View rootView = inflater.inflate(R.layout.mood_history, container, false);
-        adapter = new MoodAdapter(getActivity(), R.layout.mood_list_item, moodList);
         displayMoodList = (ListView) rootView.findViewById(R.id.display_mood_list);
+
+        adapter = new MoodAdapter(getActivity(), R.layout.mood_list_item, MoodController.getInstance().getFiltered());
         displayMoodList.setAdapter(adapter);
 
+        // this activity should not have the add button
         FloatingActionButton fab = (FloatingActionButton) rootView.findViewById(R.id.fab);
         fab.hide();
 

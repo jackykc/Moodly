@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        is-multidex="true"
+        jar="C:\Users\jkc1\Documents\School\17W\301C\harambe\app\build\intermediates\incremental-classes\debug\instant-run-bootstrap.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="163ff08b2c71682a3b5fc1c32f3c8b128109f146">
+        <dex dex="C:\Users\jkc1\Documents\School\17W\301C\harambe\app\build\intermediates\transforms\dex\debug\folders\1000\10000\instant-run-bootstrap_e29597c0f4baa4143d5dc5fbf2f8c39896bc4431\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\jkc1\Documents\School\17W\301C\harambe\app\src\include\jest-droid-2.0.1-SNAPSHOT.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="e1199e84d8d3907b8262330dd6976ce04d37f6de">
+        <dex dex="C:\Users\jkc1\Documents\School\17W\301C\harambe\app\build\intermediates\transforms\dex\debug\folders\1000\2\jest-droid-2.0.1-SNAPSHOT_2267b4025322d343475ba21ed663b34ca3ad5b12\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\jkc1\Documents\School\17W\301C\harambe\app\build\intermediates\incremental-runtime-classes\debug\instant-run.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="c82741bc129dd5f99f11a4ab8666ae24262053b6">
+        <dex dex="C:\Users\jkc1\Documents\School\17W\301C\harambe\app\build\intermediates\transforms\dex\debug\folders\1000\10000\instant-run_d8841722c9fb6c13c71168467227e90f04487db0\classes.dex" />
+    </item>
+
+</items>
