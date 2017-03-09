@@ -12,6 +12,14 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import android.view.View;
+import android.view.ViewGroup;
+
+import android.widget.TextView;
+import android.widget.Toast;
+
+import java.util.ArrayList;
+
 public class ViewMoodList extends AppCompatActivity {
 
     /**
@@ -25,6 +33,7 @@ public class ViewMoodList extends AppCompatActivity {
     private SectionsPagerAdapter mSectionsPagerAdapter;
 
     /**
+     * The {@link ViewPager} that will host the section contents.
      * The {@link ViewPager} that will host the section contents.
      */
     private ViewPager mViewPager;
@@ -47,9 +56,23 @@ public class ViewMoodList extends AppCompatActivity {
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(mViewPager);
 
+//        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+//        fab.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//
+//                mood = new Mood();
+//                Intent intent = new Intent(ViewMoodList.this, ViewMood.class);
+//                intent.putExtra("PLACEHOLDER_MOOD", mood);
+//                startActivityForResult(intent, 0);
+//
+//                //Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+//                //        .setAction("Action", null).show();
+//
+//            }
+//        });
+
     }
-
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -63,13 +86,20 @@ public class ViewMoodList extends AppCompatActivity {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        switch (item.getItemId()) {
+            case R.id.filter:
+                Toast.makeText(this, "Filters", Toast.LENGTH_SHORT).show();
+                return true;
+            case R.id.show_map:
+                Toast.makeText(this,"Showing Map", Toast.LENGTH_SHORT).show();
+                return true;
+            case R.id.social:
+                Toast.makeText(this,"Social", Toast.LENGTH_SHORT).show();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
         }
-
+      
         if (id == R.id.action_social) {
             Intent intent = new Intent(this, SocialBase.class);
             startActivity(intent);
@@ -78,6 +108,7 @@ public class ViewMoodList extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    //history- deleted PlaceholderFragment class from here
     /**
      * A {@link FragmentPagerAdapter} that returns a fragment corresponding to
      * one of the sections/tabs/pages.
@@ -88,10 +119,6 @@ public class ViewMoodList extends AppCompatActivity {
             super(fm);
         }
 
-        /**
-         * This medthod takes a position for the selected tabs and returns the tab
-         * @param position the position of the selected tab (For history or following)
-         */
         @Override
         public Fragment getItem(int position) {
             // return current tab
