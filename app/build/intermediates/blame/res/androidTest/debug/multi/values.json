@@ -1,6 +1,6 @@
 [
     {
-        "outputFile": "/Users/Brockl/GIT/Harambe/app/build/intermediates/incremental/mergeDebugAndroidTestResources/merged.dir/values/values.xml",
+        "outputFile": "C:\\Users\\Victor\\Documents\\Uni Homework\\Comp Sci\\301\\Project\\Harambe\\app\\build\\intermediates\\incremental\\mergeDebugAndroidTestResources\\merged.dir\\values\\values.xml",
         "map": [
             {
                 "to": {
@@ -11,7 +11,31 @@
                     "endOffset": 96
                 },
                 "from": {
-                    "file": "/Users/Brockl/.android/build-cache/6ea14f429b2700b01609e02f9df6b12ab00f5e8f/output/res/values/values.xml",
+                    "file": "C:\\Users\\Victor\\.android\\build-cache\\9c7ec2d02d9b63a6a8ecee52e18f472240a16223\\output\\res\\values\\values.xml",
+                    "position": {
+                        "startLine": 4,
+                        "startColumn": 4,
+                        "startOffset": 229,
+                        "endColumn": 45,
+                        "endOffset": 270
+                    }
+                }
+            }
+        ]
+    },
+    {
+        "outputFile": "C:\\Users\\jkc1\\Documents\\School\\17W\\301C\\harambe\\app\\build\\intermediates\\incremental\\mergeDebugAndroidTestResources\\merged.dir\\values\\values.xml",
+        "map": [
+            {
+                "to": {
+                    "startLine": 2,
+                    "startColumn": 4,
+                    "startOffset": 55,
+                    "endColumn": 45,
+                    "endOffset": 96
+                },
+                "from": {
+                    "file": "C:\\Users\\jkc1\\.android\\build-cache\\a8ee120a018605b374e220829aa4c7b3fc74ad52\\output\\res\\values\\values.xml",
                     "position": {
                         "startLine": 4,
                         "startColumn": 4,
