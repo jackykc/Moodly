@@ -24,14 +24,15 @@ public class ViewMood extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_mood);
-
         Button saveButton = (Button) findViewById(R.id.save_button);
-
+        EditText editDate = (EditText) findViewById(R.id.edit_date);
+        editReasonText = (EditText) findViewById(R.id.edit_reason_text);
+        // Taken from http://stackoverflow.com/questions/13408419/how-do-i-tell-if-intent-extras-exist-in-android 3/8/2017 22:08
         //https://www.tutorialspoint.com/android/android_spinner_control.htm
         final Spinner emotionSpinner = (Spinner) findViewById(R.id.spinner_emotion);
         /*do we want to hardcode the following?
         * there probably is a better way to do this using the string resource file*/
-        ArrayList<String> emotionList = new ArrayList<String>();
+        ArrayList<String> emotionList = new ArrayList<>();
         emotionList.add("Choose an emotion");
         emotionList.add("Anger");
         emotionList.add("Confusion");
@@ -57,16 +58,20 @@ public class ViewMood extends AppCompatActivity {
         ArrayAdapter<String> ssAdapter = new ArrayAdapter<>(this,android.R.layout.simple_spinner_item,ssList);
         ssAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         socialSituationSpinner.setAdapter(ssAdapter);
+        Intent intent = getIntent();
+        boolean newMood = intent.hasExtra("PLACEHOLDER_MOOD");
 
-        mood = getIntent().getParcelableExtra("PLACEHOLDER_MOOD");
-
-        // get views
-        EditText editDate = (EditText) findViewById(R.id.edit_date);
-        editReasonText = (EditText) findViewById(R.id.edit_reason_text);
-
-        // set views
-        editDate.setText(mood.getDate().toString(), TextView.BufferType.EDITABLE);
-        editReasonText.setText(mood.getReasonText(), TextView.BufferType.EDITABLE);
+        if (newMood == false){
+            boolean oldMood = intent.hasExtra("selected_mood");
+            if (oldMood == true){
+                mood = getIntent().getParcelableExtra("selected_mood");
+            }
+        }
+        else{
+            mood = getIntent().getParcelableExtra("PLACEHOLDER_MOOD");
+        }
+        editDate.setText(mood.getDate().toString());
+        editReasonText.setText(mood.getReasonText());
 
         saveButton.setOnClickListener(new View.OnClickListener() {
 
