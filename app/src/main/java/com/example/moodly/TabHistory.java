@@ -1,6 +1,8 @@
 package com.example.moodly;
 
 import android.content.Context;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -11,6 +13,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -33,6 +36,35 @@ public class TabHistory extends TabBase {
 
         View rootView = inflater.inflate(R.layout.mood_history, container, false);
         displayMoodList = (ListView) rootView.findViewById(R.id.display_mood_list);
+        displayMoodList.setAdapter(adapter);
+
+        displayMoodList.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, final int position, long id) {
+                final Mood mood = moodList.get(position);
+                AlertDialog.Builder adb = new AlertDialog.Builder(getActivity());
+                adb.setMessage("Selecting mood to");
+                adb.setCancelable(true);
+                adb.setPositiveButton("Delete", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        moodList.remove(mood);
+                        adapter.notifyDataSetChanged();
+                        displayMoodList.requestLayout();
+                    }
+                });
+                adb.setNegativeButton("View/Edit", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Intent intent = new Intent(getActivity(), ViewMood.class);
+                        intent.putExtra("selected_mood", mood);
+                        startActivity(intent);
+                    }
+                });
+                adb.show();
+                return false;
+            }
+        });
 
         FloatingActionButton fab = (FloatingActionButton) rootView.findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -91,7 +123,6 @@ public class TabHistory extends TabBase {
     }
 
 }
-
 
 
 
