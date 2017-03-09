@@ -77,10 +77,13 @@ public class ViewMood extends AppCompatActivity {
         if (newMood == false){
             boolean oldMood = intent.hasExtra("selected_mood");
             if (oldMood == true){
-                mood = getIntent().getParcelableExtra("selected_mood");
+                mood = MoodController.getInstance().getMood();
                 //http://stackoverflow.com/questions/11072576/set-selected-item-of-spinner-programmatically 3/8/2017
-                String oldEmotion = toStringEmotion(mood.getEmotion());
-                String oldSS = toStringSS(mood.getSocialSituation());
+                //String oldEmotion = toStringEmotion(mood.getEmotion());
+                //String oldSS = toStringSS(mood.getSocialSituation());
+                String oldEmotion = Integer.toString(mood.getEmotion());
+                String oldSS = Integer.toString(mood.getSocialSituation());
+
                 emotionSpinner.setSelection(emotionList.indexOf(oldEmotion));
                 socialSituationSpinner.setSelection(ssList.indexOf(oldSS));
             }
@@ -96,28 +99,17 @@ public class ViewMood extends AppCompatActivity {
             public void onClick(View v) {
                 // might be best to do a calendar for the date?
                 //Date date = editDate.getText().toString();
-                String reasonText = editReasonText.getText().toString();
-                int emotionEnum = emotionSpinner.getSelectedItemPosition();
-
                 //mood.setDate(editDate.getText().toD);
-                mood.setReasonText(reasonText);
-                mood.setEmotion(emotionEnum);
                 // do i need to set it? is it a good idea?
                 // adds mood to controller/elastic search server
-                MoodController.getInstance().setMood(mood);
-                MoodController.AddMoodTask addMoodTask = new MoodController.AddMoodTask();
-                addMoodTask.execute(mood);
 
 
-                Intent output = new Intent();
+                //Emotion emotionEnum = Emotion.values()[emotionSpinner.getSelectedItemPosition()];
+                Emotion emotionEnumCheck = Emotion.values()[emotionSpinner.getSelectedItemPosition()];
+                SocialSituation socialEnumCheck = SocialSituation.values()[socialSituationSpinner.getSelectedItemPosition()];
 
-                setResult(RESULT_OK, output);
-
-                finish();
-                Emotion emotionEnum = Emotion.values()[emotionSpinner.getSelectedItemPosition()];
-                SocialSituation socialEnum = SocialSituation.values()[socialSituationSpinner.getSelectedItemPosition()];
                 Emotion check = NONE;
-                if (emotionEnum == check) {
+                if (emotionEnumCheck == check) {
                    // http://stackoverflow.com/questions/28235689/how-can-an-error-message-be-set-for-the-spinner-in-android 3/8/2017
                     TextView errorText = (TextView) emotionSpinner.getSelectedView();
                     errorText.setError("");
@@ -125,12 +117,21 @@ public class ViewMood extends AppCompatActivity {
                     errorText.setText("Emotion required");
                 }
                 else {
+
+                    String reasonText = editReasonText.getText().toString();
+                    int emotionEnum = emotionSpinner.getSelectedItemPosition();
+                    int socialEnum = socialSituationSpinner.getSelectedItemPosition();
+
                     mood.setReasonText(reasonText);
                     mood.setEmotion(emotionEnum);
                     mood.setSocialSituation(socialEnum);
 
+                    MoodController.getInstance().setMood(mood);
+                    MoodController.AddMoodTask addMoodTask = new MoodController.AddMoodTask();
+                    addMoodTask.execute(mood);
+
                     Intent output = new Intent(ViewMood.this, ViewMoodList.class);
-                    output.putExtra("VIEWMOOD_MOOD", mood);
+                    
                     setResult(RESULT_OK, output);
                     finish();
                 }

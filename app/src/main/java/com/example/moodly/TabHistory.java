@@ -57,7 +57,7 @@ public class TabHistory extends TabBase {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         Intent intent = new Intent(getActivity(), ViewMood.class);
-                        intent.putExtra("selected_mood", mood);
+                        MoodController.getInstance().setMood(new Mood());
                         startActivity(intent);
                     }
                 });
