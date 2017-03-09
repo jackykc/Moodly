@@ -17,7 +17,7 @@ import java.util.Date;
 public class ViewMood extends AppCompatActivity {
 
     private Mood mood;
-    private EditText editDate, editReasonText;
+    private EditText editReasonText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,7 +31,7 @@ public class ViewMood extends AppCompatActivity {
         /*do we want to hardcode the following?
         * there probably is a better way to do this using the string resource file*/
         ArrayList<String> emotionList = new ArrayList<String>();
-        emotionList.add("None");
+        emotionList.add("Choose an emotion");
         emotionList.add("Anger");
         emotionList.add("Confusion");
         emotionList.add("Disgust");
@@ -39,18 +39,28 @@ public class ViewMood extends AppCompatActivity {
         emotionList.add("Happiness");
         emotionList.add("Sadness");
         emotionList.add("Shame");
-        emotionList.add("Suprise");
+        emotionList.add("Surprise");
 
-        ArrayAdapter<String> emotionAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, emotionList);
+        ArrayAdapter<String> emotionAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, emotionList);
         emotionAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         emotionSpinner.setAdapter(emotionAdapter);
 
+        final Spinner socialSituationSpinner = (Spinner) findViewById(R.id.spinner_SS);
+        ArrayList<String> ssList = new ArrayList<>();
+        ssList.add("Choose a social situation");
+        ssList.add("Alone");
+        ssList.add("With one other person");
+        ssList.add("With two to several people");
+        ssList.add("With a crowd");
 
+        ArrayAdapter<String> ssAdapter = new ArrayAdapter<>(this,android.R.layout.simple_spinner_item,ssList);
+        ssAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        socialSituationSpinner.setAdapter(ssAdapter);
 
         mood = getIntent().getParcelableExtra("PLACEHOLDER_MOOD");
 
         // get views
-        editDate = (EditText) findViewById(R.id.edit_date);
+        EditText editDate = (EditText) findViewById(R.id.edit_date);
         editReasonText = (EditText) findViewById(R.id.edit_reason_text);
 
         // set views
@@ -64,13 +74,16 @@ public class ViewMood extends AppCompatActivity {
                 // Date date = editDate.getText().toString();
                 String reasonText = editReasonText.getText().toString();
                 Emotion emotionEnum = Emotion.values()[emotionSpinner.getSelectedItemPosition()];
+                SocialSituation socialEnum = SocialSituation.values()[socialSituationSpinner.getSelectedItemPosition()];
+                if (emotionEnum.equals("NONE"))
 
-                mood.setReasonText(reasonText);
+                    mood.setReasonText(reasonText);
                 mood.setEmotion(emotionEnum);
-                Intent output = new Intent();
+                mood.setSocialSituation(socialEnum);
+
+                Intent output = new Intent(ViewMood.this,ViewMoodList.class);
                 output.putExtra("VIEWMOOD_MOOD", mood);
                 setResult(RESULT_OK, output);
-
                 finish();
             }
 

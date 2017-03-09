@@ -10,4 +10,10 @@
     <string name="emotion">Emotion</string>
     <string name="reason_text">Reason</string>
     <string name="save_mood">Save Mood</string>
+    <string name="filter">Filter</string>
+    <string name="show_map">Show Map</string>
+    <string name="social">Social</string>
+    <string name="add_mood">Adding a New Mood</string>
+    <string name="location">Location</string>
+    <string name="social_situation">Social Situation</string>
 </resources>
