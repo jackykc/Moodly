@@ -191,16 +191,9 @@ public class MoodController {
             verifySettings();
 
             ArrayList<Mood> currentMoodList = new ArrayList<Mood>();
-            String query =
-                    "{ \n\"query\" : {\n" +
-                            "    \"term\" : { \"owner\" : \"" + search_parameters[0] +
-                            "\"     }\n " +
-                            "    }\n" +
-                            " } ";
+            // hahaha how do i even make a query string?????
+            String query = "{\"sort\": { \"date\": { \"order\": \"desc\"}}}";
 
-            //String query = "";
-
-            query = "";
             // TODO Build the query
             Search search = new Search.Builder(query)
                     .addIndex("cmput301w17t20")

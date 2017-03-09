@@ -35,8 +35,24 @@ public class TabHistory extends TabBase {
                              Bundle savedInstanceState) {
 
         View rootView = inflater.inflate(R.layout.mood_history, container, false);
+
         displayMoodList = (ListView) rootView.findViewById(R.id.display_mood_list);
+
+        //////////////////////////////////////////////////////////////////////////
+        // tries to get moods from elastic search server
+        MoodController.GetMoodTask getMoodTask = new MoodController.GetMoodTask();
+        getMoodTask.execute("Jacky");
+        try {
+            moodList = getMoodTask.get();
+        } catch (Exception e) {
+            Log.i("Error", "Failed to get mood out of async object");
+        }
+
+        adapter = new MoodAdapter(getActivity(), R.layout.mood_list_item, moodList);
+
+        //////////////////////////////////////////////////////////////////////////
         displayMoodList.setAdapter(adapter);
+
 
         displayMoodList.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
@@ -88,18 +104,18 @@ public class TabHistory extends TabBase {
     @Override
     public void onStart() {
         super.onStart();
-
-        // tries to get moods from elastic search server
-        MoodController.GetMoodTask getMoodTask = new MoodController.GetMoodTask();
-        getMoodTask.execute("Jacky");
-        try {
-            moodList = getMoodTask.get();
-        } catch (Exception e) {
-            Log.i("Error", "Failed to get mood out of async object");
-        }
-
-        adapter = new MoodAdapter(getActivity(), R.layout.mood_list_item, moodList);
-        displayMoodList.setAdapter(adapter);
+//
+//        // tries to get moods from elastic search server
+//        MoodController.GetMoodTask getMoodTask = new MoodController.GetMoodTask();
+//        getMoodTask.execute("Jacky");
+//        try {
+//            moodList = getMoodTask.get();
+//        } catch (Exception e) {
+//            Log.i("Error", "Failed to get mood out of async object");
+//        }
+//
+//        adapter = new MoodAdapter(getActivity(), R.layout.mood_list_item, moodList);
+//        displayMoodList.setAdapter(adapter);
 
     }
 
@@ -114,7 +130,8 @@ public class TabHistory extends TabBase {
         toast.show();
 
         // adds mood to moodlist to display
-        moodList.add(MoodController.getInstance().getMood());
+        moodList.add(0, MoodController.getInstance().getMood());
+
 
         adapter = new MoodAdapter(getActivity(), R.layout.mood_list_item, moodList);
         displayMoodList.setAdapter(adapter);
