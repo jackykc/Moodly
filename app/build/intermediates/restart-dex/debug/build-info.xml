@@ -6,8 +6,8 @@
     density="xxhdpi"
     format="10"
     plugin-version="2.3.0"
-    timestamp="1489082660738"
-    token="4938234202873998887"
+    timestamp="1489084383538"
+    token="3864861327030683818"
     verifier="FULL_BUILD_REQUESTED" >
 
     <task
@@ -62,7 +62,7 @@
 
     <build
         build-mode="FULL"
-        timestamp="1489082660738"
+        timestamp="1489084383538"
         verifier="FULL_BUILD_REQUESTED" >
         <artifact
             location="C:\Users\jkc1\Documents\School\17W\301C\harambe\app\build\intermediates\split-apk\debug\slices\slice_3.apk"

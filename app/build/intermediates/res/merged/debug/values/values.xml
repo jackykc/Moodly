@@ -589,12 +589,15 @@
     <string name="abc_toolbar_collapse_description">Collapse</string>
     <string name="action_settings">Settings</string>
     <string name="action_social">Social</string>
+    <string name="add_mood">Adding a New Mood</string>
     <string name="app_name">Moodly</string>
     <string name="appbar_scrolling_view_behavior" translatable="false">android.support.design.widget.AppBarLayout$ScrollingViewBehavior</string>
     <string name="bottom_sheet_behavior" translatable="false">android.support.design.widget.BottomSheetBehavior</string>
     <string name="character_counter_pattern" translatable="false">%1$d / %2$d</string>
     <string name="date">Date</string>
     <string name="emotion">Emotion</string>
+    <string name="filter">Filter</string>
+    <string name="location">Location</string>
     <string name="mood_list_header">History</string>
     <string name="password_toggle_content_description">Toggle password visibility</string>
     <string name="path_password_eye">M12,4.5C7,4.5 2.73,7.61 1,12c1.73,4.39 6,7.5 11,7.5s9.27,-3.11 11,-7.5c-1.73,-4.39 -6,-7.5 -11,-7.5zM12,17c-2.76,0 -5,-2.24 -5,-5s2.24,-5 5,-5 5,2.24 5,5 -2.24,5 -5,5zM12,9c-1.66,0 -3,1.34 -3,3s1.34,3 3,3 3,-1.34 3,-3 -1.34,-3 -3,-3z</string>
@@ -605,6 +608,9 @@
     <string name="save_mood">Save Mood</string>
     <string name="search_menu_title">Search</string>
     <string name="section_format">Hello World from section: %1$d</string>
+    <string name="show_map">Show Map</string>
+    <string name="social">Social</string>
+    <string name="social_situation">Social Situation</string>
     <string name="status_bar_notification_info_overflow">999+</string>
     <string name="title_activity_view_mood">ViewMood</string>
     <string name="title_activity_view_mood_list">ViewMoodList</string>

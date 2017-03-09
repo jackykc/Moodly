@@ -1,4 +1,4 @@
-#Thu Mar 09 10:59:51 MST 2017
+#Thu Mar 09 11:27:58 MST 2017
 base.0=C\:\\Users\\jkc1\\Documents\\School\\17W\\301C\\harambe\\app\\build\\intermediates\\transforms\\dex\\debug\\folders\\1000\\10000\\instant-run_d8841722c9fb6c13c71168467227e90f04487db0
 renamed.1=classes2.dex
 renamed.0=classes.dex

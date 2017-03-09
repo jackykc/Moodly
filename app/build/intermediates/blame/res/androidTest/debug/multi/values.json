@@ -1,29 +1,5 @@
 [
     {
-        "outputFile": "C:\\Users\\Victor\\Documents\\Uni Homework\\Comp Sci\\301\\Project\\Harambe\\app\\build\\intermediates\\incremental\\mergeDebugAndroidTestResources\\merged.dir\\values\\values.xml",
-        "map": [
-            {
-                "to": {
-                    "startLine": 2,
-                    "startColumn": 4,
-                    "startOffset": 55,
-                    "endColumn": 45,
-                    "endOffset": 96
-                },
-                "from": {
-                    "file": "C:\\Users\\Victor\\.android\\build-cache\\9c7ec2d02d9b63a6a8ecee52e18f472240a16223\\output\\res\\values\\values.xml",
-                    "position": {
-                        "startLine": 4,
-                        "startColumn": 4,
-                        "startOffset": 229,
-                        "endColumn": 45,
-                        "endOffset": 270
-                    }
-                }
-            }
-        ]
-    },
-    {
         "outputFile": "C:\\Users\\jkc1\\Documents\\School\\17W\\301C\\harambe\\app\\build\\intermediates\\incremental\\mergeDebugAndroidTestResources\\merged.dir\\values\\values.xml",
         "map": [
             {

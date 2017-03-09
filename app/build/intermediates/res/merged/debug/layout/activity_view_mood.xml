@@ -1,93 +1,142 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <LinearLayout
+
+    <TextView
+        android:layout_height="wrap_content"
+        android:id="@+id/Header"
+        android:textAppearance="@android:style/TextAppearance.DeviceDefault.Large"
+        tools:text="@string/add_mood"
+        android:layout_width="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:text="@string/add_mood"
+        android:layout_alignParentTop="true" />
+
+    <TextView
+        android:text="@string/emotion"
+        android:layout_width="wrap_content"
+        tools:text="@string/emotion"
+        android:textAppearance="@android:style/TextAppearance"
+        android:layout_alignBottom="@+id/spinner_emotion"
+        android:layout_alignLeft="@+id/DateText"
+        android:layout_alignStart="@+id/DateText"
+        android:layout_height="25dp"
+        android:id="@+id/EmotionText" />
+
+    <TextView
+        android:text="@string/date"
+        android:layout_width="69dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/DateText"
+        tools:text="@string/date"
+        android:textAppearance="@android:style/TextAppearance"
         android:layout_weight="1"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:orientation="horizontal">
-        <TextView
-            android:layout_weight="0"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/date" />
-        <EditText android:id="@+id/edit_date"
-            android:layout_weight="1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-    </LinearLayout>
-
-
-    <LinearLayout
-        android:layout_weight="1"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:orientation="horizontal">
-        <TextView
-            android:layout_weight="0"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/emotion" />
-        <Spinner android:id="@+id/spinner_emotion"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            />
-        <!--<EditText android:id="@+id/edit_emotion"-->
-            <!--android:layout_weight="1"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:inputType="date"/>-->
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_weight="1"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:orientation="horizontal">
-        <TextView
-            android:layout_weight="0"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Reason" />
-        <EditText android:id="@+id/edit_reason_text"
-            android:layout_weight="1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_weight="1"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:orientation="horizontal">
-        <TextView
-            android:layout_weight="0"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Social Situation" />
-        <EditText android:id="@+id/edit_social_situation"
-            android:layout_weight="1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:inputType="numberDecimal"/>
-    </LinearLayout>
-
+        android:layout_marginTop="19dp"
+        android:layout_below="@+id/spinner_emotion"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginLeft="25dp"
+        android:layout_marginStart="25dp" />
 
     <Button
-        android:id="@+id/save_button"
-        android:layout_width="fill_parent"
+        android:text="@string/save_mood"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/save_mood" />
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/save_button"
+        android:elevation="0dp"
+        tools:text="@string/save_mood" />
 
-</LinearLayout>
+    <Spinner android:id="@+id/spinner_emotion"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/Header"
+        android:layout_alignLeft="@+id/spinner_SS"
+        android:layout_alignStart="@+id/spinner_SS"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
 
-<!--<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"-->
+    <Spinner
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/spinner_SS"
+        android:layout_alignBaseline="@+id/SocialSituationText"
+        android:layout_alignBottom="@+id/SocialSituationText"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_toEndOf="@+id/SocialSituationText"
+        android:layout_toRightOf="@+id/SocialSituationText" />
+
+    <TextView
+        android:text="@string/social_situation"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="19dp"
+        android:id="@+id/SocialSituationText"
+        tools:text="@string/social_situation"
+        android:textAppearance="@android:style/TextAppearance"
+        android:layout_below="@+id/edit_date"
+        android:layout_alignLeft="@+id/DateText"
+        android:layout_alignStart="@+id/DateText" />
+
+    <CheckBox
+        android:text="@string/location"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/LocationCheck"
+        tools:text="@string/location"
+        android:checked="false"
+        android:layout_marginTop="18dp"
+        android:layout_below="@+id/ReasonText"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginLeft="14dp"
+        android:layout_marginStart="14dp" />
+
+    <TextView
+        android:text="@string/reason_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/ReasonText"
+        android:layout_marginTop="21dp"
+        tools:text="@string/reason_text"
+        android:textAppearance="@android:style/TextAppearance"
+        android:layout_below="@+id/spinner_SS"
+        android:layout_alignLeft="@+id/SocialSituationText"
+        android:layout_alignStart="@+id/SocialSituationText" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:ems="10"
+        android:id="@+id/edit_reason_text"
+        android:layout_alignBottom="@+id/ReasonText"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_toRightOf="@+id/DateText"
+        android:layout_toEndOf="@+id/DateText" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:id="@+id/edit_date"
+        android:inputType="textPersonName"
+        android:layout_alignBottom="@+id/DateText"
+        android:layout_toRightOf="@+id/DateText"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+
+</RelativeLayout>
+
+    <!--<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"-->
     <!--xmlns:tools="http://schemas.android.com/tools"-->
     <!--android:id="@+id/activity_view_mood2"-->
     <!--android:layout_width="match_parent"-->
@@ -98,4 +147,4 @@
     <!--android:paddingTop="@dimen/activity_vertical_margin"-->
     <!--tools:context="com.example.moodly.ViewMood">-->
 
-<!--</RelativeLayout>-->
+    <!--</RelativeLayout>-->
