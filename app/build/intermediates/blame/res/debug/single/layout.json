@@ -72,12 +72,12 @@
         "source": "C:\\Users\\jkc1\\.android\\build-cache\\a9fe11b7fe8b9b73ee1659953ce81ccc4ba96c6e\\output\\res\\layout\\notification_action_tombstone.xml"
     },
     {
-        "merged": "C:\\Users\\Victor\\Documents\\Uni Homework\\Comp Sci\\301\\Project\\Harambe\\app\\build\\intermediates\\res\\merged\\debug\\layout\\notification_action.xml",
-        "source": "C:\\Users\\Victor\\.android\\build-cache\\de73b9870c658c6e78db81c4f9873aa76935d151\\output\\res\\layout\\notification_action.xml"
-    },
-    {
         "merged": "C:\\Users\\jkc1\\Documents\\School\\17W\\301C\\harambe\\app\\build\\intermediates\\res\\merged\\debug\\layout\\abc_popup_menu_item_layout.xml",
         "source": "C:\\Users\\jkc1\\.android\\build-cache\\a9fe11b7fe8b9b73ee1659953ce81ccc4ba96c6e\\output\\res\\layout\\abc_popup_menu_item_layout.xml"
+    },
+    {
+        "merged": "C:\\Users\\Victor\\Documents\\Uni Homework\\Comp Sci\\301\\Project\\Harambe\\app\\build\\intermediates\\res\\merged\\debug\\layout\\notification_action.xml",
+        "source": "C:\\Users\\Victor\\.android\\build-cache\\de73b9870c658c6e78db81c4f9873aa76935d151\\output\\res\\layout\\notification_action.xml"
     },
     {
         "merged": "C:\\Users\\jkc1\\Documents\\School\\17W\\301C\\harambe\\app\\build\\intermediates\\res\\merged\\debug\\layout\\notification_template_custom_big.xml",
@@ -104,12 +104,12 @@
         "source": "C:\\Users\\Victor\\.android\\build-cache\\a56794c8c4a2bbb4d46b8452c7dfc9c128d3bed7\\output\\res\\layout\\design_layout_snackbar_include.xml"
     },
     {
-        "merged": "C:\\Users\\Victor\\Documents\\Uni Homework\\Comp Sci\\301\\Project\\Harambe\\app\\build\\intermediates\\res\\merged\\debug\\layout\\design_layout_snackbar.xml",
-        "source": "C:\\Users\\Victor\\.android\\build-cache\\a56794c8c4a2bbb4d46b8452c7dfc9c128d3bed7\\output\\res\\layout\\design_layout_snackbar.xml"
-    },
-    {
         "merged": "C:\\Users\\jkc1\\Documents\\School\\17W\\301C\\harambe\\app\\build\\intermediates\\res\\merged\\debug\\layout\\select_dialog_singlechoice_material.xml",
         "source": "C:\\Users\\jkc1\\.android\\build-cache\\a9fe11b7fe8b9b73ee1659953ce81ccc4ba96c6e\\output\\res\\layout\\select_dialog_singlechoice_material.xml"
+    },
+    {
+        "merged": "C:\\Users\\Victor\\Documents\\Uni Homework\\Comp Sci\\301\\Project\\Harambe\\app\\build\\intermediates\\res\\merged\\debug\\layout\\design_layout_snackbar.xml",
+        "source": "C:\\Users\\Victor\\.android\\build-cache\\a56794c8c4a2bbb4d46b8452c7dfc9c128d3bed7\\output\\res\\layout\\design_layout_snackbar.xml"
     },
     {
         "merged": "C:\\Users\\Victor\\Documents\\Uni Homework\\Comp Sci\\301\\Project\\Harambe\\app\\build\\intermediates\\res\\merged\\debug\\layout\\abc_action_mode_bar.xml",
