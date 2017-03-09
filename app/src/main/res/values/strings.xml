@@ -1,7 +1,9 @@
 <resources>
     <string name="app_name">Moodly</string>
     <string name="title_activity_view_mood_list">ViewMoodList</string>
+    <string name="title_activity_view_social_lists">ViewSocialLists</string>
     <string name="action_settings">Settings</string>
+    <string name="action_social">Social</string>
     <string name="section_format">Hello World from section: %1$d</string>
 
     <string name="mood_list_header">History</string>
