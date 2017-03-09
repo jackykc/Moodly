@@ -1,5 +1,6 @@
 package com.example.moodly;
 
+import android.content.Context;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -8,11 +9,13 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -32,9 +35,6 @@ public class TabHistory extends TabBase {
                              Bundle savedInstanceState) {
 
         View rootView = inflater.inflate(R.layout.mood_history, container, false);
-
-        // adapt the moodlist onto our fragment using a custom MoodAdapter
-        adapter = new MoodAdapter(getActivity(), R.layout.mood_list_item, moodList);
         displayMoodList = (ListView) rootView.findViewById(R.id.display_mood_list);
         displayMoodList.setAdapter(adapter);
 
@@ -71,13 +71,9 @@ public class TabHistory extends TabBase {
             @Override
             public void onClick(View view) {
 
-                mood = new Mood();
+                MoodController.getInstance().setMood(new Mood());
                 Intent intent = new Intent(getActivity(), ViewMood.class);
-                intent.putExtra("PLACEHOLDER_MOOD", mood);
                 startActivityForResult(intent, 0);
-
-                //Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                //        .setAction("Action", null).show();
 
             }
         });
@@ -85,14 +81,46 @@ public class TabHistory extends TabBase {
         return rootView;
     }
 
+    // problem with this on onCreateView
+    // actually its either this or onCreateView that gets run right after
+    // onActivityResult, it nullifies the add mood being shown as this onStart
+    // resets the adapter with only the first 10 moods
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        // tries to get moods from elastic search server
+        MoodController.GetMoodTask getMoodTask = new MoodController.GetMoodTask();
+        getMoodTask.execute("");
+        try {
+            moodList = getMoodTask.get();
+        } catch (Exception e) {
+            Log.i("Error", "Failed to get mood out of async object");
+        }
+
+        adapter = new MoodAdapter(getActivity(), R.layout.mood_list_item, moodList);
+        displayMoodList.setAdapter(adapter);
+
+    }
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
 
-        mood = data.getParcelableExtra("VIEWMOOD_MOOD");
-        moodList.add(mood);
+        // below is just for debugging
+        Context debugContext = getContext();
+        CharSequence debugText = "Adding mood";
+        int duration = Toast.LENGTH_SHORT;
+        Toast toast = Toast.makeText(debugContext, debugText, duration);
+        toast.show();
+
+        // adds mood to moodlist to display
+        moodList.add(MoodController.getInstance().getMood());
+
+        adapter = new MoodAdapter(getActivity(), R.layout.mood_list_item, moodList);
+        displayMoodList.setAdapter(adapter);
+        // needed ?
         adapter.notifyDataSetChanged();
     }
-
 
 }
 

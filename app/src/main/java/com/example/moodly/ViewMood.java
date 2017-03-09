@@ -49,6 +49,16 @@ public class ViewMood extends AppCompatActivity {
         ArrayAdapter<String> emotionAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, emotionList);
         emotionAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         emotionSpinner.setAdapter(emotionAdapter);
+        mood = MoodController.getInstance().getMood();
+
+
+        // get views
+        editDate = (EditText) findViewById(R.id.edit_date);
+        editReasonText = (EditText) findViewById(R.id.edit_reason_text);
+
+        // set views
+        editDate.setText(mood.getDate().toString(), TextView.BufferType.EDITABLE);
+        editReasonText.setText(mood.getReasonText(), TextView.BufferType.EDITABLE);
 
         final Spinner socialSituationSpinner = (Spinner) findViewById(R.id.spinner_SS);
         ArrayList<String> ssList = new ArrayList<>();
@@ -80,12 +90,30 @@ public class ViewMood extends AppCompatActivity {
         }
         editDate.setText(mood.getDate().toString());
         editReasonText.setText(mood.getReasonText());
+
         saveButton.setOnClickListener(new View.OnClickListener() {
 
             public void onClick(View v) {
                 // might be best to do a calendar for the date?
-                // Date date = editDate.getText().toString();
+                //Date date = editDate.getText().toString();
                 String reasonText = editReasonText.getText().toString();
+                int emotionEnum = emotionSpinner.getSelectedItemPosition();
+
+                //mood.setDate(editDate.getText().toD);
+                mood.setReasonText(reasonText);
+                mood.setEmotion(emotionEnum);
+                // do i need to set it? is it a good idea?
+                // adds mood to controller/elastic search server
+                MoodController.getInstance().setMood(mood);
+                MoodController.AddMoodTask addMoodTask = new MoodController.AddMoodTask();
+                addMoodTask.execute(mood);
+
+
+                Intent output = new Intent();
+
+                setResult(RESULT_OK, output);
+
+                finish();
                 Emotion emotionEnum = Emotion.values()[emotionSpinner.getSelectedItemPosition()];
                 SocialSituation socialEnum = SocialSituation.values()[socialSituationSpinner.getSelectedItemPosition()];
                 Emotion check = NONE;
