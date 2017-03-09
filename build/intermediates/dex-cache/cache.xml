@@ -2,121 +2,22 @@
 <items version="2" >
 
     <item
-        is-multidex="false"
-        jar="C:\Users\Victor\.android\build-cache\c8b001c33db7683662850f8bd617c6293c2e8466\output\jars\classes.jar"
-        jumboMode="false"
+        is-multidex="true"
+        jar="C:\Users\jkc1\Documents\School\17W\301C\harambe\app\build\intermediates\incremental-classes\debug\instant-run-bootstrap.jar"
+        jumboMode="true"
         optimize="true"
         revision="25.0.2"
-        sha1="02741d05d4b697fba5e279e9881aaa1da0ca7c7f">
-        <dex dex="C:\Users\Victor\Documents\Uni Homework\Comp Sci\301\Project\Harambe\app\build\intermediates\pre-dexed\debug\classes_5c98b5c245c7db26cc085753ca844b86ad3b21cc.jar" />
+        sha1="8cfbece6bcc8b18ea5d43b48b827e644a7d0187b">
+        <dex dex="C:\Users\jkc1\Documents\School\17W\301C\harambe\app\build\intermediates\transforms\dex\debug\folders\1000\10000\instant-run-bootstrap_e29597c0f4baa4143d5dc5fbf2f8c39896bc4431\classes.dex" />
     </item>
     <item
-        is-multidex="false"
-        jar="C:\Users\Victor\.android\build-cache\390fea34dde98ec087a4b95fa0936496cfb12a4e\output\jars\classes.jar"
-        jumboMode="false"
+        is-multidex="true"
+        jar="C:\Users\jkc1\Documents\School\17W\301C\harambe\app\build\intermediates\incremental-runtime-classes\debug\instant-run.jar"
+        jumboMode="true"
         optimize="true"
         revision="25.0.2"
-        sha1="e2719c102dca3a7a5b02ce07f769362da6ddb4ab">
-        <dex dex="C:\Users\Victor\Documents\Uni Homework\Comp Sci\301\Project\Harambe\app\build\intermediates\pre-dexed\debug\classes_ef0148d468dbe5760d96984d2ad9e423896ea428.jar" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="C:\Users\Victor\.android\build-cache\db0456bc64915b244ad16e2affdb2d7a556a04ac\output\jars\classes.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="25.0.2"
-        sha1="c9649557905bf7a80fca9e0d54cbcb7662627860">
-        <dex dex="C:\Users\Victor\Documents\Uni Homework\Comp Sci\301\Project\Harambe\app\build\intermediates\pre-dexed\debug\classes_b55be932b5993df495e6edd960b3f8442cb7edd2.jar" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="C:\Users\Victor\.android\build-cache\a56794c8c4a2bbb4d46b8452c7dfc9c128d3bed7\output\jars\classes.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="25.0.2"
-        sha1="cd7951e04cfb9a8bf008d544a478d9a8d8192d38">
-        <dex dex="C:\Users\Victor\Documents\Uni Homework\Comp Sci\301\Project\Harambe\app\build\intermediates\pre-dexed\debug\classes_b7fc591251cc0db31c2322bda90db403426ccf08.jar" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="C:\Users\Victor\.android\build-cache\49e589c77d21462b0c73af85617b2af01bbb0e5a\output\jars\classes.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="25.0.2"
-        sha1="0fb891e8f0cfba0513043a7bb357513d229ca2cd">
-        <dex dex="C:\Users\Victor\Documents\Uni Homework\Comp Sci\301\Project\Harambe\app\build\intermediates\pre-dexed\debug\classes_b94519d8cda4bbd0320822c886997e20e86b0607.jar" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="C:\Users\Victor\.android\build-cache\de73b9870c658c6e78db81c4f9873aa76935d151\output\jars\classes.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="25.0.2"
-        sha1="ecb496cc08dd52551fc5ec6db3bc0632e95a89bb">
-        <dex dex="C:\Users\Victor\Documents\Uni Homework\Comp Sci\301\Project\Harambe\app\build\intermediates\pre-dexed\debug\classes_294b5eb1860072666530cadb6d98946da2e2a3a7.jar" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="C:\Users\Victor\.android\build-cache\b1d3b40f958db9dc24bfbfe9042fca91ac79da54\output\jars\classes.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="25.0.2"
-        sha1="c03bf57f358aa10d253f21989e93bcf6014b3b17">
-        <dex dex="C:\Users\Victor\Documents\Uni Homework\Comp Sci\301\Project\Harambe\app\build\intermediates\pre-dexed\debug\classes_c5409ef4355ea32f632ca735d4466a02ddd5a3bb.jar" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="C:\Users\Victor\AppData\Local\Android\sdk\extras\android\m2repository\com\android\support\support-annotations\25.1.1\support-annotations-25.1.1.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="25.0.2"
-        sha1="b59b6ee8d6ecc03e672d253800430343493a6ed8">
-        <dex dex="C:\Users\Victor\Documents\Uni Homework\Comp Sci\301\Project\Harambe\app\build\intermediates\pre-dexed\debug\support-annotations-25.1.1_f3408c4e1f577b909bf20bd6a1dbc669a6384731.jar" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="C:\Users\Victor\.android\build-cache\9681b0065ad1d50cf30e0d27527e6fdf37c52e94\output\jars\classes.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="25.0.2"
-        sha1="d7c42c80f6509b9ea4db28ca7859ffae08ec5741">
-        <dex dex="C:\Users\Victor\Documents\Uni Homework\Comp Sci\301\Project\Harambe\app\build\intermediates\pre-dexed\debug\classes_a1670105f6afaca34f88fa9a21da15554f4f130f.jar" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="C:\Users\Victor\.android\build-cache\6fe8c580e0790773fbe3c7bc1d943dd955048ba7\output\jars\classes.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="25.0.2"
-        sha1="3e04ac8ca644ea7baddf6fdcf72e15c79e9df94a">
-        <dex dex="C:\Users\Victor\Documents\Uni Homework\Comp Sci\301\Project\Harambe\app\build\intermediates\pre-dexed\debug\classes_05fee319afdba895f2749768c80cca6b0e44b760.jar" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="C:\Users\Victor\.android\build-cache\254894fb1b51786bf435413c01ab7534267cc150\output\jars\classes.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="25.0.2"
-        sha1="15b049fedbd8e3926bf99d9e45dfc9b2a1043bb9">
-        <dex dex="C:\Users\Victor\Documents\Uni Homework\Comp Sci\301\Project\Harambe\app\build\intermediates\pre-dexed\debug\classes_e8ae50c402d5e7fe49311cacb156f6f6c1b3f77a.jar" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="C:\Users\Victor\.android\build-cache\1bced5b94bdc638694efa440957d1b9d5e075294\output\jars\classes.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="25.0.2"
-        sha1="0d191c1a09e4892d059e5ce749e4ad4e08129e35">
-        <dex dex="C:\Users\Victor\Documents\Uni Homework\Comp Sci\301\Project\Harambe\app\build\intermediates\pre-dexed\debug\classes_5d9dcafdbd9d1d160b350cc806ac3011e816fefd.jar" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="C:\Users\Victor\.android\build-cache\234edfba5dbea9d470dc707de80c7031fb5a5789\output\jars\classes.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="25.0.2"
-        sha1="7bde4c34162092e0a77e7f12dc85ed77c484cf5c">
-        <dex dex="C:\Users\Victor\Documents\Uni Homework\Comp Sci\301\Project\Harambe\app\build\intermediates\pre-dexed\debug\classes_29e4c8d2ac88a7834e1892439ec4a2c66fb7ee36.jar" />
+        sha1="c82741bc129dd5f99f11a4ab8666ae24262053b6">
+        <dex dex="C:\Users\jkc1\Documents\School\17W\301C\harambe\app\build\intermediates\transforms\dex\debug\folders\1000\10000\instant-run_d8841722c9fb6c13c71168467227e90f04487db0\classes.dex" />
     </item>
 
 </items>
