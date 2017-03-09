@@ -43,7 +43,7 @@ public class TabHistory extends TabBase {
             public boolean onItemLongClick(AdapterView<?> parent, View view, final int position, long id) {
                 final Mood mood = moodList.get(position);
                 AlertDialog.Builder adb = new AlertDialog.Builder(getActivity());
-                adb.setMessage("Selecting" + mood + "to");
+                adb.setMessage("Selecting mood to");
                 adb.setCancelable(true);
                 adb.setPositiveButton("Delete", new DialogInterface.OnClickListener() {
                     @Override

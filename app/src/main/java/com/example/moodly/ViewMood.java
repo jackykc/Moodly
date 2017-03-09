@@ -1,6 +1,7 @@
 package com.example.moodly;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -14,6 +15,8 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.Date;
+
+import static com.example.moodly.Emotion.NONE;
 
 public class ViewMood extends AppCompatActivity {
 
@@ -65,6 +68,11 @@ public class ViewMood extends AppCompatActivity {
             boolean oldMood = intent.hasExtra("selected_mood");
             if (oldMood == true){
                 mood = getIntent().getParcelableExtra("selected_mood");
+                //http://stackoverflow.com/questions/11072576/set-selected-item-of-spinner-programmatically 3/8/2017
+                String oldEmotion = toStringEmotion(mood.getEmotion());
+                String oldSS = toStringSS(mood.getSocialSituation());
+                emotionSpinner.setSelection(emotionList.indexOf(oldEmotion));
+                socialSituationSpinner.setSelection(ssList.indexOf(oldSS));
             }
         }
         else{
@@ -72,7 +80,6 @@ public class ViewMood extends AppCompatActivity {
         }
         editDate.setText(mood.getDate().toString());
         editReasonText.setText(mood.getReasonText());
-
         saveButton.setOnClickListener(new View.OnClickListener() {
 
             public void onClick(View v) {
@@ -81,9 +88,15 @@ public class ViewMood extends AppCompatActivity {
                 String reasonText = editReasonText.getText().toString();
                 Emotion emotionEnum = Emotion.values()[emotionSpinner.getSelectedItemPosition()];
                 SocialSituation socialEnum = SocialSituation.values()[socialSituationSpinner.getSelectedItemPosition()];
-//                if (emotionEnum == 0)
-//                    ((TextView)emotionSpinner.getSelectedView()).setError("Mood required");
-//                else {
+                Emotion check = NONE;
+                if (emotionEnum == check) {
+                   // http://stackoverflow.com/questions/28235689/how-can-an-error-message-be-set-for-the-spinner-in-android 3/8/2017
+                    TextView errorText = (TextView) emotionSpinner.getSelectedView();
+                    errorText.setError("");
+                    errorText.setTextColor(Color.RED);
+                    errorText.setText("Emotion required");
+                }
+                else {
                     mood.setReasonText(reasonText);
                     mood.setEmotion(emotionEnum);
                     mood.setSocialSituation(socialEnum);
@@ -92,11 +105,48 @@ public class ViewMood extends AppCompatActivity {
                     output.putExtra("VIEWMOOD_MOOD", mood);
                     setResult(RESULT_OK, output);
                     finish();
-//                }
+                }
             }
 
         });
 
+    }
+    private String toStringEmotion(Emotion emotion) {
+        switch (emotion) {
+            case ANGER:
+                return "Anger";
+            case CONFUSION:
+                return "Confusion";
+            case DISGUST:
+                return "Disgust";
+            case FEAR:
+                return "Fear";
+            case HAPPINESS:
+                return "Happiness";
+            case SADNESS:
+                return "Sadness";
+            case SHAME:
+                return "Shame";
+            case SUPRISE:
+                return "Surprise";
+            default:
+                return "None";
+        }
+    }
+
+    private String toStringSS(SocialSituation socialSituation) {
+        switch (socialSituation) {
+            case ALONE:
+                return "Alone";
+            case ONE:
+                return "With one other person";
+            case SEVERAL:
+                return "With two to several people";
+            case CROWD:
+                return "With a crowd";
+            default:
+                return "None";
+        }
     }
 
 }
