@@ -89,29 +89,32 @@
 
 package com.example.moodly;
 
-        import android.content.Context;
-        import android.os.AsyncTask;
-        import android.util.Log;
-        import android.widget.Toast;
+import java.util.ArrayList;
+import java.util.Date;
 
-        import com.google.gson.JsonObject;
-        import com.searchly.jestdroid.DroidClientConfig;
-        import com.searchly.jestdroid.JestClientFactory;
-        import com.searchly.jestdroid.JestDroidClient;
+import android.content.Context;
+import android.os.AsyncTask;
+import android.util.Log;
+import android.widget.Toast;
 
-        import org.json.JSONArray;
-        import org.json.JSONObject;
+import com.google.gson.JsonObject;
+import com.searchly.jestdroid.DroidClientConfig;
+import com.searchly.jestdroid.JestClientFactory;
+import com.searchly.jestdroid.JestDroidClient;
 
-        import java.util.ArrayList;
-        import java.util.List;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
-        import io.searchbox.core.DocumentResult;
-        import io.searchbox.core.Index;
-        import io.searchbox.core.Search;
-        import io.searchbox.core.SearchResult;
+import java.util.ArrayList;
+import java.util.List;
 
-        import static junit.framework.Assert.assertEquals;
-//import com.jest
+import io.searchbox.core.DocumentResult;
+import io.searchbox.core.Index;
+import io.searchbox.core.Search;
+import io.searchbox.core.SearchResult;
+
+import static junit.framework.Assert.assertEquals;
+
 /**
  * Created by MinhNguyen on 06/03/2017.
  */
@@ -119,6 +122,9 @@ package com.example.moodly;
 
 // https://www.youtube.com/watch?v=NZaXM67fxbs singleton design pattern Mar 06
 public class MoodController {
+    private static final MoodController instance = new MoodController();
+    protected static ArrayList<Mood> moodList;
+
     // this isn't safe from synchronization, does it need to be?
     // i don't know how to verify that, but i guess we will find out
     // soon
@@ -253,7 +259,35 @@ public class MoodController {
         return m.getLocation();
     }
 
+    protected ArrayList<Mood> filterByDate(Date startDate, Date endDate) {
+        ArrayList<Mood> result = new ArrayList<>();
+        for (Mood m: moodList) {
+            if (m.getDate().after(startDate) && m.getDate().before(endDate)){
+                result.add(m);
+            }
+        }
+        return result;
+    }
 
+    protected ArrayList<Mood> filterByEmoState(Emotion e) {
+        ArrayList<Mood> result = new ArrayList<>();
+        for (Mood m: moodList) {
+            if (m.getEmotion().equals(e)){
+                result.add(m);
+            }
+        }
+        return  result;
+    }
+
+    protected ArrayList<Mood> filterByTextReason(String reason) {
+        ArrayList<Mood> result = new ArrayList<>();
+        for(Mood m:moodList) {
+            if (m.getReasonText().contains(reason)) {
+                result.add(m);
+            }
+        }
+        return result;
+    }
 
     public ArrayList<Mood> getFiltered() {
         this.filter();

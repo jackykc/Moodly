@@ -11,7 +11,9 @@ import java.util.ArrayList;
 
 public class UserAdapter extends ArrayAdapter<User> {
 
-    private ArrayList<User> userList = new ArrayList<>();
+    private ArrayList<User> following = new ArrayList<>();
+    private ArrayList<User> follower = new ArrayList<>();
+
     private String username;
 
     private ArrayList<User> items;
