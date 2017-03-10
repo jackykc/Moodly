@@ -1,102 +1,102 @@
 -- Merging decision tree log ---
 manifest
-ADDED from C:\Users\jkc1\Documents\School\17W\301C\harambe\app\src\main\AndroidManifest.xml:2:1-44:12
+ADDED from C:\Users\Victor Mai\Documents\School Logistics\Comp. 301\Harambe\app\src\main\AndroidManifest.xml:2:1-44:12
 	package
-		ADDED from C:\Users\jkc1\Documents\School\17W\301C\harambe\app\src\main\AndroidManifest.xml:3:5-33
-		INJECTED from C:\Users\jkc1\Documents\School\17W\301C\harambe\app\src\main\AndroidManifest.xml
-		INJECTED from C:\Users\jkc1\Documents\School\17W\301C\harambe\app\src\main\AndroidManifest.xml
+		ADDED from C:\Users\Victor Mai\Documents\School Logistics\Comp. 301\Harambe\app\src\main\AndroidManifest.xml:3:5-33
+		INJECTED from C:\Users\Victor Mai\Documents\School Logistics\Comp. 301\Harambe\app\src\main\AndroidManifest.xml
+		INJECTED from C:\Users\Victor Mai\Documents\School Logistics\Comp. 301\Harambe\app\src\main\AndroidManifest.xml
 	android:versionName
-		INJECTED from C:\Users\jkc1\Documents\School\17W\301C\harambe\app\src\main\AndroidManifest.xml
-		INJECTED from C:\Users\jkc1\Documents\School\17W\301C\harambe\app\src\main\AndroidManifest.xml
+		INJECTED from C:\Users\Victor Mai\Documents\School Logistics\Comp. 301\Harambe\app\src\main\AndroidManifest.xml
+		INJECTED from C:\Users\Victor Mai\Documents\School Logistics\Comp. 301\Harambe\app\src\main\AndroidManifest.xml
 	xmlns:android
-		ADDED from C:\Users\jkc1\Documents\School\17W\301C\harambe\app\src\main\AndroidManifest.xml:2:11-69
+		ADDED from C:\Users\Victor Mai\Documents\School Logistics\Comp. 301\Harambe\app\src\main\AndroidManifest.xml:2:11-69
 	android:versionCode
-		INJECTED from C:\Users\jkc1\Documents\School\17W\301C\harambe\app\src\main\AndroidManifest.xml
-		INJECTED from C:\Users\jkc1\Documents\School\17W\301C\harambe\app\src\main\AndroidManifest.xml
+		INJECTED from C:\Users\Victor Mai\Documents\School Logistics\Comp. 301\Harambe\app\src\main\AndroidManifest.xml
+		INJECTED from C:\Users\Victor Mai\Documents\School Logistics\Comp. 301\Harambe\app\src\main\AndroidManifest.xml
 uses-permission#android.permission.INTERNET
-ADDED from C:\Users\jkc1\Documents\School\17W\301C\harambe\app\src\main\AndroidManifest.xml:5:5-67
+ADDED from C:\Users\Victor Mai\Documents\School Logistics\Comp. 301\Harambe\app\src\main\AndroidManifest.xml:5:5-67
 	android:name
-		ADDED from C:\Users\jkc1\Documents\School\17W\301C\harambe\app\src\main\AndroidManifest.xml:5:22-64
+		ADDED from C:\Users\Victor Mai\Documents\School Logistics\Comp. 301\Harambe\app\src\main\AndroidManifest.xml:5:22-64
 application
-ADDED from C:\Users\jkc1\Documents\School\17W\301C\harambe\app\src\main\AndroidManifest.xml:7:5-42:19
-MERGED from [com.android.support:design:25.1.1] C:\Users\jkc1\.android\build-cache\bbc11f02528c2f6cb3c63f7a5fe0a29ebe3d00ba\output\AndroidManifest.xml:25:5-20
-MERGED from [com.android.support:appcompat-v7:25.1.1] C:\Users\jkc1\.android\build-cache\a9fe11b7fe8b9b73ee1659953ce81ccc4ba96c6e\output\AndroidManifest.xml:25:5-20
-MERGED from [com.android.support:animated-vector-drawable:25.1.1] C:\Users\jkc1\.android\build-cache\c66f1a047c1a97a9ff0d12e67447e4b2ee578972\output\AndroidManifest.xml:22:5-20
-MERGED from [com.android.support:support-vector-drawable:25.1.1] C:\Users\jkc1\.android\build-cache\1891838e580eca9c51bdab7537428fa372320a8b\output\AndroidManifest.xml:23:5-20
-MERGED from [com.android.support:transition:25.1.1] C:\Users\jkc1\.android\build-cache\a99a2351833a8bc044bdf6ffa505077a4f986c26\output\AndroidManifest.xml:22:5-20
-MERGED from [com.android.support:support-v4:25.1.1] C:\Users\jkc1\.android\build-cache\8add07b16454227f04405e1ae21c37ba087b9b65\output\AndroidManifest.xml:25:5-20
-MERGED from [com.android.support:support-fragment:25.1.1] C:\Users\jkc1\.android\build-cache\fe766016a4bca532daccb21a9ddd1bdf33e6ff5f\output\AndroidManifest.xml:25:5-20
-MERGED from [com.android.support:support-media-compat:25.1.1] C:\Users\jkc1\.android\build-cache\7d645183921da5ad621ff86066b122364daaccfd\output\AndroidManifest.xml:25:5-20
-MERGED from [com.android.support:support-core-ui:25.1.1] C:\Users\jkc1\.android\build-cache\421c126395f9a7efac0237fa46593559c139f23f\output\AndroidManifest.xml:25:5-20
-MERGED from [com.android.support:support-core-utils:25.1.1] C:\Users\jkc1\.android\build-cache\5815c0e55aaf7a92e9c35928a8d1db480d449b67\output\AndroidManifest.xml:25:5-20
-MERGED from [com.android.support:support-compat:25.1.1] C:\Users\jkc1\.android\build-cache\36a61d38839ab9f4d4981f2f5439664fac2b62b4\output\AndroidManifest.xml:25:5-20
+ADDED from C:\Users\Victor Mai\Documents\School Logistics\Comp. 301\Harambe\app\src\main\AndroidManifest.xml:7:5-42:19
+MERGED from [com.android.support:design:25.1.1] C:\Users\Victor Mai\.android\build-cache\cd5645fcd0445aba95c20ae708c9ae3943d4d9de\output\AndroidManifest.xml:25:5-20
+MERGED from [com.android.support:appcompat-v7:25.1.1] C:\Users\Victor Mai\.android\build-cache\d80c8c4118f503628b65fbc6efcef52166b54839\output\AndroidManifest.xml:25:5-20
+MERGED from [com.android.support:animated-vector-drawable:25.1.1] C:\Users\Victor Mai\.android\build-cache\5b637184c9673263c2dba12a725356208d35690f\output\AndroidManifest.xml:22:5-20
+MERGED from [com.android.support:support-vector-drawable:25.1.1] C:\Users\Victor Mai\.android\build-cache\7e3c0ae2a748ab860a3c2e9d3e23923a8cd6f307\output\AndroidManifest.xml:23:5-20
+MERGED from [com.android.support:transition:25.1.1] C:\Users\Victor Mai\.android\build-cache\83132ce6b73affc739ab94bf49b5dbba72631f2a\output\AndroidManifest.xml:22:5-20
+MERGED from [com.android.support:support-v4:25.1.1] C:\Users\Victor Mai\.android\build-cache\a475bc66eb1cfd55496e01acc2044fee1d318171\output\AndroidManifest.xml:25:5-20
+MERGED from [com.android.support:support-fragment:25.1.1] C:\Users\Victor Mai\.android\build-cache\fe64c91d628a531e5149deefa420f20a5316f352\output\AndroidManifest.xml:25:5-20
+MERGED from [com.android.support:support-media-compat:25.1.1] C:\Users\Victor Mai\.android\build-cache\80f6a5e80990ba322eae7d1f4f48752d0b4aa617\output\AndroidManifest.xml:25:5-20
+MERGED from [com.android.support:support-core-ui:25.1.1] C:\Users\Victor Mai\.android\build-cache\dbf6855a7fb9059b5afa9a164ad6a5d0f03102b0\output\AndroidManifest.xml:25:5-20
+MERGED from [com.android.support:support-core-utils:25.1.1] C:\Users\Victor Mai\.android\build-cache\ae2fde7a66ea4564724752134e7ea78c5bc837b2\output\AndroidManifest.xml:25:5-20
+MERGED from [com.android.support:support-compat:25.1.1] C:\Users\Victor Mai\.android\build-cache\34d4ac0050249973ea54ed2daabd6690e36157f3\output\AndroidManifest.xml:25:5-20
 	android:label
-		ADDED from C:\Users\jkc1\Documents\School\17W\301C\harambe\app\src\main\AndroidManifest.xml:10:9-41
+		ADDED from C:\Users\Victor Mai\Documents\School Logistics\Comp. 301\Harambe\app\src\main\AndroidManifest.xml:10:9-41
 	android:supportsRtl
-		ADDED from C:\Users\jkc1\Documents\School\17W\301C\harambe\app\src\main\AndroidManifest.xml:11:9-35
+		ADDED from C:\Users\Victor Mai\Documents\School Logistics\Comp. 301\Harambe\app\src\main\AndroidManifest.xml:11:9-35
 	android:allowBackup
-		ADDED from C:\Users\jkc1\Documents\School\17W\301C\harambe\app\src\main\AndroidManifest.xml:8:9-35
+		ADDED from C:\Users\Victor Mai\Documents\School Logistics\Comp. 301\Harambe\app\src\main\AndroidManifest.xml:8:9-35
 	android:icon
-		ADDED from C:\Users\jkc1\Documents\School\17W\301C\harambe\app\src\main\AndroidManifest.xml:9:9-43
+		ADDED from C:\Users\Victor Mai\Documents\School Logistics\Comp. 301\Harambe\app\src\main\AndroidManifest.xml:9:9-43
 	android:theme
-		ADDED from C:\Users\jkc1\Documents\School\17W\301C\harambe\app\src\main\AndroidManifest.xml:12:9-40
+		ADDED from C:\Users\Victor Mai\Documents\School Logistics\Comp. 301\Harambe\app\src\main\AndroidManifest.xml:12:9-40
 activity#com.example.moodly.MainActivity
-ADDED from C:\Users\jkc1\Documents\School\17W\301C\harambe\app\src\main\AndroidManifest.xml:13:9-22:20
+ADDED from C:\Users\Victor Mai\Documents\School Logistics\Comp. 301\Harambe\app\src\main\AndroidManifest.xml:13:9-22:20
 	android:name
-		ADDED from C:\Users\jkc1\Documents\School\17W\301C\harambe\app\src\main\AndroidManifest.xml:13:19-47
+		ADDED from C:\Users\Victor Mai\Documents\School Logistics\Comp. 301\Harambe\app\src\main\AndroidManifest.xml:13:19-47
 activity#com.example.moodly.ViewMoodList
-ADDED from C:\Users\jkc1\Documents\School\17W\301C\harambe\app\src\main\AndroidManifest.xml:23:9-32:20
+ADDED from C:\Users\Victor Mai\Documents\School Logistics\Comp. 301\Harambe\app\src\main\AndroidManifest.xml:23:9-32:20
 	android:label
-		ADDED from C:\Users\jkc1\Documents\School\17W\301C\harambe\app\src\main\AndroidManifest.xml:25:13-66
+		ADDED from C:\Users\Victor Mai\Documents\School Logistics\Comp. 301\Harambe\app\src\main\AndroidManifest.xml:25:13-66
 	android:theme
-		ADDED from C:\Users\jkc1\Documents\School\17W\301C\harambe\app\src\main\AndroidManifest.xml:26:13-56
+		ADDED from C:\Users\Victor Mai\Documents\School Logistics\Comp. 301\Harambe\app\src\main\AndroidManifest.xml:26:13-56
 	android:name
-		ADDED from C:\Users\jkc1\Documents\School\17W\301C\harambe\app\src\main\AndroidManifest.xml:24:13-41
+		ADDED from C:\Users\Victor Mai\Documents\School Logistics\Comp. 301\Harambe\app\src\main\AndroidManifest.xml:24:13-41
 intent-filter#android.intent.action.MAIN+android.intent.category.LAUNCHER
-ADDED from C:\Users\jkc1\Documents\School\17W\301C\harambe\app\src\main\AndroidManifest.xml:27:13-31:29
+ADDED from C:\Users\Victor Mai\Documents\School Logistics\Comp. 301\Harambe\app\src\main\AndroidManifest.xml:27:13-31:29
 action#android.intent.action.MAIN
-ADDED from C:\Users\jkc1\Documents\School\17W\301C\harambe\app\src\main\AndroidManifest.xml:28:17-69
+ADDED from C:\Users\Victor Mai\Documents\School Logistics\Comp. 301\Harambe\app\src\main\AndroidManifest.xml:28:17-69
 	android:name
-		ADDED from C:\Users\jkc1\Documents\School\17W\301C\harambe\app\src\main\AndroidManifest.xml:28:25-66
+		ADDED from C:\Users\Victor Mai\Documents\School Logistics\Comp. 301\Harambe\app\src\main\AndroidManifest.xml:28:25-66
 category#android.intent.category.LAUNCHER
-ADDED from C:\Users\jkc1\Documents\School\17W\301C\harambe\app\src\main\AndroidManifest.xml:30:17-77
+ADDED from C:\Users\Victor Mai\Documents\School Logistics\Comp. 301\Harambe\app\src\main\AndroidManifest.xml:30:17-77
 	android:name
-		ADDED from C:\Users\jkc1\Documents\School\17W\301C\harambe\app\src\main\AndroidManifest.xml:30:27-74
+		ADDED from C:\Users\Victor Mai\Documents\School Logistics\Comp. 301\Harambe\app\src\main\AndroidManifest.xml:30:27-74
 activity#com.example.moodly.SocialBase
-ADDED from C:\Users\jkc1\Documents\School\17W\301C\harambe\app\src\main\AndroidManifest.xml:33:9-37:20
+ADDED from C:\Users\Victor Mai\Documents\School Logistics\Comp. 301\Harambe\app\src\main\AndroidManifest.xml:33:9-37:20
 	android:label
-		ADDED from C:\Users\jkc1\Documents\School\17W\301C\harambe\app\src\main\AndroidManifest.xml:35:13-66
+		ADDED from C:\Users\Victor Mai\Documents\School Logistics\Comp. 301\Harambe\app\src\main\AndroidManifest.xml:35:13-66
 	android:theme
-		ADDED from C:\Users\jkc1\Documents\School\17W\301C\harambe\app\src\main\AndroidManifest.xml:36:13-56
+		ADDED from C:\Users\Victor Mai\Documents\School Logistics\Comp. 301\Harambe\app\src\main\AndroidManifest.xml:36:13-56
 	android:name
-		ADDED from C:\Users\jkc1\Documents\School\17W\301C\harambe\app\src\main\AndroidManifest.xml:34:13-39
+		ADDED from C:\Users\Victor Mai\Documents\School Logistics\Comp. 301\Harambe\app\src\main\AndroidManifest.xml:34:13-39
 activity#com.example.moodly.ViewMood
-ADDED from C:\Users\jkc1\Documents\School\17W\301C\harambe\app\src\main\AndroidManifest.xml:38:9-41:59
+ADDED from C:\Users\Victor Mai\Documents\School Logistics\Comp. 301\Harambe\app\src\main\AndroidManifest.xml:38:9-41:59
 	android:label
-		ADDED from C:\Users\jkc1\Documents\School\17W\301C\harambe\app\src\main\AndroidManifest.xml:40:13-61
+		ADDED from C:\Users\Victor Mai\Documents\School Logistics\Comp. 301\Harambe\app\src\main\AndroidManifest.xml:40:13-61
 	android:theme
-		ADDED from C:\Users\jkc1\Documents\School\17W\301C\harambe\app\src\main\AndroidManifest.xml:41:13-56
+		ADDED from C:\Users\Victor Mai\Documents\School Logistics\Comp. 301\Harambe\app\src\main\AndroidManifest.xml:41:13-56
 	android:name
-		ADDED from C:\Users\jkc1\Documents\School\17W\301C\harambe\app\src\main\AndroidManifest.xml:39:13-37
+		ADDED from C:\Users\Victor Mai\Documents\School Logistics\Comp. 301\Harambe\app\src\main\AndroidManifest.xml:39:13-37
 uses-sdk
-INJECTED from C:\Users\jkc1\Documents\School\17W\301C\harambe\app\src\main\AndroidManifest.xml reason: use-sdk injection requested
-MERGED from [com.android.support:design:25.1.1] C:\Users\jkc1\.android\build-cache\bbc11f02528c2f6cb3c63f7a5fe0a29ebe3d00ba\output\AndroidManifest.xml:21:5-23:62
-MERGED from [com.android.support:appcompat-v7:25.1.1] C:\Users\jkc1\.android\build-cache\a9fe11b7fe8b9b73ee1659953ce81ccc4ba96c6e\output\AndroidManifest.xml:21:5-23:78
-MERGED from [com.android.support:animated-vector-drawable:25.1.1] C:\Users\jkc1\.android\build-cache\c66f1a047c1a97a9ff0d12e67447e4b2ee578972\output\AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:support-vector-drawable:25.1.1] C:\Users\jkc1\.android\build-cache\1891838e580eca9c51bdab7537428fa372320a8b\output\AndroidManifest.xml:21:5-43
-MERGED from [com.android.support:recyclerview-v7:25.1.1] C:\Users\jkc1\.android\build-cache\4a72f7014a81787e20776fc1df1d346104db3bb1\output\AndroidManifest.xml:20:5-43
-MERGED from [com.android.support:transition:25.1.1] C:\Users\jkc1\.android\build-cache\a99a2351833a8bc044bdf6ffa505077a4f986c26\output\AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:support-v4:25.1.1] C:\Users\jkc1\.android\build-cache\8add07b16454227f04405e1ae21c37ba087b9b65\output\AndroidManifest.xml:21:5-23:54
-MERGED from [com.android.support:support-fragment:25.1.1] C:\Users\jkc1\.android\build-cache\fe766016a4bca532daccb21a9ddd1bdf33e6ff5f\output\AndroidManifest.xml:21:5-23:60
-MERGED from [com.android.support:support-media-compat:25.1.1] C:\Users\jkc1\.android\build-cache\7d645183921da5ad621ff86066b122364daaccfd\output\AndroidManifest.xml:21:5-23:63
-MERGED from [com.android.support:support-core-ui:25.1.1] C:\Users\jkc1\.android\build-cache\421c126395f9a7efac0237fa46593559c139f23f\output\AndroidManifest.xml:21:5-23:58
-MERGED from [com.android.support:support-core-utils:25.1.1] C:\Users\jkc1\.android\build-cache\5815c0e55aaf7a92e9c35928a8d1db480d449b67\output\AndroidManifest.xml:21:5-23:61
-MERGED from [com.android.support:support-compat:25.1.1] C:\Users\jkc1\.android\build-cache\36a61d38839ab9f4d4981f2f5439664fac2b62b4\output\AndroidManifest.xml:21:5-23:58
+INJECTED from C:\Users\Victor Mai\Documents\School Logistics\Comp. 301\Harambe\app\src\main\AndroidManifest.xml reason: use-sdk injection requested
+MERGED from [com.android.support:design:25.1.1] C:\Users\Victor Mai\.android\build-cache\cd5645fcd0445aba95c20ae708c9ae3943d4d9de\output\AndroidManifest.xml:21:5-23:62
+MERGED from [com.android.support:appcompat-v7:25.1.1] C:\Users\Victor Mai\.android\build-cache\d80c8c4118f503628b65fbc6efcef52166b54839\output\AndroidManifest.xml:21:5-23:78
+MERGED from [com.android.support:animated-vector-drawable:25.1.1] C:\Users\Victor Mai\.android\build-cache\5b637184c9673263c2dba12a725356208d35690f\output\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-vector-drawable:25.1.1] C:\Users\Victor Mai\.android\build-cache\7e3c0ae2a748ab860a3c2e9d3e23923a8cd6f307\output\AndroidManifest.xml:21:5-43
+MERGED from [com.android.support:recyclerview-v7:25.1.1] C:\Users\Victor Mai\.android\build-cache\136ee08fe09406f39fff711d9b4bb865465b38bc\output\AndroidManifest.xml:20:5-43
+MERGED from [com.android.support:transition:25.1.1] C:\Users\Victor Mai\.android\build-cache\83132ce6b73affc739ab94bf49b5dbba72631f2a\output\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-v4:25.1.1] C:\Users\Victor Mai\.android\build-cache\a475bc66eb1cfd55496e01acc2044fee1d318171\output\AndroidManifest.xml:21:5-23:54
+MERGED from [com.android.support:support-fragment:25.1.1] C:\Users\Victor Mai\.android\build-cache\fe64c91d628a531e5149deefa420f20a5316f352\output\AndroidManifest.xml:21:5-23:60
+MERGED from [com.android.support:support-media-compat:25.1.1] C:\Users\Victor Mai\.android\build-cache\80f6a5e80990ba322eae7d1f4f48752d0b4aa617\output\AndroidManifest.xml:21:5-23:63
+MERGED from [com.android.support:support-core-ui:25.1.1] C:\Users\Victor Mai\.android\build-cache\dbf6855a7fb9059b5afa9a164ad6a5d0f03102b0\output\AndroidManifest.xml:21:5-23:58
+MERGED from [com.android.support:support-core-utils:25.1.1] C:\Users\Victor Mai\.android\build-cache\ae2fde7a66ea4564724752134e7ea78c5bc837b2\output\AndroidManifest.xml:21:5-23:61
+MERGED from [com.android.support:support-compat:25.1.1] C:\Users\Victor Mai\.android\build-cache\34d4ac0050249973ea54ed2daabd6690e36157f3\output\AndroidManifest.xml:21:5-23:58
 	tools:overrideLibrary
-		ADDED from [com.android.support:design:25.1.1] C:\Users\jkc1\.android\build-cache\bbc11f02528c2f6cb3c63f7a5fe0a29ebe3d00ba\output\AndroidManifest.xml:23:9-59
+		ADDED from [com.android.support:design:25.1.1] C:\Users\Victor Mai\.android\build-cache\cd5645fcd0445aba95c20ae708c9ae3943d4d9de\output\AndroidManifest.xml:23:9-59
 	android:targetSdkVersion
-		INJECTED from C:\Users\jkc1\Documents\School\17W\301C\harambe\app\src\main\AndroidManifest.xml
-		INJECTED from C:\Users\jkc1\Documents\School\17W\301C\harambe\app\src\main\AndroidManifest.xml
+		INJECTED from C:\Users\Victor Mai\Documents\School Logistics\Comp. 301\Harambe\app\src\main\AndroidManifest.xml
+		INJECTED from C:\Users\Victor Mai\Documents\School Logistics\Comp. 301\Harambe\app\src\main\AndroidManifest.xml
 	android:minSdkVersion
-		INJECTED from C:\Users\jkc1\Documents\School\17W\301C\harambe\app\src\main\AndroidManifest.xml
-		INJECTED from C:\Users\jkc1\Documents\School\17W\301C\harambe\app\src\main\AndroidManifest.xml
+		INJECTED from C:\Users\Victor Mai\Documents\School Logistics\Comp. 301\Harambe\app\src\main\AndroidManifest.xml
+		INJECTED from C:\Users\Victor Mai\Documents\School Logistics\Comp. 301\Harambe\app\src\main\AndroidManifest.xml
