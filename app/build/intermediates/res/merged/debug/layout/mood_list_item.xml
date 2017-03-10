@@ -15,4 +15,10 @@
         android:layout_height="wrap_content"
         android:text="placeholder"/>
 
+    <ImageView
+        android:id="@+id/emoji"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:src= "@drawable/afraid"/>
+
 </LinearLayout>

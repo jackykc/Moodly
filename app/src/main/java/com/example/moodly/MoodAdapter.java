@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -61,6 +62,7 @@ public class MoodAdapter extends ArrayAdapter<Mood> {
 
         holder.emotion = (TextView) row.findViewById(R.id.mood_emotion);
         holder.date = (TextView) row.findViewById(R.id.mood_date);
+        holder.emoji = (ImageView) row.findViewById(R.id.emoji);
 
         setupItem(holder);
 
@@ -75,6 +77,7 @@ public class MoodAdapter extends ArrayAdapter<Mood> {
         String emotionString = toStringEmotion(holder.mood.getEmotion());
         holder.emotion.setText(emotionString);
         holder.date.setText(holder.mood.getOwner());
+        emotionToEmoji(holder.emoji, holder.mood.getEmotion());
     }
 
     /**
@@ -82,6 +85,38 @@ public class MoodAdapter extends ArrayAdapter<Mood> {
      * @param emotion an enum of emotions
      * @return a string repesentation of our emotion
      */
+
+    private void emotionToEmoji (ImageView emoji, int emotion){
+        switch (emotion) {
+            case 1:
+                emoji.setImageResource(R.drawable.angry);
+                break;
+            case 2:
+                emoji.setImageResource(R.drawable.confused);
+                break;
+            case 3:
+                emoji.setImageResource(R.drawable.disgust);
+                break;
+            case 4:
+                emoji.setImageResource(R.drawable.afraid);
+                break;
+            case 5:
+                emoji.setImageResource(R.drawable.happy);
+                break;
+            case 6:
+                emoji.setImageResource(R.drawable.sad);
+                break;
+            case 7:
+                emoji.setImageResource(R.drawable.shame);
+                break;
+            case 8:
+                emoji.setImageResource(R.drawable.surprise);
+                break;
+            default:
+                break;
+        }
+    }
+
     private String toStringEmotion(int emotion) {
         switch (emotion) {
             case 1:
