@@ -22,17 +22,30 @@ public class ViewMood extends AppCompatActivity {
 
     private Mood mood;
     private EditText editReasonText;
+    private EditText editDate;
+
+    private Spinner emotionSpinner;
+    private Spinner socialSituationSpinner;
+    private Button saveButton;
+
+    private int position = -1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_mood);
-        Button saveButton = (Button) findViewById(R.id.save_button);
-        EditText editDate = (EditText) findViewById(R.id.edit_date);
-        editReasonText = (EditText) findViewById(R.id.edit_reason_text);
-        // Taken from http://stackoverflow.com/questions/13408419/how-do-i-tell-if-intent-extras-exist-in-android 3/8/2017 22:08
-        //https://www.tutorialspoint.com/android/android_spinner_control.htm
-        final Spinner emotionSpinner = (Spinner) findViewById(R.id.spinner_emotion);
+
+        mood = MoodController.getInstance().getMood();
+        position = getIntent().getIntExtra("MOOD_POSITION", -1);
+
+        setViews();
+
+        setListeners();
+
+    }
+
+    protected  void setSpinners() {
+
         /*do we want to hardcode the following?
         * there probably is a better way to do this using the string resource file*/
         ArrayList<String> emotionList = new ArrayList<>();
@@ -49,18 +62,9 @@ public class ViewMood extends AppCompatActivity {
         ArrayAdapter<String> emotionAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, emotionList);
         emotionAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         emotionSpinner.setAdapter(emotionAdapter);
-        mood = MoodController.getInstance().getMood();
 
 
         // get views
-        editDate = (EditText) findViewById(R.id.edit_date);
-        editReasonText = (EditText) findViewById(R.id.edit_reason_text);
-
-        // set views
-        editDate.setText(mood.getDate().toString(), TextView.BufferType.EDITABLE);
-        editReasonText.setText(mood.getReasonText(), TextView.BufferType.EDITABLE);
-
-        final Spinner socialSituationSpinner = (Spinner) findViewById(R.id.spinner_SS);
         ArrayList<String> ssList = new ArrayList<>();
         ssList.add("Choose a social situation");
         ssList.add("Alone");
@@ -71,29 +75,31 @@ public class ViewMood extends AppCompatActivity {
         ArrayAdapter<String> ssAdapter = new ArrayAdapter<>(this,android.R.layout.simple_spinner_item,ssList);
         ssAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         socialSituationSpinner.setAdapter(ssAdapter);
-        Intent intent = getIntent();
-        boolean newMood = intent.hasExtra("PLACEHOLDER_MOOD");
+    }
 
-        if (newMood == false){
-            boolean oldMood = intent.hasExtra("selected_mood");
-            if (oldMood == true){
-                mood = MoodController.getInstance().getMood();
-                //http://stackoverflow.com/questions/11072576/set-selected-item-of-spinner-programmatically 3/8/2017
-                //String oldEmotion = toStringEmotion(mood.getEmotion());
-                //String oldSS = toStringSS(mood.getSocialSituation());
-                String oldEmotion = Integer.toString(mood.getEmotion());
-                String oldSS = Integer.toString(mood.getSocialSituation());
+    protected void setViews() {
+        saveButton = (Button) findViewById(R.id.save_button);
 
-                emotionSpinner.setSelection(emotionList.indexOf(oldEmotion));
-                socialSituationSpinner.setSelection(ssList.indexOf(oldSS));
-            }
-        }
-        else{
-            mood = getIntent().getParcelableExtra("PLACEHOLDER_MOOD");
-        }
-        editDate.setText(mood.getDate().toString());
-        editReasonText.setText(mood.getReasonText());
+        editDate = (EditText) findViewById(R.id.edit_date);
+        editReasonText = (EditText) findViewById(R.id.edit_reason_text);
 
+        editDate.setText(mood.getDate().toString(), TextView.BufferType.EDITABLE);
+        editReasonText.setText(mood.getReasonText(), TextView.BufferType.EDITABLE);
+
+        // Taken from http://stackoverflow.com/questions/13408419/how-do-i-tell-if-intent-extras-exist-in-android 3/8/2017 22:08
+        //https://www.tutorialspoint.com/android/android_spinner_control.htm
+        emotionSpinner = (Spinner) findViewById(R.id.spinner_emotion);
+        socialSituationSpinner = (Spinner) findViewById(R.id.spinner_SS);
+
+        setSpinners();
+
+        emotionSpinner.setSelection(mood.getEmotion());
+        socialSituationSpinner.setSelection(mood.getSocialSituation());
+
+    }
+    // inherit from a view only class?
+    //@Override
+    protected void setListeners() {
         saveButton.setOnClickListener(new View.OnClickListener() {
 
             public void onClick(View v) {
@@ -110,7 +116,7 @@ public class ViewMood extends AppCompatActivity {
 
                 Emotion check = NONE;
                 if (emotionEnumCheck == check) {
-                   // http://stackoverflow.com/questions/28235689/how-can-an-error-message-be-set-for-the-spinner-in-android 3/8/2017
+                    // http://stackoverflow.com/questions/28235689/how-can-an-error-message-be-set-for-the-spinner-in-android 3/8/2017
                     TextView errorText = (TextView) emotionSpinner.getSelectedView();
                     errorText.setError("");
                     errorText.setTextColor(Color.RED);
@@ -126,10 +132,10 @@ public class ViewMood extends AppCompatActivity {
                     mood.setEmotion(emotionEnum);
                     mood.setSocialSituation(socialEnum);
 
+                    // needed to set the mood?
                     MoodController.getInstance().setMood(mood);
-                    MoodController.getInstance().addMood(mood);
-                    MoodController.AddMoodTask addMoodTask = new MoodController.AddMoodTask();
-                    addMoodTask.execute(mood);
+                    MoodController.getInstance().addMood(position, mood);
+                    //MoodController.getInstance().editMood();
 
                     Intent output = new Intent(ViewMood.this, ViewMoodList.class);
 
@@ -140,8 +146,9 @@ public class ViewMood extends AppCompatActivity {
 
         });
 
+
     }
-    private String toStringEmotion(Emotion emotion) {
+        private String toStringEmotion(Emotion emotion) {
         switch (emotion) {
             case ANGER:
                 return "Anger";

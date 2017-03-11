@@ -108,6 +108,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
+import io.searchbox.core.Delete;
 import io.searchbox.core.DocumentResult;
 import io.searchbox.core.Index;
 import io.searchbox.core.Search;
@@ -169,17 +170,52 @@ public class MoodController {
     /* ---------- Controller Functions ---------- */
 
     // adds the current mood in the controller
-    public void addMood(Mood m){
-        instance.moodList.add(0, m);
+    public void addMood(int position, Mood m){
+        if (position == -1) {
+            // add to offline temporary list of moods
+            instance.moodList.add(0, m);
+        } else {
+            // maybe do a check for out of range here?
+            instance.moodList.set(position, m);
+        }
+        // add to elastic search
+        MoodController.AddMoodTask addMoodTask = new MoodController.AddMoodTask();
+        addMoodTask.execute(m);
+
     }
 
-    public void editMood (int position, Mood newMood) {
-        moodList.remove(position);
-        moodList.add(position, newMood);
-    }
 
     public void deleteMood(int position) {
-        moodList.remove(position);
+
+        Mood m = moodList.get(position);
+
+        instance.moodList.remove(position);
+        MoodController.DeketeMoodTask deleteMoodTask = new MoodController.DeketeMoodTask();
+        deleteMoodTask.execute(m);
+
+    }
+
+    public void editMood (int position, Mood m) {
+
+        instance.moodList.set(position, m);
+
+        MoodController.AddMoodTask addMoodTask = new MoodController.AddMoodTask();
+        addMoodTask.execute(m);
+
+    }
+
+    public ArrayList<Mood> getMoodList () {
+
+        MoodController.GetMoodTask getMoodTask = new MoodController.GetMoodTask();
+        getMoodTask.execute("Jacky");
+        // do I need to construct the array list or can i just declare it?
+        ArrayList<Mood> tempMoodList = new ArrayList<Mood>();
+        try {
+            tempMoodList = getMoodTask.get();
+        } catch (Exception e) {
+            Log.i("Error", "Failed to get mood out of async object");
+        }
+        return tempMoodList;
     }
 
     public Mood getMood() {
@@ -191,7 +227,7 @@ public class MoodController {
     /* ---------- Elastic Search Requests ---------- */
 
     // this adds the mood onto elastic search server
-    public static class AddMoodTask extends AsyncTask<Mood, Void, Void> {
+    private static class AddMoodTask extends AsyncTask<Mood, Void, Void> {
 
         int completion = 0;
         @Override
@@ -205,8 +241,17 @@ public class MoodController {
                 try {
                     DocumentResult result = client.execute(index);
                     if (result.isSucceeded()) {
-                        mood.setId(result.getId());
-                        moodList.add(mood);
+                        if (mood.getId() == null) {
+                            mood.setId(result.getId());
+                            // assumption method addMood always runs before this
+                            // if the id is not set, set it
+                            if(moodList.get(0).getId() == null) {
+                                moodList.get(0).setId(result.getId());
+                            }
+
+                        }
+
+
                     } else {
                         Log.i("Error", "Elasticsearch was not able to add the mood");
                     }
@@ -222,7 +267,40 @@ public class MoodController {
         }
     }
 
-    public static class GetMoodTask extends AsyncTask<String, Void, ArrayList<Mood>> {
+    private static class DeketeMoodTask extends AsyncTask<Mood, Void, Boolean> {
+
+        int completion = 0;
+        @Override
+        protected Boolean doInBackground(Mood... moods){
+            verifySettings();
+
+            for(Mood mood : moods) {
+
+                // Did I include id twice?
+                // if it works don't change it?
+                Delete delete = new Delete.Builder(mood.getId()).index("cmput301w17t20").type("mood").id(mood.getId()).build();
+
+                try {
+                    DocumentResult result = client.execute(delete);
+                    if (result.isSucceeded()) {
+                        return true;
+                    } else {
+                        Log.i("Error", "Elasticsearch was not able to delete the mood");
+                    }
+                    // where is the client?
+                }
+                catch (Exception e) {
+                    Log.i("Error", "The application failed to build and delete the mood");
+                }
+
+            }
+
+            return false;
+        }
+    }
+
+
+    private static class GetMoodTask extends AsyncTask<String, Void, ArrayList<Mood>> {
         @Override
         protected ArrayList<Mood> doInBackground(String... search_parameters) {
             verifySettings();
@@ -281,6 +359,8 @@ public class MoodController {
         filteredList = (ArrayList<Mood>) moodList.clone();
     }
 
+    // we can do binary search on this btw
+    // and don't we have to sort it too?
 //    LEAVE THIS COMMENTED OUT FOR NOW, USE WHEN WE HAVE ABILITY TO FILTER IN GUI
 //    protected ArrayList<Mood> filterByDate(Date startDate, Date endDate) {
 //        ArrayList<Mood> result = new ArrayList<>();

@@ -51,6 +51,8 @@ public class TabHistory extends TabBase {
         displayMoodList.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, final int position, long id) {
+
+                // why do we need this?
                 final Mood mood = moodList.get(position);
                 AlertDialog.Builder adb = new AlertDialog.Builder(getActivity());
                 adb.setMessage("Selecting mood to");
@@ -58,17 +60,19 @@ public class TabHistory extends TabBase {
                 adb.setPositiveButton("Delete", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        moodList.remove(mood);
-                        adapter.notifyDataSetChanged();
-                        displayMoodList.requestLayout();
+                        MoodController.getInstance().deleteMood(position);
+                        refreshOffline();
+
                     }
                 });
                 adb.setNegativeButton("View/Edit", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         Intent intent = new Intent(getActivity(), ViewMood.class);
-                        MoodController.getInstance().setMood(new Mood());
-                        startActivity(intent);
+                        // 2 means edit
+                        intent.putExtra("MOOD_POSITION", position);
+                        MoodController.getInstance().setMood(mood);
+                        startActivityForResult(intent, 0);
                     }
                 });
                 adb.show();
@@ -83,6 +87,8 @@ public class TabHistory extends TabBase {
 
                 MoodController.getInstance().setMood(new Mood());
                 Intent intent = new Intent(getActivity(), ViewMood.class);
+                // 1 means add
+                intent.putExtra("MOOD_POSITION", -1);
                 startActivityForResult(intent, 0);
 
             }
@@ -105,14 +111,15 @@ public class TabHistory extends TabBase {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
+//
+//         below is just for debugging
+//        Context debugContext = getContext();
+//        CharSequence debugText = "Adding mood";
+//        int duration = Toast.LENGTH_SHORT;
+//        Toast toast = Toast.makeText(debugContext, debugText, duration);
+//        toast.show();
 
-        // below is just for debugging
-        Context debugContext = getContext();
-        CharSequence debugText = "Adding mood";
-        int duration = Toast.LENGTH_SHORT;
-        Toast toast = Toast.makeText(debugContext, debugText, duration);
-        toast.show();
-
+        //refreshOnline();
         refreshOffline();
 
     }

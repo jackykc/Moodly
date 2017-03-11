@@ -69,16 +69,11 @@ public class TabBase extends Fragment {
     }
 
     /* ---------- Refreshing Moods ---------- */
+    // by part 5 of the project these two will be reduced to a single method
 
     protected void refreshOnline() {
-        MoodController.GetMoodTask getMoodTask = new MoodController.GetMoodTask();
-        getMoodTask.execute("Jacky");
-        try {
-            moodList = getMoodTask.get();
-        } catch (Exception e) {
-            Log.i("Error", "Failed to get mood out of async object");
-        }
-
+        // add synchronization elements for part 5 here?
+        moodList = MoodController.getInstance().getMoodList();
 
     }
 
