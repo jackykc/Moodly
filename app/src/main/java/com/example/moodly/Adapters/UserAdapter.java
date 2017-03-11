@@ -1,7 +1,10 @@
-package com.example.moodly;
+package com.example.moodly.Adapters;
 
 import android.content.Context;
 import android.widget.ArrayAdapter;
+
+import com.example.moodly.Adapters.MoodHolder;
+import com.example.moodly.Models.User;
 
 import java.util.ArrayList;
 

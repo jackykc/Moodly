@@ -1,4 +1,4 @@
-package com.example.moodly;
+package com.example.moodly.Models;
 
 import java.util.ArrayList;
 

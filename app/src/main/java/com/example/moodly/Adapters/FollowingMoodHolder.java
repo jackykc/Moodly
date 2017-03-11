@@ -1,4 +1,4 @@
-package com.example.moodly;
+package com.example.moodly.Adapters;
 
 /**
  * Created by mliew on 2017-02-25.

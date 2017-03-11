@@ -1,4 +1,7 @@
-package com.example.moodly;
+package com.example.moodly.Adapters;
+
+import com.example.moodly.Models.Mood;
+import com.example.moodly.Models.User;
 
 import java.util.ArrayList;
 

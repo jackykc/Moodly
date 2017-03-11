@@ -1,4 +1,4 @@
-package com.example.moodly;
+package com.example.moodly.Adapters;
 
 import android.app.Activity;
 import android.content.Context;
@@ -9,9 +9,10 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import java.util.ArrayList;
+import com.example.moodly.Models.Mood;
+import com.example.moodly.R;
 
-import java.util.List;
+import java.util.ArrayList;
 
 /**
  * Created by mliew on 2017-02-25.

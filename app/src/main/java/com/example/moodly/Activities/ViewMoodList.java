@@ -1,4 +1,4 @@
-package com.example.moodly;
+package com.example.moodly.Activities;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,13 +12,12 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import android.view.View;
-import android.view.ViewGroup;
-
-import android.widget.TextView;
 import android.widget.Toast;
 
-import java.util.ArrayList;
+import com.example.moodly.Activities.SocialBase;
+import com.example.moodly.Activities.TabBase;
+import com.example.moodly.Activities.TabHistory;
+import com.example.moodly.R;
 
 public class ViewMoodList extends AppCompatActivity {
 

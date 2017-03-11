@@ -1,10 +1,9 @@
-package com.example.moodly;
+package com.example.moodly.Adapters;
 
-import android.graphics.ImageFormat;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import java.util.Date;
+import com.example.moodly.Models.Mood;
 
 /**
  * Created by mliew on 2017-02-25.

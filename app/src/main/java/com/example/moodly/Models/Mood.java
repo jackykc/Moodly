@@ -174,7 +174,7 @@
 //    }
 //}
 
-package com.example.moodly;
+package com.example.moodly.Models;
 
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -188,31 +188,7 @@ import io.searchbox.annotations.JestId;
  * Created by mliew on 2017-02-25.
  */
 
-/**
- * Enum for emotion
- */
-enum Emotion {
-    NONE,
-    ANGER,
-    CONFUSION,
-    DISGUST,
-    FEAR,
-    HAPPINESS,
-    SADNESS,
-    SHAME,
-    SUPRISE
-}
 
-/**
- * Enum for social situation
- */
-enum SocialSituation {
-    NONE,
-    ALONE,
-    ONE,
-    SEVERAL,
-    CROWD,
-}
 
 public class Mood {
     private Date date;

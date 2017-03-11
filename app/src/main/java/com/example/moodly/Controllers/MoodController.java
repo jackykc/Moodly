@@ -87,25 +87,18 @@
 
 
 
-package com.example.moodly;
+package com.example.moodly.Controllers;
 
 import java.util.ArrayList;
-import java.util.Date;
 
-import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
-import android.widget.Toast;
 
-import com.google.gson.JsonObject;
+import com.example.moodly.Models.Mood;
 import com.searchly.jestdroid.DroidClientConfig;
 import com.searchly.jestdroid.JestClientFactory;
 import com.searchly.jestdroid.JestDroidClient;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
-
-import java.util.ArrayList;
 import java.util.List;
 
 import io.searchbox.core.Delete;

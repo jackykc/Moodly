@@ -40,18 +40,18 @@ MERGED from [com.android.support:support-compat:25.1.1] C:\Users\jkc1\.android\b
 		ADDED from C:\Users\jkc1\Documents\School\17W\301C\harambe\app\src\main\AndroidManifest.xml:9:9-43
 	android:theme
 		ADDED from C:\Users\jkc1\Documents\School\17W\301C\harambe\app\src\main\AndroidManifest.xml:12:9-40
-activity#com.example.moodly.MainActivity
+activity#com.example.moodly.Activities.MainActivity
 ADDED from C:\Users\jkc1\Documents\School\17W\301C\harambe\app\src\main\AndroidManifest.xml:13:9-22:20
 	android:name
-		ADDED from C:\Users\jkc1\Documents\School\17W\301C\harambe\app\src\main\AndroidManifest.xml:13:19-47
-activity#com.example.moodly.ViewMoodList
+		ADDED from C:\Users\jkc1\Documents\School\17W\301C\harambe\app\src\main\AndroidManifest.xml:13:19-58
+activity#com.example.moodly.Activities.ViewMoodList
 ADDED from C:\Users\jkc1\Documents\School\17W\301C\harambe\app\src\main\AndroidManifest.xml:23:9-32:20
 	android:label
 		ADDED from C:\Users\jkc1\Documents\School\17W\301C\harambe\app\src\main\AndroidManifest.xml:25:13-66
 	android:theme
 		ADDED from C:\Users\jkc1\Documents\School\17W\301C\harambe\app\src\main\AndroidManifest.xml:26:13-56
 	android:name
-		ADDED from C:\Users\jkc1\Documents\School\17W\301C\harambe\app\src\main\AndroidManifest.xml:24:13-41
+		ADDED from C:\Users\jkc1\Documents\School\17W\301C\harambe\app\src\main\AndroidManifest.xml:24:13-52
 intent-filter#android.intent.action.MAIN+android.intent.category.LAUNCHER
 ADDED from C:\Users\jkc1\Documents\School\17W\301C\harambe\app\src\main\AndroidManifest.xml:27:13-31:29
 action#android.intent.action.MAIN
@@ -62,22 +62,22 @@ category#android.intent.category.LAUNCHER
 ADDED from C:\Users\jkc1\Documents\School\17W\301C\harambe\app\src\main\AndroidManifest.xml:30:17-77
 	android:name
 		ADDED from C:\Users\jkc1\Documents\School\17W\301C\harambe\app\src\main\AndroidManifest.xml:30:27-74
-activity#com.example.moodly.SocialBase
+activity#com.example.moodly.Activities.SocialBase
 ADDED from C:\Users\jkc1\Documents\School\17W\301C\harambe\app\src\main\AndroidManifest.xml:33:9-37:20
 	android:label
 		ADDED from C:\Users\jkc1\Documents\School\17W\301C\harambe\app\src\main\AndroidManifest.xml:35:13-66
 	android:theme
 		ADDED from C:\Users\jkc1\Documents\School\17W\301C\harambe\app\src\main\AndroidManifest.xml:36:13-56
 	android:name
-		ADDED from C:\Users\jkc1\Documents\School\17W\301C\harambe\app\src\main\AndroidManifest.xml:34:13-39
-activity#com.example.moodly.ViewMood
+		ADDED from C:\Users\jkc1\Documents\School\17W\301C\harambe\app\src\main\AndroidManifest.xml:34:13-50
+activity#com.example.moodly.Activities.ViewMood
 ADDED from C:\Users\jkc1\Documents\School\17W\301C\harambe\app\src\main\AndroidManifest.xml:38:9-41:59
 	android:label
 		ADDED from C:\Users\jkc1\Documents\School\17W\301C\harambe\app\src\main\AndroidManifest.xml:40:13-61
 	android:theme
 		ADDED from C:\Users\jkc1\Documents\School\17W\301C\harambe\app\src\main\AndroidManifest.xml:41:13-56
 	android:name
-		ADDED from C:\Users\jkc1\Documents\School\17W\301C\harambe\app\src\main\AndroidManifest.xml:39:13-37
+		ADDED from C:\Users\jkc1\Documents\School\17W\301C\harambe\app\src\main\AndroidManifest.xml:39:13-48
 uses-sdk
 INJECTED from C:\Users\jkc1\Documents\School\17W\301C\harambe\app\src\main\AndroidManifest.xml reason: use-sdk injection requested
 MERGED from [com.android.support:design:25.1.1] C:\Users\jkc1\.android\build-cache\bbc11f02528c2f6cb3c63f7a5fe0a29ebe3d00ba\output\AndroidManifest.xml:21:5-23:62

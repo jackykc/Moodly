@@ -1,8 +1,7 @@
-package com.example.moodly;
+package com.example.moodly.Activities;
 
 import android.content.Intent;
 import android.graphics.Color;
-import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -13,10 +12,15 @@ import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import java.util.ArrayList;
-import java.util.Date;
+import com.example.moodly.Controllers.MoodController;
+import com.example.moodly.Models.Emotion;
+import com.example.moodly.Models.Mood;
+import com.example.moodly.Models.SocialSituation;
+import com.example.moodly.R;
 
-import static com.example.moodly.Emotion.NONE;
+import java.util.ArrayList;
+
+import static com.example.moodly.Models.Emotion.NONE;
 
 public class ViewMood extends AppCompatActivity {
 
