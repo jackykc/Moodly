@@ -2734,7 +2734,7 @@ containing a value of this type.
         public static final int edit_date=0x7f0d007b;
         public static final int edit_query=0x7f0d0066;
         public static final int edit_reason_text=0x7f0d007e;
-        public static final int emoji=0x7f0d0095;
+        public static final int emoji=0x7f0d0093;
         public static final int end=0x7f0d002a;
         public static final int end_padder=0x7f0d00ac;
         public static final int enterAlways=0x7f0d0019;
@@ -2766,8 +2766,8 @@ containing a value of this type.
         public static final int media_actions=0x7f0d009c;
         public static final int middle=0x7f0d0039;
         public static final int mini=0x7f0d0037;
-        public static final int mood_date=0x7f0d0094;
-        public static final int mood_emotion=0x7f0d0093;
+        public static final int mood_date=0x7f0d0095;
+        public static final int mood_emotion=0x7f0d0094;
         public static final int multiply=0x7f0d001f;
         public static final int navigation_header_container=0x7f0d008a;
         public static final int never=0x7f0d003d;

@@ -153,6 +153,43 @@ public class MoodController {
         return instance;
     }
 
+    // move this out of the mood controller?
+    private static void verifySettings() {
+        if (client == null) {
+            DroidClientConfig.Builder builder = new DroidClientConfig.Builder("http://cmput301.softwareprocess.es:8080");
+
+            DroidClientConfig config = builder.build();
+
+            JestClientFactory factory = new JestClientFactory();
+            factory.setDroidClientConfig(config);
+            client = (JestDroidClient) factory.getObject();
+        }
+    }
+
+    /* ---------- Controller Functions ---------- */
+
+    // adds the current mood in the controller
+    public void addMood(Mood m){
+        instance.moodList.add(0, m);
+    }
+
+    public void editMood (int position, Mood newMood) {
+        moodList.remove(position);
+        moodList.add(position, newMood);
+    }
+
+    public void deleteMood(int position) {
+        moodList.remove(position);
+    }
+
+    public Mood getMood() {
+        return tempMood;
+    }
+    public void setMood(Mood mood) { tempMood = mood;}
+
+
+    /* ---------- Elastic Search Requests ---------- */
+
     // this adds the mood onto elastic search server
     public static class AddMoodTask extends AsyncTask<Mood, Void, Void> {
 
@@ -227,29 +264,23 @@ public class MoodController {
     }
 
 
-    public void addMood(Mood m){
 
-        instance.moodList.add(m);
+//    public String getLocation(int position) {
+//        Mood m = moodList.get(position);
+//        return m.getLocation();
+//    }
+
+    /* ---------- Helpers ---------- */
+
+    public ArrayList<Mood> getFiltered() {
+        this.filter();
+        return this.filteredList;
     }
 
-    public void editMood (int position, Mood newMood) {
-        moodList.remove(position);
-        moodList.add(position, newMood);
+    private void filter(){
+        filteredList = (ArrayList<Mood>) moodList.clone();
     }
 
-    public void deleteMood(int position) {
-        moodList.remove(position);
-    }
-
-    public Mood getMood() {
-        return tempMood;
-    }
-    public void setMood(Mood mood) { tempMood = mood;}
-
-    public String getLocation(int position) {
-        Mood m = moodList.get(position);
-        return m.getLocation();
-    }
 //    LEAVE THIS COMMENTED OUT FOR NOW, USE WHEN WE HAVE ABILITY TO FILTER IN GUI
 //    protected ArrayList<Mood> filterByDate(Date startDate, Date endDate) {
 //        ArrayList<Mood> result = new ArrayList<>();
@@ -281,32 +312,6 @@ public class MoodController {
 //        return result;
 //    }
 
-    public ArrayList<Mood> getFiltered() {
-        this.filter();
-        return this.filteredList;
-    }
-    // ??? make helper functions ?
-    // only filters and sets the filtered list as filteredList
-    // moodList should be the full list
-    // filtering person, good luck
-    // so, currently all this does is set filteredList to reference
-    // each of its elemnts from moodList, this is not a deep copy
-    private void filter(){
 
-        filteredList = (ArrayList<Mood>) moodList.clone();
-    }
 
-    // move this out of the mood controller?
-    private static void verifySettings() {
-        if (client == null) {
-            DroidClientConfig.Builder builder = new DroidClientConfig.Builder("http://cmput301.softwareprocess.es:8080");
-//            DroidClientConfig.Builder builder = new DroidClientConfig.Builder("localhost:9200");
-
-            DroidClientConfig config = builder.build();
-
-            JestClientFactory factory = new JestClientFactory();
-            factory.setDroidClientConfig(config);
-            client = (JestDroidClient) factory.getObject();
-        }
-    }
 }

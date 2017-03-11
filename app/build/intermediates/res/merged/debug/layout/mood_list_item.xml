@@ -3,22 +3,27 @@
     android:orientation="horizontal" android:layout_width="fill_parent"
     android:layout_height="fill_parent">
 
+    <ImageView
+        android:id="@+id/emoji"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_gravity="end"
+        android:layout_marginRight="50dp"
+        android:src="@drawable/afraid" />
+
     <TextView
         android:id="@+id/mood_emotion"
         android:layout_width="100dp"
         android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginRight="50dp"
         android:text="placeholder"/>
 
     <TextView
         android:id="@+id/mood_date"
         android:layout_width="100dp"
         android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
         android:text="placeholder"/>
-
-    <ImageView
-        android:id="@+id/emoji"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:src= "@drawable/afraid"/>
 
 </LinearLayout>

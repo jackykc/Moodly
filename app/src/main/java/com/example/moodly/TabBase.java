@@ -9,6 +9,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,31 +29,70 @@ public class TabBase extends Fragment {
     protected Mood mood;
     protected MoodAdapter adapter;
     protected ListView displayMoodList;
-    protected ArrayList<Mood> moodList;
+    protected ArrayList<Mood> moodList = new ArrayList<Mood>();
+    protected View rootView;
+
+    protected MoodController moodController = MoodController.getInstance();
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        // adapt the moodlist onto our fragment using a custom MoodAdapter
-        View rootView = inflater.inflate(R.layout.mood_history, container, false);
-        displayMoodList = (ListView) rootView.findViewById(R.id.display_mood_list);
+        refreshOnline();
 
-        adapter = new MoodAdapter(getActivity(), R.layout.mood_list_item, MoodController.getInstance().getFiltered());
-        displayMoodList.setAdapter(adapter);
+        setViews(inflater, container);
+        hideViews();
 
-        // this activity should not have the add button
-        FloatingActionButton fab = (FloatingActionButton) rootView.findViewById(R.id.fab);
-        fab.hide();
+        setListeners();
 
         return rootView;
     }
 
+    protected void setViews(LayoutInflater inflater, ViewGroup container) {
+        rootView = inflater.inflate(R.layout.mood_history, container, false);
+        displayMoodList = (ListView) rootView.findViewById(R.id.display_mood_list);
+        adapter = new MoodAdapter(getActivity(), R.layout.mood_list_item, moodList);
+        displayMoodList.setAdapter(adapter);
+
+    }
+
+    // specific to hiding buttons etc from follower list
+    protected void hideViews() {
+        FloatingActionButton fab = (FloatingActionButton) rootView.findViewById(R.id.fab);
+        fab.hide();
+
+    }
+
+    protected void setListeners() {
+
+    }
+
+    /* ---------- Refreshing Moods ---------- */
+
+    protected void refreshOnline() {
+        MoodController.GetMoodTask getMoodTask = new MoodController.GetMoodTask();
+        getMoodTask.execute("Jacky");
+        try {
+            moodList = getMoodTask.get();
+        } catch (Exception e) {
+            Log.i("Error", "Failed to get mood out of async object");
+        }
+
+
+    }
+
+    protected void refreshOffline() {
+        moodList = MoodController.getInstance().getFiltered();
+
+        adapter = new MoodAdapter(getActivity(), R.layout.mood_list_item, moodList);
+        displayMoodList.setAdapter(adapter);
+        // needed ?
+        adapter.notifyDataSetChanged();
+    }
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-
-
-
 
     }
 

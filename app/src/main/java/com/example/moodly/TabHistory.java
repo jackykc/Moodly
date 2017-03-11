@@ -30,29 +30,23 @@ public class TabHistory extends TabBase {
 
     private int index = 0; // this should be used when selecting a mood from the list?
 
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        View rootView = inflater.inflate(R.layout.mood_history, container, false);
-
-        displayMoodList = (ListView) rootView.findViewById(R.id.display_mood_list);
-
-        //////////////////////////////////////////////////////////////////////////
         // tries to get moods from elastic search server
-        MoodController.GetMoodTask getMoodTask = new MoodController.GetMoodTask();
-        getMoodTask.execute("Jacky");
-        try {
-            moodList = getMoodTask.get();
-        } catch (Exception e) {
-            Log.i("Error", "Failed to get mood out of async object");
-        }
+        refreshOnline();
+        setViews(inflater, container);
+        setListeners();
 
-        adapter = new MoodAdapter(getActivity(), R.layout.mood_list_item, moodList);
+        return rootView;
+    }
 
-        //////////////////////////////////////////////////////////////////////////
-        displayMoodList.setAdapter(adapter);
 
+
+    @Override
+    protected void setListeners() {
 
         displayMoodList.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
@@ -94,29 +88,19 @@ public class TabHistory extends TabBase {
             }
         });
 
-        return rootView;
     }
 
-    // problem with this on onCreateView
-    // actually its either this or onCreateView that gets run right after
-    // onActivityResult, it nullifies the add mood being shown as this onStart
-    // resets the adapter with only the first 10 moods
+    // do we need this? maybe checking connection?
     @Override
     public void onStart() {
         super.onStart();
-//
-//        // tries to get moods from elastic search server
-//        MoodController.GetMoodTask getMoodTask = new MoodController.GetMoodTask();
-//        getMoodTask.execute("Jacky");
-//        try {
-//            moodList = getMoodTask.get();
-//        } catch (Exception e) {
-//            Log.i("Error", "Failed to get mood out of async object");
-//        }
-//
-//        adapter = new MoodAdapter(getActivity(), R.layout.mood_list_item, moodList);
-//        displayMoodList.setAdapter(adapter);
 
+    }
+
+    // is this where we should refresh? man i don't know right now
+    @Override
+    public void onResume() {
+        super.onResume();
     }
 
     @Override
@@ -129,14 +113,8 @@ public class TabHistory extends TabBase {
         Toast toast = Toast.makeText(debugContext, debugText, duration);
         toast.show();
 
-        // adds mood to moodlist to display
-        moodList.add(0, MoodController.getInstance().getMood());
+        refreshOffline();
 
-
-        adapter = new MoodAdapter(getActivity(), R.layout.mood_list_item, moodList);
-        displayMoodList.setAdapter(adapter);
-        // needed ?
-        adapter.notifyDataSetChanged();
     }
 
 }

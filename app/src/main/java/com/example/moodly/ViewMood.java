@@ -127,6 +127,7 @@ public class ViewMood extends AppCompatActivity {
                     mood.setSocialSituation(socialEnum);
 
                     MoodController.getInstance().setMood(mood);
+                    MoodController.getInstance().addMood(mood);
                     MoodController.AddMoodTask addMoodTask = new MoodController.AddMoodTask();
                     addMoodTask.execute(mood);
 
