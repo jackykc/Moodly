@@ -97,10 +97,10 @@ public class SocialBase extends AppCompatActivity {
                     TabHistory tab1 = new TabHistory();
                     return tab1;
                 case 1:
-                    TabBase tab2 = new TabBase();
+                    SocialRequestList tab2 = new SocialRequestList();
                     return tab2;
                 case 2:
-                    TabBase tab3 = new TabBase();
+                    SocialFollowingList tab3 = new SocialFollowingList();
                     return  tab3;
                 default:
                     return null;
@@ -119,7 +119,7 @@ public class SocialBase extends AppCompatActivity {
                 case 0:
                     return "Find People";
                 case 1:
-                    return "Follow Requests";
+                    return "Followers";
                 case 2:
                     return "Following";
             }

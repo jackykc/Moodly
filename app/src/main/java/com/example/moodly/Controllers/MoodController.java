@@ -184,10 +184,10 @@ public class MoodController extends ElasticSearchController {
 
     }
 
-    public ArrayList<Mood> getMoodList () {
+    public ArrayList<Mood> getMoodList (ArrayList<String> userList) {
 
         MoodController.GetMoodTask getMoodTask = new MoodController.GetMoodTask();
-        getMoodTask.execute("Jacky");
+        getMoodTask.execute(userList);
         // do I need to construct the array list or can i just declare it?
         ArrayList<Mood> tempMoodList = new ArrayList<Mood>();
         try {
@@ -280,15 +280,36 @@ public class MoodController extends ElasticSearchController {
     }
 
 
-    private static class GetMoodTask extends AsyncTask<String, Void, ArrayList<Mood>> {
+    private static class GetMoodTask extends AsyncTask<ArrayList<String>, Void, ArrayList<Mood>> {
         @Override
-        protected ArrayList<Mood> doInBackground(String... search_parameters) {
+        protected ArrayList<Mood> doInBackground(ArrayList<String>... search_parameters) {
             verifySettings();
+
+            ArrayList<String> usernames = search_parameters[0];
+            // make a string to query with
+            // for example "Jacky OR Melvin"
+            String userNameString = usernames.get(0);
+            for (int i = 1; i < usernames.size(); i++) {
+                userNameString += " OR ";
+                userNameString += usernames.get(i);
+            }
 
             ArrayList<Mood> currentMoodList = new ArrayList<Mood>();
             // hahaha how do i even make a query string?????
-            String query = "{\"sort\": { \"date\": { \"order\": \"desc\"}}}";
+            String query = "{ \n\"query\" : {\n" +
+                                "\"query_string\" : { \n" +
+                                    "\"fields\" : [\"owner\"],\n" +
+                                    "\"query\" : \"" + userNameString + "\"\n" +
+                                "}" +
+                            "\n},";
+            String sort = "\n\"sort\": { \"date\": { \"order\": \"desc\" } }";
+            query += sort;
+            query += " \n} ";
 
+//            String query = "{ \n\"query\" : {\n" +
+//                    "    \"match\" : { \"owner\" : \"" + usernames.get(0) +
+//                    "\"     }\n " +
+//                    "    },\n";
             // TODO Build the query
             Search search = new Search.Builder(query)
                     .addIndex("cmput301w17t20")

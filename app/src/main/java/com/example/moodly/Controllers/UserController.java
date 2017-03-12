@@ -18,14 +18,15 @@ import io.searchbox.core.SearchResult;
 public class UserController extends ElasticSearchController {
 
     private static UserController instance = null;
-    private User currentUser;
-    private static ArrayList<User> followingList;
-    private static ArrayList<User> followerList;
+    private static User currentUser;
+    private User currentUsername = null;
+    private static ArrayList<User> following;
+    private static ArrayList<User> followers;
 
     private UserController() {
-        currentUser = new User();
-        followingList = new ArrayList<User>();
-        followerList = new ArrayList<User>();
+
+        following = new ArrayList<User>();
+        followers = new ArrayList<User>();
     }
 
     public static UserController getInstance() {
@@ -37,10 +38,32 @@ public class UserController extends ElasticSearchController {
         return instance;
     }
 
+
+    public ArrayList<User> getFollowers () {
+        return followers;
+    }
     /* ---------- Controller Functions ---------- */
     public void createUser() {
 
     }
+
+    public User getCurrentUser() {
+
+        if (currentUser == null) {
+            UserController.GetUserTask getUserTask = new UserController.GetUserTask();
+            getUserTask.execute("");
+
+            try {
+                currentUser = getUserTask.get();
+
+            } catch (Exception e) {
+                Log.i("Error", "Cannot get current user out of async object");
+            }
+        }
+
+        return currentUser;
+    }
+
 
     public ArrayList<User> getFollowingList() {
 
@@ -52,7 +75,7 @@ public class UserController extends ElasticSearchController {
 
     /* ---------- Elastic Search Requests ---------- */
     // untested, returns arraylist of users from elastic search
-    private static class GetMoodTask extends AsyncTask<String, Void, ArrayList<User>> {
+    private static class GetUsersTask extends AsyncTask<String, Void, ArrayList<User>> {
 
         @Override
         protected ArrayList<User> doInBackground(String... search_parameters) {
@@ -95,4 +118,60 @@ public class UserController extends ElasticSearchController {
         }
     }
 
+    /* ---------- Elastic Search Requests ---------- */
+    // untested, returns arraylist of users from elastic search
+    private static class GetUserTask extends AsyncTask<String, Void, User> {
+
+        @Override
+        protected User doInBackground(String... search_parameters) {
+            verifySettings();
+
+            ArrayList<User> userList = new ArrayList<User>();
+            // hahaha how do i even make a query string?????
+            String query =
+            "{ \n\"query\" : {\n" +
+                    "    \"match\" : { \"name\" : \"" + "Melvin" +
+                    "\"     }\n " +
+                    "    }\n" +
+                    " } ";
+// TODO Build the query
+            Search search = new Search.Builder(query)
+                    .addIndex("cmput301w17t20")
+                    .addType("user")
+                    .build();
+
+
+            User temp = null;
+            try {
+                // get the results of our query
+                SearchResult result = client.execute(search);
+                if(result.isSucceeded()) {
+                    // hits
+                    List<SearchResult.Hit<User, Void>> foundUsers = result.getHits(User.class);
+                    temp = foundUsers.get(0).source;
+
+                    currentUser = temp;
+
+                } else {
+                    Log.i("Error", "Search query failed to find any moods that matched");
+                }
+            }
+            catch (Exception e) {
+
+            }
+
+            // ??? not needed?
+            return temp;
+        }
+    }
+
 }
+
+//    String query =
+//            "{ \n\"query\" : {\n" +
+//                    "    \"term\" : { \"user\" : \"" + "\"Jacky\"" +
+//                    "\"     }\n " +
+//                    "    }\n" +
+//                    " } ";
+//
+

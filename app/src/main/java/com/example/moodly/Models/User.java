@@ -9,8 +9,8 @@ import java.util.ArrayList;
 public class User {
 
     private String name;
-    private ArrayList<User> follower;
-    private ArrayList<User> following;
+    private ArrayList<String> follower;
+    private ArrayList<String> following;
 
     public User() {
         follower = new ArrayList<>();
@@ -33,15 +33,15 @@ public class User {
         this.name = name;
     }
 
-    public ArrayList<User> getFollower() { return follower; }
+    public ArrayList<String> getFollowers() { return follower; }
 
-    public ArrayList<User> getFollowing() { return following; }
+    public ArrayList<String> getFollowing() { return following; }
 
     public void addFollower(User user){
         //Bug-proof
-        if (!follower.contains(user)){
+        if (!follower.contains(user.getName())){
             //Add my follower
-            follower.add(user);
+            follower.add(user.getName());
 
             //Add the other user following
             user.addFollowing(this);
@@ -50,9 +50,9 @@ public class User {
 
     public void addFollowing(User user){
         //Bug-proof
-        if (!following.contains(user)){
+        if (!following.contains(user.getName())){
             //Add my following
-            following.add(user);
+            following.add(user.getName());
 
             //Add the other user follower
             user.addFollower(this);
