@@ -58,7 +58,7 @@ public class FollowingMoodAdapter extends ArrayAdapter<Mood> {
         LayoutInflater inflater = ((Activity) context).getLayoutInflater();
         row = inflater.inflate(layoutResourceId, parent, false);
 
-        MoodHolder holder = new MoodHolder();
+        holder = new MoodHolder();
         holder.mood = items.get(position);
 
         holder.emotion = (TextView) row.findViewById(R.id.f_mood_emotion);

@@ -9,7 +9,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ListView;
 
+import com.example.moodly.Adapters.MoodAdapter;
 import com.example.moodly.Controllers.MoodController;
 import com.example.moodly.Models.Mood;
 import com.example.moodly.R;
@@ -24,6 +26,7 @@ import com.example.moodly.R;
 public class TabHistory extends TabBase {
 
     private int index = 0; // this should be used when selecting a mood from the list?
+    private MoodAdapter adapter;
 
 
     @Override
@@ -117,6 +120,26 @@ public class TabHistory extends TabBase {
         //refreshOnline();
         refreshOffline();
 
+    }
+
+    @Override
+    protected void setViews(LayoutInflater inflater, ViewGroup container) {
+        rootView = inflater.inflate(R.layout.mood_history, container, false);
+        displayMoodList = (ListView) rootView.findViewById(R.id.display_mood_list);
+        adapter = new MoodAdapter(getActivity(), R.layout.mood_list_item, moodList);
+        displayMoodList.setAdapter(adapter);
+
+    }
+
+    @Override
+
+    protected void refreshOffline() {
+        moodList = MoodController.getInstance().getFiltered();
+
+        adapter = new MoodAdapter(getActivity(), R.layout.mood_list_item, moodList);
+        displayMoodList.setAdapter(adapter);
+        // needed ?
+        adapter.notifyDataSetChanged();
     }
 
 }
