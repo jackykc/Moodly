@@ -18,7 +18,9 @@ import android.support.design.widget.FloatingActionButton;
 import com.example.moodly.Adapters.FollowingMoodAdapter;
 import com.example.moodly.Adapters.MoodAdapter;
 import com.example.moodly.Controllers.MoodController;
+import com.example.moodly.Controllers.UserController;
 import com.example.moodly.Models.Mood;
+import com.example.moodly.Models.User;
 import com.example.moodly.R;
 
 import java.util.ArrayList;
@@ -29,6 +31,9 @@ import java.util.ArrayList;
  */
 public class TabBase extends Fragment {
 
+    protected User currentUser;
+    protected ArrayList<String> userList;
+
     // we want to move the arraylist onto the controller
     protected Mood mood;
     protected FollowingMoodAdapter adapter;
@@ -37,14 +42,18 @@ public class TabBase extends Fragment {
     protected View rootView;
 
     protected MoodController moodController = MoodController.getInstance();
+    protected UserController userController = UserController.getInstance();
 
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        refreshOnline();
+        // set these into refresh online function?
+        currentUser = userController.getCurrentUser();
+        userList = currentUser.getFollowing();
 
+        refreshOnline(userList);
         setViews(inflater, container);
         hideViews();
 
@@ -72,16 +81,19 @@ public class TabBase extends Fragment {
 
     }
 
+
     /* ---------- Refreshing Moods ---------- */
     // by part 5 of the project these two will be reduced to a single method
 
-    protected void refreshOnline() {
+    protected void refreshOnline(ArrayList<String> tempUserList) {
         // add synchronization elements for part 5 here?
         // can i not just call my own reference?
-        moodList = moodController.getMoodList();
+        moodList = moodController.getMoodList(tempUserList);
+
         //moodList = MoodController.getInstance().getMoodList();
 
     }
+
 
     protected void refreshOffline() {
         moodList = MoodController.getInstance().getFiltered();

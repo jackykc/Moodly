@@ -17,6 +17,8 @@ import com.example.moodly.Controllers.MoodController;
 import com.example.moodly.Models.Mood;
 import com.example.moodly.R;
 
+import java.util.ArrayList;
+
 /**
  * Created by jkc1 on 2017-03-05.
  */
@@ -29,13 +31,15 @@ public class TabHistory extends TabBase {
     private int index = 0; // this should be used when selecting a mood from the list?
     private MoodAdapter adapter;
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
+        currentUser = userController.getCurrentUser();
+        userList = new ArrayList<String>();
+        userList.add(currentUser.getName());
         // tries to get moods from elastic search server
-        refreshOnline();
+        refreshOnline(userList);
         setViews(inflater, container);
         setListeners();
 

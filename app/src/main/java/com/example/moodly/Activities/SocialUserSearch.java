@@ -31,9 +31,6 @@ public class SocialUserSearch extends Fragment {
 
         // adapt the moodlist onto our fragment using a custom MoodAdapter
         View rootView = inflater.inflate(R.layout.mood_history, container, false);
-        adapter = new UserAdapter(getActivity(), R.layout.mood_list_item, userList);
-        displayUserList = (ListView) rootView.findViewById(R.id.display_mood_list);
-        displayUserList.setAdapter(adapter);
 
         // this activity should not have the add button
         FloatingActionButton fab = (FloatingActionButton) rootView.findViewById(R.id.fab);
