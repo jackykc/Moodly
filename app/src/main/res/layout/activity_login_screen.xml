@@ -25,7 +25,7 @@
         android:text="@string/Register"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="71dp"
+        android:layout_marginBottom="9dp"
         android:id="@+id/Register"
         tools:text="@string/Register"
         android:layout_alignParentBottom="true"
@@ -35,13 +35,34 @@
         android:text="@string/login"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="23dp"
         android:id="@+id/Login"
         tools:text="@string/login"
         android:layout_above="@+id/Register"
-        android:layout_alignRight="@+id/Register"
-        android:layout_alignEnd="@+id/Register"
         android:layout_alignLeft="@+id/Register"
-        android:layout_alignStart="@+id/Register" />
+        android:layout_alignStart="@+id/Register"
+        android:layout_marginBottom="8dp" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:ems="10"
+        android:layout_above="@+id/Login"
+        android:layout_marginBottom="25dp"
+        android:id="@+id/userName"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:singleLine="true" />
+
+    <TextView
+        android:text="CCID"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/userName"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="11dp"
+        android:id="@+id/itSaysUserName" />
 
 </RelativeLayout>

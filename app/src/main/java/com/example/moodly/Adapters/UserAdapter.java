@@ -1,10 +1,17 @@
 package com.example.moodly.Adapters;
 
+import android.app.Activity;
 import android.content.Context;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.example.moodly.Adapters.MoodHolder;
 import com.example.moodly.Models.User;
+import com.example.moodly.R;
 
 import java.util.ArrayList;
 
@@ -21,7 +28,7 @@ public class UserAdapter extends ArrayAdapter<User> {
 
     private ArrayList<User> items;
     private int layoutResourceId;
-    private MoodHolder holder;
+    private UserHolder holder;
     private Context context;
 
     /**
@@ -37,4 +44,31 @@ public class UserAdapter extends ArrayAdapter<User> {
         this.items = items;
     }
 
+    /**
+     * Gets the view in which to setup the row of our custom list
+     * @param position
+     * @param convertView
+     * @param parent
+     * @return
+     */
+    public View getView(int position, View convertView, ViewGroup parent) {
+        View row;
+        LayoutInflater inflater = ((Activity) context).getLayoutInflater();
+        row = inflater.inflate(layoutResourceId, parent, false);
+
+        holder = new UserHolder();
+        holder.user = items.get(position);
+
+        setupItem(holder);
+
+        return row;
+    }
+
+    /**
+     * Sets up the XML elements in our MoodHolder
+     * @param holder
+     */
+    private void setupItem(UserHolder holder) {
+        ///////////TODO what to show here???
+    }
 }

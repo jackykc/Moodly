@@ -9,7 +9,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.Button;
+import android.widget.ListView;
 
+import com.example.moodly.Adapters.MoodAdapter;
 import com.example.moodly.Controllers.MoodController;
 import com.example.moodly.Models.Mood;
 import com.example.moodly.R;
@@ -26,6 +29,7 @@ import java.util.ArrayList;
 public class TabHistory extends TabBase {
 
     private int index = 0; // this should be used when selecting a mood from the list?
+    private MoodAdapter adapter;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -93,6 +97,16 @@ public class TabHistory extends TabBase {
             }
         });
 
+        /*
+        Button refresh = (Button) rootView.findViewById(R.id.refreshButton);
+        refresh.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                displayMoodList.deferNotifyDataSetChanged();
+            }
+        });
+        */
+
     }
 
     // do we need this? maybe checking connection?
@@ -121,6 +135,26 @@ public class TabHistory extends TabBase {
         //refreshOnline();
         refreshOffline();
 
+    }
+
+    @Override
+    protected void setViews(LayoutInflater inflater, ViewGroup container) {
+        rootView = inflater.inflate(R.layout.mood_history, container, false);
+        displayMoodList = (ListView) rootView.findViewById(R.id.display_mood_list);
+        adapter = new MoodAdapter(getActivity(), R.layout.mood_list_item, moodList);
+        displayMoodList.setAdapter(adapter);
+
+    }
+
+    @Override
+
+    protected void refreshOffline() {
+        moodList = MoodController.getInstance().getFiltered();
+
+        adapter = new MoodAdapter(getActivity(), R.layout.mood_list_item, moodList);
+        displayMoodList.setAdapter(adapter);
+        // needed ?
+        adapter.notifyDataSetChanged();
     }
 
 }

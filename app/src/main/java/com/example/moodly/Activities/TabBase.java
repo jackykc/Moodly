@@ -11,9 +11,11 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ListView;
 import android.support.design.widget.FloatingActionButton;
 
+import com.example.moodly.Adapters.FollowingMoodAdapter;
 import com.example.moodly.Adapters.MoodAdapter;
 import com.example.moodly.Controllers.MoodController;
 import com.example.moodly.Controllers.UserController;
@@ -34,7 +36,7 @@ public class TabBase extends Fragment {
 
     // we want to move the arraylist onto the controller
     protected Mood mood;
-    protected MoodAdapter adapter;
+    protected FollowingMoodAdapter adapter;
     protected ListView displayMoodList;
     protected ArrayList<Mood> moodList = new ArrayList<Mood>();
     protected View rootView;
@@ -63,7 +65,7 @@ public class TabBase extends Fragment {
     protected void setViews(LayoutInflater inflater, ViewGroup container) {
         rootView = inflater.inflate(R.layout.mood_history, container, false);
         displayMoodList = (ListView) rootView.findViewById(R.id.display_mood_list);
-        adapter = new MoodAdapter(getActivity(), R.layout.mood_list_item, moodList);
+        adapter = new FollowingMoodAdapter(getActivity(), R.layout.following_mood_list_item, moodList);
         displayMoodList.setAdapter(adapter);
 
     }
@@ -96,7 +98,7 @@ public class TabBase extends Fragment {
     protected void refreshOffline() {
         moodList = MoodController.getInstance().getFiltered();
 
-        adapter = new MoodAdapter(getActivity(), R.layout.mood_list_item, moodList);
+        adapter = new FollowingMoodAdapter(getActivity(), R.layout.following_mood_list_item, moodList);
         displayMoodList.setAdapter(adapter);
         // needed ?
         adapter.notifyDataSetChanged();
