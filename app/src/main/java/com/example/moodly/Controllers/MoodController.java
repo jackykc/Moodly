@@ -115,7 +115,7 @@ import static junit.framework.Assert.assertEquals;
 
 
 // https://www.youtube.com/watch?v=NZaXM67fxbs singleton design pattern Mar 06
-public class MoodController {
+public class MoodController extends ElasticSearchController {
 
     // this isn't safe from synchronization, does it need to be?
     // i don't know how to verify that, but i guess we will find out
@@ -126,8 +126,6 @@ public class MoodController {
     private ArrayList<Mood> moodFollowList;
     private ArrayList<Mood> filteredList;
 
-    // move this out of the moodController??
-    private static JestDroidClient client;
 
     // constructor for our mood controller
     private MoodController() {
@@ -147,18 +145,6 @@ public class MoodController {
         return instance;
     }
 
-    // move this out of the mood controller?
-    private static void verifySettings() {
-        if (client == null) {
-            DroidClientConfig.Builder builder = new DroidClientConfig.Builder("http://cmput301.softwareprocess.es:8080");
-
-            DroidClientConfig config = builder.build();
-
-            JestClientFactory factory = new JestClientFactory();
-            factory.setDroidClientConfig(config);
-            client = (JestDroidClient) factory.getObject();
-        }
-    }
 
     /* ---------- Controller Functions ---------- */
 
