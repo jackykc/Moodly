@@ -75,7 +75,9 @@ public class TabBase extends Fragment {
 
     protected void refreshOnline() {
         // add synchronization elements for part 5 here?
-        moodList = MoodController.getInstance().getMoodList();
+        // can i not just call my own reference?
+        moodList = moodController.getMoodList();
+        //moodList = MoodController.getInstance().getMoodList();
 
     }
 
