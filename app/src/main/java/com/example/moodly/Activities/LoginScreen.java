@@ -11,21 +11,31 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.moodly.Controllers.UserController;
 import com.example.moodly.Models.User;
 import com.example.moodly.R;
 
 import java.util.ArrayList;
 
 public class LoginScreen extends AppCompatActivity {
-    final ArrayList<User> userList = new ArrayList<>();
+    //final ArrayList<User> userList = new ArrayList<>();
+    EditText userName;
+    Button loginButton;
+    Button signUpButton;
+    Intent intent;
+    UserController conn = UserController.getInstance();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_screen);
+        userName = (EditText) findViewById(R.id.userName);
+        intent = new Intent(getApplicationContext(), ViewMoodList.class);
         setListeners();
     }
 
+    /*
     protected void showInput(String dialogText){
         LayoutInflater layoutInflater = LayoutInflater.from(LoginScreen.this);
         View view = layoutInflater.inflate(R.layout.input_dialog, null);
@@ -53,24 +63,34 @@ public class LoginScreen extends AppCompatActivity {
         });
         AlertDialog alert = builder.create();
         alert.show();
+    }*/
+
+    private void hello() {
+        Toast.makeText(LoginScreen.this, "Hello, " + userName.getText(), Toast.LENGTH_SHORT).show();
     }
 
     protected void setListeners(){
-        Button loginButton = (Button) findViewById(R.id.Login);
-        Button signupButton = (Button) findViewById(R.id.Register);
+        loginButton = (Button) findViewById(R.id.Login);
+        signUpButton = (Button) findViewById(R.id.Register);
 
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showInput("Login");
+                conn.createUser();
+                hello();
+                startActivity(intent);
             }
         });
 
-        signupButton.setOnClickListener(new View.OnClickListener() {
+        signUpButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showInput("Sign Up");
+                conn.createUser();
+                hello();
+                startActivity(intent);
             }
         });
+
     }
+
 }
