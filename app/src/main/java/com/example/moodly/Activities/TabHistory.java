@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ListView;
 
 import com.example.moodly.Adapters.MoodAdapter;
@@ -91,6 +92,16 @@ public class TabHistory extends TabBase {
 
             }
         });
+
+        /*
+        Button refresh = (Button) rootView.findViewById(R.id.refreshButton);
+        refresh.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                displayMoodList.deferNotifyDataSetChanged();
+            }
+        });
+        */
 
     }
 
