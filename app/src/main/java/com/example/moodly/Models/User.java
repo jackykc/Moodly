@@ -7,6 +7,7 @@ import java.util.ArrayList;
  */
 
 public class User {
+
     private String name;
     private ArrayList<User> follower;
     private ArrayList<User> following;

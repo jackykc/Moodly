@@ -129,6 +129,7 @@ public class MoodController extends ElasticSearchController {
 
     // constructor for our mood controller
     private MoodController() {
+        // replace when we do offline, load from file etc
         moodList = new ArrayList<Mood>();
         moodFollowList = new ArrayList<Mood>();
         filteredList = new ArrayList<Mood>();
