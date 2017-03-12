@@ -10,6 +10,6 @@ import java.util.ArrayList;
  */
 
 public class UserHolder {
-    private User user;
-    private ArrayList<Mood> moodList = new ArrayList<>();
+    User user;
+    ArrayList<Mood> moodList = new ArrayList<>();
 }

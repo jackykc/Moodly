@@ -26,7 +26,7 @@ import java.util.ArrayList;
 /**
  * Custom adapter to adapt moods onto a listview
  */
-public class MoodAdapter extends ArrayAdapter<Mood> {
+public class FollowingMoodAdapter extends ArrayAdapter<Mood> {
 
     private ArrayList<Mood> items;
     private int layoutResourceId;
@@ -39,7 +39,7 @@ public class MoodAdapter extends ArrayAdapter<Mood> {
      * @param layoutResourceId resource id for our single list item
      * @param items ArrayList of moods
      */
-    public MoodAdapter(Context context, int layoutResourceId, ArrayList<Mood> items) {
+    public FollowingMoodAdapter(Context context, int layoutResourceId, ArrayList<Mood> items) {
         super(context, layoutResourceId, items);
         this.layoutResourceId = layoutResourceId;
         this.context = context;
@@ -58,12 +58,13 @@ public class MoodAdapter extends ArrayAdapter<Mood> {
         LayoutInflater inflater = ((Activity) context).getLayoutInflater();
         row = inflater.inflate(layoutResourceId, parent, false);
 
-        MoodHolder holder = new MoodHolder();
+        holder = new MoodHolder();
         holder.mood = items.get(position);
 
-        holder.emotion = (TextView) row.findViewById(R.id.mood_emotion);
-        holder.date = (TextView) row.findViewById(R.id.mood_date);
-        holder.emoji = (ImageView) row.findViewById(R.id.emoji);
+        holder.emotion = (TextView) row.findViewById(R.id.f_mood_emotion);
+        holder.date = (TextView) row.findViewById(R.id.f_mood_date);
+        holder.emoji = (ImageView) row.findViewById(R.id.f_emoji);
+        holder.username = (TextView) row.findViewById(R.id.f_mood_owner);
 
         setupItem(holder);
 
@@ -78,6 +79,7 @@ public class MoodAdapter extends ArrayAdapter<Mood> {
         String emotionString = toStringEmotion(holder.mood.getEmotion());
         holder.emotion.setText(emotionString);
         holder.date.setText(holder.mood.getDate().toString());
+        holder.username.setText(holder.mood.getOwner());
         emotionToEmoji(holder.emoji, holder.mood.getEmotion());
     }
 
