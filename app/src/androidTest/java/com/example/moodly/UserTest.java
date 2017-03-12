@@ -2,6 +2,8 @@ package com.example.moodly;
 
 import android.test.ActivityInstrumentationTestCase2;
 
+import com.example.moodly.Models.User;
+
 /**
  * Created by MinhNguyen on 07/03/2017.
  */
