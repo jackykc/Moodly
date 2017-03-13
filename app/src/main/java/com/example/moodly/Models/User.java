@@ -60,9 +60,9 @@ public class User {
     }
 
     public void removeFollower(User user) {
-        if (follower.contains(user)){
+        if (follower.contains(user.getName())){
             //Remove my follower
-            int index = follower.indexOf(user);
+            int index = follower.indexOf(user.getName());
             follower.remove(index);
 
             //Remove following of the other user
@@ -71,9 +71,9 @@ public class User {
     }
 
     public void removeFollowing(User user) {
-        if (following.contains(user)){
+        if (following.contains(user.getName())){
             //Remove my following
-            int index = following.indexOf(user);
+            int index = following.indexOf(user.getName());
             following.remove(index);
 
             //Remove follower of the other user
