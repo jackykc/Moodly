@@ -31,7 +31,7 @@ public class UserTest extends ActivityInstrumentationTestCase2 {
         myPal.setName(palName);
 
         me.addFollower(myPal);
-        assertTrue(me.getFollower().contains(myPal.getName()));
+        assertTrue(me.getFollowers().contains(myPal.getName()));
         assertTrue(myPal.getFollowing().contains(me.getName()));
     }
 
@@ -47,10 +47,10 @@ public class UserTest extends ActivityInstrumentationTestCase2 {
 
         me.addFollowing(myPal);
         assertTrue(me.getFollowing().contains(myPal.getName()));
-        assertTrue(myPal.getFollower().contains(me.getName()));
+        assertTrue(myPal.getFollowers().contains(me.getName()));
 
         me.removeFollowing(myPal);
         assertFalse(me.getFollowing().contains(myPal.getName()));
-        assertFalse(myPal.getFollower().contains(me.getName()));
+        assertFalse(myPal.getFollowers().contains(me.getName()));
     }
 }
