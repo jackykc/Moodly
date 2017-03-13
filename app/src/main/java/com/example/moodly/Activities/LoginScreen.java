@@ -17,6 +17,12 @@ import com.example.moodly.R;
 
 import java.util.ArrayList;
 
+/**
+ * This class is the login screen of the app.
+ * Users can either login or sign up for an account on the app.
+ * Users are stored in a master list of users that will be used
+ * to add and confirm users as they use the app.
+ */
 public class LoginScreen extends AppCompatActivity {
     //final ArrayList<User> userList = new ArrayList<>();
     EditText userName;
@@ -25,7 +31,11 @@ public class LoginScreen extends AppCompatActivity {
     Intent intent;
     UserController conn = UserController.getInstance();
 
-
+    /**
+     * Creates the ViewMoodList intent and calls upon setListeners()
+     * @param savedInstanceState
+     * @see #setListeners()
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -65,10 +75,19 @@ public class LoginScreen extends AppCompatActivity {
         alert.show();
     }*/
 
+
+
+    /**
+     * Provides a short toast to current user logging in
+     */
     private void hello() {
         Toast.makeText(LoginScreen.this, "Hello, Melvin", Toast.LENGTH_SHORT).show();
     }
 
+    /**
+     * Sets listeners for login and sign up buttons
+     *
+     */
     protected void setListeners(){
         loginButton = (Button) findViewById(R.id.Login);
         signUpButton = (Button) findViewById(R.id.Register);

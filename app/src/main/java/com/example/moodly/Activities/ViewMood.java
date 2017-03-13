@@ -22,6 +22,10 @@ import java.util.ArrayList;
 
 import static com.example.moodly.Models.Emotion.NONE;
 
+/**
+ * ViewMood allows the user to view their
+ * selected mood and it's relevant details
+ */
 public class ViewMood extends AppCompatActivity {
 
     private Mood mood;
@@ -34,6 +38,13 @@ public class ViewMood extends AppCompatActivity {
 
     private int position = -1;
 
+    /**
+     * Gets the mood event and position,
+     * sets view and listeners to it.
+     * @param savedInstanceState
+     * @see #setViews()
+     * @see #setListeners()
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,6 +59,10 @@ public class ViewMood extends AppCompatActivity {
 
     }
 
+    /**
+     * Sets the spinners for emotional state and
+     * social situation options.
+     */
     protected  void setSpinners() {
 
         /*do we want to hardcode the following?
@@ -81,6 +96,7 @@ public class ViewMood extends AppCompatActivity {
         socialSituationSpinner.setAdapter(ssAdapter);
     }
 
+
     protected void setViews() {
         saveButton = (Button) findViewById(R.id.save_button);
 
@@ -103,6 +119,12 @@ public class ViewMood extends AppCompatActivity {
     }
     // inherit from a view only class?
     //@Override
+
+    /**
+     * Set save button listener to validate
+     * and save editted mood event from user.
+     *
+     */
     protected void setListeners() {
         saveButton.setOnClickListener(new View.OnClickListener() {
 

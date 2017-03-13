@@ -31,6 +31,18 @@ public class TabHistory extends TabBase {
     private int index = 0; // this should be used when selecting a mood from the list?
     private MoodAdapter adapter;
 
+    /**
+     * Gets the current user's mood history from ElasticSearch
+     * and sets the views and listeners to update when a change
+     * has occured.
+     * @param inflater
+     * @param container
+     * @param savedInstanceState
+     * @return rootView
+     * @see #refreshOnline(ArrayList)
+     * @see #setViews(LayoutInflater, ViewGroup)
+     * @see #setListeners()
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -47,7 +59,11 @@ public class TabHistory extends TabBase {
     }
 
 
-
+    /**
+     * setListeners sets listeners to the Mood list
+     * to do actions when buttons are clicked.
+     *
+     */
     @Override
     protected void setListeners() {
 
@@ -116,7 +132,13 @@ public class TabHistory extends TabBase {
 
     }
 
-
+    /**
+     *
+     * @param requestCode
+     * @param resultCode
+     * @param data
+     * @see #refreshOffline()
+     */
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
 
@@ -124,6 +146,11 @@ public class TabHistory extends TabBase {
 
     }
 
+    /**
+     * sets the MoodList view to display
+     * @param inflater
+     * @param container
+     */
     @Override
     protected void setViews(LayoutInflater inflater, ViewGroup container) {
         rootView = inflater.inflate(R.layout.mood_history, container, false);
@@ -133,6 +160,11 @@ public class TabHistory extends TabBase {
 
     }
 
+    /**
+     * If device is offline, the array adapter will
+     * refresh locally as there is no connection
+     * to ElasticSearch
+     */
     @Override
     protected void refreshOffline() {
         moodList = MoodController.getInstance().getHistoryMoods();
