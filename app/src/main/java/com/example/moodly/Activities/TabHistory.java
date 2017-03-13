@@ -28,7 +28,6 @@ import java.util.ArrayList;
  */
 public class TabHistory extends TabBase {
 
-    private int index = 0; // this should be used when selecting a mood from the list?
     private MoodAdapter adapter;
 
     @Override
@@ -46,8 +45,9 @@ public class TabHistory extends TabBase {
         return rootView;
     }
 
-
-
+    /**
+     * Sets listeners for the activity
+     */
     @Override
     protected void setListeners() {
 
@@ -97,33 +97,24 @@ public class TabHistory extends TabBase {
             }
         });
 
-        /*
-        Button refresh = (Button) rootView.findViewById(R.id.refreshButton);
-        refresh.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                displayMoodList.deferNotifyDataSetChanged();
-            }
-        });
-        */
-
     }
 
-    // do we need this? maybe checking connection?
-    @Override
-    public void onStart() {
-        super.onStart();
-
-    }
-
-
+    /**
+     * On the result of adding or editing moods, refreshes the mood list
+     * @param requestCode
+     * @param resultCode
+     * @param data
+     */
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-
         refreshOffline();
-
     }
 
+    /**
+     * Sets the views for the activity
+     * @param inflater the layout inflater
+     * @param container the view group
+     */
     @Override
     protected void setViews(LayoutInflater inflater, ViewGroup container) {
         rootView = inflater.inflate(R.layout.mood_history, container, false);
@@ -133,13 +124,15 @@ public class TabHistory extends TabBase {
 
     }
 
+    /**
+     * Gets the latest mood list from the controller and refreshes adapters
+     */
     @Override
     protected void refreshOffline() {
         moodList = MoodController.getInstance().getHistoryMoods();
 
         adapter = new MoodAdapter(getActivity(), R.layout.mood_list_item, moodList);
         displayMoodList.setAdapter(adapter);
-        // needed ?
         adapter.notifyDataSetChanged();
     }
 

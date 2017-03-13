@@ -49,7 +49,6 @@ public class TabBase extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        // set these into refresh online function?
         currentUser = userController.getCurrentUser();
         userList = currentUser.getFollowing();
 
@@ -62,6 +61,11 @@ public class TabBase extends Fragment {
         return rootView;
     }
 
+    /**
+     * Sets the views in the activities
+     * @param inflater the layout inflater
+     * @param container the view group
+     */
     protected void setViews(LayoutInflater inflater, ViewGroup container) {
         rootView = inflater.inflate(R.layout.mood_history, container, false);
         displayMoodList = (ListView) rootView.findViewById(R.id.display_mood_list);
@@ -70,13 +74,16 @@ public class TabBase extends Fragment {
 
     }
 
-    // specific to hiding buttons etc from follower list
+    /**
+     * Hides views specific to the history list (Such as the add button)
+     */
     protected void hideViews() {
         FloatingActionButton fab = (FloatingActionButton) rootView.findViewById(R.id.fab);
         fab.hide();
 
     }
 
+    // Used for project part 5 to set the listeners for the filter button
     protected void setListeners() {
 
     }
@@ -85,16 +92,17 @@ public class TabBase extends Fragment {
     /* ---------- Refreshing Moods ---------- */
     // by part 5 of the project these two will be reduced to a single method
 
+    /**
+     * Gets our mood list from elastic search
+     * @param tempUserList list of users (Strings) to match with the moods we want to get
+     */
     protected void refreshOnline(ArrayList<String> tempUserList) {
-        // add synchronization elements for part 5 here?
-        // can i not just call my own reference?
         moodList = moodController.getMoodList(tempUserList);
-
-        //moodList = MoodController.getInstance().getMoodList();
-
     }
 
-
+    /**
+     * Gets the mood list from our controller and updates the adapters
+     */
     protected void refreshOffline() {
         moodList = MoodController.getInstance().getFollowMoods();
 
@@ -102,11 +110,6 @@ public class TabBase extends Fragment {
         displayMoodList.setAdapter(adapter);
         // needed ?
         adapter.notifyDataSetChanged();
-    }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-
     }
 
 }
