@@ -17,6 +17,10 @@ import java.util.ArrayList;
 
 /**
  * Created by Victor on 2017-03-08.
+ * Fragment to be displayed on SocialBase
+ * Loads list of people that the current user follows from ElasticSearch
+ *
+ * @see SocialBase
  */
 
 /**
@@ -53,7 +57,6 @@ public class SocialFollowingList extends Fragment {
 
         return rootView;
     }
-
     /**
      * Gets the ListViews of the user list and displays
      * the current user's following list in a ListView format

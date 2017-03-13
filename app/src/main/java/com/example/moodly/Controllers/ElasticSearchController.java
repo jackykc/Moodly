@@ -8,13 +8,16 @@ import com.searchly.jestdroid.JestDroidClient;
  * Created by jkc1 on 2017-03-11.
  */
 
+/**
+ * Base elastic search controller that our MoodController and UserController inherit from
+ */
 public class ElasticSearchController {
 
-    // move this out of the moodController??
     protected static JestDroidClient client;
 
-
-    // move this out of the mood controller?
+    /**
+     * Checks if we are connected to elastic search, if not, then connect
+     */
     public static void verifySettings() {
         if (client == null) {
             DroidClientConfig.Builder builder = new DroidClientConfig.Builder("http://cmput301.softwareprocess.es:8080");

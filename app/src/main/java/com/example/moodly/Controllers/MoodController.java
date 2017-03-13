@@ -1,92 +1,3 @@
-//package com.example.moodly;
-//
-//import java.util.ArrayList;
-//
-///**
-// * Created by MinhNguyen on 06/03/2017.
-// */
-//
-//
-//// https://www.youtube.com/watch?v=NZaXM67fxbs singleton design pattern Mar 06
-//public class MoodController {
-//    // this isn't safe from synchronization, does it need to be?
-//    // i don't know how to verify that, but i guess we will find out
-//    // soon
-//    private static MoodController instance = null;
-//    private ArrayList<Mood> moodList;
-//    private ArrayList<Mood> moodFollowList;
-//    private ArrayList<Mood> filteredList;
-//
-//    private MoodController() {
-//        moodList = new ArrayList<Mood>();
-//        moodFollowList = new ArrayList<Mood>();
-//        filteredList = new ArrayList<Mood>();
-//    }
-//
-//    public static MoodController getInstance() {
-//
-//        if(instance == null) {
-//            instance = new MoodController();
-//        }
-//
-//        return instance;
-//    }
-//
-//    public void addMood(Mood m){
-//        instance.moodList.add(m);
-//    }
-//
-//    public void editMood (int position, Mood newMood) {
-//        moodList.remove(position);
-//        moodList.add(position, newMood);
-//    }
-//
-//    public void deleteMood(int position) {
-//        moodList.remove(position);
-//    }
-//
-//
-//    public String getLocation(int position) {
-//        Mood m = moodList.get(position);
-//        return m.getLocation();
-//    }
-//
-//
-//
-//    public ArrayList<Mood> getFiltered() {
-//        this.filter();
-//        return this.filteredList;
-//    }
-//    // ??? make helper functions ?
-//    // only filters and sets the filtered list as filteredList
-//    // moodList should be the full list
-//    // filtering person, good luck
-//    // so, currently all this does is set filteredList to reference
-//    // each of its elemnts from moodList, this is not a deep copy
-//    private void filter(){
-//        filteredList = (ArrayList<Mood>) moodList.clone();
-//    }
-//}
-//
-//
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 package com.example.moodly.Controllers;
 
 import java.util.ArrayList;
@@ -113,13 +24,12 @@ import static junit.framework.Assert.assertEquals;
  * Created by MinhNguyen on 06/03/2017.
  */
 
-
-// https://www.youtube.com/watch?v=NZaXM67fxbs singleton design pattern Mar 06
+/**
+ * Mood controller that allows access to moods on elastic search
+ * @author Jacky Chung
+ */
 public class MoodController extends ElasticSearchController {
 
-    // this isn't safe from synchronization, does it need to be?
-    // i don't know how to verify that, but i guess we will find out
-    // soon
     private static MoodController instance = null;
     private Mood tempMood;
     private static ArrayList<Mood> moodList;
@@ -127,8 +37,9 @@ public class MoodController extends ElasticSearchController {
     private static ArrayList<Mood> moodFollowList;
     private ArrayList<Mood> filteredList;
 
-
-    // constructor for our mood controller
+    /**
+     * Constructor for our mood controller, initializes members
+     */
     private MoodController() {
         // replace when we do offline, load from file etc
         moodList = new ArrayList<Mood>();
@@ -138,7 +49,10 @@ public class MoodController extends ElasticSearchController {
         tempMood = new Mood();
     }
 
-    // gets an instance of our controller
+    /**
+     * Gets an instance of the mood controller
+     * @return the controller
+     */
     public static MoodController getInstance() {
 
         if(instance == null) {
@@ -151,7 +65,11 @@ public class MoodController extends ElasticSearchController {
 
     /* ---------- Controller Functions ---------- */
 
-    // adds the current mood in the controller
+    /**
+     * Adds a mood both locally to the array list on the controller and on elastic search
+     * @param position if position is -1, add to front of list, else update mood at position
+     * @param m the moods to add/update
+     */
     public void addMood(int position, Mood m){
         if (position == -1) {
             // add to offline temporary list of moods
@@ -167,26 +85,25 @@ public class MoodController extends ElasticSearchController {
     }
 
 
+    /**
+     * Deletes a mood both locally from the array list on the controller and on elastic search
+     * @param position position of the mood in the list to delete
+     */
     public void deleteMood(int position) {
 
         Mood m = moodHistoryList.get(position);
 
         instance.moodHistoryList.remove(position);
-        MoodController.DeketeMoodTask deleteMoodTask = new MoodController.DeketeMoodTask();
+        MoodController.DeleteMoodTask deleteMoodTask = new MoodController.DeleteMoodTask();
         deleteMoodTask.execute(m);
 
     }
 
-    // not used
-    public void editMood (int position, Mood m) {
-
-//        instance.moodList.set(position, m);
-//
-//        MoodController.AddMoodTask addMoodTask = new MoodController.AddMoodTask();
-//        addMoodTask.execute(m);
-
-    }
-
+    /**
+     * Gets the moods by calling getMoodTask.execute() to get moods from elastic search
+     * @param userList the list of users who we want the retrieved moods to belong to
+     * @return a list of moods
+     */
     public ArrayList<Mood> getMoodList (ArrayList<String> userList) {
 
         MoodController.GetMoodTask getMoodTask = new MoodController.GetMoodTask();
@@ -206,10 +123,11 @@ public class MoodController extends ElasticSearchController {
     }
     public void setMood(Mood mood) { tempMood = mood;}
 
-
     /* ---------- Elastic Search Requests ---------- */
 
-    // this adds the mood onto elastic search server
+    /**
+     * Async task that adds a mood to elastic search
+     */
     private static class AddMoodTask extends AsyncTask<Mood, Void, Void> {
 
         int completion = 0;
@@ -250,9 +168,12 @@ public class MoodController extends ElasticSearchController {
         }
     }
 
-    private static class DeketeMoodTask extends AsyncTask<Mood, Void, Boolean> {
 
-        int completion = 0;
+    /**
+     * Async task that deletes a mood from elastic search
+     */
+    private static class DeleteMoodTask extends AsyncTask<Mood, Void, Boolean> {
+
         @Override
         protected Boolean doInBackground(Mood... moods){
             verifySettings();
@@ -282,7 +203,9 @@ public class MoodController extends ElasticSearchController {
         }
     }
 
-
+    /**
+     * Async task that gets an arraylist of moods from elastic search
+     */
     private static class GetMoodTask extends AsyncTask<ArrayList<String>, Void, ArrayList<Mood>> {
         @Override
         protected ArrayList<Mood> doInBackground(ArrayList<String>... search_parameters) {
@@ -298,7 +221,6 @@ public class MoodController extends ElasticSearchController {
             }
 
             ArrayList<Mood> currentMoodList = new ArrayList<Mood>();
-            // hahaha how do i even make a query string?????
             String query = "{ \n\"query\" : {\n" +
                                 "\"query_string\" : { \n" +
                                     "\"fields\" : [\"owner\"],\n" +
@@ -309,7 +231,6 @@ public class MoodController extends ElasticSearchController {
             query += sort;
             query += " \n} ";
 
-            // TODO Build the query
             Search search = new Search.Builder(query)
                     .addIndex("cmput301w17t20")
                     .addType("mood")
@@ -341,17 +262,9 @@ public class MoodController extends ElasticSearchController {
             catch (Exception e) {
                 Log.i("Error", "Something went wrong when we tried to communicate with the elasticsearch server!");
             }
-            // ??? not needed?
             return currentMoodList;
         }
     }
-
-
-
-//    public String getLocation(int position) {
-//        Mood m = moodList.get(position);
-//        return m.getLocation();
-//    }
 
     /* ---------- Helpers ---------- */
 
@@ -363,6 +276,7 @@ public class MoodController extends ElasticSearchController {
         return moodFollowList;
     }
 
+    // to be used for project part 5
     public ArrayList<Mood> getFiltered() {
         this.filter();
         return this.filteredList;
@@ -372,9 +286,13 @@ public class MoodController extends ElasticSearchController {
         filteredList = (ArrayList<Mood>) moodList.clone();
     }
 
+
+    /* ---------- The following code is commented out for now as it is left for part 5 ---------- */
+
     // we can do binary search on this btw
     // and don't we have to sort it too?
-//    LEAVE THIS COMMENTED OUT FOR NOW, USE WHEN WE HAVE ABILITY TO FILTER IN GUI
+
+
 //    protected ArrayList<Mood> filterByDate(Date startDate, Date endDate) {
 //        ArrayList<Mood> result = new ArrayList<>();
 //        for (Mood m: moodList) {
