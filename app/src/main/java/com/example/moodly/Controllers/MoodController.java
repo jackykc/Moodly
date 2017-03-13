@@ -33,7 +33,7 @@ public class MoodController extends ElasticSearchController {
     private static MoodController instance = null;
     private Mood tempMood;
     private static ArrayList<Mood> moodList;
-    public static ArrayList<Mood> moodHistoryList;
+    private static ArrayList<Mood> moodHistoryList;
     private static ArrayList<Mood> moodFollowList;
     private ArrayList<Mood> filteredList;
 
@@ -222,11 +222,11 @@ public class MoodController extends ElasticSearchController {
 
             ArrayList<Mood> currentMoodList = new ArrayList<Mood>();
             String query = "{ \n\"query\" : {\n" +
-                    "\"query_string\" : { \n" +
-                    "\"fields\" : [\"owner\"],\n" +
-                    "\"query\" : \"" + userNameString + "\"\n" +
-                    "}" +
-                    "\n},";
+                                "\"query_string\" : { \n" +
+                                    "\"fields\" : [\"owner\"],\n" +
+                                    "\"query\" : \"" + userNameString + "\"\n" +
+                                "}" +
+                            "\n},";
             String sort = "\n\"sort\": { \"date\": { \"order\": \"desc\" } }";
             query += sort;
             query += " \n} ";
