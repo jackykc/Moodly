@@ -116,23 +116,10 @@ public class TabHistory extends TabBase {
 
     }
 
-    // is this where we should refresh? man i don't know right now
-    @Override
-    public void onResume() {
-        super.onResume();
-    }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-//
-//         below is just for debugging
-//        Context debugContext = getContext();
-//        CharSequence debugText = "Adding mood";
-//        int duration = Toast.LENGTH_SHORT;
-//        Toast toast = Toast.makeText(debugContext, debugText, duration);
-//        toast.show();
 
-        //refreshOnline();
         refreshOffline();
 
     }
@@ -147,9 +134,8 @@ public class TabHistory extends TabBase {
     }
 
     @Override
-
     protected void refreshOffline() {
-        moodList = MoodController.getInstance().getFiltered();
+        moodList = MoodController.getInstance().getHistoryMoods();
 
         adapter = new MoodAdapter(getActivity(), R.layout.mood_list_item, moodList);
         displayMoodList.setAdapter(adapter);

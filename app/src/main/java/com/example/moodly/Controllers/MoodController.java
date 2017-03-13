@@ -123,7 +123,8 @@ public class MoodController extends ElasticSearchController {
     private static MoodController instance = null;
     private Mood tempMood;
     private static ArrayList<Mood> moodList;
-    private ArrayList<Mood> moodFollowList;
+    private static ArrayList<Mood> moodHistoryList;
+    private static ArrayList<Mood> moodFollowList;
     private ArrayList<Mood> filteredList;
 
 
@@ -131,6 +132,7 @@ public class MoodController extends ElasticSearchController {
     private MoodController() {
         // replace when we do offline, load from file etc
         moodList = new ArrayList<Mood>();
+        moodHistoryList = new ArrayList<Mood>();
         moodFollowList = new ArrayList<Mood>();
         filteredList = new ArrayList<Mood>();
         tempMood = new Mood();
@@ -153,10 +155,10 @@ public class MoodController extends ElasticSearchController {
     public void addMood(int position, Mood m){
         if (position == -1) {
             // add to offline temporary list of moods
-            instance.moodList.add(0, m);
+            moodHistoryList.add(0, m);
         } else {
             // maybe do a check for out of range here?
-            instance.moodList.set(position, m);
+            moodHistoryList.set(position, m);
         }
         // add to elastic search
         MoodController.AddMoodTask addMoodTask = new MoodController.AddMoodTask();
@@ -167,20 +169,21 @@ public class MoodController extends ElasticSearchController {
 
     public void deleteMood(int position) {
 
-        Mood m = moodList.get(position);
+        Mood m = moodHistoryList.get(position);
 
-        instance.moodList.remove(position);
+        instance.moodHistoryList.remove(position);
         MoodController.DeketeMoodTask deleteMoodTask = new MoodController.DeketeMoodTask();
         deleteMoodTask.execute(m);
 
     }
 
+    // not used
     public void editMood (int position, Mood m) {
 
-        instance.moodList.set(position, m);
-
-        MoodController.AddMoodTask addMoodTask = new MoodController.AddMoodTask();
-        addMoodTask.execute(m);
+//        instance.moodList.set(position, m);
+//
+//        MoodController.AddMoodTask addMoodTask = new MoodController.AddMoodTask();
+//        addMoodTask.execute(m);
 
     }
 
@@ -225,8 +228,8 @@ public class MoodController extends ElasticSearchController {
                             mood.setId(result.getId());
                             // assumption method addMood always runs before this
                             // if the id is not set, set it
-                            if(moodList.get(0).getId() == null) {
-                                moodList.get(0).setId(result.getId());
+                            if(moodHistoryList.get(0).getId() == null) {
+                                moodHistoryList.get(0).setId(result.getId());
                             }
 
                         }
@@ -306,10 +309,6 @@ public class MoodController extends ElasticSearchController {
             query += sort;
             query += " \n} ";
 
-//            String query = "{ \n\"query\" : {\n" +
-//                    "    \"match\" : { \"owner\" : \"" + usernames.get(0) +
-//                    "\"     }\n " +
-//                    "    },\n";
             // TODO Build the query
             Search search = new Search.Builder(query)
                     .addIndex("cmput301w17t20")
@@ -329,7 +328,12 @@ public class MoodController extends ElasticSearchController {
 
                     }
                     moodList = currentMoodList;
-
+                    // for your own list of moods
+                    if (usernames.size() == 1) {
+                        moodHistoryList = currentMoodList;
+                    } else {
+                        moodFollowList = currentMoodList;
+                    }
                 } else {
                     Log.i("Error", "Search query failed to find any moods that matched");
                 }
@@ -350,6 +354,14 @@ public class MoodController extends ElasticSearchController {
 //    }
 
     /* ---------- Helpers ---------- */
+
+    public ArrayList<Mood> getHistoryMoods () {
+        return moodHistoryList;
+    }
+
+    public ArrayList<Mood> getFollowMoods () {
+        return moodFollowList;
+    }
 
     public ArrayList<Mood> getFiltered() {
         this.filter();

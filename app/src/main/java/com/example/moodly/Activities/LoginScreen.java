@@ -66,7 +66,7 @@ public class LoginScreen extends AppCompatActivity {
     }*/
 
     private void hello() {
-        Toast.makeText(LoginScreen.this, "Hello, " + userName.getText(), Toast.LENGTH_SHORT).show();
+        Toast.makeText(LoginScreen.this, "Hello, Melvin", Toast.LENGTH_SHORT).show();
     }
 
     protected void setListeners(){
@@ -82,14 +82,15 @@ public class LoginScreen extends AppCompatActivity {
             }
         });
 
-        signUpButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                conn.createUser();
-                hello();
-                startActivity(intent);
-            }
-        });
+        // No sign up functionality yet
+//        signUpButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                conn.createUser();
+//                hello();
+//                startActivity(intent);
+//            }
+//        });
 
     }
 

@@ -96,7 +96,7 @@ public class TabBase extends Fragment {
 
 
     protected void refreshOffline() {
-        moodList = MoodController.getInstance().getFiltered();
+        moodList = MoodController.getInstance().getFollowMoods();
 
         adapter = new FollowingMoodAdapter(getActivity(), R.layout.following_mood_list_item, moodList);
         displayMoodList.setAdapter(adapter);

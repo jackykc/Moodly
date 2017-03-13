@@ -215,7 +215,7 @@ public class Mood {
      */
     public Mood() {
         this.date = new Date();
-        this.owner = "Clement";
+        this.owner = "Melvin";
         this.location = "";
         this.trigger = "";
         this.emotion = 0;
