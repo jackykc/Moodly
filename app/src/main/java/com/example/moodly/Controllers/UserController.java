@@ -15,6 +15,11 @@ import io.searchbox.core.SearchResult;
  * Created by jkc1 on 2017-03-11.
  */
 
+
+/**
+ * User controller that allows access to users on elastic search
+ * @author Jacky Chung
+ */
 public class UserController extends ElasticSearchController {
 
     private static UserController instance = null;
@@ -24,13 +29,16 @@ public class UserController extends ElasticSearchController {
     private static ArrayList<User> followers;
 
     private UserController() {
-
         following = new ArrayList<User>();
         followers = new ArrayList<User>();
     }
 
-    public static UserController getInstance() {
 
+    /**
+     * Gets an instance of the user controller
+     * @return the controller
+     */
+    public static UserController getInstance() {
         if(instance == null) {
             instance = new UserController();
         }
@@ -43,10 +51,18 @@ public class UserController extends ElasticSearchController {
         return followers;
     }
     /* ---------- Controller Functions ---------- */
+
+    /**
+     * Used to create a new use, not implemented yet
+     */
     public void createUser() {
 
     }
 
+    /**
+     * Gets the user that logged in the app
+     * @return current user
+     */
     public User getCurrentUser() {
 
         if (currentUser == null) {
@@ -64,17 +80,11 @@ public class UserController extends ElasticSearchController {
         return currentUser;
     }
 
-
-    public ArrayList<User> getFollowingList() {
-
-        ArrayList<User> tempFollowingList = new ArrayList<User>();
-
-        return tempFollowingList;
-    }
-
-
     /* ---------- Elastic Search Requests ---------- */
-    // untested, returns arraylist of users from elastic search
+
+    /**
+     * Async tasks that gets the list of users from elastic search
+     */
     private static class GetUsersTask extends AsyncTask<String, Void, ArrayList<User>> {
 
         @Override
@@ -82,10 +92,8 @@ public class UserController extends ElasticSearchController {
             verifySettings();
 
             ArrayList<User> userList = new ArrayList<User>();
-            // hahaha how do i even make a query string?????
-            String query = "{\"sort\": { \"date\": { \"order\": \"desc\"}}}";
 
-            query = "";
+            String query = "";
             // TODO Build the query
             Search search = new Search.Builder(query)
                     .addIndex("cmput301w17t20")
@@ -104,7 +112,6 @@ public class UserController extends ElasticSearchController {
 
                         userList.add(temp);
                     }
-                    //moodList = currentMoodList;
 
                 } else {
                     Log.i("Error", "Search query failed to find any moods that matched");
@@ -113,13 +120,15 @@ public class UserController extends ElasticSearchController {
             catch (Exception e) {
                 Log.i("Error", "Something went wrong when we tried to communicate with the elasticsearch server!");
             }
-            // ??? not needed?
             return userList;
         }
     }
 
     /* ---------- Elastic Search Requests ---------- */
-    // untested, returns arraylist of users from elastic search
+
+    /**
+     * Async task that gets the current user's user object from elastic search
+     */
     private static class GetUserTask extends AsyncTask<String, Void, User> {
 
         @Override
@@ -127,7 +136,6 @@ public class UserController extends ElasticSearchController {
             verifySettings();
 
             ArrayList<User> userList = new ArrayList<User>();
-            // hahaha how do i even make a query string?????
             String query =
             "{ \n\"query\" : {\n" +
                     "    \"match\" : { \"name\" : \"" + "Melvin" +
@@ -160,18 +168,8 @@ public class UserController extends ElasticSearchController {
 
             }
 
-            // ??? not needed?
             return temp;
         }
     }
 
 }
-
-//    String query =
-//            "{ \n\"query\" : {\n" +
-//                    "    \"term\" : { \"user\" : \"" + "\"Jacky\"" +
-//                    "\"     }\n " +
-//                    "    }\n" +
-//                    " } ";
-//
-

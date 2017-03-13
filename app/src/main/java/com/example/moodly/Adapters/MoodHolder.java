@@ -16,5 +16,4 @@ public class MoodHolder {
     TextView username;
     TextView reasonPicture;
     ImageView emoji;
-    // not sure about what format to use for the picture
 }

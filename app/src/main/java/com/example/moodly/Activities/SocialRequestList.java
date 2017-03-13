@@ -17,6 +17,10 @@ import java.util.ArrayList;
 
 /**
  * Created by Victor on 2017-03-08.
+ * Fragment to be displayed on SocialBase
+ * Loads list of Followers of current User from ElasticSearch
+ *
+ * @see SocialBase
  */
 
 public class SocialRequestList extends Fragment {
@@ -51,6 +55,7 @@ public class SocialRequestList extends Fragment {
 
     }
 
+    // Sync up offline and online
     protected void refreshOnline() {
         // add synchronization elements for part 5 here?
         currentUser = userController.getCurrentUser();

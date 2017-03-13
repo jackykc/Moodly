@@ -82,9 +82,10 @@ public class MoodAdapter extends ArrayAdapter<Mood> {
     }
 
     /**
-     * From our emotion enum, return the string representation of it
+     * From our emotion enum, draw emoji to imageview
      * @param emotion an enum of emotions
-     * @return a string repesentation of our emotion
+     * @param emoji is the imageview that holds the emoji
+     * @return set emoji to a drawable
      */
 
     private void emotionToEmoji (ImageView emoji, int emotion){
@@ -118,6 +119,11 @@ public class MoodAdapter extends ArrayAdapter<Mood> {
         }
     }
 
+    /**
+     * From the emotion enum, return the string representation of it
+     * @param emotion
+     * @return
+     */
     private String toStringEmotion(int emotion) {
         switch (emotion) {
             case 1:
