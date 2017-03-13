@@ -16,8 +16,11 @@ import java.util.ArrayList;
 
 /**
  * Created by Victor on 2017-03-07.
+ * Fragment that allows user to search for other users and request to follow them
+ * NOT YET IMPLEMENTED/COMPLETED
+ *
+ * @see SocialBase
  */
-
 public class SocialUserSearch extends Fragment {
 
     protected User user;

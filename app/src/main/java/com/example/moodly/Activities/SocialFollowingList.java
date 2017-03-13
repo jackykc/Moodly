@@ -17,6 +17,10 @@ import java.util.ArrayList;
 
 /**
  * Created by Victor on 2017-03-08.
+ * Fragment to be displayed on SocialBase
+ * Loads list of people that the current user follows from ElasticSearch
+ *
+ * @see SocialBase
  */
 
 public class SocialFollowingList extends Fragment {
@@ -39,6 +43,7 @@ public class SocialFollowingList extends Fragment {
         return rootView;
     }
 
+    // Displayed
     protected void setViews(LayoutInflater inflater, ViewGroup container) {
 
         rootView = inflater.inflate(R.layout.social_list, container, false);
@@ -51,6 +56,7 @@ public class SocialFollowingList extends Fragment {
 
     }
 
+    // match online data with offline data
     protected void refreshOnline() {
         // add synchronization elements for part 5 here?
         currentUser = userController.getCurrentUser();

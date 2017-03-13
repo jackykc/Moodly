@@ -15,6 +15,11 @@ import com.example.moodly.R;
 
 /**
  * Created by Victor on 2017-03-07.
+ * Base class that loads fragments associated with Social Functions
+ *
+ * @see SocialFollowingList
+ * @see SocialRequestList
+ * @see SocialUserSearch
  */
 
 public class SocialBase extends AppCompatActivity {
@@ -114,6 +119,7 @@ public class SocialBase extends AppCompatActivity {
         }
 
         @Override
+        // set the titles of each tab
         public CharSequence getPageTitle(int position) {
             switch (position) {
                 case 0:
