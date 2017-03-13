@@ -94,7 +94,7 @@ public class SocialBase extends AppCompatActivity {
             // return current tab
             switch (position) {
                 case 0:
-                    TabHistory tab1 = new TabHistory();
+                    SocialRequestList tab1 = new SocialRequestList();
                     return tab1;
                 case 1:
                     SocialRequestList tab2 = new SocialRequestList();
