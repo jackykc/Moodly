@@ -30,6 +30,18 @@ public class TabHistory extends TabBase {
 
     private MoodAdapter adapter;
 
+    /**
+     * Gets the current user's mood history from ElasticSearch
+     * and sets the views and listeners to update when a change
+     * has occured.
+     * @param inflater
+     * @param container
+     * @param savedInstanceState
+     * @return rootView
+     * @see #refreshOnline(ArrayList)
+     * @see #setViews(LayoutInflater, ViewGroup)
+     * @see #setListeners()
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {

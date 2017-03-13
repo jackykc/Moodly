@@ -23,6 +23,11 @@ import java.util.ArrayList;
  * @see SocialBase
  */
 
+/**
+ * SocialFollowingList class displays the current user's
+ * following list. It sets the views of the user list and
+ * updates when a change has been made.
+ */
 public class SocialFollowingList extends Fragment {
 
     protected UserController userController = UserController.getInstance();
@@ -33,7 +38,17 @@ public class SocialFollowingList extends Fragment {
     protected ListView displayUserList;
     protected ArrayAdapter<String> adapter;
 
-    // PLACEHOLDER
+    /**
+     * Synchronization of the user's following list
+     * from ElasticSearch and sets the views to display
+     * the list.
+     * @param inflater
+     * @param container
+     * @param savedInstanceState
+     * @return rootView
+     * @see #setViews(LayoutInflater, ViewGroup)
+     * @see #refreshOnline()
+     */
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
@@ -42,8 +57,12 @@ public class SocialFollowingList extends Fragment {
 
         return rootView;
     }
-
-    // Displayed
+    /**
+     * Gets the ListViews of the user list and displays
+     * the current user's following list in a ListView format
+     * @param inflater
+     * @param container
+     */
     protected void setViews(LayoutInflater inflater, ViewGroup container) {
 
         rootView = inflater.inflate(R.layout.social_list, container, false);
@@ -56,7 +75,10 @@ public class SocialFollowingList extends Fragment {
 
     }
 
-    // match online data with offline data
+    /**
+     * Synchronization of an user's following list using
+     * ElasticSearch
+     */
     protected void refreshOnline() {
         // add synchronization elements for part 5 here?
         currentUser = userController.getCurrentUser();

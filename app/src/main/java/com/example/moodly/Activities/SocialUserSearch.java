@@ -21,6 +21,11 @@ import java.util.ArrayList;
  *
  * @see SocialBase
  */
+
+/**
+ * SocialUserSearch implements the ability for an user to
+ * search other user's based on certain criteria.
+ */
 public class SocialUserSearch extends Fragment {
 
     protected User user;
@@ -28,6 +33,13 @@ public class SocialUserSearch extends Fragment {
     protected UserAdapter adapter;
     protected ListView displayUserList;
 
+    /**
+     *
+     * @param inflater
+     * @param container
+     * @param savedInstanceState
+     * @return rootView
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
