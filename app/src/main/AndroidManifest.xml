@@ -21,7 +21,7 @@
         <activity
             android:name=".Activities.ViewMood"
             android:label="@string/title_activity_view_mood"
-            android:theme="@style/AppTheme.NoActionBar" />
+ />
         <activity android:name=".Activities.LoginScreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

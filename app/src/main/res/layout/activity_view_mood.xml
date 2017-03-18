@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -8,131 +9,175 @@
 
 
     <TextView
-        android:layout_height="wrap_content"
-        android:id="@+id/Header"
-        android:textAppearance="@android:style/TextAppearance.DeviceDefault.Large"
-        tools:text="@string/add_mood"
+        android:id="@+id/locationText"
         android:layout_width="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:text="@string/add_mood"
-        android:layout_alignParentTop="true" />
-
-    <TextView
-        android:text="@string/emotion"
-        android:layout_width="wrap_content"
-        tools:text="@string/emotion"
-        android:textAppearance="@android:style/TextAppearance"
-        android:layout_alignBottom="@+id/spinner_emotion"
-        android:layout_alignLeft="@+id/DateText"
-        android:layout_alignStart="@+id/DateText"
-        android:layout_height="25dp"
-        android:id="@+id/EmotionText" />
-
-    <TextView
-        android:text="@string/date"
-        android:layout_width="69dp"
         android:layout_height="wrap_content"
-        android:id="@+id/DateText"
-        tools:text="@string/date"
+        android:text="@string/location"
+        android:textAlignment="center"
         android:textAppearance="@android:style/TextAppearance"
-        android:layout_weight="1"
-        android:layout_marginTop="19dp"
-        android:layout_below="@+id/spinner_emotion"
+        android:textColor="@color/colorPrimary"
+        android:textStyle="bold|italic"
+        tools:text="@string/location"
+        android:layout_alignTop="@+id/mapButton"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_marginLeft="25dp"
-        android:layout_marginStart="25dp" />
+        android:layout_marginTop="14dp"
+        android:layout_toLeftOf="@+id/mapButton"
+        android:layout_toStartOf="@+id/mapButton" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/cameraButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        app:fabSize="mini"
+        app:srcCompat="@android:drawable/ic_menu_camera"
+        android:layout_alignBottom="@+id/imageView"
+        android:layout_toRightOf="@+id/imageView"
+        android:layout_toEndOf="@+id/imageView"
+        android:layout_marginLeft="19dp"
+        android:layout_marginStart="19dp" />
+
+    <TextView
+        android:id="@+id/SocialSituationText"
+        android:layout_width="120dp"
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif-condensed"
+        android:text="@string/social_situation"
+        android:textAlignment="center"
+        android:textAppearance="@android:style/TextAppearance"
+        android:textColor="@color/colorPrimary"
+        android:textStyle="bold|italic"
+        tools:text="@string/social_situation"
+        android:layout_toLeftOf="@+id/spinner_SS"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignTop="@+id/spinner_SS" />
+
+    <TextView
+        android:id="@+id/DateText"
+        android:layout_width="69dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:fontFamily="sans-serif-condensed"
+        android:text="@string/date"
+        android:textAlignment="center"
+        android:textAppearance="@android:style/TextAppearance"
+        android:textColor="@color/colorPrimary"
+        android:textStyle="bold|italic"
+        tools:text="@string/date"
+        android:layout_alignBaseline="@+id/edit_date"
+        android:layout_alignBottom="@+id/edit_date"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_toLeftOf="@+id/edit_date"
+        android:layout_toStartOf="@+id/edit_date" />
 
     <Button
-        android:text="@string/save_mood"
+        android:id="@+id/save_button"
+        style="@style/Widget.AppCompat.Button.Colored"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:id="@+id/save_button"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
         android:elevation="0dp"
+        android:text="@string/save_mood"
         tools:text="@string/save_mood" />
 
-    <Spinner android:id="@+id/spinner_emotion"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/Header"
-        android:layout_alignLeft="@+id/spinner_SS"
-        android:layout_alignStart="@+id/spinner_SS"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
-
     <Spinner
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
         android:id="@+id/spinner_SS"
-        android:layout_alignBaseline="@+id/SocialSituationText"
-        android:layout_alignBottom="@+id/SocialSituationText"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:layout_toEndOf="@+id/SocialSituationText"
-        android:layout_toRightOf="@+id/SocialSituationText" />
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/ReasonText"
+        android:layout_alignLeft="@+id/edit_reason_text"
+        android:layout_alignStart="@+id/edit_reason_text"
+        android:layout_marginBottom="20dp" />
 
     <TextView
-        android:text="@string/social_situation"
-        android:layout_width="wrap_content"
+        android:id="@+id/ReasonText"
+        android:layout_width="150dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="19dp"
-        android:id="@+id/SocialSituationText"
-        tools:text="@string/social_situation"
+        android:fontFamily="sans-serif-condensed"
+        android:text="@string/reason_text"
+        android:textAlignment="center"
         android:textAppearance="@android:style/TextAppearance"
-        android:layout_below="@+id/edit_date"
-        android:layout_alignLeft="@+id/DateText"
-        android:layout_alignStart="@+id/DateText" />
+        android:textColor="@color/colorPrimary"
+        android:textStyle="bold"
+        tools:text="@string/reason_text"
+        android:layout_marginBottom="37dp"
+        android:layout_above="@+id/mapButton"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 
-    <CheckBox
-        android:text="@string/location"
+    <EditText
+        android:id="@+id/edit_reason_text"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:textAppearance="@style/TextAppearance.AppCompat.Button"
+        android:layout_alignBottom="@+id/ReasonText"
+        android:layout_toRightOf="@+id/ReasonText"
+        android:layout_toEndOf="@+id/ReasonText" />
+
+    <EditText
+        android:id="@+id/edit_date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/LocationCheck"
-        tools:text="@string/location"
-        android:checked="false"
-        android:layout_marginTop="18dp"
-        android:layout_below="@+id/ReasonText"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:layout_centerVertical="true"
+        android:layout_toRightOf="@+id/SocialSituationText"
+        android:layout_alignRight="@+id/spinner_SS"
+        android:layout_alignEnd="@+id/spinner_SS" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/mapButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        app:fabSize="mini"
+        app:srcCompat="@android:drawable/ic_menu_mylocation"
+        android:layout_marginBottom="45dp"
+        android:layout_above="@+id/save_button"
+        android:layout_alignLeft="@+id/edit_reason_text"
+        android:layout_alignStart="@+id/edit_reason_text" />
+
+    <TextView
+        android:id="@+id/EmotionText"
+        android:layout_width="match_parent"
+        android:layout_height="25dp"
+        android:fontFamily="sans-serif-condensed"
+        android:text="@string/emotion"
+        android:textAlignment="center"
+        android:textAppearance="@android:style/TextAppearance"
+        android:textColor="@color/colorPrimary"
+        android:textStyle="bold|italic"
+        tools:text="@string/emotion"
+        android:layout_alignBottom="@+id/spinner_emotion"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_marginLeft="14dp"
-        android:layout_marginStart="14dp" />
+        android:layout_toStartOf="@+id/spinner_emotion"
+        android:layout_toLeftOf="@+id/spinner_emotion" />
 
-    <TextView
-        android:text="@string/reason_text"
-        android:layout_width="match_parent"
+    <Spinner
+        android:id="@+id/spinner_emotion"
+        android:layout_width="200dp"
         android:layout_height="wrap_content"
-        android:id="@+id/ReasonText"
-        android:layout_marginTop="21dp"
-        tools:text="@string/reason_text"
-        android:textAppearance="@android:style/TextAppearance"
-        android:layout_below="@+id/spinner_SS"
-        android:layout_alignLeft="@+id/SocialSituationText"
-        android:layout_alignStart="@+id/SocialSituationText" />
+        android:layout_above="@+id/DateText"
+        android:layout_alignLeft="@+id/edit_date"
+        android:layout_alignStart="@+id/edit_date"
+        android:layout_marginBottom="20dp" />
 
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:inputType="textPersonName"
-        android:ems="10"
-        android:id="@+id/edit_reason_text"
-        android:layout_alignBottom="@+id/ReasonText"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:layout_toRightOf="@+id/DateText"
-        android:layout_toEndOf="@+id/DateText" />
-
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:id="@+id/edit_date"
-        android:inputType="textPersonName"
-        android:layout_alignBottom="@+id/DateText"
-        android:layout_toRightOf="@+id/DateText"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="75dp"
+        android:layout_height="100dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="23dp"
+        app:srcCompat="@drawable/salt" />
 
 </RelativeLayout>
 
