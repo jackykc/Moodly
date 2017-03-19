@@ -4,7 +4,8 @@
     <string name="title_activity_view_social_lists">ViewSocialLists</string>
     <string name="action_settings">Settings</string>
     <string name="action_social">Social</string>
-    <string name="section_format">Hello World from section: %1$d</string>
+    <string name="add_comment">Add Comment</string>
+    <string name="view_comment">View Comments</string>
     <string name="picture">Picture</string>
     <string name="login">Login</string>
     <string name="username">Username</string>

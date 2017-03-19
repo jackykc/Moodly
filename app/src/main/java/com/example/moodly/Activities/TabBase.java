@@ -96,19 +96,20 @@ public class TabBase extends Fragment {
                 AlertDialog.Builder adb = new AlertDialog.Builder(getActivity());
                 adb.setMessage("Selecting mood to");
                 adb.setCancelable(true);
-                adb.setPositiveButton("View", new DialogInterface.OnClickListener() {
+                adb.setPositiveButton("View Comments", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                });
+                adb.setNegativeButton("View", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         Intent intent = new Intent(getActivity(), ViewMood.class);
                         intent.putExtra("MOOD_POSITION", position);
+                        intent.putExtra("edit", 1);
                         MoodController.getInstance().setMood(mood);
                         startActivityForResult(intent, 0);
-                    }
-                });
-                adb.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.cancel();
                     }
                 });
                 adb.show();
