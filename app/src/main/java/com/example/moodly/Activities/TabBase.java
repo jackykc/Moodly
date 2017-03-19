@@ -5,12 +5,15 @@ package com.example.moodly.Activities;
  */
 
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 import android.support.design.widget.FloatingActionButton;
@@ -80,12 +83,38 @@ public class TabBase extends Fragment {
     protected void hideViews() {
         FloatingActionButton fab = (FloatingActionButton) rootView.findViewById(R.id.fab);
         fab.hide();
-
     }
 
     // Used for project part 5 to set the listeners for the filter button
     protected void setListeners() {
+        displayMoodList.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, final int position, long id) {
 
+                final Mood mood = moodList.get(position);
+                AlertDialog.Builder adb = new AlertDialog.Builder(getActivity());
+                adb.setMessage("Selecting mood to");
+                adb.setCancelable(true);
+                adb.setPositiveButton("Comments", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                });
+                adb.setNegativeButton("View", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Intent intent = new Intent(getActivity(), ViewMood.class);
+                        intent.putExtra("MOOD_POSITION", position);
+                        intent.putExtra("edit", 1);
+                        MoodController.getInstance().setMood(mood);
+                        startActivityForResult(intent, 0);
+                    }
+                });
+                adb.show();
+                return false;
+            }
+        });
     }
 
 
@@ -105,7 +134,6 @@ public class TabBase extends Fragment {
      */
     protected void refreshOffline() {
         moodList = MoodController.getInstance().getFollowMoods();
-
         adapter = new FollowingMoodAdapter(getActivity(), R.layout.following_mood_list_item, moodList);
         displayMoodList.setAdapter(adapter);
         // needed ?

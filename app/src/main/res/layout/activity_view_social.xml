@@ -25,19 +25,6 @@
         android:layout_toLeftOf="@+id/mapButton"
         android:layout_toStartOf="@+id/mapButton" />
 
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/cameraButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:clickable="true"
-        app:fabSize="mini"
-        app:srcCompat="@android:drawable/ic_menu_camera"
-        android:layout_alignBottom="@+id/imageView"
-        android:layout_toRightOf="@+id/imageView"
-        android:layout_toEndOf="@+id/imageView"
-        android:layout_marginLeft="19dp"
-        android:layout_marginStart="19dp" />
-
     <TextView
         android:id="@+id/SocialSituationText"
         android:layout_width="120dp"
@@ -82,8 +69,8 @@
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
         android:elevation="0dp"
-        android:text="@string/save_mood"
-        tools:text="@string/save_mood" />
+        android:text="@string/add_comment"
+        tools:text="@string/add_comment" />
 
     <Spinner
         android:id="@+id/spinner_SS"
@@ -110,23 +97,21 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
 
-    <EditText
+    <TextView
         android:id="@+id/view_reason"
         android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:ems="10"
-        android:inputType="textPersonName"
         android:textAppearance="@style/TextAppearance.AppCompat.Button"
         android:layout_alignBottom="@+id/ReasonText"
         android:layout_toRightOf="@+id/ReasonText"
         android:layout_toEndOf="@+id/ReasonText" />
 
-    <EditText
+    <TextView
         android:id="@+id/view_date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:ems="10"
-        android:inputType="textPersonName"
         android:layout_centerVertical="true"
         android:layout_toRightOf="@+id/SocialSituationText"
         android:layout_alignRight="@+id/spinner_SS"
@@ -181,15 +166,3 @@
 
 </RelativeLayout>
 
-    <!--<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"-->
-    <!--xmlns:tools="http://schemas.android.com/tools"-->
-    <!--android:id="@+id/activity_view_mood2"-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="match_parent"-->
-    <!--android:paddingBottom="@dimen/activity_vertical_margin"-->
-    <!--android:paddingLeft="@dimen/activity_horizontal_margin"-->
-    <!--android:paddingRight="@dimen/activity_horizontal_margin"-->
-    <!--android:paddingTop="@dimen/activity_vertical_margin"-->
-    <!--tools:context="com.example.moodly.Activities.ViewMood">-->
-
-    <!--</RelativeLayout>-->
