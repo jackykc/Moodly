@@ -56,11 +56,15 @@ public class ViewMood extends AppCompatActivity {
 
         if (edit == 0) {
             setContentView(R.layout.activity_view_mood);
+            android.support.v7.app.ActionBar action = getSupportActionBar();
+            action.setTitle("Add / Edit Mood");
             setViews();
             setListeners();
         }
         else{
             setContentView(R.layout.activity_view_social);
+            android.support.v7.app.ActionBar action = getSupportActionBar();
+            action.setTitle("Viewing Mood Event");
             setViews();
         }
 
@@ -92,7 +96,7 @@ public class ViewMood extends AppCompatActivity {
 
         // get views
         ArrayList<String> ssList = new ArrayList<>();
-        ssList.add("Choose a social situation");
+        ssList.add("No social situation");
         ssList.add("Alone");
         ssList.add("With one other person");
         ssList.add("With two to several people");

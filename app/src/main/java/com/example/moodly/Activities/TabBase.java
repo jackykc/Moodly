@@ -83,7 +83,6 @@ public class TabBase extends Fragment {
     protected void hideViews() {
         FloatingActionButton fab = (FloatingActionButton) rootView.findViewById(R.id.fab);
         fab.hide();
-
     }
 
     // Used for project part 5 to set the listeners for the filter button
@@ -96,7 +95,7 @@ public class TabBase extends Fragment {
                 AlertDialog.Builder adb = new AlertDialog.Builder(getActivity());
                 adb.setMessage("Selecting mood to");
                 adb.setCancelable(true);
-                adb.setPositiveButton("View Comments", new DialogInterface.OnClickListener() {
+                adb.setPositiveButton("Comments", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.cancel();
@@ -135,7 +134,6 @@ public class TabBase extends Fragment {
      */
     protected void refreshOffline() {
         moodList = MoodController.getInstance().getFollowMoods();
-
         adapter = new FollowingMoodAdapter(getActivity(), R.layout.following_mood_list_item, moodList);
         displayMoodList.setAdapter(adapter);
         // needed ?

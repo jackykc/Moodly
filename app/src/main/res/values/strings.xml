@@ -11,7 +11,6 @@
     <string name="username">Username</string>
     <string name="Register">Sign Up</string>
     <string name="mood_list_header">History</string>
-    <string name="title_activity_view_mood">Add / Edit a Mood</string>
     <string name="date">Date</string>
     <string name="emotion">Emotion</string>
     <string name="reason_text">Reason</string>
