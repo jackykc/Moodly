@@ -37,6 +37,8 @@ public class MoodController extends ElasticSearchController {
     private static ArrayList<Mood> moodFollowList;
     private ArrayList<Mood> filteredList;
 
+    private static QueryBuilder queryBuilder;
+
     /**
      * Constructor for our mood controller, initializes members
      */
@@ -47,6 +49,8 @@ public class MoodController extends ElasticSearchController {
         moodFollowList = new ArrayList<Mood>();
         filteredList = new ArrayList<Mood>();
         tempMood = new Mood();
+
+        queryBuilder = new QueryBuilder();
     }
 
     /**
@@ -64,6 +68,7 @@ public class MoodController extends ElasticSearchController {
 
 
     /* ---------- Controller Functions ---------- */
+    // Use these to interact with the views
 
     /**
      * Adds a mood both locally to the array list on the controller and on elastic search
@@ -117,6 +122,22 @@ public class MoodController extends ElasticSearchController {
         }
         return tempMoodList;
     }
+
+    // sets the emotion to filter for
+    public void setEmotion(int emotion) {
+        queryBuilder.setEmotion(emotion);
+    }
+
+    // set to true if we want moods from last seven days
+    public void setRecent(boolean recent) {
+        queryBuilder.setRecent(recent);
+    }
+
+    // set the single word to search for in reason text
+    public void setRecent(String reason) {
+        queryBuilder.setReason(reason);
+    }
+
 
     public Mood getMood() {
         return tempMood;
@@ -211,25 +232,13 @@ public class MoodController extends ElasticSearchController {
         protected ArrayList<Mood> doInBackground(ArrayList<String>... search_parameters) {
             verifySettings();
 
-            ArrayList<String> usernames = search_parameters[0];
-            // make a string to query with
-            // for example "Jacky OR Melvin"
-            String userNameString = usernames.get(0);
-            for (int i = 1; i < usernames.size(); i++) {
-                userNameString += " OR ";
-                userNameString += usernames.get(i);
-            }
-
             ArrayList<Mood> currentMoodList = new ArrayList<Mood>();
-            String query = "{ \n\"query\" : {\n" +
-                    "\"query_string\" : { \n" +
-                    "\"fields\" : [\"owner\"],\n" +
-                    "\"query\" : \"" + userNameString + "\"\n" +
-                    "}" +
-                    "\n},";
-            String sort = "\n\"sort\": { \"date\": { \"order\": \"desc\" } }";
-            query += sort;
-            query += " \n} ";
+
+
+            ArrayList<String> usernames = search_parameters[0];
+
+            queryBuilder.setUsers(usernames);
+            String query = queryBuilder.getMoodQuery();
 
             Search search = new Search.Builder(query)
                     .addIndex("cmput301w17t20")
