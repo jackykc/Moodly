@@ -212,6 +212,10 @@ public class MoodController extends ElasticSearchController {
             verifySettings();
 
             ArrayList<String> usernames = search_parameters[0];
+
+            if (usernames.size() == 0) {
+                return new ArrayList<Mood>();
+            }
             // make a string to query with
             // for example "Jacky OR Melvin"
             String userNameString = usernames.get(0);

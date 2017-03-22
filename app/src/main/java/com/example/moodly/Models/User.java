@@ -12,6 +12,16 @@ public class User {
     private ArrayList<String> follower;
     private ArrayList<String> following;
 
+    public String getID() {
+        return ID;
+    }
+
+    public void setID(String ID) {
+        this.ID = ID;
+    }
+
+    private String ID;
+
     public User() {
         follower = new ArrayList<>();
         following = new ArrayList<>();

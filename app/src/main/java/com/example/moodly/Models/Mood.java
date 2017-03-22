@@ -180,6 +180,8 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.os.SystemClock;
 
+import com.example.moodly.Controllers.UserController;
+
 import java.util.Date;
 
 import io.searchbox.annotations.JestId;
@@ -199,6 +201,7 @@ public class Mood {
     private String image;
     private Integer emotion;
     private Integer socialSituation;
+    private User user = UserController.getInstance().getCurrentUser();
 
     @JestId
     private String id;
@@ -215,7 +218,7 @@ public class Mood {
      */
     public Mood() {
         this.date = new Date();
-        this.owner = "Melvin";
+        this.owner = user.getName();
         this.location = "";
         this.trigger = "";
         this.emotion = 0;
