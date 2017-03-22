@@ -12,7 +12,9 @@ import com.searchly.jestdroid.JestDroidClient;
 
 import java.util.List;
 
+import io.searchbox.client.JestResult;
 import io.searchbox.core.Delete;
+import io.searchbox.core.DeleteByQuery;
 import io.searchbox.core.DocumentResult;
 import io.searchbox.core.Index;
 import io.searchbox.core.Search;
@@ -99,8 +101,14 @@ public class MoodController extends ElasticSearchController {
         Mood m = moodHistoryList.get(position);
 
         instance.moodHistoryList.remove(position);
+
+        MoodController.DeleteCommentsTask deleteCommentsTask = new MoodController.DeleteCommentsTask();
+        deleteCommentsTask.execute(m);
+
         MoodController.DeleteMoodTask deleteMoodTask = new MoodController.DeleteMoodTask();
         deleteMoodTask.execute(m);
+
+
 
     }
 
@@ -189,6 +197,50 @@ public class MoodController extends ElasticSearchController {
         }
     }
 
+    private static class DeleteCommentsTask extends AsyncTask<Mood, Void, Boolean> {
+
+        @Override
+        protected Boolean doInBackground(Mood... moods){
+            verifySettings();
+
+            for(Mood mood : moods) {
+
+                // Did I include id twice?
+                // if it works don't change it?
+                //Delete delete = new Delete.Builder(mood.getId()).index("cmput301w17t20").type("comment").id(mood.getId()).build();
+                String query = "{\n" +
+                        "\t\"query\": {\n" +
+                        "\t\t\"match\": {\n" +
+                        "\t\t\t\"moodId\": \" "+ mood.getId() +"\"\n" +
+                        "\t\t}\n" +
+                        "\t}\n" +
+                        "}";
+
+                DeleteByQuery deleteComments = new DeleteByQuery.Builder(query)
+                        .addIndex("cmput301w17t20")
+                        .addType("comment")
+                        .build();
+
+                //http://stackoverflow.com/questions/34760557/elasticsearch-delete-by-query-using-jest
+
+                try {
+                    JestResult result = client.execute(deleteComments);
+                    if (result.isSucceeded()) {
+                        return true;
+                    } else {
+                        Log.i("Error", "Elasticsearch was not able to delete the comments");
+                    }
+                    // where is the client?
+                }
+                catch (Exception e) {
+                    Log.i("Error", "The application failed to build and delete the mood's comments");
+                }
+
+            }
+
+            return false;
+        }
+    }
 
     /**
      * Async task that deletes a mood from elastic search
