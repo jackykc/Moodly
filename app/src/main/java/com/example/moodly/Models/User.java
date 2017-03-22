@@ -11,16 +11,19 @@ public class User {
     private String name;
     private ArrayList<String> follower;
     private ArrayList<String> following;
+    private ArrayList<String> requests;
 
     public User() {
         follower = new ArrayList<>();
         following = new ArrayList<>();
+        requests = new ArrayList<>();
     }
 
     public User(String myName) {
         name = myName;
         follower = new ArrayList<>();
         following = new ArrayList<>();
+        requests = new ArrayList<>();
     }
 
     public ArrayList<Mood> moodList = new ArrayList<>();
@@ -36,6 +39,14 @@ public class User {
     public ArrayList<String> getFollowers() { return follower; }
 
     public ArrayList<String> getFollowing() { return following; }
+
+    public ArrayList<String> getRequests() {
+        return requests;
+    }
+
+    public void setRequests(ArrayList<String> requests) {
+        this.requests = requests;
+    }
 
     public void addFollower(User user){
         //Bug-proof
