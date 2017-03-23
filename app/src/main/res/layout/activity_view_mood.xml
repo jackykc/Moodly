@@ -74,7 +74,7 @@
         android:layout_toStartOf="@+id/view_date" />
 
     <Button
-        android:id="@+id/addComments"
+        android:id="@+id/viewComments"
         style="@style/Widget.AppCompat.Button.Colored"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -140,7 +140,7 @@
         app:fabSize="mini"
         app:srcCompat="@android:drawable/ic_menu_mylocation"
         android:layout_marginBottom="45dp"
-        android:layout_above="@+id/addComments"
+        android:layout_above="@+id/viewComments"
         android:layout_alignLeft="@+id/view_reason"
         android:layout_alignStart="@+id/view_reason" />
 

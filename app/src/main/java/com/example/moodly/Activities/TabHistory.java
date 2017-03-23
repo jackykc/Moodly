@@ -142,7 +142,6 @@ public class TabHistory extends TabBase {
     @Override
     protected void refreshOffline() {
         moodList = MoodController.getInstance().getHistoryMoods();
-
         adapter = new MoodAdapter(getActivity(), R.layout.mood_list_item, moodList);
         displayMoodList.setAdapter(adapter);
         adapter.notifyDataSetChanged();

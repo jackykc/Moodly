@@ -14,7 +14,9 @@ import android.widget.EditText;
 import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.example.moodly.Controllers.CommentController;
 import com.example.moodly.Controllers.MoodController;
 import com.example.moodly.Models.Emotion;
 import com.example.moodly.Models.Mood;
@@ -121,14 +123,14 @@ public class ViewMood extends AppCompatActivity {
         socialSituationSpinner.setSelection(mood.getSocialSituation());
 
         if (edit == 0) {
-            saveButton = (Button) findViewById(R.id.addComments);
+            saveButton = (Button) findViewById(R.id.viewComments);
             editDate = (EditText) findViewById(R.id.view_date);
             editReasonText = (EditText) findViewById(R.id.view_reason);
             editDate.setText(mood.getDate().toString(), TextView.BufferType.EDITABLE);
             editReasonText.setText(mood.getReasonText(), TextView.BufferType.EDITABLE);
         }
         else{
-            addComments = (Button)findViewById(R.id.addComments);
+            addComments = (Button)findViewById(R.id.viewComments);
             viewComments = (Button) findViewById(R.id.viewComments);
             viewDate = (TextView) findViewById(R.id.view_date);
             viewReasonText = (TextView) findViewById(R.id.view_reason);
@@ -201,7 +203,9 @@ public class ViewMood extends AppCompatActivity {
                     builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            final String comment = input.getText().toString();
+                            String comment = input.getText().toString();
+                            CommentController.addComment(comment,mood.getId());
+                            Toast.makeText(ViewMood.this, "Comment added!", Toast.LENGTH_SHORT).show();
                         }
                     });
                     builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -217,7 +221,9 @@ public class ViewMood extends AppCompatActivity {
             viewComments.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    CommentController.getInstance();
                     Intent intent = new Intent(ViewMood.this, ViewComments.class);
+                    intent.putExtra("moodID",mood.getId());
                     startActivity(intent);
                 }
             });

@@ -21,13 +21,14 @@ import io.searchbox.core.SearchResult;
 public class CommentController extends ElasticSearchController {
 
     private static CommentController instance = null;
-    private static ArrayList<Comment> commentList;
+    private static ArrayList<Comment> commentList = new ArrayList<>();
     private static QueryBuilder queryBuilder;
-    private String owner;
+    private static String owner;
+//    private String owner;
 
     private CommentController() {
 
-        commentList = new ArrayList<Comment>();
+        commentList = new ArrayList<>();
         queryBuilder = new QueryBuilder();
         owner = "Melvin";
 
@@ -44,7 +45,7 @@ public class CommentController extends ElasticSearchController {
 
     /* ---------- Controller Functions ---------- */
     // Use these to interact with the views
-    public void addComment(String text, String moodID) {
+    public static void addComment(String text, String moodID) {
         Comment tempComment = new Comment(text, owner, moodID);
         // add offline
         commentList.add(0, tempComment);
@@ -92,7 +93,6 @@ public class CommentController extends ElasticSearchController {
                             }
 
                         }
-
 
                     } else {
                         Log.i("Error", "Elasticsearch was not able to add the comment");
