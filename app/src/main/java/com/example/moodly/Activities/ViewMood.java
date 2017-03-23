@@ -1,9 +1,9 @@
 package com.example.moodly.Activities;
 
-import android.Manifest;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
@@ -14,6 +14,8 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.InputType;
+import android.util.Base64;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
@@ -30,7 +32,11 @@ import com.example.moodly.Models.Emotion;
 import com.example.moodly.Models.Mood;
 import com.example.moodly.R;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 
 import static com.example.moodly.Models.Emotion.NONE;
@@ -52,10 +58,15 @@ public class ViewMood extends AppCompatActivity {
     private Button saveButton;
     private Button addComments;
     private Button viewComments;
+    private Button viewMoodComment;
     private FloatingActionButton cameraButton;
+    private ImageView moodImage;
 
     private Uri imageUri;
-
+    private String base64;
+    private String imagePath;
+    private String setPhotoPath;
+    private String base64Encoded;
     private int position = -1;
     private int edit = 0;
     /**
@@ -129,11 +140,15 @@ public class ViewMood extends AppCompatActivity {
         //https://www.tutorialspoint.com/android/android_spinner_control.htm
         emotionSpinner = (Spinner) findViewById(R.id.spinner_emotion);
         socialSituationSpinner = (Spinner) findViewById(R.id.spinner_SS);
-
         setSpinners();
         emotionSpinner.setSelection(mood.getEmotion());
         socialSituationSpinner.setSelection(mood.getSocialSituation());
-
+        moodImage = (ImageView) findViewById(R.id.moodImage);
+        viewMoodComment = (Button) findViewById(R.id.viewMoodComment);
+        base64Encoded = mood.getImage();
+        if (base64Encoded != null) {
+            decodeFromBase64(base64Encoded);
+        }
         if (edit == 0) {
             saveButton = (Button) findViewById(R.id.addComments);
             cameraButton = (FloatingActionButton) findViewById(R.id.cameraButton);
@@ -141,6 +156,9 @@ public class ViewMood extends AppCompatActivity {
             editReasonText = (EditText) findViewById(R.id.view_reason);
             editDate.setText(mood.getDate().toString(), TextView.BufferType.EDITABLE);
             editReasonText.setText(mood.getReasonText(), TextView.BufferType.EDITABLE);
+            if (position == -1){
+                viewMoodComment.setEnabled(false);
+            }
         }
         else{
             addComments = (Button)findViewById(R.id.addComments);
@@ -152,7 +170,6 @@ public class ViewMood extends AppCompatActivity {
             socialSituationSpinner.setEnabled(false);
             emotionSpinner.setEnabled(false);
         }
-
     }
     // inherit from a view only class?
     //@Override
@@ -178,7 +195,9 @@ public class ViewMood extends AppCompatActivity {
                     //mood.setDate(editDate.getText().toD);
                     // do i need to set it? is it a good idea?
                     // adds mood to controller/elastic search server
-
+                    String reasonText = editReasonText.getText().toString();
+                    String reasonTrimmed = reasonText.trim();
+                    int words = reasonTrimmed.isEmpty() ? 0 : reasonTrimmed.split("\\s+").length;
                     Emotion emotionEnumCheck = Emotion.values()[emotionSpinner.getSelectedItemPosition()];
                     if (emotionEnumCheck == NONE) {
                         // http://stackoverflow.com/questions/28235689/how-can-an-error-message-be-set-for-the-spinner-in-android 3/8/2017
@@ -186,16 +205,19 @@ public class ViewMood extends AppCompatActivity {
                         errorText.setError("");
                         errorText.setTextColor(Color.RED);
                         errorText.setText("Emotion required");
-                    } else {
-
-                        String reasonText = editReasonText.getText().toString();
+                    }
+                    // Taken from http://stackoverflow.com/questions/8924599/how-to-count-the-exact-number-of-words-in-a-string-that-has-empty-spaces-between 3/22/2017
+                    else if(reasonText.length() > 20 || words > 3 ){
+                        editReasonText.setError("Reason must be less than 20 characters or 3 words.");
+                    }else {
                         int emotionEnum = emotionSpinner.getSelectedItemPosition();
                         int socialEnum = socialSituationSpinner.getSelectedItemPosition();
-
+                        base64 = setPhotoPath = moodImage.getTag().toString();
+                        convertToBase64(setPhotoPath);
                         mood.setReasonText(reasonText);
                         mood.setEmotion(emotionEnum);
                         mood.setSocialSituation(socialEnum);
-
+                        mood.setImage(base64);
                         // needed to set the mood?
                         MoodController.getInstance().setMood(mood);
                         MoodController.getInstance().addMood(position, mood);
@@ -208,6 +230,15 @@ public class ViewMood extends AppCompatActivity {
                     }
                 }
 
+            });
+            viewMoodComment.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    CommentController.getInstance();
+                    Intent intent = new Intent(ViewMood.this, ViewComments.class);
+                    intent.putExtra("moodID",mood.getId());
+                    startActivity(intent);
+                }
             });
         }
         else{
@@ -256,7 +287,7 @@ public class ViewMood extends AppCompatActivity {
         File folder = new File(path);
         if(!folder.exists())
             folder.mkdirs();
-        String imagePath = path + File.separator + String.valueOf(System.currentTimeMillis()) + ".jpg";
+        imagePath = path + File.separator + String.valueOf(System.currentTimeMillis()) + ".png";
         File imageFile = new File(imagePath);
         imageUri = Uri.fromFile(imageFile);
 
@@ -268,13 +299,43 @@ public class ViewMood extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent intent){
         if (requestCode == 0){
             if (resultCode == RESULT_OK) {
-                ImageView moodImage = (ImageView) findViewById(R.id.moodImage);
                 moodImage.setImageDrawable(Drawable.createFromPath(imageUri.getPath()));
+                moodImage.setTag(imageUri.getPath());
             }
         }
     }
 
+    // taken from http://stackoverflow.com/questions/25299438/how-do-i-get-the-image-that-i-took-and-submit-it-to-my-server 3/22/2017
+    protected String convertToBase64(String location){
+        FileInputStream fis = null;
+        byte[] b;
+        int bytesRead;
+        try{
+            fis = new FileInputStream(location);
+        } catch(FileNotFoundException e){
+            Log.i("Error","File not found");
+        }
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        byte[] buffer = new byte[8096];
+        try{
+            while ((bytesRead = fis.read(buffer)) != -1) {
+                baos.write(buffer, 0, bytesRead);
+            }
+        } catch (IOException e){
+            Log.i("Error","Cannot write to buffer");
+        }
+        b = baos.toByteArray();
+        base64 = Base64.encodeToString(b, Base64.DEFAULT);
+        System.out.println(base64);
+        return base64;
+    }
 
+    protected void decodeFromBase64(String toBeDecoded){
+        //Taken from http://stackoverflow.com/questions/4837110/how-to-convert-a-base64-string-into-a-bitmap-image-to-show-it-in-a-imageview 3/23/2017
+        byte[] decodedText = Base64.decode(toBeDecoded,Base64.DEFAULT);
+        Bitmap decodedPhoto = BitmapFactory.decodeByteArray(decodedText,0,decodedText.length);
+        moodImage.setImageBitmap(decodedPhoto);
+    }
 
 }
 

@@ -18,10 +18,9 @@
         android:textColor="@color/colorPrimary"
         android:textStyle="bold|italic"
         tools:text="@string/location"
-        android:layout_alignTop="@+id/mapButton"
+        android:layout_below="@+id/ReasonText"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_marginTop="14dp"
         android:layout_toLeftOf="@+id/mapButton"
         android:layout_toStartOf="@+id/mapButton" />
 
@@ -105,7 +104,7 @@
         android:textColor="@color/colorPrimary"
         android:textStyle="bold"
         tools:text="@string/reason_text"
-        android:layout_marginBottom="37dp"
+        android:layout_marginBottom="25dp"
         android:layout_above="@+id/mapButton"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
@@ -139,10 +138,10 @@
         android:clickable="true"
         app:fabSize="mini"
         app:srcCompat="@android:drawable/ic_menu_mylocation"
-        android:layout_marginBottom="45dp"
-        android:layout_above="@+id/addComments"
-        android:layout_alignLeft="@+id/view_reason"
-        android:layout_alignStart="@+id/view_reason" />
+        android:layout_marginBottom="10dp"
+        android:layout_above="@+id/viewMoodComment"
+        android:layout_toRightOf="@+id/ReasonText"
+        android:layout_toEndOf="@+id/ReasonText" />
 
     <TextView
         android:id="@+id/EmotionText"
@@ -178,17 +177,17 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="23dp" />
 
+    <Button
+        android:id="@+id/viewMoodComment"
+        style="@style/Widget.AppCompat.Button.Colored"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/addComments"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentStart="true"
+        android:text="@string/view_comment"
+        tools:text="@string/view_comment" />
+
 </RelativeLayout>
-
-    <!--<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"-->
-    <!--xmlns:tools="http://schemas.android.com/tools"-->
-    <!--android:id="@+id/activity_view_mood2"-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="match_parent"-->
-    <!--android:paddingBottom="@dimen/activity_vertical_margin"-->
-    <!--android:paddingLeft="@dimen/activity_horizontal_margin"-->
-    <!--android:paddingRight="@dimen/activity_horizontal_margin"-->
-    <!--android:paddingTop="@dimen/activity_vertical_margin"-->
-    <!--tools:context="com.example.moodly.Activities.ViewMood">-->
-
-    <!--</RelativeLayout>-->
