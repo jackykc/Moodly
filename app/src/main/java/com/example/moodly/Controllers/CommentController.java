@@ -29,7 +29,7 @@ public class CommentController extends ElasticSearchController {
 
         commentList = new ArrayList<>();
         queryBuilder = new QueryBuilder();
-        owner = "Melvin";
+        owner = UserController.getInstance().getCurrentUser().getName();
 
     }
 
@@ -115,9 +115,14 @@ public class CommentController extends ElasticSearchController {
             ArrayList<Comment> currentCommentList = new ArrayList<Comment>();
 
 
-            String moodID = search_parameters[0];
+            String moodId = search_parameters[0];
             // use query builder to find comments with moodID
-            String query = "";
+            String query = "{\n" +
+                    "\t\"query\": {\n" +
+                    "\t\t\"match\": {\n" +
+                    "\t\t\t\"moodId\": \"" + moodId + "\" }\n" +
+                    "\t}\n" +
+                    "}";
 
             Search search = new Search.Builder(query)
                     .addIndex("cmput301w17t20")
