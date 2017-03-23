@@ -1,8 +1,15 @@
 package com.example.moodly.Activities;
 
+import android.Manifest;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
+import android.net.Uri;
+import android.os.Environment;
+import android.provider.MediaStore;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -12,6 +19,7 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -22,6 +30,7 @@ import com.example.moodly.Models.Emotion;
 import com.example.moodly.Models.Mood;
 import com.example.moodly.R;
 
+import java.io.File;
 import java.util.ArrayList;
 
 import static com.example.moodly.Models.Emotion.NONE;
@@ -43,6 +52,9 @@ public class ViewMood extends AppCompatActivity {
     private Button saveButton;
     private Button addComments;
     private Button viewComments;
+    private FloatingActionButton cameraButton;
+
+    private Uri imageUri;
 
     private int position = -1;
     private int edit = 0;
@@ -124,6 +136,7 @@ public class ViewMood extends AppCompatActivity {
 
         if (edit == 0) {
             saveButton = (Button) findViewById(R.id.addComments);
+            cameraButton = (FloatingActionButton) findViewById(R.id.cameraButton);
             editDate = (EditText) findViewById(R.id.view_date);
             editReasonText = (EditText) findViewById(R.id.view_reason);
             editDate.setText(mood.getDate().toString(), TextView.BufferType.EDITABLE);
@@ -151,6 +164,12 @@ public class ViewMood extends AppCompatActivity {
      */
     protected void setListeners() {
         if (edit == 0) {
+            cameraButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    moodPhoto();
+                }
+            });
             saveButton.setOnClickListener(new View.OnClickListener() {
 
                 public void onClick(View v) {
@@ -229,6 +248,30 @@ public class ViewMood extends AppCompatActivity {
             });
         }
 
+    }
+
+    // Taken from https://github.com/CMPUT301W17T20/MyCameraTest1
+    protected void moodPhoto(){
+        String path = Environment.getExternalStorageDirectory().getAbsolutePath() + "/MoodlyPhotos";
+        File folder = new File(path);
+        if(!folder.exists())
+            folder.mkdirs();
+        String imagePath = path + File.separator + String.valueOf(System.currentTimeMillis()) + ".jpg";
+        File imageFile = new File(imagePath);
+        imageUri = Uri.fromFile(imageFile);
+
+        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
+        startActivityForResult(intent,0);
+    }
+
+    protected void onActivityResult(int requestCode, int resultCode, Intent intent){
+        if (requestCode == 0){
+            if (resultCode == RESULT_OK) {
+                ImageView moodImage = (ImageView) findViewById(R.id.moodImage);
+                moodImage.setImageDrawable(Drawable.createFromPath(imageUri.getPath()));
+            }
+        }
     }
 
 

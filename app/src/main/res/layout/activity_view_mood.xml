@@ -32,9 +32,9 @@
         android:clickable="true"
         app:fabSize="mini"
         app:srcCompat="@android:drawable/ic_menu_camera"
-        android:layout_alignBottom="@+id/imageView"
-        android:layout_toRightOf="@+id/imageView"
-        android:layout_toEndOf="@+id/imageView"
+        android:layout_alignBottom="@+id/moodImage"
+        android:layout_toRightOf="@+id/moodImage"
+        android:layout_toEndOf="@+id/moodImage"
         android:layout_marginLeft="19dp"
         android:layout_marginStart="19dp" />
 
@@ -171,13 +171,12 @@
         android:layout_marginBottom="20dp" />
 
     <ImageView
-        android:id="@+id/imageView"
+        android:id="@+id/moodImage"
         android:layout_width="75dp"
         android:layout_height="100dp"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="23dp"
-        app:srcCompat="@drawable/salt" />
+        android:layout_marginTop="23dp" />
 
 </RelativeLayout>
 
