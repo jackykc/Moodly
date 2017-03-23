@@ -92,8 +92,8 @@ public class MoodAdapter extends ArrayAdapter<Mood> {
         if (holder.mood.getEmotion() == 4) {row.setBackgroundColor(Color.parseColor("#FFA726"));}
         if (holder.mood.getEmotion() == 5) {row.setBackgroundColor(Color.parseColor("#FFEE58"));}
         if (holder.mood.getEmotion() == 6) {row.setBackgroundColor(Color.parseColor("#2196F3"));}
-        if (holder.mood.getEmotion() == 7) {row.setBackgroundColor(Color.parseColor("#9E9E9E"));}
-        if (holder.mood.getEmotion() == 8) {row.setBackgroundColor(Color.parseColor("#F06292"));}
+        if (holder.mood.getEmotion() == 7) {row.setBackgroundColor(Color.parseColor("#F06292"));}
+        if (holder.mood.getEmotion() == 8) {row.setBackgroundColor(Color.parseColor("#FFFFFF"));}
     }
 
     /**
