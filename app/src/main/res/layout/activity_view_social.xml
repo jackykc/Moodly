@@ -60,18 +60,6 @@
         android:layout_toLeftOf="@+id/view_date"
         android:layout_toStartOf="@+id/view_date" />
 
-    <Button
-        android:id="@+id/viewComments"
-        style="@style/Widget.AppCompat.Button.Colored"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:elevation="0dp"
-        android:text="@string/view_comment"
-        tools:text="@string/view_comment" />
-
     <Spinner
         android:id="@+id/spinner_SS"
         android:layout_width="200dp"
@@ -126,7 +114,7 @@
         app:fabSize="mini"
         app:srcCompat="@android:drawable/ic_menu_mylocation"
         android:layout_marginBottom="20dp"
-        android:layout_above="@+id/viewComments"
+        android:layout_above="@+id/addComments"
         android:layout_toEndOf="@+id/locationText" />
 
     <TextView
@@ -165,16 +153,28 @@
         app:srcCompat="@drawable/salt" />
 
     <Button
-        android:id="@+id/viewComments"
+        android:id="@+id/addComments"
         style="@style/Widget.AppCompat.Button.Colored"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginBottom="44dp"
         android:text="@string/add_comment"
-        tools:text="@string/add_comment" />
+        tools:text="@string/add_comment"
+        android:layout_above="@+id/viewComments"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <Button
+        android:id="@+id/viewComments"
+        style="@style/Widget.AppCompat.Button.Colored"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentStart="true"
+        android:text="@string/view_comment"
+        tools:text="@string/view_comment" />
 
 </RelativeLayout>
 

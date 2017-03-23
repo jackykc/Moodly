@@ -123,14 +123,14 @@ public class ViewMood extends AppCompatActivity {
         socialSituationSpinner.setSelection(mood.getSocialSituation());
 
         if (edit == 0) {
-            saveButton = (Button) findViewById(R.id.viewComments);
+            saveButton = (Button) findViewById(R.id.addComments);
             editDate = (EditText) findViewById(R.id.view_date);
             editReasonText = (EditText) findViewById(R.id.view_reason);
             editDate.setText(mood.getDate().toString(), TextView.BufferType.EDITABLE);
             editReasonText.setText(mood.getReasonText(), TextView.BufferType.EDITABLE);
         }
         else{
-            addComments = (Button)findViewById(R.id.viewComments);
+            addComments = (Button)findViewById(R.id.addComments);
             viewComments = (Button) findViewById(R.id.viewComments);
             viewDate = (TextView) findViewById(R.id.view_date);
             viewReasonText = (TextView) findViewById(R.id.view_reason);
@@ -204,7 +204,7 @@ public class ViewMood extends AppCompatActivity {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             String comment = input.getText().toString();
-                            CommentController.addComment(comment,mood.getId());
+                            CommentController.getInstance().addComment(comment,mood.getId());
                             Toast.makeText(ViewMood.this, "Comment added!", Toast.LENGTH_SHORT).show();
                         }
                     });

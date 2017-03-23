@@ -24,7 +24,6 @@ public class CommentController extends ElasticSearchController {
     private static ArrayList<Comment> commentList = new ArrayList<>();
     private static QueryBuilder queryBuilder;
     private static String owner;
-//    private String owner;
 
     private CommentController() {
 
@@ -38,7 +37,6 @@ public class CommentController extends ElasticSearchController {
         if(instance == null) {
             instance = new CommentController();
         }
-
         return instance;
 
     }

@@ -25,7 +25,7 @@ public class ViewComments extends AppCompatActivity {
 
     protected void showComments(ArrayList<Comment> commentList){
         if (commentList.size() == 0){
-
+            // if there isn't any comments, print message to tell user?
         }
         else {
             displayCommentList = (ListView) findViewById(R.id.commentsView);
