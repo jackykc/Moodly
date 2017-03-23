@@ -117,6 +117,7 @@ public class ViewMoodList extends AppCompatActivity {
         @Override
         public Fragment getItem(int position) {
             // return current tab
+
             switch (position) {
                 case 0:
                     TabHistory tab1 = new TabHistory();

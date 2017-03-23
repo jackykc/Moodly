@@ -56,6 +56,7 @@ public class SocialBase extends AppCompatActivity {
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(mViewPager);
+        tabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
 
     }
 
@@ -102,11 +103,14 @@ public class SocialBase extends AppCompatActivity {
                     SocialRequestList tab1 = new SocialRequestList();
                     return tab1;
                 case 1:
-                    SocialRequestList tab2 = new SocialRequestList();
+                    SocialFollowerList tab2 = new SocialFollowerList();
                     return tab2;
                 case 2:
                     SocialFollowingList tab3 = new SocialFollowingList();
                     return  tab3;
+                case 3:
+                    SocialRequestList tab4 = new SocialRequestList();
+                    return tab4;
                 default:
                     return null;
             }
@@ -115,7 +119,7 @@ public class SocialBase extends AppCompatActivity {
         @Override
         public int getCount() {
             // Show 3 total pages.
-            return 3;
+            return 4;
         }
 
         @Override
@@ -128,6 +132,8 @@ public class SocialBase extends AppCompatActivity {
                     return "Followers";
                 case 2:
                     return "Following";
+                case 3:
+                    return "Follow Requests";
             }
             return null;
         }
