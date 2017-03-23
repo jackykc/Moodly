@@ -206,8 +206,8 @@ public class UserController extends ElasticSearchController {
                 try {
                     DocumentResult result = client.execute(index);
                     if (result.isSucceeded()) {
-                        if (user.getID() == null) {
-                            user.setID(result.getId());
+                        if (user.getId() == null) {
+                            user.setId(result.getId());
                             // dont think we have a userlist ?!?
 //                            if(moodHistoryList.get(0).getId() == null) {
 //                                moodHistoryList.get(0).setId(result.getId());
