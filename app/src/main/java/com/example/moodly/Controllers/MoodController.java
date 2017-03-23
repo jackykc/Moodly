@@ -289,6 +289,8 @@ public class MoodController extends ElasticSearchController {
 
             ArrayList<String> usernames = search_parameters[0];
 
+            if (usernames.size() == 0) { return new ArrayList<Mood>(); }
+
             queryBuilder.setUsers(usernames);
             String query = queryBuilder.getMoodQuery();
 
@@ -352,6 +354,7 @@ public class MoodController extends ElasticSearchController {
 
     // we can do binary search on this btw
     // and don't we have to sort it too?
+    // sort what?
 
 
 //    protected ArrayList<Mood> filterByDate(Date startDate, Date endDate) {

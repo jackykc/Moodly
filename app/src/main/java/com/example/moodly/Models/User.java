@@ -2,6 +2,8 @@ package com.example.moodly.Models;
 
 import java.util.ArrayList;
 
+import io.searchbox.annotations.JestId;
+
 /**
  * Created by mliew on 2017-02-25.
  */
@@ -12,6 +14,9 @@ public class User {
     private ArrayList<String> follower;
     private ArrayList<String> following;
     private ArrayList<String> requests;
+
+    @JestId
+    private String id;
 
     public User() {
         follower = new ArrayList<>();
@@ -47,6 +52,10 @@ public class User {
     public void setRequests(ArrayList<String> requests) {
         this.requests = requests;
     }
+
+    public String getId() { return id; }
+
+    public void setId(String id) { this.id = id; }
 
     public void addFollower(User user){
         //Bug-proof
