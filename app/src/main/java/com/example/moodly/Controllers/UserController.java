@@ -26,7 +26,7 @@ public class UserController extends ElasticSearchController {
 
     private static UserController instance = null;
     private static User currentUser;
-    private User currentUsername = null;
+    private String currentUsername = null; // guessing we can remove this?
     private static ArrayList<User> following;
     private static ArrayList<User> followers;
 
@@ -70,12 +70,25 @@ public class UserController extends ElasticSearchController {
 
         try {
             currentUser = getUserTask.get();
-
         } catch (Exception e) {
             Log.i("Error", "Cannot get current user out of async object");
         }
     }
 
+    public ArrayList<User> searchUsers(String searchText){
+        UserController.SearchUsersTask searchUsersTask = new UserController.SearchUsersTask();
+        searchUsersTask.execute(searchText);
+
+        ArrayList<User> userList = new ArrayList<User>();
+        try {
+            userList = searchUsersTask.get();
+        } catch (Exception e) {
+            Log.i("Error", "Cannot get current user out of async object");
+        }
+
+        return userList;
+
+    }
 
     /**
      * Gets the user that logged in the app
@@ -97,6 +110,7 @@ public class UserController extends ElasticSearchController {
 
         return currentUser;
     }
+
 
     /* ---------- Elastic Search Requests ---------- */
 
@@ -142,6 +156,52 @@ public class UserController extends ElasticSearchController {
         }
     }
 
+    private static class SearchUsersTask extends AsyncTask<String, Void, ArrayList<User>> {
+
+        @Override
+        protected ArrayList<User> doInBackground(String... search_parameters) {
+            verifySettings();
+
+            ArrayList<User> userList = new ArrayList<User>();
+
+            String query =
+                    "{ \n\"query\" : {\n" +
+                            "    \"match_phrase_prefix\" : { \"name\" : \"" + search_parameters[0] +
+                            "\"     }\n " +
+                            "    }\n" +
+                            " } ";
+
+            // TODO Build the query
+            Search search = new Search.Builder(query)
+                    .addIndex("cmput301w17t20")
+                    .addType("user")
+                    .build();
+
+            try {
+                // get the results of our query
+                SearchResult result = client.execute(search);
+                if(result.isSucceeded()) {
+                    // hits
+                    List<SearchResult.Hit<User, Void>> foundUsers = result.getHits(User.class);
+
+                    for(int i = 0; i < foundUsers.size(); i++) {
+                        User temp = foundUsers.get(i).source;
+
+                        userList.add(temp);
+                    }
+
+                } else {
+                    Log.i("Error", "Search query failed to find any moods that matched");
+                }
+            }
+            catch (Exception e) {
+                Log.i("Error", "Something went wrong when we tried to communicate with the elasticsearch server!");
+            }
+            return userList;
+        }
+    }
+
+
     /* ---------- Elastic Search Requests ---------- */
 
     /**
@@ -155,14 +215,14 @@ public class UserController extends ElasticSearchController {
 
             if (search_parameters.length == 0) {return null;}
 
-            ArrayList<User> userList = new ArrayList<User>();
             String query =
             "{ \n\"query\" : {\n" +
                     "    \"match\" : { \"name\" : \"" + search_parameters[0] +
                     "\"     }\n " +
                     "    }\n" +
                     " } ";
-// TODO Build the query
+
+            // TODO Build the query
             System.out.println(query);
             Search search = new Search.Builder(query)
                     .addIndex("cmput301w17t20")
@@ -182,7 +242,7 @@ public class UserController extends ElasticSearchController {
                     currentUser = temp;
 
                 } else {
-                    Log.i("Error", "Search query failed to find any moods that matched");
+                    Log.i("Error", "Search query failed to find any users that matched");
                 }
             }
             catch (Exception e) {
