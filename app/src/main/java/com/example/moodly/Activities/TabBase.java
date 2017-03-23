@@ -95,7 +95,7 @@ public class TabBase extends Fragment {
                 AlertDialog.Builder adb = new AlertDialog.Builder(getActivity());
                 adb.setMessage("Selecting mood to");
                 adb.setCancelable(true);
-                adb.setPositiveButton("Comments", new DialogInterface.OnClickListener() {
+                adb.setPositiveButton("Cancel", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.cancel();

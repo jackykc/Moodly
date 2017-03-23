@@ -6,6 +6,7 @@
     <string name="action_social">Social</string>
     <string name="add_comment">Add Comment</string>
     <string name="view_comment">View Comments</string>
+    <string name="no_comment">No comments found for this mood.</string>
     <string name="picture">Picture</string>
     <string name="login">Login</string>
     <string name="username">Username</string>

@@ -12,18 +12,18 @@
         android:id="@+id/locationText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignTop="@+id/mapButton"
+        android:layout_toLeftOf="@+id/view_reason"
+        android:layout_toStartOf="@+id/view_reason"
+        android:fontFamily="sans-serif-condensed"
         android:text="@string/location"
         android:textAlignment="center"
         android:textAppearance="@android:style/TextAppearance"
         android:textColor="@color/colorPrimary"
-        android:textStyle="bold|italic"
-        tools:text="@string/location"
-        android:layout_alignTop="@+id/mapButton"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="14dp"
-        android:layout_toLeftOf="@+id/mapButton"
-        android:layout_toStartOf="@+id/mapButton" />
+        android:textStyle="bold"
+        tools:text="@string/location" />
 
     <TextView
         android:id="@+id/SocialSituationText"
@@ -60,18 +60,6 @@
         android:layout_toLeftOf="@+id/view_date"
         android:layout_toStartOf="@+id/view_date" />
 
-    <Button
-        android:id="@+id/addComments"
-        style="@style/Widget.AppCompat.Button.Colored"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:elevation="0dp"
-        android:text="@string/add_comment"
-        tools:text="@string/add_comment" />
-
     <Spinner
         android:id="@+id/spinner_SS"
         android:layout_width="200dp"
@@ -92,8 +80,9 @@
         android:textColor="@color/colorPrimary"
         android:textStyle="bold"
         tools:text="@string/reason_text"
-        android:layout_marginBottom="37dp"
+        android:layout_marginBottom="14dp"
         android:layout_above="@+id/mapButton"
+        android:layout_toLeftOf="@+id/imageView"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
 
@@ -103,7 +92,7 @@
         android:layout_height="wrap_content"
         android:ems="10"
         android:textAppearance="@style/TextAppearance.AppCompat.Button"
-        android:layout_alignBottom="@+id/ReasonText"
+        android:layout_below="@+id/spinner_SS"
         android:layout_toRightOf="@+id/ReasonText"
         android:layout_toEndOf="@+id/ReasonText" />
 
@@ -124,10 +113,9 @@
         android:clickable="true"
         app:fabSize="mini"
         app:srcCompat="@android:drawable/ic_menu_mylocation"
-        android:layout_marginBottom="45dp"
+        android:layout_marginBottom="20dp"
         android:layout_above="@+id/addComments"
-        android:layout_alignLeft="@+id/view_reason"
-        android:layout_alignStart="@+id/view_reason" />
+        android:layout_toEndOf="@+id/locationText" />
 
     <TextView
         android:id="@+id/EmotionText"
@@ -163,6 +151,30 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="23dp"
         app:srcCompat="@drawable/salt" />
+
+    <Button
+        android:id="@+id/addComments"
+        style="@style/Widget.AppCompat.Button.Colored"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/add_comment"
+        tools:text="@string/add_comment"
+        android:layout_above="@+id/viewComments"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <Button
+        android:id="@+id/viewComments"
+        style="@style/Widget.AppCompat.Button.Colored"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentStart="true"
+        android:text="@string/view_comment"
+        tools:text="@string/view_comment" />
 
 </RelativeLayout>
 

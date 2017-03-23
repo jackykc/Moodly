@@ -290,4 +290,5 @@ public class Mood {
     public void setImage(String image) {
         this.image = image;
     }
+
 }

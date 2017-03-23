@@ -1,9 +1,12 @@
 package com.example.moodly.Activities;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.InputType;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
@@ -11,7 +14,9 @@ import android.widget.EditText;
 import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.example.moodly.Controllers.CommentController;
 import com.example.moodly.Controllers.MoodController;
 import com.example.moodly.Models.Emotion;
 import com.example.moodly.Models.Mood;
@@ -37,6 +42,7 @@ public class ViewMood extends AppCompatActivity {
     private Spinner socialSituationSpinner;
     private Button saveButton;
     private Button addComments;
+    private Button viewComments;
 
     private int position = -1;
     private int edit = 0;
@@ -58,16 +64,14 @@ public class ViewMood extends AppCompatActivity {
             setContentView(R.layout.activity_view_mood);
             android.support.v7.app.ActionBar action = getSupportActionBar();
             action.setTitle("Add / Edit Mood");
-            setViews();
-            setListeners();
         }
         else{
             setContentView(R.layout.activity_view_social);
             android.support.v7.app.ActionBar action = getSupportActionBar();
             action.setTitle("Viewing Mood Event");
-            setViews();
         }
-
+        setViews();
+        setListeners();
     }
 
     /**
@@ -127,6 +131,7 @@ public class ViewMood extends AppCompatActivity {
         }
         else{
             addComments = (Button)findViewById(R.id.addComments);
+            viewComments = (Button) findViewById(R.id.viewComments);
             viewDate = (TextView) findViewById(R.id.view_date);
             viewReasonText = (TextView) findViewById(R.id.view_reason);
             viewDate.setText(mood.getDate().toString());
@@ -186,8 +191,47 @@ public class ViewMood extends AppCompatActivity {
 
             });
         }
+        else{
+            addComments.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(ViewMood.this);
+                    builder.setTitle("Enter your comment");
+                    final EditText input = new EditText(ViewMood.this);
+                    input.setInputType(InputType.TYPE_CLASS_TEXT);
+                    builder.setView(input);
+                    builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            String comment = input.getText().toString();
+                            CommentController.getInstance().addComment(comment,mood.getId());
+                            Toast.makeText(ViewMood.this, "Comment added!", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                    builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.cancel();
+                        }
+                    });
+                    builder.show();
+                }
+            });
+
+            viewComments.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    CommentController.getInstance();
+                    Intent intent = new Intent(ViewMood.this, ViewComments.class);
+                    intent.putExtra("moodID",mood.getId());
+                    startActivity(intent);
+                }
+            });
+        }
 
     }
+
+
 
 }
 
