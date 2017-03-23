@@ -80,8 +80,9 @@ public class LoginScreen extends AppCompatActivity {
     /**
      * Provides a short toast to current user logging in
      */
-    private void hello() {
-        Toast.makeText(LoginScreen.this, "Hello, Melvin", Toast.LENGTH_SHORT).show();
+    private void hello(String name) {
+        String greetings = "Hello, " + name;
+        Toast.makeText(LoginScreen.this, greetings, Toast.LENGTH_SHORT).show();
     }
 
     /**
@@ -95,21 +96,32 @@ public class LoginScreen extends AppCompatActivity {
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                conn.createUser();
-                hello();
-                startActivity(intent);
+                conn.setCurrentUser(userName.getText().toString());
+                if (conn.getCurrentUser() != null) {
+                    hello(userName.getText().toString());
+                    startActivity(intent);
+                }
+                else {
+                    Toast.makeText(LoginScreen.this, "This username does not exist", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
-        // No sign up functionality yet
-//        signUpButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                conn.createUser();
-//                hello();
-//                startActivity(intent);
-//            }
-//        });
+//         No sign up functionality yet
+        signUpButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                conn.setCurrentUser(userName.getText().toString());
+                if (conn.getCurrentUser() == null) {
+                    conn.createUser(userName.getText().toString());
+                    hello(userName.getText().toString());
+                    startActivity(intent);
+                }
+                else {
+                    Toast.makeText(LoginScreen.this, "This username already exist", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
 
     }
 

@@ -12,6 +12,7 @@ public class User {
     private ArrayList<String> follower;
     private ArrayList<String> following;
     private ArrayList<String> requests;
+    private String ID;
 
     public User() {
         follower = new ArrayList<>();
@@ -47,6 +48,10 @@ public class User {
     public void setRequests(ArrayList<String> requests) {
         this.requests = requests;
     }
+
+    public String getID() { return ID; }
+
+    public void setID(String ID) { this.ID = ID; }
 
     public void addFollower(User user){
         //Bug-proof

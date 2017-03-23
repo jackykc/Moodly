@@ -8,6 +8,8 @@ import com.example.moodly.Models.User;
 import java.util.ArrayList;
 import java.util.List;
 
+import io.searchbox.core.DocumentResult;
+import io.searchbox.core.Index;
 import io.searchbox.core.Search;
 import io.searchbox.core.SearchResult;
 
@@ -55,9 +57,25 @@ public class UserController extends ElasticSearchController {
     /**
      * Used to create a new use, not implemented yet
      */
-    public void createUser() {
-
+    public void createUser(String name) {
+        User u = new User(name);
+        AddUserTask addUserTask = new AddUserTask();
+        addUserTask.execute(u);
+        currentUser = u;
     }
+
+    public void setCurrentUser(String name){
+        UserController.GetUserTask getUserTask = new UserController.GetUserTask();
+        getUserTask.execute(name);
+
+        try {
+            currentUser = getUserTask.get();
+
+        } catch (Exception e) {
+            Log.i("Error", "Cannot get current user out of async object");
+        }
+    }
+
 
     /**
      * Gets the user that logged in the app
@@ -67,7 +85,7 @@ public class UserController extends ElasticSearchController {
 
         if (currentUser == null) {
             UserController.GetUserTask getUserTask = new UserController.GetUserTask();
-            getUserTask.execute("");
+            getUserTask.execute();
 
             try {
                 currentUser = getUserTask.get();
@@ -135,14 +153,17 @@ public class UserController extends ElasticSearchController {
         protected User doInBackground(String... search_parameters) {
             verifySettings();
 
+            if (search_parameters.length == 0) {return null;}
+
             ArrayList<User> userList = new ArrayList<User>();
             String query =
             "{ \n\"query\" : {\n" +
-                    "    \"match\" : { \"name\" : \"" + "Melvin" +
+                    "    \"match\" : { \"name\" : \"" + search_parameters[0] +
                     "\"     }\n " +
                     "    }\n" +
                     " } ";
 // TODO Build the query
+            System.out.println(query);
             Search search = new Search.Builder(query)
                     .addIndex("cmput301w17t20")
                     .addType("user")
@@ -169,6 +190,44 @@ public class UserController extends ElasticSearchController {
             }
 
             return temp;
+        }
+    }
+
+    private static class AddUserTask extends AsyncTask<User, Void, Void> {
+
+        @Override
+        protected Void doInBackground(User... users){
+            verifySettings();
+
+            for(User user : users) {
+
+                Index index = new Index.Builder(user).index("cmput301w17t20").type("user").build();
+
+                try {
+                    DocumentResult result = client.execute(index);
+                    if (result.isSucceeded()) {
+                        if (user.getID() == null) {
+                            user.setID(result.getId());
+                            // dont think we have a userlist ?!?
+//                            if(moodHistoryList.get(0).getId() == null) {
+//                                moodHistoryList.get(0).setId(result.getId());
+//                            }
+
+                        }
+
+
+                    } else {
+                        Log.i("Error", "Elasticsearch was not able to add the mood");
+                    }
+                    // where is the client?
+                }
+                catch (Exception e) {
+                    Log.i("Error", "The application failed to build and send the mood");
+                }
+
+            }
+
+            return null;
         }
     }
 
