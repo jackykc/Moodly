@@ -212,13 +212,14 @@ public class ViewMood extends AppCompatActivity {
                     }else {
                         int emotionEnum = emotionSpinner.getSelectedItemPosition();
                         int socialEnum = socialSituationSpinner.getSelectedItemPosition();
-                        base64 = setPhotoPath = moodImage.getTag().toString();
-                        convertToBase64(setPhotoPath);
+                        setPhotoPath = moodImage.getTag().toString();
+                        base64 = convertToBase64(setPhotoPath);
                         mood.setReasonText(reasonText);
                         mood.setEmotion(emotionEnum);
                         mood.setSocialSituation(socialEnum);
                         mood.setImage(base64);
                         // needed to set the mood?
+
                         MoodController.getInstance().setMood(mood);
                         MoodController.getInstance().addMood(position, mood);
                         //MoodController.getInstance().editMood();

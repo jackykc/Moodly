@@ -171,7 +171,7 @@
 
     <ImageView
         android:id="@+id/moodImage"
-        android:layout_width="75dp"
+        android:layout_width="wrap_content"
         android:layout_height="100dp"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
