@@ -148,7 +148,7 @@ public class ViewMood extends AppCompatActivity {
         emotionSpinner.setSelection(mood.getEmotion());
         socialSituationSpinner.setSelection(mood.getSocialSituation());
         moodImage = (ImageView) findViewById(R.id.moodImage);
-        viewMoodComment = (Button) findViewById(R.id.viewMoodComment);
+        viewMoodComment = (Button) findViewById(R.id.addComments);
         base64Encoded = mood.getImage();
         if (base64Encoded != null) {
             decodeFromBase64(base64Encoded);
@@ -166,7 +166,7 @@ public class ViewMood extends AppCompatActivity {
         }
         else{
             addComments = (Button)findViewById(R.id.addComments);
-            viewComments = (Button) findViewById(R.id.viewComments);
+            viewComments = (Button) findViewById(R.id.addComments);
             viewDate = (TextView) findViewById(R.id.view_date);
             viewReasonText = (TextView) findViewById(R.id.view_reason);
             viewDate.setText(mood.getDate().toString());
@@ -296,7 +296,6 @@ public class ViewMood extends AppCompatActivity {
         imagePath = path + File.separator + String.valueOf(System.currentTimeMillis()) + ".png";
         File imageFile = new File(imagePath);
         imageUri = Uri.fromFile(imageFile);
-
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
         startActivityForResult(intent,0);
