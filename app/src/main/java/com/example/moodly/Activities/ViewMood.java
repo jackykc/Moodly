@@ -67,10 +67,12 @@ public class ViewMood extends AppCompatActivity {
     private ImageView moodImage;
 
     private Uri imageUri;
+
     private String base64;
     private String imagePath;
     private String setPhotoPath;
     private String base64Encoded;
+
     private int position = -1;
     private int edit = 0;
     /**
@@ -90,7 +92,12 @@ public class ViewMood extends AppCompatActivity {
         if (edit == 0) {
             setContentView(R.layout.activity_view_mood);
             android.support.v7.app.ActionBar action = getSupportActionBar();
-            action.setTitle("Add / Edit Mood");
+            if (position == -1) {
+                action.setTitle("Add Mood");
+            }
+            else{
+                action.setTitle("Editing Mood");
+            }
         }
         else{
             setContentView(R.layout.activity_view_social);
@@ -148,13 +155,13 @@ public class ViewMood extends AppCompatActivity {
         emotionSpinner.setSelection(mood.getEmotion());
         socialSituationSpinner.setSelection(mood.getSocialSituation());
         moodImage = (ImageView) findViewById(R.id.moodImage);
-        viewMoodComment = (Button) findViewById(R.id.addComments);
+        viewMoodComment = (Button) findViewById(R.id.viewMoodComments);
         base64Encoded = mood.getImage();
         if (base64Encoded != null) {
             decodeFromBase64(base64Encoded);
         }
         if (edit == 0) {
-            saveButton = (Button) findViewById(R.id.addComments);
+            saveButton = (Button) findViewById(R.id.saveButton);
             cameraButton = (FloatingActionButton) findViewById(R.id.cameraButton);
             editDate = (EditText) findViewById(R.id.view_date);
             editReasonText = (EditText) findViewById(R.id.view_reason);
@@ -166,7 +173,7 @@ public class ViewMood extends AppCompatActivity {
         }
         else{
             addComments = (Button)findViewById(R.id.addComments);
-            viewComments = (Button) findViewById(R.id.addComments);
+            viewComments = (Button) findViewById(R.id.viewComments);
             viewDate = (TextView) findViewById(R.id.view_date);
             viewReasonText = (TextView) findViewById(R.id.view_reason);
             viewDate.setText(mood.getDate().toString());
@@ -217,20 +224,19 @@ public class ViewMood extends AppCompatActivity {
                     }else {
                         int emotionEnum = emotionSpinner.getSelectedItemPosition();
                         int socialEnum = socialSituationSpinner.getSelectedItemPosition();
-                        setPhotoPath = moodImage.getTag().toString();
-                        base64 = convertToBase64(setPhotoPath);
+                        if (position == -1) {
+                            setPhotoPath = moodImage.getTag().toString();
+                            base64 = convertToBase64(setPhotoPath);
+                            mood.setImage(base64);
+                        }
                         mood.setReasonText(reasonText);
                         mood.setEmotion(emotionEnum);
                         mood.setSocialSituation(socialEnum);
-                        mood.setImage(base64);
                         // needed to set the mood?
-
                         MoodController.getInstance().setMood(mood);
                         MoodController.getInstance().addMood(position, mood);
                         //MoodController.getInstance().editMood();
-
                         Intent output = new Intent(ViewMood.this, ViewMoodList.class);
-
                         setResult(RESULT_OK, output);
                         finish();
                     }

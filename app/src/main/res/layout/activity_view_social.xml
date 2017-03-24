@@ -44,7 +44,6 @@
         android:id="@+id/DateText"
         android:layout_width="69dp"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
         android:fontFamily="sans-serif-condensed"
         android:text="@string/date"
         android:textAlignment="center"
