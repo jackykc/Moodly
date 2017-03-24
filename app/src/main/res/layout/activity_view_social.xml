@@ -57,7 +57,6 @@
         android:layout_alignBottom="@+id/view_date"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_toLeftOf="@+id/view_date"
         android:layout_toStartOf="@+id/view_date" />
 
     <Spinner
@@ -131,8 +130,7 @@
         android:layout_alignBottom="@+id/spinner_emotion"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_toStartOf="@+id/spinner_emotion"
-        android:layout_toLeftOf="@+id/spinner_emotion" />
+        android:layout_toStartOf="@+id/spinner_emotion" />
 
     <Spinner
         android:id="@+id/spinner_emotion"

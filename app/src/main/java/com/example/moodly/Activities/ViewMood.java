@@ -1,15 +1,19 @@
 package com.example.moodly.Activities;
 
+import android.Manifest;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -101,7 +105,7 @@ public class ViewMood extends AppCompatActivity {
      * Sets the spinners for emotional state and
      * social situation options.
      */
-    protected  void setSpinners() {
+    protected void setSpinners() {
 
         /*do we want to hardcode the following?
         * there probably is a better way to do this using the string resource file*/
@@ -181,6 +185,7 @@ public class ViewMood extends AppCompatActivity {
      */
     protected void setListeners() {
         if (edit == 0) {
+            checkPermissions();
             cameraButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -332,10 +337,22 @@ public class ViewMood extends AppCompatActivity {
     }
 
     protected void decodeFromBase64(String toBeDecoded){
-        //Taken from http://stackoverflow.com/questions/4837110/how-to-convert-a-base64-string-into-a-bitmap-image-to-show-it-in-a-imageview 3/23/2017
+        // Taken from http://stackoverflow.com/questions/4837110/how-to-convert-a-base64-string-into-a-bitmap-image-to-show-it-in-a-imageview 3/23/2017
         byte[] decodedText = Base64.decode(toBeDecoded,Base64.DEFAULT);
         Bitmap decodedPhoto = BitmapFactory.decodeByteArray(decodedText,0,decodedText.length);
         moodImage.setImageBitmap(decodedPhoto);
+    }
+
+    // Taken from https://developer.android.com/training/permissions/requesting.html
+    protected void checkPermissions(){
+        if (Build.VERSION.SDK_INT >= 23) {
+            if (checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED ){
+                ActivityCompat.requestPermissions(ViewMood.this,new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},0);
+            }
+            if (checkSelfPermission(Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED){
+                ActivityCompat.requestPermissions(ViewMood.this,new String[]{Manifest.permission.CAMERA},1);
+            }
+        }
     }
 
 }
