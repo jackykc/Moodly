@@ -22,4 +22,5 @@
     <string name="add_mood">Adding a New Mood</string>
     <string name="location">Location</string>
     <string name="social_situation">Social Situation</string>
+    <string name="title_activity_see_map">Map</string>
 </resources>
