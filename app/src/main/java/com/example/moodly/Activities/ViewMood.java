@@ -316,7 +316,7 @@ public class ViewMood extends AppCompatActivity {
         }
     }
 
-    // taken from http://stackoverflow.com/questions/25299438/how-do-i-get-the-image-that-i-took-and-submit-it-to-my-server 3/22/2017
+    // Taken from http://stackoverflow.com/questions/25299438/how-do-i-get-the-image-that-i-took-and-submit-it-to-my-server 3/22/2017
     protected String convertToBase64(String location){
         FileInputStream fis = null;
         byte[] b;
@@ -337,7 +337,6 @@ public class ViewMood extends AppCompatActivity {
         }
         b = baos.toByteArray();
         base64 = Base64.encodeToString(b, Base64.DEFAULT);
-        System.out.println(base64);
         return base64;
     }
 
