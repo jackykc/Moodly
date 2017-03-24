@@ -2,6 +2,7 @@ package com.example.moodly.Adapters;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -66,9 +67,22 @@ public class FollowingMoodAdapter extends ArrayAdapter<Mood> {
         holder.emoji = (ImageView) row.findViewById(R.id.f_emoji);
         holder.username = (TextView) row.findViewById(R.id.f_mood_owner);
 
+        setBackground(holder,row);
+
         setupItem(holder);
 
         return row;
+    }
+
+    private void setBackground(MoodHolder holder, View row) {
+        if (holder.mood.getEmotion() == 1) {row.setBackgroundColor(Color.parseColor("#E53935"));}
+        if (holder.mood.getEmotion() == 2) {row.setBackgroundColor(Color.parseColor("#BA68C8"));}
+        if (holder.mood.getEmotion() == 3) {row.setBackgroundColor(Color.parseColor("#4CAF50"));}
+        if (holder.mood.getEmotion() == 4) {row.setBackgroundColor(Color.parseColor("#FFA726"));}
+        if (holder.mood.getEmotion() == 5) {row.setBackgroundColor(Color.parseColor("#FFEE58"));}
+        if (holder.mood.getEmotion() == 6) {row.setBackgroundColor(Color.parseColor("#2196F3"));}
+        if (holder.mood.getEmotion() == 7) {row.setBackgroundColor(Color.parseColor("#F06292"));}
+        if (holder.mood.getEmotion() == 8) {row.setBackgroundColor(Color.parseColor("#FFFFFF"));}
     }
 
     /**
