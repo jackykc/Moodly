@@ -313,7 +313,7 @@ public class MoodController extends ElasticSearchController {
                     }
                     moodList = currentMoodList;
                     // for your own list of moods
-                    if (usernames.size() == 1) {
+                    if ((usernames.size() == 1) &&(usernames.get(0) == UserController.getInstance().getCurrentUser().getName())) {
                         moodHistoryList = currentMoodList;
                     } else {
                         moodFollowList = currentMoodList;

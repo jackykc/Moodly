@@ -91,6 +91,9 @@ public class ViewMoodList extends AppCompatActivity {
                 return true;
             case R.id.show_map:
                 Toast.makeText(this,"Showing Map", Toast.LENGTH_SHORT).show();
+                Intent intentMap = new Intent();
+                intentMap.setClass(ViewMoodList.this, SeeMap.class);
+                startActivity(intentMap);
                 return true;
             case R.id.action_social:
                 Toast.makeText(this,"Social", Toast.LENGTH_SHORT).show();
