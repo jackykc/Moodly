@@ -176,32 +176,44 @@
 
 package com.example.moodly.Models;
 
+import android.location.Location;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.os.SystemClock;
 
 import com.example.moodly.Controllers.MoodController;
 import com.example.moodly.Controllers.UserController;
+import com.google.android.gms.vision.barcode.Barcode;
 
 import java.util.Date;
 
 import io.searchbox.annotations.JestId;
-
 /**
  * Created by mliew on 2017-02-25.
  */
-
-
-
 public class Mood {
     private Date date;
     private String owner;
-    private String location;
     private String trigger;
     private String reasonText;
     private String image;
     private Integer emotion;
     private Integer socialSituation;
+    private GeoLocation geo_location;
+
+    private class GeoLocation {
+
+        public double lat;
+
+        public double lon;
+
+
+        public GeoLocation(double lat, double lon) {
+            this.lat = lat;
+            this.lon = lon;
+        }
+    }
+
 
     @JestId
     private String id;
@@ -219,13 +231,14 @@ public class Mood {
     public Mood() {
         this.date = new Date();
         this.owner = UserController.getInstance().getCurrentUser().getName();
-        this.location = "";
+        this.geo_location = new GeoLocation(0, 0);
         this.trigger = "";
         this.emotion = 0;
         this.socialSituation = 0;
         this.reasonText = "";
         this.image = null;
     }
+
 
     public Date getDate() {
         return date;
@@ -243,12 +256,13 @@ public class Mood {
         this.owner = owner;
     }
 
-    public String getLocation() {
-        return location;
+    public GeoLocation getLocation() {
+        return geo_location;
     }
 
-    public void setLocation(String location) {
-        this.location = location;
+    public void setLocation(double lat, double lon) {
+        this.geo_location.lat = lat;
+        this.geo_location.lon = lon;
     }
 
     public String getTrigger() {
