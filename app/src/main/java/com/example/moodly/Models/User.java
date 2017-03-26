@@ -79,6 +79,62 @@ public class User {
         }
     }
 
+
+    public void addFollowerName(String name){
+        //Bug-proof
+        if (!follower.contains(name)){
+            //Add my following
+            follower.add(name);
+
+        }
+    }
+
+    public void addFollowingName(String name){
+        //Bug-proof
+        if (!following.contains(name)){
+            //Add to following
+            following.add(name);
+
+        }
+    }
+
+    public void addRequestName(String name){
+        //Bug-proof
+        if (!requests.contains(name)){
+            //Add to request
+            requests.add(name);
+
+        }
+    }
+
+
+    public void removeFollowerName(String name) {
+        if (follower.contains(name)){
+            // remove name from follower
+            int index = follower.indexOf(name);
+            follower.remove(index);
+        }
+    }
+
+
+    public void removeFollowingName(String name) {
+        if (follower.contains(name)){
+            // remove name from following
+            int index = following.indexOf(name);
+            following.remove(index);
+        }
+    }
+
+
+    public void removeRequestName(String name) {
+        if (requests.contains(name)){
+            // remove name from request
+            int index = requests.indexOf(name);
+            requests.remove(index);
+        }
+    }
+
+
     public void removeFollower(User user) {
         if (follower.contains(user.getName())){
             //Remove my follower
@@ -100,5 +156,6 @@ public class User {
             user.removeFollower(this);
         }
     }
+
 
 }
