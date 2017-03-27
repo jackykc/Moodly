@@ -139,22 +139,25 @@ public class TabHistory extends TabBase {
                 builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        if (selected_filter.contains("Most Recent Week")){
-                            Toast.makeText(getContext(),"Most Recent Week",Toast.LENGTH_SHORT).show();
+                        if (selected_filter.size() > 1){
+                            Toast.makeText(getContext(),"Only one filter can be chosen at a time!", Toast.LENGTH_SHORT).show();
                             dialog.dismiss();
-                        }
-                        else if (selected_filter.contains("Emotional State")){
-                            //Toast.makeText(getContext(),"Emotional State",Toast.LENGTH_SHORT).show();
-                            dialog.dismiss();
-                            getFilterEmotion();
-                        }
-                        else if(selected_filter.contains("Text")){
-                            //Toast.makeText(getContext(),"Text",Toast.LENGTH_SHORT).show();
-                            dialog.dismiss();
-                            getFilterText();
                         }
                         else {
-                            Toast.makeText(getContext(),"No filter selected!",Toast.LENGTH_SHORT).show();
+                            if (selected_filter.contains("Most Recent Week")) {
+                                Toast.makeText(getContext(), "Most Recent Week", Toast.LENGTH_SHORT).show();
+                                dialog.dismiss();
+                            } else if (selected_filter.contains("Emotional State")) {
+                                //Toast.makeText(getContext(),"Emotional State",Toast.LENGTH_SHORT).show();
+                                dialog.dismiss();
+                                getFilterEmotion();
+                            } else if (selected_filter.contains("Text")) {
+                                //Toast.makeText(getContext(),"Text",Toast.LENGTH_SHORT).show();
+                                dialog.dismiss();
+                                getFilterText();
+                            } else {
+                                Toast.makeText(getContext(), "No filter selected!", Toast.LENGTH_SHORT).show();
+                            }
                         }
                         selected_filter.clear();
                     }
@@ -228,7 +231,13 @@ public class TabHistory extends TabBase {
         builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                Toast.makeText(getContext(),selected_emotion.get(0),Toast.LENGTH_SHORT).show();
+                if (selected_emotion.size() > 1){
+                    Toast.makeText(getContext(),"Only one emotion can be chosen at a time!", Toast.LENGTH_SHORT).show();
+                    dialog.dismiss();
+                }
+                else {
+                    Toast.makeText(getContext(), selected_emotion.get(0), Toast.LENGTH_SHORT).show();
+                }
                 selected_emotion.clear();
             }
         });
