@@ -18,10 +18,9 @@
         android:textColor="@color/colorPrimary"
         android:textStyle="bold|italic"
         tools:text="@string/location"
-        android:layout_alignTop="@+id/mapButton"
+        android:layout_below="@+id/ReasonText"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_marginTop="14dp"
         android:layout_toLeftOf="@+id/mapButton"
         android:layout_toStartOf="@+id/mapButton" />
 
@@ -32,9 +31,9 @@
         android:clickable="true"
         app:fabSize="mini"
         app:srcCompat="@android:drawable/ic_menu_camera"
-        android:layout_alignBottom="@+id/imageView"
-        android:layout_toRightOf="@+id/imageView"
-        android:layout_toEndOf="@+id/imageView"
+        android:layout_alignBottom="@+id/moodImage"
+        android:layout_toRightOf="@+id/moodImage"
+        android:layout_toEndOf="@+id/moodImage"
         android:layout_marginLeft="19dp"
         android:layout_marginStart="19dp" />
 
@@ -73,18 +72,6 @@
         android:layout_toLeftOf="@+id/view_date"
         android:layout_toStartOf="@+id/view_date" />
 
-    <Button
-        android:id="@+id/addComments"
-        style="@style/Widget.AppCompat.Button.Colored"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:elevation="0dp"
-        android:text="@string/save_mood"
-        tools:text="@string/save_mood" />
-
     <Spinner
         android:id="@+id/spinner_SS"
         android:layout_width="200dp"
@@ -105,7 +92,7 @@
         android:textColor="@color/colorPrimary"
         android:textStyle="bold"
         tools:text="@string/reason_text"
-        android:layout_marginBottom="37dp"
+        android:layout_marginBottom="25dp"
         android:layout_above="@+id/mapButton"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
@@ -139,10 +126,10 @@
         android:clickable="true"
         app:fabSize="mini"
         app:srcCompat="@android:drawable/ic_menu_mylocation"
-        android:layout_marginBottom="45dp"
-        android:layout_above="@+id/addComments"
-        android:layout_alignLeft="@+id/view_reason"
-        android:layout_alignStart="@+id/view_reason" />
+        android:layout_above="@+id/viewMoodComments"
+        android:layout_toRightOf="@+id/ReasonText"
+        android:layout_toEndOf="@+id/ReasonText"
+        android:layout_marginBottom="10dp" />
 
     <TextView
         android:id="@+id/EmotionText"
@@ -171,25 +158,38 @@
         android:layout_marginBottom="20dp" />
 
     <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="75dp"
-        android:layout_height="100dp"
+        android:id="@+id/moodImage"
+        android:layout_width="wrap_content"
+        android:layout_height="150dp"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="23dp"
-        app:srcCompat="@drawable/salt" />
+        android:layout_marginTop="23dp" />
+
+    <Button
+        android:id="@+id/viewMoodComments"
+        style="@style/Widget.AppCompat.Button.Colored"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/view_comment"
+        tools:text="@string/view_comment"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginBottom="46dp"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+
+    <Button
+        android:id="@+id/saveButton"
+        style="@style/Widget.AppCompat.Button.Colored"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:text="@string/save_mood"
+        tools:text="@string/save_mood"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
 
 </RelativeLayout>
-
-    <!--<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"-->
-    <!--xmlns:tools="http://schemas.android.com/tools"-->
-    <!--android:id="@+id/activity_view_mood2"-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="match_parent"-->
-    <!--android:paddingBottom="@dimen/activity_vertical_margin"-->
-    <!--android:paddingLeft="@dimen/activity_horizontal_margin"-->
-    <!--android:paddingRight="@dimen/activity_horizontal_margin"-->
-    <!--android:paddingTop="@dimen/activity_vertical_margin"-->
-    <!--tools:context="com.example.moodly.Activities.ViewMood">-->
-
-    <!--</RelativeLayout>-->

@@ -67,6 +67,6 @@ public class Comment {
     }
 
     public String toString(){
-        return text;
+        return owner + "      "+ text;
     }
 }
