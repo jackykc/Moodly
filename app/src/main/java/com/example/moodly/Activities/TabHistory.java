@@ -5,19 +5,25 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.example.moodly.Adapters.MoodAdapter;
+import com.example.moodly.Controllers.CommentController;
 import com.example.moodly.Controllers.MoodController;
 import com.example.moodly.Models.Mood;
 import com.example.moodly.R;
 
 import java.util.ArrayList;
+
+import static java.lang.String.valueOf;
 
 /**
  * Created by jkc1 on 2017-03-05.
@@ -47,7 +53,7 @@ public class TabHistory extends TabBase {
                              Bundle savedInstanceState) {
 
         currentUser = userController.getCurrentUser();
-        userList = new ArrayList<String>();
+        userList = new ArrayList<>();
         userList.add(currentUser.getName());
         // tries to get moods from elastic search server
         refreshOnline(userList);
@@ -62,7 +68,9 @@ public class TabHistory extends TabBase {
      */
     @Override
     protected void setListeners() {
-
+        // Taken from http://www.learn-android-easily.com/2013/01/adding-check-boxes-in-dialog.html 3/26/2017
+        final CharSequence[] filter_choices = {"Most Recent Week","Emotional State","Text"};
+        final ArrayList<String> selected_filter = new ArrayList<>();
         displayMoodList.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, final int position, long id) {
@@ -109,6 +117,59 @@ public class TabHistory extends TabBase {
             }
         });
 
+        FloatingActionButton filter = (FloatingActionButton) rootView.findViewById(R.id.filterButton);
+        filter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AlertDialog dialog;
+                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                builder.setTitle("Select a filter");
+                builder.setMultiChoiceItems(filter_choices, null, new DialogInterface.OnMultiChoiceClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which, boolean isChecked) {
+                        if (isChecked){
+                            selected_filter.add(filter_choices[which].toString());
+                            System.out.println(filter_choices[which].toString());
+                        }
+                        else if(selected_filter.contains(filter_choices[which].toString())){
+                            selected_filter.remove(filter_choices[which].toString());
+                        }
+                    }
+                });
+                builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        if (selected_filter.contains("Most Recent Week")){
+                            Toast.makeText(getContext(),"Most Recent Week",Toast.LENGTH_SHORT).show();
+                            dialog.dismiss();
+                        }
+                        else if (selected_filter.contains("Emotional State")){
+                            //Toast.makeText(getContext(),"Emotional State",Toast.LENGTH_SHORT).show();
+                            dialog.dismiss();
+                            getFilterEmotion();
+                        }
+                        else if(selected_filter.contains("Text")){
+                            //Toast.makeText(getContext(),"Text",Toast.LENGTH_SHORT).show();
+                            dialog.dismiss();
+                            getFilterText();
+                        }
+                        else {
+                            Toast.makeText(getContext(),"No filter selected!",Toast.LENGTH_SHORT).show();
+                        }
+                        selected_filter.clear();
+                    }
+                });
+                builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                });
+                dialog = builder.create();
+                dialog.show();
+            }
+        });
+
     }
 
     /**
@@ -147,6 +208,61 @@ public class TabHistory extends TabBase {
         adapter.notifyDataSetChanged();
     }
 
+    protected void getFilterEmotion(){
+        final CharSequence[] emotion = {"Anger","Confusion","Disgust","Fear","Happiness","Sadness","Shame","Surprise"};
+        final ArrayList<String> selected_emotion = new ArrayList<>();
+        AlertDialog dialog;
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        builder.setTitle("Select a filter");
+        builder.setMultiChoiceItems(emotion, null, new DialogInterface.OnMultiChoiceClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which, boolean isChecked) {
+                if (isChecked){
+                    selected_emotion.add(emotion[which].toString());
+                }
+                else if(selected_emotion.contains(emotion[which].toString())){
+                    selected_emotion.remove(emotion[which].toString());
+                }
+            }
+        });
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Toast.makeText(getContext(),selected_emotion.get(0),Toast.LENGTH_SHORT).show();
+                selected_emotion.clear();
+            }
+        });
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+        dialog = builder.create();
+        dialog.show();
+    }
+
+    protected void getFilterText(){
+        AlertDialog.Builder textBuilder = new AlertDialog.Builder(getContext());
+        textBuilder.setTitle("Search for text");
+        final EditText input = new EditText(getContext());
+        input.setInputType(InputType.TYPE_CLASS_TEXT);
+        textBuilder.setView(input);
+        textBuilder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                String filterText = input.getText().toString();
+                Toast.makeText(getContext(), filterText, Toast.LENGTH_SHORT).show();
+            }
+        });
+        textBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+        textBuilder.show();
+    }
 }
 
 

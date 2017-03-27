@@ -44,8 +44,8 @@ public class ViewMoodList extends AppCompatActivity {
         setContentView(R.layout.activity_view_mood_list);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-//        AppBarLayout.LayoutParams params = (AppBarLayout.LayoutParams) toolbar.getLayoutParams();
-//        params.setScrollFlags(0);
+        AppBarLayout.LayoutParams params = (AppBarLayout.LayoutParams) toolbar.getLayoutParams();
+        params.setScrollFlags(0);
         setSupportActionBar(toolbar);
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
