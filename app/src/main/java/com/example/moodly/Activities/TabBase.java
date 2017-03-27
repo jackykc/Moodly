@@ -74,7 +74,6 @@ public class TabBase extends Fragment {
         displayMoodList = (ListView) rootView.findViewById(R.id.display_mood_list);
         adapter = new FollowingMoodAdapter(getActivity(), R.layout.following_mood_list_item, moodList);
         displayMoodList.setAdapter(adapter);
-
     }
 
     /**
