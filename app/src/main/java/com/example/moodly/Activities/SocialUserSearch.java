@@ -94,17 +94,6 @@ public class SocialUserSearch extends Fragment implements View.OnClickListener {
     @Override
     public void onClick(View v) {
 
-        boolean check;
-        switch (v.getId()) {
-            case R.id.search_button:
-                check = true;
-                break;
-            case R.id.send_request_button:
-                check = false;
-                break;
-            default:
-                break;
-        }
 
         // Create SparseBooleanArray to check selected items
         SparseBooleanArray checked = displayUserList.getCheckedItemPositions();
@@ -125,6 +114,18 @@ public class SocialUserSearch extends Fragment implements View.OnClickListener {
         }
 
         // DO SOMETHING WITH outputStrArr
+
+        boolean check;
+        switch (v.getId()) {
+            case R.id.search_button:
+                check = true;
+                break;
+            case R.id.send_request_button:
+                check = false;
+                break;
+            default:
+                break;
+        }
 
     }
 

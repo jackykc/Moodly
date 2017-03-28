@@ -79,19 +79,6 @@ public class SocialRequestList extends Fragment implements View.OnClickListener 
     @Override
     public void onClick(View v) {
 
-        boolean check;
-        switch (v.getId()) {
-            case R.id.accept_request_button:
-                check = true;
-                // code to accept requests
-                break;
-            case R.id.decline_request_button:
-                check = false;
-                // code to decline requests
-                break;
-            default:
-                break;
-        }
 
         // Create SparseBooleanArray to check selected items
         SparseBooleanArray checked = displayUserList.getCheckedItemPositions();
@@ -111,6 +98,19 @@ public class SocialRequestList extends Fragment implements View.OnClickListener 
             outputStrArr[i] = selectedItems.get(i);
         }
 
+        boolean check;
+        switch (v.getId()) {
+            case R.id.accept_request_button:
+                check = true;
+                // code to accept requests
+                break;
+            case R.id.decline_request_button:
+                check = false;
+                // code to decline requests
+                break;
+            default:
+                break;
+        }
 
     }
 
