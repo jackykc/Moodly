@@ -36,7 +36,6 @@ public class ViewComments extends AppCompatActivity {
             viewSwitcher.showNext();
         }
         else {
-            // arrayadapter for now until CommentAdapter is created
             ArrayAdapter<Comment> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, commentList);
             displayCommentList.setAdapter(adapter);
         }
