@@ -2,10 +2,12 @@ package com.example.moodly.Activities;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 
 import com.example.moodly.Controllers.UserController;
@@ -22,13 +24,14 @@ import java.util.ArrayList;
  * @see SocialBase
  */
 
-public class SocialRequestList extends Fragment {
+public class SocialRequestList extends Fragment implements View.OnClickListener {
 
     protected UserController userController = UserController.getInstance();
     protected User currentUser;
     protected ArrayList<String> userList;
 
     private View rootView;
+    private Button acceptRequestButton;
     protected ListView displayUserList;
     protected ArrayAdapter<String> adapter;
 
@@ -37,7 +40,7 @@ public class SocialRequestList extends Fragment {
                              Bundle savedInstanceState) {
 
         refreshOnline();
-        userList = currentUser.getFollowers();
+        userList = currentUser.getRequests();
         setViews(inflater, container);
 
         return rootView;
@@ -45,9 +48,13 @@ public class SocialRequestList extends Fragment {
 
     protected void setViews(LayoutInflater inflater, ViewGroup container) {
 
-        rootView = inflater.inflate(R.layout.social_list, container, false);
+        rootView = inflater.inflate(R.layout.social_request_list, container, false);
 
-        displayUserList = (ListView) rootView.findViewById(R.id.display_social_list);
+        displayUserList = (ListView) rootView.findViewById(R.id.display_request_list);
+        displayUserList.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
+
+        acceptRequestButton = (Button) rootView.findViewById(R.id.accept_request_button);
+        acceptRequestButton.setOnClickListener(this);
 
         adapter = new ArrayAdapter<String>(getActivity(), R.layout.user_list_item, userList);
         displayUserList.setAdapter(adapter);
@@ -62,5 +69,25 @@ public class SocialRequestList extends Fragment {
 
     }
 
+    public void onClick(View v) {
+        SparseBooleanArray checked = displayUserList.getCheckedItemPositions();
+        ArrayList<String> selectedItems = new ArrayList<String>();
+        for (int i = 0; i < checked.size(); i++) {
+            // get position in adapter
+            int position = checked.keyAt(i);
+            // add user if checked/TRUE
+            if (checked.valueAt(i))
+                selectedItems.add(adapter.getItem(position));
+        }
+
+        String[] outputStrArr = new String[selectedItems.size()];
+
+        for (int i = 0; i < selectedItems.size(); i++) {
+            outputStrArr[i] = selectedItems.get(i);
+        }
+
+        // DO SOMETHING WITH outputStrArr
+
+    }
 
 }

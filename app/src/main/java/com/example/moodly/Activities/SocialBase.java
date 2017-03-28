@@ -100,7 +100,7 @@ public class SocialBase extends AppCompatActivity {
             // return current tab
             switch (position) {
                 case 0:
-                    SocialRequestList tab1 = new SocialRequestList();
+                    SocialUserSearch tab1 = new SocialUserSearch();
                     return tab1;
                 case 1:
                     SocialFollowerList tab2 = new SocialFollowerList();

@@ -54,7 +54,6 @@ public class SocialFollowerList extends Fragment implements View.OnClickListener
         displayUserList = (ListView) rootView.findViewById(R.id.display_follower_list);
         displayUserList.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
 
-
         removeFollowerButton = (Button) rootView.findViewById(R.id.remove_follower_button);
         removeFollowerButton.setOnClickListener(this);
 
