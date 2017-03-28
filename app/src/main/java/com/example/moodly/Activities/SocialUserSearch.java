@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
 
 import com.example.moodly.Controllers.UserController;
@@ -41,13 +42,14 @@ public class SocialUserSearch extends Fragment implements View.OnClickListener {
     protected ArrayAdapter<String> adapter;
 
     // PLACEHOLDER
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
         refreshOnline();
 
         // REPLACE WITH ELASTICSEARCH QUERY TO FIND USERS
-        userList = currentUser.getFollowers();
+        userList = new ArrayList<String>();
 
 
         setViews(inflater, container);
@@ -65,6 +67,7 @@ public class SocialUserSearch extends Fragment implements View.OnClickListener {
         displayUserList.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
 
         searchUserButton = (Button) rootView.findViewById(R.id.search_button);
+        searchUserButton.setOnClickListener(this);
         // CODE TO BE ADDED
         // reset userList here?
         // Should initial search be empty?
@@ -89,7 +92,10 @@ public class SocialUserSearch extends Fragment implements View.OnClickListener {
     // Code taken from http://theopentutorials.com/tutorials/android/listview/android-multiple-selection-listview/
     // 2017-03-26 20:53:59
 
+    @Override
     public void onClick(View v) {
+
+
         // Create SparseBooleanArray to check selected items
         SparseBooleanArray checked = displayUserList.getCheckedItemPositions();
         // Create Array list of username strings
@@ -102,13 +108,30 @@ public class SocialUserSearch extends Fragment implements View.OnClickListener {
                 selectedItems.add(adapter.getItem(position));
         }
 
-        String[] outputStrArr = new String[selectedItems.size()];
+        ArrayList<String> outputStrArr = new ArrayList<String>();
 
         for (int i = 0; i < selectedItems.size(); i++) {
-            outputStrArr[i] = selectedItems.get(i);
+            outputStrArr.add(selectedItems.get(i));
         }
 
         // DO SOMETHING WITH outputStrArr
+
+        boolean check;
+        switch (v.getId()) {
+            case R.id.search_button:
+                EditText searchView = (EditText) rootView.findViewById(R.id.search_text);
+                String searchString = searchView.getText().toString();
+                userList = userController.searchUsers(searchString);
+                adapter = new ArrayAdapter<String>(getActivity(), R.layout.user_list_item, userList);
+                displayUserList.setAdapter(adapter);
+
+                break;
+            case R.id.send_request_button:
+                userController.makeRequest(outputStrArr);
+                break;
+            default:
+                break;
+        }
 
     }
 

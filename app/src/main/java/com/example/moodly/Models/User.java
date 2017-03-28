@@ -31,8 +31,6 @@ public class User {
         requests = new ArrayList<>();
     }
 
-    public ArrayList<Mood> moodList = new ArrayList<>();
-
     public String getName() {
         return name;
     }
