@@ -1,7 +1,11 @@
 package com.example.moodly.Activities;
 
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -18,8 +22,9 @@ import android.widget.Toast;
 import com.example.moodly.Activities.SocialBase;
 import com.example.moodly.Activities.TabBase;
 import com.example.moodly.Activities.TabHistory;
+import com.example.moodly.Controllers.MoodController;
 import com.example.moodly.R;
-
+import android.os.Handler;
 public class ViewMoodList extends AppCompatActivity {
 
     /**
@@ -58,22 +63,43 @@ public class ViewMoodList extends AppCompatActivity {
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(mViewPager);
 
-//        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-//        fab.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//
-//                mood = new Mood();
-//                Intent intent = new Intent(ViewMoodList.this, ViewMood.class);
-//                intent.putExtra("PLACEHOLDER_MOOD", mood);
-//                startActivityForResult(intent, 0);
-//
-//                //Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-//                //        .setAction("Action", null).show();
-//
-//            }
-//        });
+        // checks periodically
+        handler = new Handler();
+        synchronizeNetwork.run();
+    }
 
+    private int repeatInterval = 30000;
+    private Handler handler;
+
+    Runnable synchronizeNetwork = new Runnable() {
+        @Override
+        public void run() {
+            try {
+                updateElasticSearch();
+            } finally {
+                // 100% guarantee that this always happens, even if
+                // your update method throws an exception
+                handler.postDelayed(synchronizeNetwork, repeatInterval);
+            }
+        }
+    };
+
+    private void updateElasticSearch() {
+        if (networkAvailable())  {
+            MoodController.getInstance().syncAddList();
+            MoodController.getInstance().syncDeleteList();
+            Toast.makeText(ViewMoodList.this, "Connected", Toast.LENGTH_SHORT).show();
+        }
+        else {
+            Toast.makeText(ViewMoodList.this, "Not connected", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private boolean networkAvailable() {
+        ConnectivityManager connectivityManager
+                = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
 
     @Override
@@ -93,13 +119,13 @@ public class ViewMoodList extends AppCompatActivity {
                 Toast.makeText(this, "Filters", Toast.LENGTH_SHORT).show();
                 return true;
             case R.id.show_map:
-                Toast.makeText(this,"Showing Map", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Showing Map", Toast.LENGTH_SHORT).show();
                 Intent intentMap = new Intent();
                 intentMap.setClass(ViewMoodList.this, SeeMap.class);
                 startActivity(intentMap);
                 return true;
             case R.id.action_social:
-                Toast.makeText(this,"Social", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Social", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(this, SocialBase.class);
                 startActivity(intent);
                 return super.onOptionsItemSelected(item);
@@ -153,6 +179,8 @@ public class ViewMoodList extends AppCompatActivity {
             return null;
         }
     }
+
+
 
 
 }
