@@ -8,29 +8,47 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.example.moodly.Activities.SocialBase$PlaceholderFragment"
     >
+    <EditText
+        android:id="@+id/search_text"
+        android:layout_width="249dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 
     <ListView
-        android:id="@+id/display_social_list"
+        android:id="@+id/display_search_list"
         android:layout_width="match_parent"
         android:layout_height="263dp"
         android:background="@drawable/selector"
         android:scrollbars="vertical"
-        android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_above="@+id/unfollow_button">
+        android:layout_below="@+id/search_text"
+        android:layout_above="@+id/send_request_button">
 
     </ListView>
 
     <Button
-        android:id="@+id/unfollow_button"
+        android:id="@+id/send_request_button"
         style="@style/Widget.AppCompat.Button.Colored"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="50dp"
-        android:text="@string/unfollow_button" />
+        android:text="@string/send_request_button" />
+
+    <Button
+        android:id="@+id/search_button"
+        style="@style/Widget.AppCompat.Button.Colored"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_toEndOf="@+id/search_text"
+        android:text="@string/search_button"
+        android:layout_above="@+id/display_search_list"
+        android:layout_toRightOf="@+id/search_text" />
 
 
 </RelativeLayout>
