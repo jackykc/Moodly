@@ -92,19 +92,20 @@ public class SocialRequestList extends Fragment implements View.OnClickListener 
                 selectedItems.add(adapter.getItem(position));
         }
 
-        String[] outputStrArr = new String[selectedItems.size()];
+        ArrayList<String> outputStrArr = new ArrayList<String>();
 
         for (int i = 0; i < selectedItems.size(); i++) {
-            outputStrArr[i] = selectedItems.get(i);
+            outputStrArr.add(selectedItems.get(i));
         }
 
         boolean check;
         switch (v.getId()) {
             case R.id.accept_request_button:
-                check = true;
+                userController.acceptRequest(outputStrArr);
                 // code to accept requests
                 break;
             case R.id.decline_request_button:
+                userController.declineRequest(outputStrArr);
                 check = false;
                 // code to decline requests
                 break;

@@ -5,6 +5,7 @@ import android.util.Log;
 
 import com.example.moodly.Models.User;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -75,7 +76,7 @@ public class UserController extends ElasticSearchController {
         }
     }
 
-    public ArrayList<User> searchUsers(String searchText){
+    public ArrayList<String> searchUsers(String searchText){
         UserController.SearchUsersTask searchUsersTask = new UserController.SearchUsersTask();
         searchUsersTask.execute(searchText);
 
@@ -86,7 +87,15 @@ public class UserController extends ElasticSearchController {
             Log.i("Error", "Cannot get users out of async object");
         }
 
-        return userList;
+        ArrayList<String> stringList = new ArrayList<String>();
+        for (User user: userList) {
+            String name = user.getName();
+            // if it is not our own name and we have not already followed them
+            if(!(name.equals(currentUser.getName())) && (!currentUser.getFollowing().contains(name))) {
+                stringList.add(name);
+            }
+        }
+        return stringList;
 
     }
 
@@ -116,30 +125,33 @@ public class UserController extends ElasticSearchController {
 
     /**
      * Makes a follow request
-     * @param name is the name of the person who you want to follow
+     * @param names the list of people who you want to follow
      * @return true for success, false for failure
      */
-    public boolean makeRequest(String name) {
+    public boolean makeRequest(ArrayList<String> names) {
         // get user we want to follow
-        UserController.GetUserTask getUserTask = new UserController.GetUserTask();
-        getUserTask.execute(name);
-        User toFollow;
-        // add own user name to request list of person we want to follow
-        try {
-            toFollow = getUserTask.get();
-        } catch (Exception e) {
-            Log.i("Error", "Cannot get user out of async object");
-            return false;
-        }
+        for (String name: names) {
+            UserController.GetUserTask getUserTask = new UserController.GetUserTask();
+            getUserTask.execute(name);
+            User toFollow;
+            // add own user name to request list of person we want to follow
+            try {
+                toFollow = getUserTask.get();
+            } catch (Exception e) {
+                Log.i("Error", "Cannot get user out of async object");
+                return false;
+            }
 
-        // if you have not already made a request
-        if(!toFollow.getRequests().contains(name)) {
-            // update the request list
-            toFollow.addRequestName(name);
+            // if you have not already made a request or you are following them
+            if((!toFollow.getRequests().contains(name)) && (!currentUser.getFollowing().contains(name))) {
+                // update the request list
+                toFollow.addRequestName(currentUser.getName());
 
-            // update on elastic search
-            AddUserTask addUserTask = new AddUserTask();
-            addUserTask.execute(toFollow);
+                // update on elastic search
+                AddUserTask addUserTask = new AddUserTask();
+                addUserTask.execute(toFollow);
+
+            }
 
         }
 
@@ -148,31 +160,38 @@ public class UserController extends ElasticSearchController {
 
     /**
      * Accepts a follow request
-     * @param name is the name of the person who wants to follow you
+     * @param names is the list of people who wants to follow you
      * @return true for success, false for failure
      */
-    public boolean acceptRquest(String name) {
-        // get user we allow to follow us
-        UserController.GetUserTask getUserTask = new UserController.GetUserTask();
-        getUserTask.execute(name);
-        User follower;
+    public boolean acceptRequest(ArrayList<String> names) {
 
-        try {
-            follower = getUserTask.get();
-        } catch (Exception e) {
-            Log.i("Error", "Cannot get user out of async object");
-            return false;
+
+        for (String name: names) {
+            UserController.GetUserTask getUserTask = new UserController.GetUserTask();
+
+            // get user we allow to follow us
+            getUserTask.execute(name);
+            User follower;
+
+            try {
+                follower = getUserTask.get();
+            } catch (Exception e) {
+                Log.i("Error", "Cannot get user out of async object");
+                return false;
+            }
+            // add own user name to following list of person we want to follow
+            follower.addFollowingName(currentUser.getName());
+
+
+            // update follower on elastic search
+            AddUserTask addUserTask = new AddUserTask();
+            addUserTask.execute(follower);
+
+            // remove from own request list, add to follower
+            currentUser.removeRequestName(name);
+            currentUser.addFollowerName(name);
+
         }
-        // add own user name to following list of person we want to follow
-        follower.addFollowingName(currentUser.getName());
-
-        // remove from own request list, add to follower
-        currentUser.removeRequestName(name);
-        currentUser.addFollowerName(name);
-
-        // update follower on elastic search
-        AddUserTask addUserTask = new AddUserTask();
-        addUserTask.execute(follower);
         // update self on elastic search
         AddUserTask addSelfTask = new AddUserTask();
         addSelfTask.execute(currentUser);
@@ -182,22 +201,26 @@ public class UserController extends ElasticSearchController {
 
     /**
      * Declines a follow request
-     * @param name is the name of the person who wants to follow you
+     * @param names the list of people who's follow request are declined
      * @return true for success, false for failure
      */
-    public boolean declineRquest(String name) {
-        UserController.GetUserTask getUserTask = new UserController.GetUserTask();
-        getUserTask.execute(name);
-        User follower;
-        try {
-            follower = getUserTask.get();
-        } catch (Exception e) {
-            Log.i("Error", "Cannot get user out of async object");
-            return false;
-        }
-        // remove from own request list
-        currentUser.removeRequestName(name);
+    public boolean declineRequest(ArrayList<String> names) {
 
+        for (String name : names) {
+            UserController.GetUserTask getUserTask = new UserController.GetUserTask();
+
+            getUserTask.execute(name);
+            User follower;
+            try {
+                follower = getUserTask.get();
+            } catch (Exception e) {
+                Log.i("Error", "Cannot get user out of async object");
+                return false;
+            }
+            // remove from own request list
+            currentUser.removeRequestName(name);
+
+        }
         // update self on elastic search
         AddUserTask addSelfTask = new AddUserTask();
         addSelfTask.execute(currentUser);
@@ -332,8 +355,6 @@ public class UserController extends ElasticSearchController {
                     // hits
                     List<SearchResult.Hit<User, Void>> foundUsers = result.getHits(User.class);
                     temp = foundUsers.get(0).source;
-
-                    currentUser = temp;
 
                 } else {
                     Log.i("Error", "Search query failed to find any users that matched");

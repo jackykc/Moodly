@@ -106,13 +106,15 @@ public class SocialFollowingList extends Fragment implements View.OnClickListene
                 selectedItems.add(adapter.getItem(position));
         }
 
-        String[] outputStrArr = new String[selectedItems.size()];
+        ArrayList<String> outputStrArr = new ArrayList<String>();
 
         for (int i = 0; i < selectedItems.size(); i++) {
-            outputStrArr[i] = selectedItems.get(i);
+            outputStrArr.add(selectedItems.get(i));
         }
 
-        // DO SOMETHING WITH outputStrArr
+        //
+
+
 
     }
 }

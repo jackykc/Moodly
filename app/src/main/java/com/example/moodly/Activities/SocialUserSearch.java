@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
 
 import com.example.moodly.Controllers.UserController;
@@ -48,7 +49,7 @@ public class SocialUserSearch extends Fragment implements View.OnClickListener {
         refreshOnline();
 
         // REPLACE WITH ELASTICSEARCH QUERY TO FIND USERS
-        userList = currentUser.getFollowers();
+        userList = new ArrayList<String>();
 
 
         setViews(inflater, container);
@@ -107,10 +108,10 @@ public class SocialUserSearch extends Fragment implements View.OnClickListener {
                 selectedItems.add(adapter.getItem(position));
         }
 
-        String[] outputStrArr = new String[selectedItems.size()];
+        ArrayList<String> outputStrArr = new ArrayList<String>();
 
         for (int i = 0; i < selectedItems.size(); i++) {
-            outputStrArr[i] = selectedItems.get(i);
+            outputStrArr.add(selectedItems.get(i));
         }
 
         // DO SOMETHING WITH outputStrArr
@@ -118,10 +119,15 @@ public class SocialUserSearch extends Fragment implements View.OnClickListener {
         boolean check;
         switch (v.getId()) {
             case R.id.search_button:
-                check = true;
+                EditText searchView = (EditText) rootView.findViewById(R.id.search_text);
+                String searchString = searchView.getText().toString();
+                userList = userController.searchUsers(searchString);
+                adapter = new ArrayAdapter<String>(getActivity(), R.layout.user_list_item, userList);
+                displayUserList.setAdapter(adapter);
+
                 break;
             case R.id.send_request_button:
-                check = false;
+                userController.makeRequest(outputStrArr);
                 break;
             default:
                 break;
