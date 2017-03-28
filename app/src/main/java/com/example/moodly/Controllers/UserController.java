@@ -207,16 +207,6 @@ public class UserController extends ElasticSearchController {
     public boolean declineRequest(ArrayList<String> names) {
 
         for (String name : names) {
-            UserController.GetUserTask getUserTask = new UserController.GetUserTask();
-
-            getUserTask.execute(name);
-            User follower;
-            try {
-                follower = getUserTask.get();
-            } catch (Exception e) {
-                Log.i("Error", "Cannot get user out of async object");
-                return false;
-            }
             // remove from own request list
             currentUser.removeRequestName(name);
 
