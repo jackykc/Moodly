@@ -23,4 +23,6 @@
     <string name="location">Location</string>
     <string name="social_situation">Social Situation</string>
     <string name="title_activity_see_map">Map</string>
+    <string name="remove_follower_button">Remove Follower(s)</string>
+    <string name="unfollow_button">Unfollow User(s)</string>
 </resources>
