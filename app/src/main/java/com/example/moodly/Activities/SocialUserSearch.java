@@ -41,6 +41,7 @@ public class SocialUserSearch extends Fragment implements View.OnClickListener {
     protected ArrayAdapter<String> adapter;
 
     // PLACEHOLDER
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
@@ -65,6 +66,7 @@ public class SocialUserSearch extends Fragment implements View.OnClickListener {
         displayUserList.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
 
         searchUserButton = (Button) rootView.findViewById(R.id.search_button);
+        searchUserButton.setOnClickListener(this);
         // CODE TO BE ADDED
         // reset userList here?
         // Should initial search be empty?
@@ -89,7 +91,21 @@ public class SocialUserSearch extends Fragment implements View.OnClickListener {
     // Code taken from http://theopentutorials.com/tutorials/android/listview/android-multiple-selection-listview/
     // 2017-03-26 20:53:59
 
+    @Override
     public void onClick(View v) {
+
+        boolean check;
+        switch (v.getId()) {
+            case R.id.search_button:
+                check = true;
+                break;
+            case R.id.send_request_button:
+                check = false;
+                break;
+            default:
+                break;
+        }
+
         // Create SparseBooleanArray to check selected items
         SparseBooleanArray checked = displayUserList.getCheckedItemPositions();
         // Create Array list of username strings

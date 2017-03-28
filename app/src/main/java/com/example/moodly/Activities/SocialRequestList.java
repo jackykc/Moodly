@@ -24,6 +24,7 @@ import java.util.ArrayList;
  * @see SocialBase
  */
 
+
 public class SocialRequestList extends Fragment implements View.OnClickListener {
 
     protected UserController userController = UserController.getInstance();
@@ -37,6 +38,7 @@ public class SocialRequestList extends Fragment implements View.OnClickListener 
     protected ArrayAdapter<String> adapter;
 
     // PLACEHOLDER
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
@@ -58,7 +60,7 @@ public class SocialRequestList extends Fragment implements View.OnClickListener 
         acceptRequestButton = (Button) rootView.findViewById(R.id.accept_request_button);
         acceptRequestButton.setOnClickListener(this);
 
-        declineRequestButton = (Button) rootView.findViewById(R.id.accept_request_button);
+        declineRequestButton = (Button) rootView.findViewById(R.id.decline_request_button);
         declineRequestButton.setOnClickListener(this);
 
         adapter = new ArrayAdapter<String>(getActivity(), R.layout.user_list_item, userList);
@@ -74,7 +76,23 @@ public class SocialRequestList extends Fragment implements View.OnClickListener 
 
     }
 
+    @Override
     public void onClick(View v) {
+
+        boolean check;
+        switch (v.getId()) {
+            case R.id.accept_request_button:
+                check = true;
+                // code to accept requests
+                break;
+            case R.id.decline_request_button:
+                check = false;
+                // code to decline requests
+                break;
+            default:
+                break;
+        }
+
         // Create SparseBooleanArray to check selected items
         SparseBooleanArray checked = displayUserList.getCheckedItemPositions();
         // Create Array list of username strings
@@ -91,15 +109,6 @@ public class SocialRequestList extends Fragment implements View.OnClickListener 
 
         for (int i = 0; i < selectedItems.size(); i++) {
             outputStrArr[i] = selectedItems.get(i);
-        }
-
-        switch (v.getId()) {
-            case R.id.accept_request_button:
-                // code to accept requests
-                break;
-            case R.id.decline_request_button:
-                // code to decline requests
-                break;
         }
 
 
