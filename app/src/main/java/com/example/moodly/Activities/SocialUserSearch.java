@@ -48,6 +48,8 @@ public class SocialUserSearch extends Fragment implements View.OnClickListener {
 
         // REPLACE WITH ELASTICSEARCH QUERY TO FIND USERS
         userList = currentUser.getFollowers();
+
+
         setViews(inflater, container);
 
 
@@ -59,9 +61,13 @@ public class SocialUserSearch extends Fragment implements View.OnClickListener {
         rootView = inflater.inflate(R.layout.social_search, container, false);
 
         displayUserList = (ListView) rootView.findViewById(R.id.display_search_list);
+        // Multi-item selection
         displayUserList.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
 
         searchUserButton = (Button) rootView.findViewById(R.id.search_button);
+        // CODE TO BE ADDED
+        // reset userList here?
+        // Should initial search be empty?
 
         sendRequestButton = (Button) rootView.findViewById(R.id.send_request_button);
         sendRequestButton.setOnClickListener(this);
@@ -84,7 +90,9 @@ public class SocialUserSearch extends Fragment implements View.OnClickListener {
     // 2017-03-26 20:53:59
 
     public void onClick(View v) {
+        // Create SparseBooleanArray to check selected items
         SparseBooleanArray checked = displayUserList.getCheckedItemPositions();
+        // Create Array list of username strings
         ArrayList<String> selectedItems = new ArrayList<String>();
         for (int i = 0; i < checked.size(); i++) {
             // get position in adapter

@@ -71,6 +71,7 @@ public class SocialFollowingList extends Fragment implements View.OnClickListene
         rootView = inflater.inflate(R.layout.social_list, container, false);
 
         displayUserList = (ListView) rootView.findViewById(R.id.display_social_list);
+        // Multi-item selection
         displayUserList.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
 
         unfollowButton = (Button) rootView.findViewById(R.id.unfollow_button);
@@ -93,7 +94,9 @@ public class SocialFollowingList extends Fragment implements View.OnClickListene
     }
 
     public void onClick(View v) {
+        // Create SparseBooleanArray to check selected items
         SparseBooleanArray checked = displayUserList.getCheckedItemPositions();
+        // Create Array list of username strings
         ArrayList<String> selectedItems = new ArrayList<String>();
         for (int i = 0; i < checked.size(); i++) {
             // get position in adapter

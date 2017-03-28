@@ -26,6 +26,7 @@
     <string name="remove_follower_button">Remove Follower(s)</string>
     <string name="unfollow_button">Unfollow User(s)</string>
     <string name="accept_request_button">Accept Request(s)</string>
+    <string name="decline_request_button">Decline Request(s)</string>
     <string name="send_request_button">Send Follow Request(s)</string>
     <string name="search_button">Search</string>
 </resources>

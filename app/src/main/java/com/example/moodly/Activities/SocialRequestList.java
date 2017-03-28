@@ -32,6 +32,7 @@ public class SocialRequestList extends Fragment implements View.OnClickListener 
 
     private View rootView;
     private Button acceptRequestButton;
+    private Button declineRequestButton;
     protected ListView displayUserList;
     protected ArrayAdapter<String> adapter;
 
@@ -51,10 +52,14 @@ public class SocialRequestList extends Fragment implements View.OnClickListener 
         rootView = inflater.inflate(R.layout.social_request_list, container, false);
 
         displayUserList = (ListView) rootView.findViewById(R.id.display_request_list);
+        // Multi-item selection
         displayUserList.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
 
         acceptRequestButton = (Button) rootView.findViewById(R.id.accept_request_button);
         acceptRequestButton.setOnClickListener(this);
+
+        declineRequestButton = (Button) rootView.findViewById(R.id.accept_request_button);
+        declineRequestButton.setOnClickListener(this);
 
         adapter = new ArrayAdapter<String>(getActivity(), R.layout.user_list_item, userList);
         displayUserList.setAdapter(adapter);
@@ -70,7 +75,9 @@ public class SocialRequestList extends Fragment implements View.OnClickListener 
     }
 
     public void onClick(View v) {
+        // Create SparseBooleanArray to check selected items
         SparseBooleanArray checked = displayUserList.getCheckedItemPositions();
+        // Create Array list of username strings
         ArrayList<String> selectedItems = new ArrayList<String>();
         for (int i = 0; i < checked.size(); i++) {
             // get position in adapter
@@ -86,7 +93,15 @@ public class SocialRequestList extends Fragment implements View.OnClickListener 
             outputStrArr[i] = selectedItems.get(i);
         }
 
-        // DO SOMETHING WITH outputStrArr
+        switch (v.getId()) {
+            case R.id.accept_request_button:
+                // code to accept requests
+                break;
+            case R.id.decline_request_button:
+                // code to decline requests
+                break;
+        }
+
 
     }
 

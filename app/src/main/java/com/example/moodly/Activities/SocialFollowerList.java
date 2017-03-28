@@ -35,14 +35,12 @@ public class SocialFollowerList extends Fragment implements View.OnClickListener
     protected ListView displayUserList;
     protected ArrayAdapter<String> adapter;
 
-    // PLACEHOLDER
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
         refreshOnline();
         userList = currentUser.getFollowers();
         setViews(inflater, container);
-
 
         return rootView;
     }
@@ -52,6 +50,7 @@ public class SocialFollowerList extends Fragment implements View.OnClickListener
         rootView = inflater.inflate(R.layout.social_follower_list, container, false);
 
         displayUserList = (ListView) rootView.findViewById(R.id.display_follower_list);
+        // Multi-item selection
         displayUserList.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
 
         removeFollowerButton = (Button) rootView.findViewById(R.id.remove_follower_button);
@@ -73,8 +72,11 @@ public class SocialFollowerList extends Fragment implements View.OnClickListener
     // Code taken from http://theopentutorials.com/tutorials/android/listview/android-multiple-selection-listview/
     // 2017-03-26 20:53:59
 
+    // Click function for button
     public void onClick(View v) {
+        // Create SparseBooleanArray to check selected items
         SparseBooleanArray checked = displayUserList.getCheckedItemPositions();
+        // Create Array list of username strings
         ArrayList<String> selectedItems = new ArrayList<String>();
         for (int i = 0; i < checked.size(); i++) {
             // get position in adapter

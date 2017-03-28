@@ -13,6 +13,8 @@ import java.util.ArrayList;
 
 public class UserHolder {
     User user;
+
+    // Figure out how to use for adapter?
     CheckBox checkBox;
     ArrayList<Mood> moodList = new ArrayList<>();
 }
