@@ -112,6 +112,7 @@ public class ViewMoodList extends AppCompatActivity {
                 editor.clear();
                 editor.commit();
                 Intent logOut = new Intent(this, LoginScreen.class);
+                logOut.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(logOut);
             default:
                 return super.onOptionsItemSelected(item);
