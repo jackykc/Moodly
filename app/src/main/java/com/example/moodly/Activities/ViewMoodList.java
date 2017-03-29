@@ -86,8 +86,9 @@ public class ViewMoodList extends AppCompatActivity {
 
     private void updateElasticSearch() {
         if (networkAvailable())  {
-            MoodController.getInstance().syncAddList();
-            MoodController.getInstance().syncDeleteList();
+            if (MoodController.getInstance().getCompletion()) {
+                MoodController.getInstance().syncAddList();
+            }
             Toast.makeText(ViewMoodList.this, "Connected", Toast.LENGTH_SHORT).show();
         }
         else {

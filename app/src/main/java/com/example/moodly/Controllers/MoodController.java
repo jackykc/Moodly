@@ -42,6 +42,8 @@ public class MoodController extends ElasticSearchController {
     private ArrayList<AddSyncTask> addSyncList;
     private ArrayList<DeleteSyncTask> deleteSyncList;
 
+    private boolean addCompletetion;
+    private boolean deleteCompletion;
     private static QueryBuilder queryBuilder;
 
     /**
@@ -55,6 +57,9 @@ public class MoodController extends ElasticSearchController {
         addSyncList = new ArrayList<AddSyncTask>();
         deleteSyncList = new ArrayList<DeleteSyncTask>();
         queryBuilder = new QueryBuilder();
+
+        addCompletetion = true;
+        deleteCompletion = true;
     }
 
     /**
@@ -95,10 +100,12 @@ public class MoodController extends ElasticSearchController {
                 // it is not on elastic search yet, therefore we update
                 // locally
                 Date date = m.getDate();
-                Iterator<AddSyncTask> i = addSyncList.iterator();
-                while (i.hasNext()) {
-                    if (i.next().getMood().getDate() == date) {
-                        i.next().setMood(m);
+
+                for (int i = 0; i < addSyncList.size(); i++) {
+                    if(addSyncList.get(i).getMood().getDate() == date) {
+                        AddSyncTask temp = addSyncList.get(i);
+                        temp.setMood(m);
+                        addSyncList.set(i, temp);
                     }
                 }
             }
@@ -106,13 +113,26 @@ public class MoodController extends ElasticSearchController {
     }
 
     public void syncAddList() {
+        if(addSyncList.size()>0) {
+            addCompletetion = false;
+        }
         Iterator<AddSyncTask> i = addSyncList.iterator();
         while (i.hasNext()) {
-            if(i.next().execute()) {
-                i.remove();
-            }
+            i.next().execute();
+//            if (i.next().get()) {
+//                i.remove();
+//            }
 
         }
+
+    }
+
+    public boolean getCompletion() {
+        return addCompletetion;
+    }
+
+    public void setCompletion(boolean completion) {
+        addCompletetion = completion;
     }
 
     public void syncDeleteList() {
@@ -227,6 +247,17 @@ public class MoodController extends ElasticSearchController {
             this.mood = m;
         }
 
+        public boolean get() {
+            boolean success = false;
+
+            try {
+                success = this.addMoodTask.get();
+            } catch (Exception e) {
+                Log.i("Error", "Failed to synchronize mood");
+            }
+
+            return success;
+        }
     }
 
 
