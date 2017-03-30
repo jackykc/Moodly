@@ -74,8 +74,6 @@ public class TabHistory extends TabBase {
         displayMoodList.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, final int position, long id) {
-
-                // why do we need this?
                 final Mood mood = moodList.get(position);
                 AlertDialog.Builder adb = new AlertDialog.Builder(getActivity());
                 adb.setMessage("Selecting mood to");
@@ -92,7 +90,6 @@ public class TabHistory extends TabBase {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         Intent intent = new Intent(getActivity(), ViewMood.class);
-                        // 2 means edit
                         intent.putExtra("MOOD_POSITION", position);
                         MoodController.getInstance().setMood(mood);
                         startActivityForResult(intent, 0);
@@ -107,10 +104,8 @@ public class TabHistory extends TabBase {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 MoodController.getInstance().setMood(new Mood());
                 Intent intent = new Intent(getActivity(), ViewMood.class);
-                // 1 means add
                 intent.putExtra("MOOD_POSITION", -1);
                 startActivityForResult(intent, 0);
 
