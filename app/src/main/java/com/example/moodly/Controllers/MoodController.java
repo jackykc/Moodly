@@ -293,18 +293,26 @@ public class MoodController extends ElasticSearchController {
         protected ArrayList<Mood> doInBackground(ArrayList<String>... search_parameters) {
             verifySettings();
 
-            ArrayList<Mood> currentMoodList = new ArrayList<Mood>();
-
-
             ArrayList<String> usernames = search_parameters[0];
 
             if (usernames.size() == 0) {
                 return new ArrayList<Mood>();
             }
 
-            queryBuilder.setUsers(usernames);
-            String query = queryBuilder.getMoodQuery();
+            String query = "";
+            if ((usernames.size() == 1) && (usernames.get(0) == UserController.getInstance().getCurrentUser().getName())) {
 
+                queryBuilder.resultOffset(moodHistoryList.size());
+                queryBuilder.setUsers(usernames);
+                query = queryBuilder.getMoodQuery();
+
+            } else {
+                queryBuilder.resultOffset(moodFollowList.size());
+                queryBuilder.setUsers(usernames);
+                query = queryBuilder.getMoodQuery();
+
+            }
+            
             Search search = new Search.Builder(query)
                     .addIndex("cmput301w17t20")
                     .addType("mood")
@@ -339,7 +347,6 @@ public class MoodController extends ElasticSearchController {
             }
 
             if ((usernames.size() == 1) && (usernames.get(0) == UserController.getInstance().getCurrentUser().getName())) {
-
                 return moodHistoryList;
             } else {
                 return moodFollowList;

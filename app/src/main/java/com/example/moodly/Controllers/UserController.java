@@ -234,7 +234,7 @@ public class UserController extends ElasticSearchController {
 
             String query =
                     "{ \n" +
-                            "\t\"from\" : 0, \"size\" : 0," +
+                            "\t\"from\" : 0, \"size\" : 50," +
                             "\n\"query\" : {\n" +
                             "    \"match_phrase_prefix\" : { \"name\" : \"" + search_parameters[0] +
                             "\"     }\n " +

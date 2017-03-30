@@ -15,7 +15,7 @@ public class QueryBuilder {
     private int emotion;
     private boolean recent;
     private String reason;
-    private int listSize;
+    private int resultOffset;
 
     // ONLY TO BE INSTANTIATED WITHIN CONTROLLERS
     public QueryBuilder() {
@@ -25,7 +25,7 @@ public class QueryBuilder {
         emotion = 0;
         recent = false;
         reason = "";
-        listSize = 0;
+        resultOffset = 0;
 
     }
 
@@ -42,8 +42,8 @@ public class QueryBuilder {
         return true;
     }
 
-    public void setListSize(int listSize) {
-        this.listSize = listSize;
+    public void resultOffset(int resultOffset) {
+        this.resultOffset = resultOffset;
     }
 
     // sets the emotion to filter for
@@ -91,7 +91,7 @@ public class QueryBuilder {
 
         String query =
                 "{ \n" +
-                        "\t\"from\" : "+Integer.toString(listSize)+", \"size\" : 10,\n" +
+                        "\t\"from\" : "+Integer.toString(resultOffset)+", \"size\" : 10,\n" +
                         "\t\"terminate_after\" : 10," +
                     "\n\"query\" : {\n" +
                     "\"bool\" : {\n";
