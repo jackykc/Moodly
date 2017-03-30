@@ -15,6 +15,7 @@ public class QueryBuilder {
     private int emotion;
     private boolean recent;
     private String reason;
+    private int listSize;
 
     // ONLY TO BE INSTANTIATED WITHIN CONTROLLERS
     public QueryBuilder() {
@@ -24,8 +25,10 @@ public class QueryBuilder {
         emotion = 0;
         recent = false;
         reason = "";
+        listSize = 0;
 
     }
+
 
     // check if mood can be added locally given filters
     public boolean isValid(Mood m) {
@@ -37,6 +40,10 @@ public class QueryBuilder {
             return false;
         }
         return true;
+    }
+
+    public void setListSize(int listSize) {
+        this.listSize = listSize;
     }
 
     // sets the emotion to filter for
@@ -83,7 +90,9 @@ public class QueryBuilder {
         String sort = "\n\"sort\": { \"date\": { \"order\": \"desc\" } }";
 
         String query =
-                "{" +
+                "{ \n" +
+                        "\t\"from\" : "+Integer.toString(listSize)+", \"size\" : 10,\n" +
+                        "\t\"terminate_after\" : 10," +
                     "\n\"query\" : {\n" +
                     "\"bool\" : {\n";
 
@@ -109,17 +118,6 @@ public class QueryBuilder {
             query += recentMatch;
         }
 
-
-//        if(recent) {
-//            recentMatch = ",\"must\" : { \n" +
-//                        "\"range\" : { \n" +
-//                            "\"date\" : {\n" +
-//                                "\"gte\" : \"now-7d\"" +
-//                            "\n}" +
-//                        "\n}" +
-//                    "\n}";
-//            query += recentMatch;
-//        }
 
         if(reason != "") {
             reasonMatch = ",\"must\" : { \n" +

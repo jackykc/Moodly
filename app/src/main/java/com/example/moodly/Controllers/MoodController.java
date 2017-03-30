@@ -57,11 +57,12 @@ public class MoodController extends ElasticSearchController {
 
     /**
      * Gets an instance of the mood controller
+     *
      * @return the controller
      */
     public static MoodController getInstance() {
 
-        if(instance == null) {
+        if (instance == null) {
             instance = new MoodController();
         }
 
@@ -74,13 +75,14 @@ public class MoodController extends ElasticSearchController {
 
     /**
      * Adds a mood both locally to the array list on the controller and on elastic search
+     *
      * @param position if position is -1, add to front of list, else update mood at position
-     * @param m the moods to add/update
+     * @param m        the moods to add/update
      */
-    public void addMood(int position, Mood m){
+    public void addMood(int position, Mood m) {
 
         // add to local list
-        if(queryBuilder.isValid(m)) {
+        if (queryBuilder.isValid(m)) {
 
             if (position == -1) {
                 // add to offline temporary list of moods
@@ -99,6 +101,7 @@ public class MoodController extends ElasticSearchController {
 
     /**
      * Deletes a mood both locally from the array list on the controller and on elastic search
+     *
      * @param position position of the mood in the list to delete
      */
     public void deleteMood(int position) {
@@ -114,15 +117,15 @@ public class MoodController extends ElasticSearchController {
         deleteMoodTask.execute(m);
 
 
-
     }
 
     /**
      * Gets the moods by calling getMoodTask.execute() to get moods from elastic search
+     *
      * @param userList the list of users who we want the retrieved moods to belong to
      * @return a list of moods
      */
-    public ArrayList<Mood> getMoodList (ArrayList<String> userList) {
+    public ArrayList<Mood> getMoodList(ArrayList<String> userList) {
 
         MoodController.GetMoodTask getMoodTask = new MoodController.GetMoodTask();
         getMoodTask.execute(userList);
@@ -155,7 +158,10 @@ public class MoodController extends ElasticSearchController {
     public Mood getMood() {
         return tempMood;
     }
-    public void setMood(Mood mood) { tempMood = mood;}
+
+    public void setMood(Mood mood) {
+        tempMood = mood;
+    }
 
     /* ---------- Elastic Search Requests ---------- */
 
@@ -165,11 +171,12 @@ public class MoodController extends ElasticSearchController {
     private static class AddMoodTask extends AsyncTask<Mood, Void, Void> {
 
         int completion = 0;
+
         @Override
-        protected Void doInBackground(Mood... moods){
+        protected Void doInBackground(Mood... moods) {
             verifySettings();
 
-            for(Mood mood : moods) {
+            for (Mood mood : moods) {
 
                 Index index = new Index.Builder(mood).index("cmput301w17t20").type("mood").build();
 
@@ -180,7 +187,7 @@ public class MoodController extends ElasticSearchController {
                             mood.setId(result.getId());
                             // assumption method addMood always runs before this
                             // if the id is not set, set it
-                            if(moodHistoryList.get(0).getId() == null) {
+                            if (moodHistoryList.get(0).getId() == null) {
                                 moodHistoryList.get(0).setId(result.getId());
                             }
 
@@ -191,8 +198,7 @@ public class MoodController extends ElasticSearchController {
                         Log.i("Error", "Elasticsearch was not able to add the mood");
                     }
                     // where is the client?
-                }
-                catch (Exception e) {
+                } catch (Exception e) {
                     Log.i("Error", "The application failed to build and send the mood");
                 }
 
@@ -205,10 +211,10 @@ public class MoodController extends ElasticSearchController {
     private static class DeleteCommentsTask extends AsyncTask<Mood, Void, Boolean> {
 
         @Override
-        protected Boolean doInBackground(Mood... moods){
+        protected Boolean doInBackground(Mood... moods) {
             verifySettings();
 
-            for(Mood mood : moods) {
+            for (Mood mood : moods) {
 
                 // Did I include id twice?
                 // if it works don't change it?
@@ -216,7 +222,7 @@ public class MoodController extends ElasticSearchController {
                 String query = "{\n" +
                         "\t\"query\": {\n" +
                         "\t\t\"match\": {\n" +
-                        "\t\t\t\"moodId\": \" "+ mood.getId() +"\"\n" +
+                        "\t\t\t\"moodId\": \" " + mood.getId() + "\"\n" +
                         "\t\t}\n" +
                         "\t}\n" +
                         "}";
@@ -236,8 +242,7 @@ public class MoodController extends ElasticSearchController {
                         Log.i("Error", "Elasticsearch was not able to delete the comments");
                     }
                     // where is the client?
-                }
-                catch (Exception e) {
+                } catch (Exception e) {
                     Log.i("Error", "The application failed to build and delete the mood's comments");
                 }
 
@@ -253,10 +258,10 @@ public class MoodController extends ElasticSearchController {
     private static class DeleteMoodTask extends AsyncTask<Mood, Void, Boolean> {
 
         @Override
-        protected Boolean doInBackground(Mood... moods){
+        protected Boolean doInBackground(Mood... moods) {
             verifySettings();
 
-            for(Mood mood : moods) {
+            for (Mood mood : moods) {
 
                 // Did I include id twice?
                 // if it works don't change it?
@@ -270,8 +275,7 @@ public class MoodController extends ElasticSearchController {
                         Log.i("Error", "Elasticsearch was not able to delete the mood");
                     }
                     // where is the client?
-                }
-                catch (Exception e) {
+                } catch (Exception e) {
                     Log.i("Error", "The application failed to build and delete the mood");
                 }
 
@@ -294,7 +298,9 @@ public class MoodController extends ElasticSearchController {
 
             ArrayList<String> usernames = search_parameters[0];
 
-            if (usernames.size() == 0) { return new ArrayList<Mood>(); }
+            if (usernames.size() == 0) {
+                return new ArrayList<Mood>();
+            }
 
             queryBuilder.setUsers(usernames);
             String query = queryBuilder.getMoodQuery();
@@ -307,91 +313,48 @@ public class MoodController extends ElasticSearchController {
             try {
                 // get the results of our query
                 SearchResult result = client.execute(search);
-                if(result.isSucceeded()) {
+                if (result.isSucceeded()) {
                     // hits
                     List<SearchResult.Hit<Mood, Void>> foundMoods = result.getHits(Mood.class);
 
-                    for(int i = 0; i < foundMoods.size(); i++) {
-                        Mood temp = foundMoods.get(i).source;
-                        currentMoodList.add(temp);
-
-                    }
-                    moodList = currentMoodList;
                     // for your own list of moods
-                    if ((usernames.size() == 1) &&(usernames.get(0) == UserController.getInstance().getCurrentUser().getName())) {
-                        moodHistoryList = currentMoodList;
+                    if ((usernames.size() == 1) && (usernames.get(0) == UserController.getInstance().getCurrentUser().getName())) {
+                        for (int i = 0; i < foundMoods.size(); i++) {
+                            Mood temp = foundMoods.get(i).source;
+                            moodHistoryList.add(temp);
+
+                        }
                     } else {
-                        moodFollowList = currentMoodList;
+                        for (int i = 0; i < foundMoods.size(); i++) {
+                            Mood temp = foundMoods.get(i).source;
+                            moodFollowList.add(temp);
+
+                        }
                     }
                 } else {
                     Log.i("Error", "Search query failed to find any moods that matched");
                 }
-            }
-            catch (Exception e) {
+            } catch (Exception e) {
                 Log.i("Error", "Something went wrong when we tried to communicate with the elasticsearch server!");
             }
-            return currentMoodList;
+
+            if ((usernames.size() == 1) && (usernames.get(0) == UserController.getInstance().getCurrentUser().getName())) {
+
+                return moodHistoryList;
+            } else {
+                return moodFollowList;
+            }
         }
     }
 
     /* ---------- Helpers ---------- */
 
-    public ArrayList<Mood> getHistoryMoods () {
+    public ArrayList<Mood> getHistoryMoods() {
         return moodHistoryList;
     }
 
-    public ArrayList<Mood> getFollowMoods () {
+    public ArrayList<Mood> getFollowMoods() {
         return moodFollowList;
     }
-
-    // to be used for project part 5
-    public ArrayList<Mood> getFiltered() {
-        this.filter();
-        return this.filteredList;
-    }
-
-    private void filter(){
-        filteredList = (ArrayList<Mood>) moodList.clone();
-    }
-
-
-    /* ---------- The following code is commented out for now as it is left for part 5 ---------- */
-
-    // we can do binary search on this btw
-    // and don't we have to sort it too?
-    // sort what?
-
-
-//    protected ArrayList<Mood> filterByDate(Date startDate, Date endDate) {
-//        ArrayList<Mood> result = new ArrayList<>();
-//        for (Mood m: moodList) {
-//            if (m.getDate().after(startDate) && m.getDate().before(endDate)){
-//                result.add(m);
-//            }
-//        }
-//        return result;
-//    }
-//
-//    protected ArrayList<Mood> filterByEmoState(Emotion e) {
-//        ArrayList<Mood> result = new ArrayList<>();
-//        for (Mood m: moodList) {
-//            if (m.getEmotion().equals(e)){
-//                result.add(m);
-//            }
-//        }
-//        return  result;
-//    }
-//
-//    protected ArrayList<Mood> filterByTextReason(String reason) {
-//        ArrayList<Mood> result = new ArrayList<>();
-//        for(Mood m:moodList) {
-//            if (m.getReasonText().contains(reason)) {
-//                result.add(m);
-//            }
-//        }
-//        return result;
-//    }
-
-
 
 }
