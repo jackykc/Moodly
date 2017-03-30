@@ -1,5 +1,7 @@
 package com.example.moodly.Controllers;
 
+import com.example.moodly.Models.Mood;
+
 import java.util.ArrayList;
 
 /**
@@ -25,6 +27,17 @@ public class QueryBuilder {
 
     }
 
+    // check if mood can be added locally given filters
+    public boolean isValid(Mood m) {
+
+        if ((emotion != 0) && (emotion != m.getEmotion())) {
+            return false;
+        } else if
+            ((reason != "") && (! m.getReasonText().contains(reason))) {
+            return false;
+        }
+        return true;
+    }
 
     // sets the emotion to filter for
     public void setEmotion(int emotion) {
@@ -87,14 +100,26 @@ public class QueryBuilder {
 
         if(recent) {
             recentMatch = ",\"must\" : { \n" +
-                        "\"range\" : { \n" +
-                            "\"date\" : {\n" +
-                                "\"gte\" : \"now-7d\"" +
-                            "\n}" +
-                        "\n}" +
+                    "\"range\" : { \n" +
+                    "\"date\" : {\n" +
+                    "\"gte\" : \"now-/w\"" +
+                    "\n}" +
+                    "\n}" +
                     "\n}";
             query += recentMatch;
         }
+
+
+//        if(recent) {
+//            recentMatch = ",\"must\" : { \n" +
+//                        "\"range\" : { \n" +
+//                            "\"date\" : {\n" +
+//                                "\"gte\" : \"now-7d\"" +
+//                            "\n}" +
+//                        "\n}" +
+//                    "\n}";
+//            query += recentMatch;
+//        }
 
         if(reason != "") {
             reasonMatch = ",\"must\" : { \n" +

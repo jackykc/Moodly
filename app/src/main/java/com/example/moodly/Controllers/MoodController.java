@@ -78,12 +78,17 @@ public class MoodController extends ElasticSearchController {
      * @param m the moods to add/update
      */
     public void addMood(int position, Mood m){
-        if (position == -1) {
-            // add to offline temporary list of moods
-            moodHistoryList.add(0, m);
-        } else {
-            // maybe do a check for out of range here?
-            moodHistoryList.set(position, m);
+
+        // add to local list
+        if(queryBuilder.isValid(m)) {
+
+            if (position == -1) {
+                // add to offline temporary list of moods
+                moodHistoryList.add(0, m);
+            } else {
+                moodHistoryList.set(position, m);
+            }
+
         }
         // add to elastic search
         MoodController.AddMoodTask addMoodTask = new MoodController.AddMoodTask();
