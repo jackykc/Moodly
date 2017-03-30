@@ -168,6 +168,19 @@ public class TabHistory extends TabBase {
             }
         });
 
+
+        loadMore = (Button)rootView.findViewById(R.id.moreMoods);
+        loadMore.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                moodList = moodController.getMoodList(userList);
+                adapter = new MoodAdapter(getActivity(), R.layout.mood_list_item, moodList);
+                displayMoodList.setAdapter(adapter);
+                adapter.notifyDataSetChanged();
+
+
+            }
+        });
     }
 
     /**
@@ -192,7 +205,6 @@ public class TabHistory extends TabBase {
         displayMoodList = (ListView) rootView.findViewById(R.id.display_mood_list);
         adapter = new MoodAdapter(getActivity(), R.layout.mood_list_item, moodList);
         displayMoodList.setAdapter(adapter);
-
     }
 
     /**
@@ -204,6 +216,7 @@ public class TabHistory extends TabBase {
         adapter = new MoodAdapter(getActivity(), R.layout.mood_list_item, moodList);
         displayMoodList.setAdapter(adapter);
         adapter.notifyDataSetChanged();
+
     }
 
     protected void getFilterEmotion(){

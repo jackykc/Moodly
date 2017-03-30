@@ -42,7 +42,7 @@ public class QueryBuilder {
         return true;
     }
 
-    public void resultOffset(int resultOffset) {
+    public void setResultOffset(int resultOffset) {
         this.resultOffset = resultOffset;
     }
 
@@ -92,7 +92,7 @@ public class QueryBuilder {
         String query =
                 "{ \n" +
                         "\t\"from\" : "+Integer.toString(resultOffset)+", \"size\" : 10,\n" +
-                        "\t\"terminate_after\" : 10," +
+                        //"\t\"terminate_after\" : 10," +
                     "\n\"query\" : {\n" +
                     "\"bool\" : {\n";
 

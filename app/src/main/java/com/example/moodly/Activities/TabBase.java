@@ -43,6 +43,7 @@ public class TabBase extends Fragment {
     protected ListView displayMoodList;
     protected ArrayList<Mood> moodList = new ArrayList<Mood>();
     protected View rootView;
+    protected Button loadMore;
 
     protected MoodController moodController = MoodController.getInstance();
     protected UserController userController = UserController.getInstance();

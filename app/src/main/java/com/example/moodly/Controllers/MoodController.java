@@ -302,12 +302,12 @@ public class MoodController extends ElasticSearchController {
             String query = "";
             if ((usernames.size() == 1) && (usernames.get(0) == UserController.getInstance().getCurrentUser().getName())) {
 
-                queryBuilder.resultOffset(moodHistoryList.size());
+                queryBuilder.setResultOffset(moodHistoryList.size());
                 queryBuilder.setUsers(usernames);
                 query = queryBuilder.getMoodQuery();
 
             } else {
-                queryBuilder.resultOffset(moodFollowList.size());
+                queryBuilder.setResultOffset(moodFollowList.size());
                 queryBuilder.setUsers(usernames);
                 query = queryBuilder.getMoodQuery();
 
