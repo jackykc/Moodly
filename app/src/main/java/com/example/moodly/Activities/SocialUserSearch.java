@@ -96,7 +96,7 @@ public class SocialUserSearch extends Fragment implements View.OnClickListener {
 
     @Override
     public void onClick(View v) {
-
+        // Taken from http://stackoverflow.com/questions/1109022/close-hide-the-android-soft-keyboard
         InputMethodManager inputManager = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
         inputManager.hideSoftInputFromWindow(getView().getRootView().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
         // Create SparseBooleanArray to check selected items
