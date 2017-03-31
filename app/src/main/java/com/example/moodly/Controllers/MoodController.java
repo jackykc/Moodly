@@ -109,11 +109,13 @@ public class MoodController extends ElasticSearchController {
     }
 
     public void syncAddList() {
+
         if(addSyncList.size()>0) {
             addCompletetion = false;
         }
         else{
-            AddSyncTask.execute();
+            AddMoodTask addMoodTask = new AddMoodTask();
+            addMoodTask.execute(addSyncList);
         }
 
     }
