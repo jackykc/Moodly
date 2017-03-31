@@ -11,11 +11,14 @@ import com.searchly.jestdroid.DroidClientConfig;
 import com.searchly.jestdroid.JestClientFactory;
 import com.searchly.jestdroid.JestDroidClient;
 
+import java.util.Arrays;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
 import io.searchbox.client.JestResult;
+import io.searchbox.core.Bulk;
+import io.searchbox.core.BulkResult;
 import io.searchbox.core.Delete;
 import io.searchbox.core.DeleteByQuery;
 import io.searchbox.core.DocumentResult;
@@ -39,10 +42,11 @@ public class MoodController extends ElasticSearchController {
     private Mood tempMood;
     public static ArrayList<Mood> moodHistoryList;
     private static ArrayList<Mood> moodFollowList;
-    private ArrayList<Mood> addSyncList;
-    private ArrayList<DeleteSyncTask> deleteSyncList;
-    private boolean addCompletetion;
-    private boolean deleteCompletion;
+    private static ArrayList<Mood> addSyncList;
+    private static ArrayList<Mood> deleteSyncList;
+    //private ArrayList<DeleteSyncTask> deleteSyncList;
+    private static boolean addCompletetion;
+    private static boolean deleteCompletetion;
     private static QueryBuilder queryBuilder;
 
     /**
@@ -54,11 +58,12 @@ public class MoodController extends ElasticSearchController {
         moodFollowList = new ArrayList<Mood>();
         tempMood = new Mood();
         addSyncList = new ArrayList<Mood>();
-        deleteSyncList = new ArrayList<DeleteSyncTask>();
+        deleteSyncList = new ArrayList<Mood>();
+        //deleteSyncList = new ArrayList<DeleteSyncTask>();
         queryBuilder = new QueryBuilder();
 
         addCompletetion = true;
-        deleteCompletion = true;
+        deleteCompletetion = true;
     }
 
     /**
@@ -108,44 +113,17 @@ public class MoodController extends ElasticSearchController {
         }
     }
 
-    public void syncAddList() {
-
-        if(addSyncList.size() > 0) {
-            addCompletetion = false;
-            AddMoodTask addMoodTask = new AddMoodTask();
-            addMoodTask.execute(addSyncList);
-            // get variable to check if execution is completed
-            // so addMoodTask.get() -> returns count of moods successfully
-            // sent
-            // if not completed, keep in memory, then write to file?
-        }
-        else{
-            addCompletetion = true;
-        }
-
-    }
-
-    public boolean getCompletion() {
+    public boolean getAddCompletion() {
         return addCompletetion;
+    }
+    public boolean getDeleteCompletion() {
+        return deleteCompletetion;
     }
 
     public void setCompletion(boolean completion) {
         addCompletetion = completion;
     }
 
-    public void syncDeleteList() {
-        Iterator<DeleteSyncTask> i = deleteSyncList.iterator();
-        while (i.hasNext()) {
-            i.next().execute();
-
-
-            MoodController.DeleteCommentsTask deleteCommentsTask = new MoodController.DeleteCommentsTask();
-            deleteCommentsTask.execute(i.next().getMood());
-
-            i.remove();
-
-        }
-    }
 
     /**
      * Deletes a mood both locally from the array list on the controller and on elastic search
@@ -158,18 +136,20 @@ public class MoodController extends ElasticSearchController {
         instance.moodHistoryList.remove(position);
 
         if (m.getId() != null) {
-            DeleteSyncTask deleteSyncTask = new DeleteSyncTask(m);
-            deleteSyncList.add(deleteSyncTask);
+            //DeleteSyncTask deleteSyncTask = new DeleteSyncTask(m);
+            deleteSyncList.add(m);
         } else {
+
             // it is not on elastic search yet, therefore we update
             // locally
             Date date = m.getDate();
-//            Iterator<AddSyncTask> i = addSyncList.iterator();
-//            while (i.hasNext()) {
-//                if (i.next().getMood().getDate() == date) {
-//                    i.remove();
-//                }
-//            }
+
+            for (int i = 0; i < addSyncList.size(); i++) {
+                if(addSyncList.get(i).getDate() == date) {
+                    addSyncList.remove(i);
+                    break;
+                }
+            }
         }
 
 
@@ -218,25 +198,37 @@ public class MoodController extends ElasticSearchController {
     /* ---------- Elastic Search Requests ---------- */
 
 
-    private class DeleteSyncTask {
-        private DeleteMoodTask deleteMoodTask;
-        private Mood mood;
 
-        public DeleteSyncTask(Mood m) {
-            this.deleteMoodTask = new DeleteMoodTask();
-            this.mood = m;
+
+
+    public void syncAddList() {
+
+        if(addSyncList.size() > 0) {
+            addCompletetion = false;
+            AddMoodTask addMoodTask = new AddMoodTask();
+            addMoodTask.execute(addSyncList);
         }
-
-        public void execute() {
-            deleteMoodTask.execute(mood);
+        else{
+            addCompletetion = true;
         }
-
-        public Mood getMood() {
-            return mood;
-        }
-
 
     }
+
+    public void syncDeleteList() {
+
+        if(deleteSyncList.size() > 0) {
+            addCompletetion = false;
+            DeleteMoodTask deleteMoodTask = new DeleteMoodTask();
+            deleteMoodTask.execute(deleteSyncList);
+            DeleteCommentsTask deleteCommentsTask = new DeleteCommentsTask();
+            deleteCommentsTask.execute(deleteSyncList);
+        }
+        else{
+            deleteCompletetion = true;
+        }
+
+    }
+
 
     /**
      * Async task that adds a mood to elastic search
@@ -249,116 +241,143 @@ public class MoodController extends ElasticSearchController {
 
             int count = 0;
             ArrayList<Mood> moodList = moods[0];
+            ArrayList<Index> bulkAction = new ArrayList<>();
+
             for(Mood mood : moodList) {
-
-                Index index = new Index.Builder(mood).index("cmput301w17t20").type("mood").build();
-
-                try {
-                    DocumentResult result = client.execute(index);
-                    if (result.isSucceeded()) {
-                        count += 1;
-                        if (mood.getId() == null) {
-                            mood.setId(result.getId());
-                            // assumption method addMood always runs before this
-                            // if the id is not set, set it
-                            if(moodHistoryList.get(0).getId() == null) {
-                                moodHistoryList.get(0).setId(result.getId());
-                            }
-
-                        }
-
-
-                    } else {
-                        Log.i("Error", "Elasticsearch was not able to add the mood");
-                        return count;
-                    }
-                    // where is the client?
-                }
-                catch (Exception e) {
-                    Log.i("Error", "The application failed to build and send the mood");
-                    return count;
-                }
-
+                bulkAction.add(new Index.Builder(mood).build());
             }
 
+
+            Bulk bulk = new Bulk.Builder()
+                    .defaultIndex("cmput301w17t20").defaultType("mood")
+                    .addAction(bulkAction)
+                    .build();
+
+            try {
+                BulkResult result = client.execute(bulk);
+                if (result.isSucceeded()) {
+                    count += 1;
+                }
+            }
+            catch (Exception e) {
+                Log.i("Error", "The application failed to build and send the mood");
+//                for (int j = 0; j < count; j++) {
+//                    addSyncList.remove(0);
+//                }
+//
+                addCompletetion = true;
+                return count;
+            }
+            addSyncList.clear();
+            addCompletetion = true;
             return count;
         }
     }
 
-    private static class DeleteCommentsTask extends AsyncTask<Mood, Void, Boolean> {
 
-        @Override
-        protected Boolean doInBackground(Mood... moods){
-            verifySettings();
 
-            for(Mood mood : moods) {
-
-                // Did I include id twice?
-                // if it works don't change it?
-                //Delete delete = new Delete.Builder(mood.getId()).index("cmput301w17t20").type("comment").id(mood.getId()).build();
-                String query = "{\n" +
-                        "\t\"query\": {\n" +
-                        "\t\t\"match\": {\n" +
-                        "\t\t\t\"moodId\": \" "+ mood.getId() +"\"\n" +
-                        "\t\t}\n" +
-                        "\t}\n" +
-                        "}";
-
-                DeleteByQuery deleteComments = new DeleteByQuery.Builder(query)
-                        .addIndex("cmput301w17t20")
-                        .addType("comment")
-                        .build();
-
-                //http://stackoverflow.com/questions/34760557/elasticsearch-delete-by-query-using-jest
-
-                try {
-                    JestResult result = client.execute(deleteComments);
-                    if (result.isSucceeded()) {
-                        return true;
-                    } else {
-                        Log.i("Error", "Elasticsearch was not able to delete the comments");
-                    }
-                    // where is the client?
-                }
-                catch (Exception e) {
-                    Log.i("Error", "The application failed to build and delete the mood's comments");
-                }
-
-            }
-
-            return false;
-        }
-    }
 
     /**
      * Async task that deletes a mood from elastic search
      */
-    private static class DeleteMoodTask extends AsyncTask<Mood, Void, Boolean> {
+    private static class DeleteMoodTask extends AsyncTask<ArrayList<Mood>, Void, Boolean> {
 
         @Override
-        protected Boolean doInBackground(Mood... moods){
+        protected Boolean doInBackground(ArrayList<Mood>... moods){
             verifySettings();
 
-            for(Mood mood : moods) {
+            ArrayList<Mood> moodList = moods[0];
+            ArrayList<Delete> bulkAction = new ArrayList<>();
 
-                // Did I include id twice?
-                // if it works don't change it?
-                Delete delete = new Delete.Builder(mood.getId()).index("cmput301w17t20").type("mood").id(mood.getId()).build();
-
-                try {
-                    DocumentResult result = client.execute(delete);
-                    if (result.isSucceeded()) {
-                        return true;
-                    } else {
-                        Log.i("Error", "Elasticsearch was not able to delete the mood");
-                    }
-                    // where is the client?
-                }
-                catch (Exception e) {
-                    Log.i("Error", "The application failed to build and delete the mood");
-                }
-
+            for(Mood mood : moodList) {
+                bulkAction.add(new Delete.Builder(mood.getId()).build());
             }
+
+            Bulk bulk = new Bulk.Builder()
+                    .defaultIndex("cmput301w17t20").defaultType("mood")
+                    .addAction(bulkAction)
+                    .build();
+
+            try {
+                BulkResult result = client.execute(bulk);
+                if (result.isSucceeded()) {
+
+                } else {
+                    deleteCompletetion = false;
+                    return false;
+                }
+            }
+            catch (Exception e) {
+                Log.i("Error", "The application failed to build and send the mood");
+//                for (int j = 0; j < count; j++) {
+//                    addSyncList.remove(0);
+//                }
+//
+                deleteCompletetion = true;
+                return false;
+            }
+
+            deleteSyncList.clear();
+            return true;
+        }
+    }
+
+
+    private static class DeleteCommentsTask extends AsyncTask<ArrayList<Mood>, Void, Boolean> {
+
+        @Override
+        protected Boolean doInBackground(ArrayList<Mood>... moods){
+            verifySettings();
+
+
+            ArrayList<Mood> moodList = moods[0];
+            // Did I include id twice?
+            // if it works don't change it?
+            //Delete delete = new Delete.Builder(mood.getId()).index("cmput301w17t20").type("comment").id(mood.getId()).build();
+            String query = "{\n" +
+                    "\t\"query\": {\n" +
+                    "\t\t\"query_string\" : { \n" +
+                    "\t\t\t\"fields\" : [\"moodId\"],\n" +
+                    "\t\t\t\"query\" : \"";
+
+            String queryMiddle = moodList.get(0).getId();
+
+            for(int i = 1; i < moodList.size(); i++) {
+                queryMiddle += " OR ";
+                queryMiddle += moodList.get(i).getId();
+            }
+
+            String queryEnd = "\"\n" +
+                    "\t\t}\n" +
+                    "\t}\t\n" +
+                    "}";
+
+            query += queryMiddle;
+            query += queryEnd;
+
+            DeleteByQuery deleteComments = new DeleteByQuery.Builder(query)
+                    .addIndex("cmput301w17t20")
+                    .addType("comment")
+                    .build();
+
+
+
+
+            //http://stackoverflow.com/questions/34760557/elasticsearch-delete-by-query-using-jest
+
+            try {
+                JestResult result = client.execute(deleteComments);
+                if (result.isSucceeded()) {
+                    return true;
+                } else {
+                    Log.i("Error", "Elasticsearch was not able to delete the comments");
+                }
+                // where is the client?
+            }
+            catch (Exception e) {
+                Log.i("Error", "The application failed to build and delete the mood's comments");
+            }
+
 
             return false;
         }

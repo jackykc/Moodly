@@ -19,12 +19,9 @@ import android.view.MenuItem;
 
 import android.widget.Toast;
 
-import com.example.moodly.Activities.SocialBase;
-import com.example.moodly.Activities.TabBase;
-import com.example.moodly.Activities.TabHistory;
 import com.example.moodly.Controllers.MoodController;
 import com.example.moodly.R;
-import android.os.Handler;
+
 public class ViewMoodList extends AppCompatActivity {
 
     /**
@@ -68,7 +65,7 @@ public class ViewMoodList extends AppCompatActivity {
         synchronizeNetwork.run();
     }
 
-    private int repeatInterval = 45000;
+    private int repeatInterval = 30000;
     private Handler handler;
 
     Runnable synchronizeNetwork = new Runnable() {
@@ -86,8 +83,11 @@ public class ViewMoodList extends AppCompatActivity {
 
     private void updateElasticSearch() {
         if (networkAvailable())  {
-            if (MoodController.getInstance().getCompletion()) {
+            if (MoodController.getInstance().getAddCompletion()) {
                 MoodController.getInstance().syncAddList();
+            }
+            if(MoodController.getInstance().getDeleteCompletion()) {
+                MoodController.getInstance().syncDeleteList();
             }
             Toast.makeText(ViewMoodList.this, "Connected", Toast.LENGTH_SHORT).show();
         }
