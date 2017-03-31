@@ -39,9 +39,8 @@ public class MoodController extends ElasticSearchController {
     private Mood tempMood;
     public static ArrayList<Mood> moodHistoryList;
     private static ArrayList<Mood> moodFollowList;
-    private ArrayList<AddSyncTask> addSyncList;
+    private ArrayList<Mood> addSyncList;
     private ArrayList<DeleteSyncTask> deleteSyncList;
-
     private boolean addCompletetion;
     private boolean deleteCompletion;
     private static QueryBuilder queryBuilder;
@@ -54,7 +53,7 @@ public class MoodController extends ElasticSearchController {
         moodHistoryList = new ArrayList<Mood>();
         moodFollowList = new ArrayList<Mood>();
         tempMood = new Mood();
-        addSyncList = new ArrayList<AddSyncTask>();
+        addSyncList = new ArrayList<Mood>();
         deleteSyncList = new ArrayList<DeleteSyncTask>();
         queryBuilder = new QueryBuilder();
 
@@ -88,23 +87,20 @@ public class MoodController extends ElasticSearchController {
         if (position == -1) {
             // add to offline temporary list of moods
             moodHistoryList.add(0, m);
-            AddSyncTask addSyncTask = new AddSyncTask(m);
-            addSyncList.add(addSyncTask);
+            addSyncList.add(m);
         } else {
             // maybe do a check for out of range here?
             moodHistoryList.set(position, m);
             if (m.getId() != null) {
-                AddSyncTask addSyncTask = new AddSyncTask(m);
-                addSyncList.add(addSyncTask);
+                addSyncList.add(m);
             } else {
                 // it is not on elastic search yet, therefore we update
                 // locally
                 Date date = m.getDate();
 
                 for (int i = 0; i < addSyncList.size(); i++) {
-                    if(addSyncList.get(i).getMood().getDate() == date) {
-                        AddSyncTask temp = addSyncList.get(i);
-                        temp.setMood(m);
+                    if(addSyncList.get(i).getDate() == date) {
+                        Mood temp = addSyncList.get(i);
                         addSyncList.set(i, temp);
                     }
                 }
@@ -116,13 +112,8 @@ public class MoodController extends ElasticSearchController {
         if(addSyncList.size()>0) {
             addCompletetion = false;
         }
-        Iterator<AddSyncTask> i = addSyncList.iterator();
-        while (i.hasNext()) {
-            i.next().execute();
-//            if (i.next().get()) {
-//                i.remove();
-//            }
-
+        else{
+            AddSyncTask.execute();
         }
 
     }
@@ -166,12 +157,12 @@ public class MoodController extends ElasticSearchController {
             // it is not on elastic search yet, therefore we update
             // locally
             Date date = m.getDate();
-            Iterator<AddSyncTask> i = addSyncList.iterator();
-            while (i.hasNext()) {
-                if (i.next().getMood().getDate() == date) {
-                    i.remove();
-                }
-            }
+//            Iterator<AddSyncTask> i = addSyncList.iterator();
+//            while (i.hasNext()) {
+//                if (i.next().getMood().getDate() == date) {
+//                    i.remove();
+//                }
+//            }
         }
 
 
@@ -221,16 +212,16 @@ public class MoodController extends ElasticSearchController {
 
     private class AddSyncTask {
         private AddMoodTask addMoodTask;
-        private Mood mood;
+        private ArrayList<Mood> moodList;
 
-        public AddSyncTask(Mood m) {
+        public AddSyncTask(ArrayList<Mood> moodList) {
             this.addMoodTask = new AddMoodTask();
-            this.mood = m;
+            this.moodList = moodList;
         }
 
-        public boolean execute() {
+        public boolean execute(ArrayList<Mood> moodList) {
             boolean completion = false;
-            addMoodTask.execute(mood);
+            addMoodTask.execute(moodList);
             try {
                 completion = addMoodTask.get();
             } catch (Exception e) {
@@ -238,14 +229,14 @@ public class MoodController extends ElasticSearchController {
             }
             return completion;
         }
-
-        public Mood getMood() {
-            return mood;
-        }
-
-        public void setMood(Mood m) {
-            this.mood = m;
-        }
+//
+//        public Mood getMood() {
+//            return mood;
+//        }
+//
+//        public void setMood(Mood m) {
+//            this.mood = m;
+//        }
 
         public boolean get() {
             boolean success = false;
@@ -284,13 +275,13 @@ public class MoodController extends ElasticSearchController {
     /**
      * Async task that adds a mood to elastic search
      */
-    private static class AddMoodTask extends AsyncTask<Mood, Void, Boolean> {
+    private static class AddMoodTask extends AsyncTask<ArrayList<Mood>, Void, Boolean> {
 
         @Override
-        protected Boolean doInBackground(Mood... moods){
+        protected Boolean doInBackground(ArrayList<Mood>... moods){
             verifySettings();
-
-            for(Mood mood : moods) {
+            ArrayList<Mood> moodList = moods[0];
+            for(Mood mood : moodList) {
 
                 Index index = new Index.Builder(mood).index("cmput301w17t20").type("mood").build();
 
