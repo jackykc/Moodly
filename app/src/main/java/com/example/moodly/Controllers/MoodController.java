@@ -220,11 +220,6 @@ public class MoodController extends ElasticSearchController {
             addCompletetion = false;
             DeleteMoodTask deleteMoodTask = new DeleteMoodTask();
             deleteMoodTask.execute(deleteSyncList);
-            DeleteCommentsTask deleteCommentsTask = new DeleteCommentsTask();
-            deleteCommentsTask.execute(deleteSyncList);
-        }
-        else{
-            deleteCompletetion = true;
         }
 
     }
@@ -239,8 +234,9 @@ public class MoodController extends ElasticSearchController {
         protected Integer doInBackground(ArrayList<Mood>... moods){
             verifySettings();
 
-            int count = 0;
             ArrayList<Mood> moodList = moods[0];
+            int count = moodList.size();
+
             ArrayList<Index> bulkAction = new ArrayList<>();
 
             for(Mood mood : moodList) {
@@ -256,19 +252,23 @@ public class MoodController extends ElasticSearchController {
             try {
                 BulkResult result = client.execute(bulk);
                 if (result.isSucceeded()) {
-                    count += 1;
+
+                } else {
+
                 }
             }
             catch (Exception e) {
                 Log.i("Error", "The application failed to build and send the mood");
-//                for (int j = 0; j < count; j++) {
-//                    addSyncList.remove(0);
-//                }
-//
+
                 addCompletetion = true;
                 return count;
             }
-            addSyncList.clear();
+
+            // in case we add more elements to the list
+            for (int j = 0; j < count; j++) {
+                    addSyncList.remove(0);
+            }
+
             addCompletetion = true;
             return count;
         }
@@ -287,6 +287,7 @@ public class MoodController extends ElasticSearchController {
             verifySettings();
 
             ArrayList<Mood> moodList = moods[0];
+            int count = moodList.size();
             ArrayList<Delete> bulkAction = new ArrayList<>();
 
             for(Mood mood : moodList) {
@@ -303,37 +304,17 @@ public class MoodController extends ElasticSearchController {
                 if (result.isSucceeded()) {
 
                 } else {
-                    deleteCompletetion = false;
-                    return false;
+//                    deleteCompletetion = false;
+//                    return false;
                 }
-            }
-            catch (Exception e) {
+            } catch (Exception e) {
                 Log.i("Error", "The application failed to build and send the mood");
-//                for (int j = 0; j < count; j++) {
-//                    addSyncList.remove(0);
-//                }
-//
                 deleteCompletetion = true;
                 return false;
             }
 
-            deleteSyncList.clear();
-            return true;
-        }
-    }
+            boolean commentsDeleted = false;
 
-
-    private static class DeleteCommentsTask extends AsyncTask<ArrayList<Mood>, Void, Boolean> {
-
-        @Override
-        protected Boolean doInBackground(ArrayList<Mood>... moods){
-            verifySettings();
-
-
-            ArrayList<Mood> moodList = moods[0];
-            // Did I include id twice?
-            // if it works don't change it?
-            //Delete delete = new Delete.Builder(mood.getId()).index("cmput301w17t20").type("comment").id(mood.getId()).build();
             String query = "{\n" +
                     "\t\"query\": {\n" +
                     "\t\t\"query_string\" : { \n" +
@@ -360,26 +341,30 @@ public class MoodController extends ElasticSearchController {
                     .addType("comment")
                     .build();
 
-
-
-
-            //http://stackoverflow.com/questions/34760557/elasticsearch-delete-by-query-using-jest
-
             try {
                 JestResult result = client.execute(deleteComments);
+
                 if (result.isSucceeded()) {
-                    return true;
+                    commentsDeleted = true;
                 } else {
                     Log.i("Error", "Elasticsearch was not able to delete the comments");
                 }
-                // where is the client?
-            }
-            catch (Exception e) {
+            } catch (Exception e) {
                 Log.i("Error", "The application failed to build and delete the mood's comments");
+                commentsDeleted = false;
+                deleteCompletetion = true;
             }
 
+            if(commentsDeleted) {
+                // in case we add more elements to the list
+                for (int j = 0; j < count; j++) {
+                    deleteSyncList.remove(0);
+                }
+            }
 
-            return false;
+            deleteCompletetion = true;
+
+            return true;
         }
     }
 
