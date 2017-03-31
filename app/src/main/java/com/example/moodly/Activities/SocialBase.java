@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -63,8 +64,31 @@ public class SocialBase extends AppCompatActivity {
         tabLayout.setupWithViewPager(mViewPager);
         tabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
 
+        // checks periodically
+        handler = new Handler();
+        synchronizeNetwork.run();
 
     }
+
+    private int repeatInterval = 5000;
+    private Handler handler;
+
+    Runnable synchronizeNetwork = new Runnable() {
+        @Override
+        public void run() {
+            try {
+                if(! networkAvailable()) {
+                    Toast.makeText(SocialBase.this, "No internet connection", Toast.LENGTH_SHORT).show();
+                    finish();
+                }
+            } finally {
+                // 100% guarantee that this always happens, even if
+                // your update method throws an exception
+                handler.postDelayed(synchronizeNetwork, repeatInterval);
+            }
+        }
+    };
+
 
 
     @Override
