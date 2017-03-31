@@ -44,7 +44,6 @@ public class MoodController extends ElasticSearchController {
     private static ArrayList<Mood> moodFollowList;
     private static ArrayList<Mood> addSyncList;
     private static ArrayList<Mood> deleteSyncList;
-    //private ArrayList<DeleteSyncTask> deleteSyncList;
     private static boolean addCompletetion;
     private static boolean deleteCompletetion;
     private static QueryBuilder queryBuilder;
@@ -59,7 +58,6 @@ public class MoodController extends ElasticSearchController {
         tempMood = new Mood();
         addSyncList = new ArrayList<Mood>();
         deleteSyncList = new ArrayList<Mood>();
-        //deleteSyncList = new ArrayList<DeleteSyncTask>();
         queryBuilder = new QueryBuilder();
 
         addCompletetion = true;
