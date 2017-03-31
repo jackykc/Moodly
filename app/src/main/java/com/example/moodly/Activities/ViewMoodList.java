@@ -116,9 +116,6 @@ public class ViewMoodList extends AppCompatActivity {
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         switch (item.getItemId()) {
-            case R.id.action_filter:
-                Toast.makeText(this, "Filters", Toast.LENGTH_SHORT).show();
-                return true;
             case R.id.show_map:
                 Toast.makeText(this, "Showing Map", Toast.LENGTH_SHORT).show();
                 Intent intentMap = new Intent();
@@ -126,10 +123,16 @@ public class ViewMoodList extends AppCompatActivity {
                 startActivity(intentMap);
                 return true;
             case R.id.action_social:
-                Toast.makeText(this, "Social", Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(this, SocialBase.class);
-                startActivity(intent);
-                return super.onOptionsItemSelected(item);
+                if (networkAvailable()) {
+                    Toast.makeText(this, "Social", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(this, SocialBase.class);
+                    startActivity(intent);
+                    return super.onOptionsItemSelected(item);
+                }
+                else{
+                    Toast.makeText(this, "Cannot access social tab when offline!", Toast.LENGTH_SHORT).show();
+                    return true;
+                }
             default:
                 return super.onOptionsItemSelected(item);
         }
