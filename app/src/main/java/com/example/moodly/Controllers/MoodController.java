@@ -110,12 +110,17 @@ public class MoodController extends ElasticSearchController {
 
     public void syncAddList() {
 
-        if(addSyncList.size()>0) {
+        if(addSyncList.size() > 0) {
             addCompletetion = false;
-        }
-        else{
             AddMoodTask addMoodTask = new AddMoodTask();
             addMoodTask.execute(addSyncList);
+            // get variable to check if execution is completed
+            // so addMoodTask.get() -> returns count of moods successfully
+            // sent
+            // if not completed, keep in memory, then write to file?
+        }
+        else{
+            addCompletetion = true;
         }
 
     }
@@ -212,47 +217,6 @@ public class MoodController extends ElasticSearchController {
 
     /* ---------- Elastic Search Requests ---------- */
 
-    private class AddSyncTask {
-        private AddMoodTask addMoodTask;
-        private ArrayList<Mood> moodList;
-
-        public AddSyncTask(ArrayList<Mood> moodList) {
-            this.addMoodTask = new AddMoodTask();
-            this.moodList = moodList;
-        }
-
-        public boolean execute(ArrayList<Mood> moodList) {
-            boolean completion = false;
-            addMoodTask.execute(moodList);
-            try {
-                completion = addMoodTask.get();
-            } catch (Exception e) {
-                Log.i("Error", "Failed to add mood");
-            }
-            return completion;
-        }
-//
-//        public Mood getMood() {
-//            return mood;
-//        }
-//
-//        public void setMood(Mood m) {
-//            this.mood = m;
-//        }
-
-        public boolean get() {
-            boolean success = false;
-
-            try {
-                success = this.addMoodTask.get();
-            } catch (Exception e) {
-                Log.i("Error", "Failed to synchronize mood");
-            }
-
-            return success;
-        }
-    }
-
 
     private class DeleteSyncTask {
         private DeleteMoodTask deleteMoodTask;
@@ -277,11 +241,13 @@ public class MoodController extends ElasticSearchController {
     /**
      * Async task that adds a mood to elastic search
      */
-    private static class AddMoodTask extends AsyncTask<ArrayList<Mood>, Void, Boolean> {
-
+    private static class AddMoodTask extends AsyncTask<ArrayList<Mood>, Void, Integer> {
+        // return value is the number of moods that succeeded
         @Override
-        protected Boolean doInBackground(ArrayList<Mood>... moods){
+        protected Integer doInBackground(ArrayList<Mood>... moods){
             verifySettings();
+
+            int count = 0;
             ArrayList<Mood> moodList = moods[0];
             for(Mood mood : moodList) {
 
@@ -290,6 +256,7 @@ public class MoodController extends ElasticSearchController {
                 try {
                     DocumentResult result = client.execute(index);
                     if (result.isSucceeded()) {
+                        count += 1;
                         if (mood.getId() == null) {
                             mood.setId(result.getId());
                             // assumption method addMood always runs before this
@@ -303,18 +270,18 @@ public class MoodController extends ElasticSearchController {
 
                     } else {
                         Log.i("Error", "Elasticsearch was not able to add the mood");
-                        return false;
+                        return count;
                     }
                     // where is the client?
                 }
                 catch (Exception e) {
                     Log.i("Error", "The application failed to build and send the mood");
-                    return false;
+                    return count;
                 }
 
             }
 
-            return true;
+            return count;
         }
     }
 

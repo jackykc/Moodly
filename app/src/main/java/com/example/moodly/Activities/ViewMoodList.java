@@ -68,7 +68,7 @@ public class ViewMoodList extends AppCompatActivity {
         synchronizeNetwork.run();
     }
 
-    private int repeatInterval = 15000;
+    private int repeatInterval = 45000;
     private Handler handler;
 
     Runnable synchronizeNetwork = new Runnable() {
