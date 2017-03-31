@@ -51,7 +51,6 @@ public class TabHistory extends TabBase {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
         currentUser = userController.getCurrentUser();
         userList = new ArrayList<>();
         userList.add(currentUser.getName());
@@ -59,7 +58,6 @@ public class TabHistory extends TabBase {
         refreshOnline(userList);
         setViews(inflater, container);
         setListeners();
-
         return rootView;
     }
 
@@ -192,7 +190,6 @@ public class TabHistory extends TabBase {
         displayMoodList = (ListView) rootView.findViewById(R.id.display_mood_list);
         adapter = new MoodAdapter(getActivity(), R.layout.mood_list_item, moodList);
         displayMoodList.setAdapter(adapter);
-
     }
 
     /**
