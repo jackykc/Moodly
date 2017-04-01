@@ -18,7 +18,6 @@ import android.widget.Toast;
 import com.example.moodly.Adapters.MoodAdapter;
 import com.example.moodly.Controllers.CommentController;
 import com.example.moodly.Controllers.MoodController;
-import com.example.moodly.Models.Emotion;
 import com.example.moodly.Models.Mood;
 import com.example.moodly.R;
 
@@ -65,7 +64,6 @@ public class TabHistory extends TabBase {
     @Override
     protected void setListeners() {
         // Taken from http://www.learn-android-easily.com/2013/01/adding-check-boxes-in-dialog.html 3/26/2017
-        final ArrayList<String> selected_filter = new ArrayList<>();
         displayMoodList.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, final int position, long id) {
@@ -101,14 +99,13 @@ public class TabHistory extends TabBase {
                 Intent intent = new Intent(getActivity(), ViewMood.class);
                 intent.putExtra("MOOD_POSITION", -1);
                 startActivityForResult(intent, 0);
-
             }
         });
 
         final CharSequence[] filter_choices = {"Anger","Confusion","Disgust","Fear","Happiness","Sadness","Shame","Surprise"};
         final CharSequence[] recentWeekChoice = {"In Recent Week"};
-        final ArrayList<Integer> selectedEmotion = new ArrayList<Integer>();
-        final ArrayList<Boolean> recentWeek = new ArrayList<Boolean>();
+        final ArrayList<Integer> selectedEmotion = new ArrayList<>();
+        final ArrayList<Boolean> recentWeek = new ArrayList<>();
         FloatingActionButton filter = (FloatingActionButton) rootView.findViewById(R.id.filterButton);
         filter.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -127,7 +124,7 @@ public class TabHistory extends TabBase {
                             selectedEmotion.add(emotion);
                         }
                         else if(selectedEmotion.contains(emotion)){
-                            selectedEmotion.remove(emotion);
+                            selectedEmotion.remove(Integer.valueOf(emotion));
                         }
                     }
                 });
@@ -135,10 +132,8 @@ public class TabHistory extends TabBase {
                 builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-
                         moodController.setFilterEmotion(selectedEmotion);
                         getFilterText();
-
                     }
                 });
                 builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -162,8 +157,6 @@ public class TabHistory extends TabBase {
                 adapter = new MoodAdapter(getActivity(), R.layout.mood_list_item, moodList);
                 displayMoodList.setAdapter(adapter);
                 adapter.notifyDataSetChanged();
-
-
             }
         });
     }
@@ -201,11 +194,9 @@ public class TabHistory extends TabBase {
         adapter = new MoodAdapter(getActivity(), R.layout.mood_list_item, moodList);
         displayMoodList.setAdapter(adapter);
         adapter.notifyDataSetChanged();
-
     }
 
     protected void getFilterRecent() {
-
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         builder.setTitle("Show Only Moods From Recent Week?");
         builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
@@ -216,7 +207,6 @@ public class TabHistory extends TabBase {
                 adapter = new MoodAdapter(getActivity(), R.layout.mood_list_item, moodList);
                 displayMoodList.setAdapter(adapter);
                 adapter.notifyDataSetChanged();
-
             }
         });
         builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
@@ -256,30 +246,6 @@ public class TabHistory extends TabBase {
             }
         });
         textBuilder.show();
-    }
-
-
-    private Emotion stringToEmotion(String selectedEmotion) {
-        switch (selectedEmotion) {
-            case "Anger":
-                return Emotion.ANGER;
-            case "Confusion":
-                return Emotion.CONFUSION;
-            case "Disgust":
-                return Emotion.DISGUST;
-            case "Fear":
-                return Emotion.FEAR;
-            case "Happiness":
-                return Emotion.HAPPINESS;
-            case "Sadness":
-                return Emotion.SADNESS;
-            case "Shame":
-                return Emotion.SHAME;
-            case "Surprise":
-                return Emotion.SURPRISE;
-            default:
-                return Emotion.NONE;
-        }
     }
 }
 
