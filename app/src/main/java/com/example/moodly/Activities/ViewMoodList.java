@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.content.SharedPreferences;
+
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.AppBarLayout;
@@ -19,7 +21,13 @@ import android.view.MenuItem;
 
 import android.widget.Toast;
 
+
 import com.example.moodly.Controllers.MoodController;
+import com.example.moodly.Activities.SocialBase;
+import com.example.moodly.Activities.TabBase;
+import com.example.moodly.Activities.TabHistory;
+import com.example.moodly.Controllers.UserController;
+
 import com.example.moodly.R;
 
 public class ViewMoodList extends AppCompatActivity {
@@ -124,6 +132,7 @@ public class ViewMoodList extends AppCompatActivity {
                 startActivity(intentMap);
                 return true;
             case R.id.action_social:
+
                 if (networkAvailable()) {
                     Toast.makeText(this, "Social", Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(this, SocialBase.class);
@@ -134,6 +143,16 @@ public class ViewMoodList extends AppCompatActivity {
                     Toast.makeText(this, "Cannot access social tab when offline!", Toast.LENGTH_SHORT).show();
                     return true;
                 }
+
+            case R.id.log_out:
+                Toast.makeText(this, "Goodbye, " + UserController.getInstance().getCurrentUser().getName(), Toast.LENGTH_SHORT).show();
+                SharedPreferences.Editor editor =getApplicationContext().getSharedPreferences(LoginScreen.FILE_NAME, Context.MODE_PRIVATE).edit();
+                editor.clear();
+                editor.commit();
+                Intent logOut = new Intent(this, LoginScreen.class);
+                logOut.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(logOut);
+
             default:
                 return super.onOptionsItemSelected(item);
         }
