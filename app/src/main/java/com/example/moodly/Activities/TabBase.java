@@ -44,7 +44,7 @@ public class TabBase extends Fragment {
     protected ArrayList<Mood> moodList = new ArrayList<Mood>();
     protected View rootView;
 
-    protected MoodController moodController = MoodController.getInstance();
+    protected MoodController moodController = MoodController.getInstance(getContext());
     protected UserController userController = UserController.getInstance();
 
 
@@ -106,7 +106,7 @@ public class TabBase extends Fragment {
                         Intent intent = new Intent(getActivity(), ViewMood.class);
                         intent.putExtra("MOOD_POSITION", position);
                         intent.putExtra("edit", 1);
-                        MoodController.getInstance().setMood(mood);
+                        MoodController.getInstance(getContext()).setMood(mood);
                         startActivityForResult(intent, 0);
                     }
                 });
@@ -132,7 +132,7 @@ public class TabBase extends Fragment {
      * Gets the mood list from our controller and updates the adapters
      */
     protected void refreshOffline() {
-        moodList = MoodController.getInstance().getFollowMoods();
+        moodList = MoodController.getInstance(getContext()).getFollowMoods();
         adapter = new FollowingMoodAdapter(getActivity(), R.layout.following_mood_list_item, moodList);
         displayMoodList.setAdapter(adapter);
         // needed ?

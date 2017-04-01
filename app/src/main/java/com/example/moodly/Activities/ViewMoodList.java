@@ -20,7 +20,20 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.example.moodly.Controllers.MoodController;
+import com.example.moodly.Models.Mood;
 import com.example.moodly.R;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.util.ArrayList;
 
 public class ViewMoodList extends AppCompatActivity {
 
@@ -33,6 +46,7 @@ public class ViewMoodList extends AppCompatActivity {
      * {@link android.support.v4.app.FragmentStatePagerAdapter}.
      */
     private SectionsPagerAdapter mSectionsPagerAdapter;
+
 
     /**
      * The {@link ViewPager} that will host the section contents.
@@ -83,11 +97,11 @@ public class ViewMoodList extends AppCompatActivity {
 
     private void updateElasticSearch() {
         if (networkAvailable())  {
-            if (MoodController.getInstance().getAddCompletion()) {
-                MoodController.getInstance().syncAddList();
+            if (MoodController.getInstance(ViewMoodList.this).getAddCompletion()) {
+                MoodController.getInstance(ViewMoodList.this).syncAddList();
             }
-            if(MoodController.getInstance().getDeleteCompletion()) {
-                MoodController.getInstance().syncDeleteList();
+            if(MoodController.getInstance(ViewMoodList.this).getDeleteCompletion()) {
+                MoodController.getInstance(ViewMoodList.this).syncDeleteList();
             }
             Toast.makeText(ViewMoodList.this, "Connected", Toast.LENGTH_SHORT).show();
         }
@@ -183,8 +197,4 @@ public class ViewMoodList extends AppCompatActivity {
             return null;
         }
     }
-
-
-
-
 }

@@ -1,12 +1,23 @@
 package com.example.moodly.Controllers;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 
+import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
 
 import com.example.moodly.Models.Mood;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.searchly.jestdroid.DroidClientConfig;
 import com.searchly.jestdroid.JestClientFactory;
 import com.searchly.jestdroid.JestDroidClient;
@@ -49,11 +60,13 @@ public class MoodController extends ElasticSearchController {
     private static boolean addCompletetion;
     private static boolean deleteCompletetion;
     private static QueryBuilder queryBuilder;
-
+    private static final String FILENAME = "moods.sav";
+    private static ArrayList<Mood> savedList = new ArrayList<>();
+    private static Context context;
     /**
      * Constructor for our mood controller, initializes members
      */
-    private MoodController() {
+    private MoodController(Context context) {
         // replace when we do offline, load from file etc
         moodHistoryList = new ArrayList<Mood>();
         moodFollowList = new ArrayList<Mood>();
@@ -61,7 +74,7 @@ public class MoodController extends ElasticSearchController {
         addSyncList = new ArrayList<Mood>();
         deleteSyncList = new ArrayList<Mood>();
         queryBuilder = new QueryBuilder();
-
+        this.context = context;
         addCompletetion = true;
         deleteCompletetion = true;
     }
@@ -70,10 +83,10 @@ public class MoodController extends ElasticSearchController {
      * Gets an instance of the mood controller
      * @return the controller
      */
-    public static MoodController getInstance() {
+    public static MoodController getInstance(Context context) {
 
         if(instance == null) {
-            instance = new MoodController();
+            instance = new MoodController(context);
         }
 
         return instance;
@@ -146,6 +159,7 @@ public class MoodController extends ElasticSearchController {
 
             for (int i = 0; i < addSyncList.size(); i++) {
                 if(addSyncList.get(i).getDate() == date) {
+                    savedList.remove(addSyncList.get(i));
                     addSyncList.remove(i);
                     break;
                 }
@@ -241,8 +255,9 @@ public class MoodController extends ElasticSearchController {
 
             for(Mood mood : moodList) {
                 bulkAction.add(new Index.Builder(mood).build());
+                savedList.add(mood);
             }
-
+            saveInFile();
 
             Bulk bulk = new Bulk.Builder()
                     .defaultIndex("cmput301w17t20").defaultType("mood")
@@ -291,9 +306,10 @@ public class MoodController extends ElasticSearchController {
 
             // in case we add more elements to the list
             for (int j = 0; j < count; j++) {
-                    addSyncList.remove(0);
+                savedList.remove(0);
+                addSyncList.remove(0);
             }
-
+            saveInFile();
             addCompletetion = true;
             return count;
         }
@@ -444,7 +460,35 @@ public class MoodController extends ElasticSearchController {
             return currentMoodList;
         }
     }
+    private void loadFromFile(){
+        try{
+            FileInputStream fis = context.openFileInput(FILENAME);
+            BufferedReader in = new BufferedReader(new InputStreamReader(fis));
+            Gson gson = new Gson();
+            // Taken from http://stackoverflow.com/questions/12384064/gson-convert-from-json-to-a-typed-arraylistt
+            // 2017-01-28 14:54:02
+            savedList = gson.fromJson(in, new TypeToken<ArrayList<Mood>>(){}.getType());
+            fis.close();
+        }catch (FileNotFoundException e){
+            savedList = new ArrayList<>();
+        } catch (IOException e)
+        {
+            throw new RuntimeException();
+        }
+    }
 
+    private static void saveInFile(){
+        try {
+            FileOutputStream fos = context.openFileOutput(FILENAME, Context.MODE_PRIVATE);
+            BufferedWriter out = new BufferedWriter(new OutputStreamWriter(fos));
+            Gson gson = new Gson();
+            gson.toJson(savedList,out);
+            out.flush();
+            fos.close();
+        } catch (IOException e){
+            throw new RuntimeException();
+        }
+    }
     /* ---------- Helpers ---------- */
 
     public ArrayList<Mood> getHistoryMoods () {
@@ -454,6 +498,8 @@ public class MoodController extends ElasticSearchController {
     public ArrayList<Mood> getFollowMoods () {
         return moodFollowList;
     }
+
+
 
     /* ---------- The following code is commented out for now as it is left for part 5 ---------- */
 

@@ -20,7 +20,14 @@ import com.example.moodly.Controllers.CommentController;
 import com.example.moodly.Controllers.MoodController;
 import com.example.moodly.Models.Mood;
 import com.example.moodly.R;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 
 import static java.lang.String.valueOf;
@@ -35,6 +42,8 @@ import static java.lang.String.valueOf;
 public class TabHistory extends TabBase {
 
     private MoodAdapter adapter;
+    private static final String FILENAME = "moods.sav";
+    private static ArrayList<Mood> savedList;
 
     /**
      * Gets the current user's mood history from ElasticSearch
@@ -83,7 +92,7 @@ public class TabHistory extends TabBase {
                 adb.setPositiveButton("Delete", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        MoodController.getInstance().deleteMood(position);
+                        MoodController.getInstance(getContext()).deleteMood(position);
                         refreshOffline();
 
                     }
@@ -94,7 +103,7 @@ public class TabHistory extends TabBase {
                         Intent intent = new Intent(getActivity(), ViewMood.class);
                         // 2 means edit
                         intent.putExtra("MOOD_POSITION", position);
-                        MoodController.getInstance().setMood(mood);
+                        MoodController.getInstance(getContext()).setMood(mood);
                         startActivityForResult(intent, 0);
                     }
                 });
@@ -108,7 +117,7 @@ public class TabHistory extends TabBase {
             @Override
             public void onClick(View view) {
 
-                MoodController.getInstance().setMood(new Mood());
+                MoodController.getInstance(getContext()).setMood(new Mood());
                 Intent intent = new Intent(getActivity(), ViewMood.class);
                 // 1 means add
                 intent.putExtra("MOOD_POSITION", -1);
@@ -205,7 +214,7 @@ public class TabHistory extends TabBase {
      */
     @Override
     protected void refreshOffline() {
-        moodList = MoodController.getInstance().getHistoryMoods();
+        moodList = MoodController.getInstance(getContext()).getHistoryMoods();
         adapter = new MoodAdapter(getActivity(), R.layout.mood_list_item, moodList);
         displayMoodList.setAdapter(adapter);
         adapter.notifyDataSetChanged();
@@ -271,6 +280,22 @@ public class TabHistory extends TabBase {
             }
         });
         textBuilder.show();
+    }
+    private void loadFromFile(){
+        try{
+            FileInputStream fis = getContext().openFileInput(FILENAME);
+            BufferedReader in = new BufferedReader(new InputStreamReader(fis));
+            Gson gson = new Gson();
+            // Taken from http://stackoverflow.com/questions/12384064/gson-convert-from-json-to-a-typed-arraylistt
+            // 2017-01-28 14:54:02
+            savedList = gson.fromJson(in, new TypeToken<ArrayList<Mood>>(){}.getType());
+            fis.close();
+        }catch (FileNotFoundException e){
+            savedList = new ArrayList<>();
+        } catch (IOException e)
+        {
+            throw new RuntimeException();
+        }
     }
 }
 

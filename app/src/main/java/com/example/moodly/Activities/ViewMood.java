@@ -1,6 +1,7 @@
 package com.example.moodly.Activities;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -35,12 +36,19 @@ import com.example.moodly.Controllers.MoodController;
 import com.example.moodly.Models.Emotion;
 import com.example.moodly.Models.Mood;
 import com.example.moodly.R;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 
 import static com.example.moodly.Models.Emotion.NONE;
@@ -73,6 +81,9 @@ public class ViewMood extends AppCompatActivity {
     private String setPhotoPath;
     private String base64Encoded;
 
+    private static final String FILENAME = "moods.sav";
+    private static ArrayList<Mood> savedList = new ArrayList<>();
+
     private int position = -1;
     private int edit = 0;
     /**
@@ -85,7 +96,7 @@ public class ViewMood extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mood = MoodController.getInstance().getMood();
+        mood = MoodController.getInstance(ViewMood.this).getMood();
         position = getIntent().getIntExtra("MOOD_POSITION", -1);
         edit = getIntent().getIntExtra("edit",0);
 
@@ -233,8 +244,10 @@ public class ViewMood extends AppCompatActivity {
                         mood.setEmotion(emotionEnum);
                         mood.setSocialSituation(socialEnum);
                         // needed to set the mood?
-                        MoodController.getInstance().setMood(mood);
-                        MoodController.getInstance().addMood(position, mood);
+                        MoodController.getInstance(ViewMood.this).setMood(mood);
+                        MoodController.getInstance(ViewMood.this).addMood(position, mood);
+                        savedList.add(mood);
+                        saveInFile();
                         //MoodController.getInstance().editMood();
                         Intent output = new Intent(ViewMood.this, ViewMoodList.class);
                         setResult(RESULT_OK, output);
@@ -356,6 +369,36 @@ public class ViewMood extends AppCompatActivity {
             if (checkSelfPermission(Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED){
                 ActivityCompat.requestPermissions(ViewMood.this,new String[]{Manifest.permission.CAMERA},1);
             }
+        }
+    }
+
+    private void loadFromFile(){
+        try{
+            FileInputStream fis = openFileInput(FILENAME);
+            BufferedReader in = new BufferedReader(new InputStreamReader(fis));
+            Gson gson = new Gson();
+            // Taken from http://stackoverflow.com/questions/12384064/gson-convert-from-json-to-a-typed-arraylistt
+            // 2017-01-28 14:54:02
+            savedList = gson.fromJson(in, new TypeToken<ArrayList<Mood>>(){}.getType());
+            fis.close();
+        }catch (FileNotFoundException e){
+            savedList = new ArrayList<>();
+        } catch (IOException e)
+        {
+            throw new RuntimeException();
+        }
+    }
+
+    private void saveInFile(){
+        try {
+            FileOutputStream fos = openFileOutput(FILENAME, Context.MODE_PRIVATE);
+            BufferedWriter out = new BufferedWriter(new OutputStreamWriter(fos));
+            Gson gson = new Gson();
+            gson.toJson(savedList,out);
+            out.flush();
+            fos.close();
+        } catch (IOException e){
+            throw new RuntimeException();
         }
     }
 
