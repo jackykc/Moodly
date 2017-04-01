@@ -11,6 +11,8 @@ import com.searchly.jestdroid.DroidClientConfig;
 import com.searchly.jestdroid.JestClientFactory;
 import com.searchly.jestdroid.JestDroidClient;
 
+import org.apache.commons.lang3.ObjectUtils;
+
 import java.util.Arrays;
 import java.util.Date;
 import java.util.Iterator;
@@ -250,6 +252,31 @@ public class MoodController extends ElasticSearchController {
             try {
                 BulkResult result = client.execute(bulk);
                 if (result.isSucceeded()) {
+                    List<BulkResult.BulkResultItem> items = result.getItems();
+                    // update JestId on locallist
+                    int localIndex = 0;
+                    int resultSize = items.size();
+                    // starting from the last item of the result
+                    // assumption that items on the leftmost index (start at 0)
+                    // has no id as we just added them
+                    for (int i = (resultSize-1); i >= 0; i--) {
+                        // http response 201, creation of document
+                        // and local has no JestID
+                        BulkResult.BulkResultItem item = items.get(i);
+                        if((item.status == 201) && (moodHistoryList.get(localIndex).getId() == null)) {
+                            // check if mood corresponding to i (the one sent to elastic search)
+                            // pass filters
+                            if (true /*moodList.get(i)*/) {
+                                // if so, update JestId locally
+                                String jestId = item.id;
+                                moodHistoryList.get(localIndex).setId(jestId);
+                                //update local index
+                                localIndex += 1;
+
+                            }
+                        }
+                        //if(items.get(i).id)
+                    }
 
                 } else {
 
