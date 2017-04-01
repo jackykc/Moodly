@@ -1,5 +1,7 @@
 package com.example.moodly.Controllers;
 
+import com.example.moodly.Models.Mood;
+
 import java.util.ArrayList;
 
 /**
@@ -13,6 +15,7 @@ public class QueryBuilder {
     private int emotion;
     private boolean recent;
     private String reason;
+    private int resultOffset;
 
     // ONLY TO BE INSTANTIATED WITHIN CONTROLLERS
     public QueryBuilder() {
@@ -22,9 +25,26 @@ public class QueryBuilder {
         emotion = 0;
         recent = false;
         reason = "";
+        resultOffset = 0;
 
     }
 
+
+    // check if mood can be added locally given filters
+    public boolean isValid(Mood m) {
+
+        if ((emotion != 0) && (emotion != m.getEmotion())) {
+            return false;
+        } else if
+            ((reason != "") && (! m.getReasonText().contains(reason))) {
+            return false;
+        }
+        return true;
+    }
+
+    public void setResultOffset(int resultOffset) {
+        this.resultOffset = resultOffset;
+    }
 
     // sets the emotion to filter for
     public void setEmotion(int emotion) {
@@ -70,7 +90,9 @@ public class QueryBuilder {
         String sort = "\n\"sort\": { \"date\": { \"order\": \"desc\" } }";
 
         String query =
-                "{" +
+                "{ \n" +
+                        "\t\"from\" : "+Integer.toString(resultOffset)+", \"size\" : 10,\n" +
+                        //"\t\"terminate_after\" : 10," +
                     "\n\"query\" : {\n" +
                     "\"bool\" : {\n";
 
@@ -87,14 +109,15 @@ public class QueryBuilder {
 
         if(recent) {
             recentMatch = ",\"must\" : { \n" +
-                        "\"range\" : { \n" +
-                            "\"date\" : {\n" +
-                                "\"gte\" : \"now-7d\"" +
-                            "\n}" +
-                        "\n}" +
+                    "\"range\" : { \n" +
+                    "\"date\" : {\n" +
+                    "\"gte\" : \"now-/w\"" +
+                    "\n}" +
+                    "\n}" +
                     "\n}";
             query += recentMatch;
         }
+
 
         if(reason != "") {
             reasonMatch = ",\"must\" : { \n" +
