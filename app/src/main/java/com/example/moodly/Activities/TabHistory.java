@@ -105,7 +105,6 @@ public class TabHistory extends TabBase {
             }
         });
 
-
         final CharSequence[] filter_choices = {"Anger","Confusion","Disgust","Fear","Happiness","Sadness","Shame","Surprise"};
         final CharSequence[] recentWeekChoice = {"In Recent Week"};
         final ArrayList<Integer> selectedEmotion = new ArrayList<Integer>();
@@ -114,12 +113,15 @@ public class TabHistory extends TabBase {
         filter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                selectedEmotion.clear();
+                recentWeek.clear();
                 AlertDialog dialog;
                 AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
                 builder.setTitle("Select filter(s)");
                 builder.setMultiChoiceItems(filter_choices, null, new DialogInterface.OnMultiChoiceClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which, boolean isChecked) {
+                        // offset of + 1 as the emotion starts with 1
                         int emotion = which + 1;
                         if (isChecked){
                             selectedEmotion.add(emotion);
@@ -129,39 +131,13 @@ public class TabHistory extends TabBase {
                         }
                     }
                 });
-                final EditText input = new EditText(getContext());
-                input.setInputType(InputType.TYPE_CLASS_TEXT);
-                builder.setView(input);
-
-                builder.setMultiChoiceItems(recentWeekChoice, null, new DialogInterface.OnMultiChoiceClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which, boolean isChecked) {
-                        if (isChecked){
-                            recentWeek.add(true);
-                        }
-                        else if(recentWeek.contains(true)){
-                            recentWeek.clear();
-                        }
-                    }
-                });
-
 
                 builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        String filterText = input.getText().toString();
-                        Toast.makeText(getContext(), filterText, Toast.LENGTH_SHORT).show();
-                        moodController.setFilterText(filterText);
-                        // recent week filter chosen, if there is a value in the arraylist,
-                        // we have choses the recent week filter
-                        final boolean filterRecent = recentWeek.size() > 0;
-                        moodController.setFilterRecent(filterRecent);
 
-                        moodList = moodController.getMoodList(userList, true);
-                        adapter = new MoodAdapter(getActivity(), R.layout.mood_list_item, moodList);
-                        displayMoodList.setAdapter(adapter);
-                        adapter.notifyDataSetChanged();
-
+                        moodController.setFilterEmotion(selectedEmotion);
+                        getFilterText();
 
                     }
                 });
@@ -228,68 +204,54 @@ public class TabHistory extends TabBase {
 
     }
 
-    protected void getFilterEmotion(){
-        final CharSequence[] emotion = {"Anger","Confusion","Disgust","Fear","Happiness","Sadness","Shame","Surprise"};
-        final ArrayList<String> selected_emotion = new ArrayList<>();
-        final ArrayList<Emotion> query_emotions = new ArrayList<>();
-        AlertDialog dialog;
+    protected void getFilterRecent() {
+
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-        builder.setTitle("Select Emotion(s)");
-        builder.setMultiChoiceItems(emotion, null, new DialogInterface.OnMultiChoiceClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which, boolean isChecked) {
-                if (isChecked){
-                    selected_emotion.add(emotion[which].toString());
-                }
-                else if(selected_emotion.contains(emotion[which].toString())){
-                    selected_emotion.remove(emotion[which].toString());
-                }
-            }
-        });
-        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+        builder.setTitle("Show Only Moods From Recent Week?");
+        builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                if (selected_emotion.size() > 0) {
-                    for (int i = 0; i < selected_emotion.size(); i++)
-                    {
-                        Emotion converted = stringToEmotion(selected_emotion.get(i));
-                        //System.out.println(converted.toString());
-                        query_emotions.add(converted);
-                    }
-                }
-                else {
-                    Toast.makeText(getContext(), "No emotion selected!", Toast.LENGTH_SHORT).show();
-                }
-                selected_emotion.clear();
+                moodController.setFilterRecent(true);
+                moodList = moodController.getMoodList(userList, true);
+                adapter = new MoodAdapter(getActivity(), R.layout.mood_list_item, moodList);
+                displayMoodList.setAdapter(adapter);
+                adapter.notifyDataSetChanged();
+
             }
         });
-        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+        builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
+                moodController.setFilterRecent(false);
+                moodList = moodController.getMoodList(userList, true);
+                adapter = new MoodAdapter(getActivity(), R.layout.mood_list_item, moodList);
+                displayMoodList.setAdapter(adapter);
+                adapter.notifyDataSetChanged();
                 dialog.cancel();
             }
         });
-        dialog = builder.create();
-        dialog.show();
+        builder.show();
     }
 
     protected void getFilterText(){
         AlertDialog.Builder textBuilder = new AlertDialog.Builder(getContext());
-        textBuilder.setTitle("Search for text");
+        textBuilder.setTitle("Search by Reason text ?");
         final EditText input = new EditText(getContext());
         input.setInputType(InputType.TYPE_CLASS_TEXT);
         textBuilder.setView(input);
-        textBuilder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+        textBuilder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 String filterText = input.getText().toString();
                 Toast.makeText(getContext(), filterText, Toast.LENGTH_SHORT).show();
                 moodController.setFilterText(filterText);
+                getFilterRecent();
             }
         });
-        textBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+        textBuilder.setNegativeButton("No", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
+                getFilterRecent();
                 dialog.cancel();
             }
         });

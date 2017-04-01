@@ -12,7 +12,6 @@ public class QueryBuilder {
 
     private String usernameString;
 
-    private int emotion;
     private ArrayList<Integer> emotionList;
     private boolean recent;
     private String reason;
@@ -24,7 +23,6 @@ public class QueryBuilder {
 
         usernameString = "";
 
-        emotion = 0;
         recent = false;
         reason = "";
         resultOffset = 0;
@@ -34,24 +32,24 @@ public class QueryBuilder {
 
 
     // check if mood can be added locally given filters
-    public boolean isValid(Mood m) {
-
-        if ((emotion != 0) && (emotion != m.getEmotion())) {
-            return false;
-        } else if
-            ((reason != "") && (! m.getReasonText().contains(reason))) {
-            return false;
-        }
-        return true;
-    }
+//    public boolean isValid(Mood m) {
+//
+//        if ((emotion != 0) && (emotion != m.getEmotion())) {
+//            return false;
+//        } else if
+//            ((reason != "") && (! m.getReasonText().contains(reason))) {
+//            return false;
+//        }
+//        return true;
+//    }
 
     public void setResultOffset(int resultOffset) {
         this.resultOffset = resultOffset;
     }
 
     // sets the emotion to filter for
-    public void setEmotion(int emotion) {
-        this.emotion = emotion;
+    public void setEmotion(ArrayList<Integer> emotions) {
+        this.emotionList = emotions;
     }
 
     // if recent is true, search for the last 7 days of moods

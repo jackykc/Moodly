@@ -185,8 +185,8 @@ public class MoodController extends ElasticSearchController {
     }
 
     // sets the emotion to filter for
-    public void setFilterEmotion(int emotion) {
-        queryBuilder.setEmotion(emotion);
+    public void setFilterEmotion(ArrayList<Integer> emotions) {
+        queryBuilder.setEmotion(emotions);
     }
 
     // set to true if we want moods from last seven days
