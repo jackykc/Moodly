@@ -1,7 +1,11 @@
 package com.example.moodly.Activities;
 
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -11,6 +15,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.example.moodly.R;
 
@@ -45,6 +50,7 @@ public class SocialBase extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_mood_list);
 
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         AppBarLayout.LayoutParams params = (AppBarLayout.LayoutParams) toolbar.getLayoutParams();
         params.setScrollFlags(0);
@@ -61,7 +67,31 @@ public class SocialBase extends AppCompatActivity {
         tabLayout.setupWithViewPager(mViewPager);
         tabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
 
+        // checks periodically
+        handler = new Handler();
+        synchronizeNetwork.run();
+
     }
+
+    private int repeatInterval = 5000;
+    private Handler handler;
+
+    Runnable synchronizeNetwork = new Runnable() {
+        @Override
+        public void run() {
+            try {
+                if(! networkAvailable()) {
+                    Toast.makeText(SocialBase.this, "No internet connection", Toast.LENGTH_SHORT).show();
+                    finish();
+                }
+            } finally {
+                // 100% guarantee that this always happens, even if
+                // your update method throws an exception
+                handler.postDelayed(synchronizeNetwork, repeatInterval);
+            }
+        }
+    };
+
 
 
     @Override
@@ -70,11 +100,6 @@ public class SocialBase extends AppCompatActivity {
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-//        if (id == R.id.action_settings) {
-//            return true;
-//        }
 
         if (id == R.id.action_social) {
             Intent intent = new Intent(this, SocialBase.class);
@@ -101,21 +126,27 @@ public class SocialBase extends AppCompatActivity {
         @Override
         public Fragment getItem(int position) {
             // return current tab
-            switch (position) {
-                case 0:
-                    SocialUserSearch tab1 = new SocialUserSearch();
-                    return tab1;
-                case 1:
-                    SocialFollowerList tab2 = new SocialFollowerList();
-                    return tab2;
-                case 2:
-                    SocialFollowingList tab3 = new SocialFollowingList();
-                    return  tab3;
-                case 3:
-                    SocialRequestList tab4 = new SocialRequestList();
-                    return tab4;
-                default:
-                    return null;
+            SocialUserSearch tab1 = new SocialUserSearch();
+            if (networkAvailable()) {
+                switch (position) {
+                    case 0:
+                        return tab1;
+                    case 1:
+                        SocialFollowerList tab2 = new SocialFollowerList();
+                        return tab2;
+                    case 2:
+                        SocialFollowingList tab3 = new SocialFollowingList();
+                        return tab3;
+                    case 3:
+                        SocialRequestList tab4 = new SocialRequestList();
+                        return tab4;
+                    default:
+                        return null;
+                }
+            }
+            else {
+                returnBack();
+                return tab1;
             }
         }
 
@@ -140,5 +171,19 @@ public class SocialBase extends AppCompatActivity {
             }
             return null;
         }
+    }
+
+    private boolean networkAvailable() {
+        ConnectivityManager connectivityManager
+                = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
+    }
+
+    private void returnBack(){
+        Toast.makeText(this,"Cannot use social functionality when offline!",Toast.LENGTH_SHORT).show();
+        Intent intent = new Intent(SocialBase.this,ViewMoodList.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
     }
 }
