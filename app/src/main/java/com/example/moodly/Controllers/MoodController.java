@@ -48,6 +48,9 @@ public class MoodController extends ElasticSearchController {
     private static ArrayList<Mood> deleteSyncList;
     private static boolean addCompletetion;
     private static boolean deleteCompletetion;
+
+    private static boolean refresh;
+
     private static QueryBuilder queryBuilder;
 
     /**
@@ -64,6 +67,7 @@ public class MoodController extends ElasticSearchController {
 
         addCompletetion = true;
         deleteCompletetion = true;
+        refresh = true;
     }
 
     /**
@@ -165,8 +169,9 @@ public class MoodController extends ElasticSearchController {
      * @param userList the list of users who we want the retrieved moods to belong to
      * @return a list of moods
      */
-    public ArrayList<Mood> getMoodList(ArrayList<String> userList) {
+    public ArrayList<Mood> getMoodList(ArrayList<String> userList, boolean tempRefresh) {
 
+        this.refresh = tempRefresh;
         MoodController.GetMoodTask getMoodTask = new MoodController.GetMoodTask();
         getMoodTask.execute(userList);
         // do I need to construct the array list or can i just declare it?
@@ -180,14 +185,16 @@ public class MoodController extends ElasticSearchController {
     }
 
     // sets the emotion to filter for
-    public void setEmotion(int emotion) {
+    public void setFilterEmotion(int emotion) {
         queryBuilder.setEmotion(emotion);
     }
 
     // set to true if we want moods from last seven days
-    public void setRecent(boolean recent) {
+    public void setFilterRecent(boolean recent) {
         queryBuilder.setRecent(recent);
     }
+
+    public void setFilterText(String reasonText) { queryBuilder.setReason(reasonText);}
 
     public Mood getMood() {
         return tempMood;
@@ -407,7 +414,12 @@ public class MoodController extends ElasticSearchController {
             String query = "";
             if ((usernames.size() == 1) && (usernames.get(0) == UserController.getInstance().getCurrentUser().getName())) {
 
-                queryBuilder.setResultOffset(moodHistoryList.size());
+                if(refresh) {
+                    queryBuilder.setResultOffset(0);
+                    moodHistoryList.clear();
+                } else {
+                    queryBuilder.setResultOffset(moodHistoryList.size());
+                }
                 queryBuilder.setUsers(usernames);
                 query = queryBuilder.getMoodQuery();
 

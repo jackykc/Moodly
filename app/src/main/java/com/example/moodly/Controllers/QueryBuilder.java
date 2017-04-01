@@ -111,15 +111,14 @@ public class QueryBuilder {
             recentMatch = ",\"must\" : { \n" +
                     "\"range\" : { \n" +
                     "\"date\" : {\n" +
-                    "\"gte\" : \"now-/w\"" +
+                    "\"gte\" : \"now/w\"" +
                     "\n}" +
                     "\n}" +
                     "\n}";
             query += recentMatch;
         }
 
-
-        if(reason != "") {
+        if(!reason.isEmpty()) {
             reasonMatch = ",\"must\" : { \n" +
                     "\"query_string\" : { \n" +
                     "\"fields\" : [\"reasonText\"],\n" +

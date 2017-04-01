@@ -126,7 +126,7 @@ public class TabBase extends Fragment {
      * @param tempUserList list of users (Strings) to match with the moods we want to get
      */
     protected void refreshOnline(ArrayList<String> tempUserList) {
-        moodList = moodController.getMoodList(tempUserList);
+        moodList = moodController.getMoodList(tempUserList, false);
     }
 
     /**
