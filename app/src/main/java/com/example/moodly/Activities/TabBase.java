@@ -10,13 +10,16 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.support.design.widget.FloatingActionButton;
+import android.widget.Toast;
 
 import com.example.moodly.Adapters.FollowingMoodAdapter;
 import com.example.moodly.Adapters.MoodAdapter;
@@ -52,16 +55,12 @@ public class TabBase extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
         currentUser = userController.getCurrentUser();
         userList = currentUser.getFollowing();
-
         refreshOnline(userList);
         setViews(inflater, container);
         hideViews();
-
         setListeners();
-
         return rootView;
     }
 
@@ -117,7 +116,6 @@ public class TabBase extends Fragment {
         });
     }
 
-
     /* ---------- Refreshing Moods ---------- */
     // by part 5 of the project these two will be reduced to a single method
 
@@ -139,5 +137,7 @@ public class TabBase extends Fragment {
         // needed ?
         adapter.notifyDataSetChanged();
     }
+
+
 
 }

@@ -151,10 +151,6 @@ public class ViewMood extends AppCompatActivity {
         socialSituationSpinner.setAdapter(ssAdapter);
     }
 
-    /**
-     * Sets the views in the activities.
-     *
-     */
 
     protected void setViews() {
         // Taken from http://stackoverflow.com/questions/13408419/how-do-i-tell-if-intent-extras-exist-in-android 3/8/2017 22:08
@@ -177,7 +173,7 @@ public class ViewMood extends AppCompatActivity {
             editDate = (EditText) findViewById(R.id.view_date);
             editReasonText = (EditText) findViewById(R.id.view_reason);
             if (position == -1){
-                viewMoodComment.setEnabled(false);
+                viewMoodComment.setVisibility(Button.INVISIBLE);
             }
             else {
                 editDate.setText(mood.getDate().toString(), TextView.BufferType.EDITABLE);
@@ -347,10 +343,6 @@ public class ViewMood extends AppCompatActivity {
 
     }
 
-    /**
-     * Gets the photo if an user sets one for a
-     * mood event.
-     */
     // Taken from https://github.com/CMPUT301W17T20/MyCameraTest1
     protected void moodPhoto(){
         String path = Environment.getExternalStorageDirectory().getAbsolutePath() + "/MoodlyPhotos";
@@ -365,12 +357,6 @@ public class ViewMood extends AppCompatActivity {
         startActivityForResult(intent,0);
     }
 
-    /**
-     * Checks if the photo taken from the camera is successful.
-     * @param requestCode a code that was set when the activity was started
-     * @param resultCode check if the camera activity was successful or not
-     * @param intent the intent where the camera activity was from
-     */
     protected void onActivityResult(int requestCode, int resultCode, Intent intent){
         if (requestCode == 0){
             if (resultCode == RESULT_OK) {
@@ -380,12 +366,8 @@ public class ViewMood extends AppCompatActivity {
         }
     }
 
-    /**
-     * Compresses the photo taken by user to be under 65536 bytes.
-     * @param filename the path of where the photo is located
-     */
     // Taken from http://stackoverflow.com/questions/477572/strange-out-of-memory-issue-while-loading-an-image-to-a-bitmap-object/ 3/29/2017
-    protected void compressPhoto(String filename){
+    protected void compressPhoto(String f){
         final int limit = 60;
         Bitmap b;
         BitmapFactory.Options o = new BitmapFactory.Options();
@@ -394,7 +376,7 @@ public class ViewMood extends AppCompatActivity {
         FileInputStream fis = null;
 
         try {
-            fis = new FileInputStream(filename);
+            fis = new FileInputStream(f);
         } catch (Exception e) {
             Log.i("Error","File not found");
         }
@@ -416,7 +398,7 @@ public class ViewMood extends AppCompatActivity {
         o2.inSampleSize = scale;
 
         try {
-            fis = new FileInputStream(filename);
+            fis = new FileInputStream(f);
         } catch (Exception e) {
             Log.i("Error","File not found");
         }
@@ -431,12 +413,6 @@ public class ViewMood extends AppCompatActivity {
         }
     }
 
-    /**
-     * Takes in a photo path and converts the photo to base 64 representation to be
-     * stored in ElasticSearch.
-     * @param location location of the photo
-     * @return base64 format of the photo
-     */
     // Taken from http://stackoverflow.com/questions/25299438/how-do-i-get-the-image-that-i-took-and-submit-it-to-my-server 3/22/2017
     protected String convertToBase64(String location){
         FileInputStream fis = null;
@@ -461,10 +437,6 @@ public class ViewMood extends AppCompatActivity {
         return base64;
     }
 
-    /**
-     * Decodes a base 64 string to its image representation.
-     * @param toBeDecoded Base 64 string to be decoded into an image.
-     */
     protected void decodeFromBase64(String toBeDecoded){
         // Taken from http://stackoverflow.com/questions/4837110/how-to-convert-a-base64-string-into-a-bitmap-image-to-show-it-in-a-imageview 3/23/2017
         byte[] decodedText = Base64.decode(toBeDecoded,Base64.DEFAULT);
@@ -472,10 +444,6 @@ public class ViewMood extends AppCompatActivity {
         moodImage.setImageBitmap(decodedPhoto);
     }
 
-    /**
-     * Checks if the application has the correct permissions to access the camera
-     * and write to external storage. If it does not, it will request them.
-     */
     // Taken from https://developer.android.com/training/permissions/requesting.html
     protected void checkPermissions(){
         if (Build.VERSION.SDK_INT >= 23) {
@@ -489,3 +457,4 @@ public class ViewMood extends AppCompatActivity {
     }
 
 }
+
