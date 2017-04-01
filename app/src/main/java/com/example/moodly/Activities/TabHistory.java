@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.text.InputType;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -101,7 +102,6 @@ public class TabHistory extends TabBase {
                 startActivityForResult(intent, 0);
             }
         });
-
         final CharSequence[] filter_choices = {"Anger","Confusion","Disgust","Fear","Happiness","Sadness","Shame","Surprise"};
         final CharSequence[] recentWeekChoice = {"In Recent Week"};
         final ArrayList<Integer> selectedEmotion = new ArrayList<>();
@@ -148,6 +148,19 @@ public class TabHistory extends TabBase {
             }
         });
 
+        FloatingActionButton refresh = (FloatingActionButton) rootView.findViewById(R.id.refreshButton);
+        refresh.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                moodController.setFilterRecent(false);
+                moodController.clearEmotion();
+                moodController.clearFilterText();
+                moodList = moodController.getMoodList(userList, true);
+                adapter = new MoodAdapter(getActivity(), R.layout.mood_list_item, moodList);
+                displayMoodList.setAdapter(adapter);
+                adapter.notifyDataSetChanged();
+            }
+        });
 
         loadMore = (Button)rootView.findViewById(R.id.moreMoods);
         loadMore.setOnClickListener(new View.OnClickListener() {
@@ -247,6 +260,7 @@ public class TabHistory extends TabBase {
         });
         textBuilder.show();
     }
+
 }
 
 
