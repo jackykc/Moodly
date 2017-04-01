@@ -13,9 +13,11 @@ public class QueryBuilder {
     private String usernameString;
 
     private int emotion;
+    private ArrayList<Integer> emotionList;
     private boolean recent;
     private String reason;
     private int resultOffset;
+
 
     // ONLY TO BE INSTANTIATED WITHIN CONTROLLERS
     public QueryBuilder() {
@@ -26,6 +28,7 @@ public class QueryBuilder {
         recent = false;
         reason = "";
         resultOffset = 0;
+        emotionList = new ArrayList<Integer>();
 
     }
 
@@ -79,6 +82,7 @@ public class QueryBuilder {
     public String getMoodQuery() {
 
         String emotionMatch, recentMatch, reasonMatch;
+        String emotionString;
 
         String ownerMatch = "\"must\" : { \n" +
                 "\"query_string\" : { \n" +
@@ -98,10 +102,20 @@ public class QueryBuilder {
 
         query += ownerMatch;
 
-        if(emotion != 0) {
+        if(emotionList.size() > 0) {
+            // string that represents emotions "[1, 3, 5...]"
+            emotionString = "[";
+            emotionString += emotionList.get(0).toString();
+            for (int i = 1; i < emotionList.size(); i++) {
+                emotionString += ", ";
+                emotionString += emotionList.get(i).toString();
+            }
+            emotionString += "]";
+
+
             emotionMatch = ",\"must\" : { \n" +
-                        "\"term\" : { \n" +
-                            "\"emotion\" : \"" + emotion + "\"" +
+                        "\"terms\" : { \n" +
+                            "\"emotion\" : " + emotionString +
                         "\n}" +
                     "\n}";
             query += emotionMatch;
