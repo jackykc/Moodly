@@ -65,6 +65,10 @@ public class TabHistory extends TabBase {
     @Override
     protected void setListeners() {
         // Taken from http://www.learn-android-easily.com/2013/01/adding-check-boxes-in-dialog.html 3/26/2017
+        moodList = moodController.getMoodList(userList, true);
+        adapter = new MoodAdapter(getActivity(), R.layout.mood_list_item, moodList);
+        displayMoodList.setAdapter(adapter);
+        adapter.notifyDataSetChanged();
         displayMoodList.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, final int position, long id) {
