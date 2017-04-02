@@ -48,10 +48,6 @@ public class UserController extends ElasticSearchController {
         return instance;
     }
 
-
-    public ArrayList<User> getFollowers () {
-        return followers;
-    }
     /* ---------- Controller Functions ---------- */
 
     /**
