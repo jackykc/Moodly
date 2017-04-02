@@ -174,11 +174,11 @@ public class ViewMood extends AppCompatActivity {
             cameraButton = (FloatingActionButton) findViewById(R.id.cameraButton);
             editDate = (EditText) findViewById(R.id.view_date);
             editReasonText = (EditText) findViewById(R.id.view_reason);
+            editDate.setText(mood.getDate().toString(), TextView.BufferType.EDITABLE);
             if (position == -1){
                 viewMoodComment.setVisibility(Button.INVISIBLE);
             }
             else {
-                editDate.setText(mood.getDate().toString(), TextView.BufferType.EDITABLE);
                 editReasonText.setText(mood.getReasonText(), TextView.BufferType.EDITABLE);
             }
         }
@@ -251,8 +251,8 @@ public class ViewMood extends AppCompatActivity {
                     String reasonText = editReasonText.getText().toString();
                     String reasonTrimmed = reasonText.trim();
                     int words = reasonTrimmed.isEmpty() ? 0 : reasonTrimmed.split("\\s+").length;
-                    Emotion emotionEnumCheck = Emotion.values()[emotionSpinner.getSelectedItemPosition()];
-                    if (emotionEnumCheck == NONE) {
+                    int emotionEnumCheck = emotionSpinner.getSelectedItemPosition();
+                    if (emotionEnumCheck == 0) {
                         // Taken from http://stackoverflow.com/questions/28235689/how-can-an-error-message-be-set-for-the-spinner-in-android 3/8/2017
                         TextView errorText = (TextView) emotionSpinner.getSelectedView();
                         errorText.setError("");
