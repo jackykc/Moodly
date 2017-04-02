@@ -12,6 +12,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.example.moodly.Controllers.UserController;
 import com.example.moodly.Models.User;
@@ -43,16 +44,12 @@ public class SocialUserSearch extends Fragment implements View.OnClickListener {
     protected ListView displayUserList;
     protected ArrayAdapter<String> adapter;
 
-    // PLACEHOLDER
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
         refreshOnline();
-
-        // REPLACE WITH ELASTICSEARCH QUERY TO FIND USERS
         userList = new ArrayList<String>();
-
 
         setViews(inflater, container);
 
@@ -65,14 +62,10 @@ public class SocialUserSearch extends Fragment implements View.OnClickListener {
         rootView = inflater.inflate(R.layout.social_search, container, false);
 
         displayUserList = (ListView) rootView.findViewById(R.id.display_search_list);
-        // Multi-item selection
         displayUserList.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
 
         searchUserButton = (Button) rootView.findViewById(R.id.search_button);
         searchUserButton.setOnClickListener(this);
-        // CODE TO BE ADDED
-        // reset userList here?
-        // Should initial search be empty?
 
         sendRequestButton = (Button) rootView.findViewById(R.id.send_request_button);
         sendRequestButton.setOnClickListener(this);
@@ -90,9 +83,6 @@ public class SocialUserSearch extends Fragment implements View.OnClickListener {
         //followers = userController.getFollowers();
 
     }
-
-    // Code taken from http://theopentutorials.com/tutorials/android/listview/android-multiple-selection-listview/
-    // 2017-03-26 20:53:59
 
     @Override
     public void onClick(View v) {
@@ -117,9 +107,8 @@ public class SocialUserSearch extends Fragment implements View.OnClickListener {
             outputStrArr.add(selectedItems.get(i));
         }
 
-        // DO SOMETHING WITH outputStrArr
+        // Code taken from http://theopentutorials.com/tutorials/android/listview/android-multiple-selection-listview/
 
-        boolean check;
         switch (v.getId()) {
             case R.id.search_button:
                 EditText searchView = (EditText) rootView.findViewById(R.id.search_text);
@@ -130,12 +119,11 @@ public class SocialUserSearch extends Fragment implements View.OnClickListener {
                 break;
             case R.id.send_request_button:
                 userController.makeRequest(outputStrArr);
+                Toast.makeText(getContext(),"Request Sent",Toast.LENGTH_SHORT).show();
                 break;
             default:
                 break;
         }
-
     }
-
 }
 

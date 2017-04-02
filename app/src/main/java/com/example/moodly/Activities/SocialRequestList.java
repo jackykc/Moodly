@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.example.moodly.Controllers.UserController;
 import com.example.moodly.Models.User;
@@ -36,6 +37,7 @@ public class SocialRequestList extends Fragment implements View.OnClickListener 
     private Button declineRequestButton;
     protected ListView displayUserList;
     protected ArrayAdapter<String> adapter;
+
 
     // PLACEHOLDER
     @Override
@@ -92,13 +94,7 @@ public class SocialRequestList extends Fragment implements View.OnClickListener 
                 selectedItems.add(adapter.getItem(position));
         }
 
-//        ArrayList<String> outputStrArr = new ArrayList<String>();
-//
-//        for (int i = 0; i < selectedItems.size(); i++) {
-//            outputStrArr.add(selectedItems.get(i));
-//        }
-
-        boolean check;
+        // Code taken from http://theopentutorials.com/tutorials/android/listview/android-multiple-selection-listview/
         switch (v.getId()) {
             case R.id.accept_request_button:
                 userController.acceptRequest(selectedItems);
@@ -108,7 +104,7 @@ public class SocialRequestList extends Fragment implements View.OnClickListener 
                 adapter = new ArrayAdapter<String>(getActivity(), R.layout.user_list_item, userList);
                 displayUserList.setAdapter(adapter);
 
-                // code to accept requests
+                Toast.makeText(getContext(),"Request Accepted",Toast.LENGTH_SHORT).show();
                 break;
             case R.id.decline_request_button:
                 userController.declineRequest(selectedItems);
@@ -118,7 +114,7 @@ public class SocialRequestList extends Fragment implements View.OnClickListener 
                 adapter = new ArrayAdapter<String>(getActivity(), R.layout.user_list_item, userList);
                 displayUserList.setAdapter(adapter);
 
-                // code to decline requests
+                Toast.makeText(getContext(),"Request Declined",Toast.LENGTH_SHORT).show();
                 break;
             default:
                 break;

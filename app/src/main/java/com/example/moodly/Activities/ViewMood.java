@@ -467,12 +467,12 @@ public class ViewMood extends AppCompatActivity {
         int mood = emotionSpinner.getSelectedItemPosition();
 
         if (mood == 1) {setActivityBackgroundColor(Color.parseColor("#E57373"));}
-        if (mood == 2) {setActivityBackgroundColor(Color.parseColor("#BA68C8"));}
-        if (mood == 3) {setActivityBackgroundColor(Color.parseColor("#4CAF50"));}
-        if (mood == 4) {setActivityBackgroundColor(Color.parseColor("#FFA726"));}
-        if (mood == 5) {setActivityBackgroundColor(Color.parseColor("#FFEE58"));}
-        if (mood == 6) {setActivityBackgroundColor(Color.parseColor("#2196F3"));}
-        if (mood == 7) {setActivityBackgroundColor(Color.parseColor("#F06292"));}
+        if (mood == 2) {setActivityBackgroundColor(Color.parseColor("#B39DDB"));}
+        if (mood == 3) {setActivityBackgroundColor(Color.parseColor("#66BB6A"));}
+        if (mood == 4) {setActivityBackgroundColor(Color.parseColor("#FFB74D"));}
+        if (mood == 5) {setActivityBackgroundColor(Color.parseColor("#FFF176"));}
+        if (mood == 6) {setActivityBackgroundColor(Color.parseColor("#42A5F5"));}
+        if (mood == 7) {setActivityBackgroundColor(Color.parseColor("#90A4AE"));}
         if (mood == 8) {setActivityBackgroundColor(Color.parseColor("#FFFFFF"));}
 
         emotionSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -481,12 +481,12 @@ public class ViewMood extends AppCompatActivity {
                 int mood = emotionSpinner.getSelectedItemPosition();
 
                 if (mood == 1) {setActivityBackgroundColor(Color.parseColor("#E57373"));}
-                if (mood == 2) {setActivityBackgroundColor(Color.parseColor("#BA68C8"));}
-                if (mood == 3) {setActivityBackgroundColor(Color.parseColor("#4CAF50"));}
-                if (mood == 4) {setActivityBackgroundColor(Color.parseColor("#FFA726"));}
-                if (mood == 5) {setActivityBackgroundColor(Color.parseColor("#FFEE58"));}
-                if (mood == 6) {setActivityBackgroundColor(Color.parseColor("#2196F3"));}
-                if (mood == 7) {setActivityBackgroundColor(Color.parseColor("#F06292"));}
+                if (mood == 2) {setActivityBackgroundColor(Color.parseColor("#B39DDB"));}
+                if (mood == 3) {setActivityBackgroundColor(Color.parseColor("#66BB6A"));}
+                if (mood == 4) {setActivityBackgroundColor(Color.parseColor("#FFB74D"));}
+                if (mood == 5) {setActivityBackgroundColor(Color.parseColor("#FFF176"));}
+                if (mood == 6) {setActivityBackgroundColor(Color.parseColor("#42A5F5"));}
+                if (mood == 7) {setActivityBackgroundColor(Color.parseColor("#90A4AE"));}
                 if (mood == 8) {setActivityBackgroundColor(Color.parseColor("#FFFFFF"));}
             }
 
