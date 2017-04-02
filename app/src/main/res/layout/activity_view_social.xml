@@ -129,19 +129,18 @@
 
     <Button
         android:id="@+id/addComments"
-        style="@android:style/Widget.Material.Button.Borderless.Colored"
+        style="@android:style/Widget.Material.Button.Colored"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
         android:layout_toEndOf="@+id/mapButton"
         android:text="@string/add_comment"
-        tools:text="@string/add_comment"
-/>
+        tools:text="@string/add_comment" />
 
     <Button
         android:id="@+id/viewComments"
-        style="@android:style/Widget.Material.Button.Borderless.Colored"
+        style="@android:style/Widget.Material.Button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
