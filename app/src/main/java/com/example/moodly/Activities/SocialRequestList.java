@@ -94,13 +94,7 @@ public class SocialRequestList extends Fragment implements View.OnClickListener 
                 selectedItems.add(adapter.getItem(position));
         }
 
-//        ArrayList<String> outputStrArr = new ArrayList<String>();
-//
-//        for (int i = 0; i < selectedItems.size(); i++) {
-//            outputStrArr.add(selectedItems.get(i));
-//        }
-
-        boolean check;
+        // Code taken from http://theopentutorials.com/tutorials/android/listview/android-multiple-selection-listview/
         switch (v.getId()) {
             case R.id.accept_request_button:
                 userController.acceptRequest(selectedItems);

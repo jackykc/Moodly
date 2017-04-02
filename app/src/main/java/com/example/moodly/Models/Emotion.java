@@ -6,7 +6,7 @@ package com.example.moodly.Models;
 
 /**
  * Enum for emotion
- */
+// */
 public enum Emotion {
     NONE,
     ANGER,

@@ -107,6 +107,8 @@ public class SocialUserSearch extends Fragment implements View.OnClickListener {
             outputStrArr.add(selectedItems.get(i));
         }
 
+        // Code taken from http://theopentutorials.com/tutorials/android/listview/android-multiple-selection-listview/
+
         switch (v.getId()) {
             case R.id.search_button:
                 EditText searchView = (EditText) rootView.findViewById(R.id.search_text);
