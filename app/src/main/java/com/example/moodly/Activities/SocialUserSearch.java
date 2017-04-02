@@ -66,7 +66,7 @@ public class SocialUserSearch extends Fragment implements View.OnClickListener {
 
         displayUserList = (ListView) rootView.findViewById(R.id.display_search_list);
         // Multi-item selection
-        displayUserList.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
+        displayUserList.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
 
         searchUserButton = (Button) rootView.findViewById(R.id.search_button);
         searchUserButton.setOnClickListener(this);

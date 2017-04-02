@@ -466,7 +466,7 @@ public class ViewMood extends AppCompatActivity {
     protected void setColor(){
         int mood = emotionSpinner.getSelectedItemPosition();
 
-        if (mood == 1) {setActivityBackgroundColor(Color.parseColor("#E53935"));}
+        if (mood == 1) {setActivityBackgroundColor(Color.parseColor("#E57373"));}
         if (mood == 2) {setActivityBackgroundColor(Color.parseColor("#BA68C8"));}
         if (mood == 3) {setActivityBackgroundColor(Color.parseColor("#4CAF50"));}
         if (mood == 4) {setActivityBackgroundColor(Color.parseColor("#FFA726"));}
@@ -480,7 +480,7 @@ public class ViewMood extends AppCompatActivity {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 int mood = emotionSpinner.getSelectedItemPosition();
 
-                if (mood == 1) {setActivityBackgroundColor(Color.parseColor("#E53935"));}
+                if (mood == 1) {setActivityBackgroundColor(Color.parseColor("#E57373"));}
                 if (mood == 2) {setActivityBackgroundColor(Color.parseColor("#BA68C8"));}
                 if (mood == 3) {setActivityBackgroundColor(Color.parseColor("#4CAF50"));}
                 if (mood == 4) {setActivityBackgroundColor(Color.parseColor("#FFA726"));}
