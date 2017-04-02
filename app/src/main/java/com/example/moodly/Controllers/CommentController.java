@@ -22,14 +22,14 @@ public class CommentController extends ElasticSearchController {
 
     private static CommentController instance = null;
     private static ArrayList<Comment> commentList = new ArrayList<>();
-    private static QueryBuilder queryBuilder;
     private static String owner;
+    private static boolean refresh;
 
     private CommentController() {
 
         commentList = new ArrayList<>();
-        queryBuilder = new QueryBuilder();
         owner = UserController.getInstance().getCurrentUser().getName();
+        refresh = true;
 
     }
 
@@ -52,8 +52,9 @@ public class CommentController extends ElasticSearchController {
     }
 
     // given the mood id, return the comment
-    public ArrayList<Comment> getCommentList (String moodID) {
+    public ArrayList<Comment> getCommentList (String moodID, boolean tempRefresh) {
 
+        refresh = tempRefresh;
         CommentController.GetCommentTask getCommentTask = new CommentController.GetCommentTask();
         getCommentTask.execute(moodID);
 
@@ -117,12 +118,27 @@ public class CommentController extends ElasticSearchController {
 
             String moodId = search_parameters[0];
             // use query builder to find comments with moodID
-            String query = "{\n" +
-                    "\t\"query\": {\n" +
-                    "\t\t\"match\": {\n" +
-                    "\t\t\t\"moodId\": \"" + moodId + "\" }\n" +
-                    "\t}\n" +
-                    "}";
+            String query;
+            if(refresh) {
+                query = "{\n" +
+                        "\t\"query\": {\n" +
+                        "\t\t\"match\": {\n" +
+                        "\t\t\t\"moodId\": \"" + moodId + "\" }\n" +
+                        "\t}\n" +
+                        "\n,\"sort\": { \"date\": { \"order\": \"desc\" } }\n" +
+                        "}";
+
+            } else {
+                query = "{ \n" +
+                        "\t\"from\" : " + Integer.toString(commentList.size()) + ", \"size\" : 10,\n" +
+                        "\t\"query\": {\n" +
+                        "\t\t\"match\": {\n" +
+                        "\t\t\t\"moodId\": \"" + moodId + "\" }\n" +
+                        "\t}\n" +
+                        "\n,\"sort\": { \"date\": { \"order\": \"desc\" } }\n" +
+                        "}";
+            }
+
 
             Search search = new Search.Builder(query)
                     .addIndex("cmput301w17t20")
@@ -136,14 +152,20 @@ public class CommentController extends ElasticSearchController {
                     // hits
                     List<SearchResult.Hit<Comment, Void>> foundComments = result.getHits(Comment.class);
 
-                    for(int i = 0; i < foundComments.size(); i++) {
-                        Comment temp = foundComments.get(i).source;
-                        currentCommentList.add(temp);
+                    if(refresh) {
+                        for (int i = 0; i < foundComments.size(); i++) {
+                            Comment temp = foundComments.get(i).source;
+                            currentCommentList.add(temp);
 
+                        }
+                        commentList = currentCommentList;
+                    } else {
+                        for (int i = 0; i < foundComments.size(); i++) {
+                            Comment temp = foundComments.get(i).source;
+                            commentList.add(temp);
+
+                        }
                     }
-                    commentList = currentCommentList;
-                    // for your own list of moods
-
                 } else {
                     Log.i("Error", "Search query failed to find any comments that matched");
                 }
@@ -151,7 +173,7 @@ public class CommentController extends ElasticSearchController {
             catch (Exception e) {
                 Log.i("Error", "Something went wrong when we tried to communicate with the elasticsearch server!");
             }
-            return currentCommentList;
+            return commentList;
         }
     }
 
