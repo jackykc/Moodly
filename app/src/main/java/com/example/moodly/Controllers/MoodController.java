@@ -1,21 +1,13 @@
 package com.example.moodly.Controllers;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 import android.os.AsyncTask;
 import android.util.Log;
 
 import com.example.moodly.Models.Mood;
-import com.searchly.jestdroid.DroidClientConfig;
-import com.searchly.jestdroid.JestClientFactory;
-import com.searchly.jestdroid.JestDroidClient;
 
-import org.apache.commons.lang3.ObjectUtils;
-
-import java.util.Arrays;
 import java.util.Date;
-import java.util.Iterator;
 import java.util.List;
 
 import io.searchbox.client.JestResult;
@@ -23,7 +15,6 @@ import io.searchbox.core.Bulk;
 import io.searchbox.core.BulkResult;
 import io.searchbox.core.Delete;
 import io.searchbox.core.DeleteByQuery;
-import io.searchbox.core.DocumentResult;
 import io.searchbox.core.Index;
 import io.searchbox.core.Search;
 import io.searchbox.core.SearchResult;
@@ -46,27 +37,31 @@ public class MoodController extends ElasticSearchController {
     private static ArrayList<Mood> moodFollowList;
     private static ArrayList<Mood> addSyncList;
     private static ArrayList<Mood> deleteSyncList;
-    private static boolean addCompletetion;
-    private static boolean deleteCompletetion;
+    private static boolean addCompletion;
+    private static boolean deleteCompletion;
 
     private static boolean refresh;
 
     private static QueryBuilder queryBuilder;
+    private static QueryBuilder followQueryBuilder;
 
     /**
      * Constructor for our mood controller, initializes members
      */
     private MoodController() {
         // replace when we do offline, load from file etc
-        moodHistoryList = new ArrayList<Mood>();
-        moodFollowList = new ArrayList<Mood>();
+        moodHistoryList = new ArrayList<>();
+        moodFollowList = new ArrayList<>();
         tempMood = new Mood();
+
         addSyncList = new ArrayList<Mood>();
         deleteSyncList = new ArrayList<Mood>();
-        queryBuilder = new QueryBuilder();
 
-        addCompletetion = true;
-        deleteCompletetion = true;
+        queryBuilder = new QueryBuilder();
+        followQueryBuilder = new QueryBuilder();
+
+        addCompletion = true;
+        deleteCompletion = true;
         refresh = true;
     }
 
@@ -121,17 +116,12 @@ public class MoodController extends ElasticSearchController {
     }
 
     public boolean getAddCompletion() {
-        return addCompletetion;
+        return addCompletion;
     }
 
     public boolean getDeleteCompletion() {
-        return deleteCompletetion;
+        return deleteCompletion;
     }
-
-    public void setCompletion(boolean completion) {
-        addCompletetion = completion;
-    }
-
 
     /**
      * Deletes a mood both locally from the array list on the controller and on elastic search
@@ -185,16 +175,45 @@ public class MoodController extends ElasticSearchController {
     }
 
     // sets the emotion to filter for
-    public void setFilterEmotion(ArrayList<Integer> emotions) {
-        queryBuilder.setEmotion(emotions);
+    public void setFilterEmotion(ArrayList<Integer> emotions, boolean historyMoods) {
+        if(historyMoods) {
+            queryBuilder.setEmotion(emotions);
+        } else {
+            followQueryBuilder.setEmotion(emotions);
+        }
     }
 
     // set to true if we want moods from last seven days
-    public void setFilterRecent(boolean recent) {
-        queryBuilder.setRecent(recent);
+    public void setFilterRecent(boolean recent, boolean historyMoods) {
+        if(historyMoods) {
+            queryBuilder.setRecent(recent);
+        } else {
+            followQueryBuilder.setRecent(recent);
+        }
     }
 
-    public void setFilterText(String reasonText) { queryBuilder.setReason(reasonText);}
+    public void setFilterText(String reasonText, boolean historyMoods) {
+        if(historyMoods) {
+            queryBuilder.setReason(reasonText);
+        }
+    }
+
+    public void clearFilterText(boolean historyMoods) {
+        if(historyMoods) {
+            queryBuilder.clearReason();
+        } else {
+            followQueryBuilder.clearReason();
+        }
+    }
+
+    public void clearEmotion(boolean historyMoods) {
+        if (historyMoods) {
+            queryBuilder.clearEmotion();
+        }
+        else {
+            followQueryBuilder.clearEmotion();
+        }
+    }
 
     public Mood getMood() {
         return tempMood;
@@ -211,22 +230,21 @@ public class MoodController extends ElasticSearchController {
     public void syncAddList() {
 
         if (addSyncList.size() > 0) {
-            addCompletetion = false;
+            addCompletion = false;
             AddMoodTask addMoodTask = new AddMoodTask();
             addMoodTask.execute(addSyncList);
         } else {
-            addCompletetion = true;
+            addCompletion = true;
         }
     }
 
     public void syncDeleteList() {
 
         if (deleteSyncList.size() > 0) {
-            addCompletetion = false;
+            addCompletion = false;
             DeleteMoodTask deleteMoodTask = new DeleteMoodTask();
             deleteMoodTask.execute(deleteSyncList);
         }
-
     }
 
 
@@ -291,7 +309,7 @@ public class MoodController extends ElasticSearchController {
             } catch (Exception e) {
                 Log.i("Error", "The application failed to build and send the mood");
 
-                addCompletetion = true;
+                addCompletion = true;
                 return count;
             }
 
@@ -300,7 +318,7 @@ public class MoodController extends ElasticSearchController {
                 addSyncList.remove(0);
             }
 
-            addCompletetion = true;
+            addCompletion = true;
             return count;
         }
     }
@@ -333,12 +351,12 @@ public class MoodController extends ElasticSearchController {
                 if (result.isSucceeded()) {
 
                 } else {
-//                    deleteCompletetion = false;
+//                    deleteCompletion = false;
 //                    return false;
                 }
             } catch (Exception e) {
                 Log.i("Error", "The application failed to build and send the mood");
-                deleteCompletetion = true;
+                deleteCompletion = true;
                 return false;
             }
 
@@ -381,7 +399,7 @@ public class MoodController extends ElasticSearchController {
             } catch (Exception e) {
                 Log.i("Error", "The application failed to build and delete the mood's comments");
                 commentsDeleted = false;
-                deleteCompletetion = true;
+                deleteCompletion = true;
             }
 
             if (commentsDeleted) {
@@ -391,7 +409,7 @@ public class MoodController extends ElasticSearchController {
                 }
             }
 
-            deleteCompletetion = true;
+            deleteCompletion = true;
 
             return true;
         }
@@ -408,11 +426,18 @@ public class MoodController extends ElasticSearchController {
             ArrayList<String> usernames = search_parameters[0];
 
             if (usernames.size() == 0) {
-                return new ArrayList<Mood>();
+                return new ArrayList<>();
             }
 
-            String query = "";
+            boolean historyMoods = false;
             if ((usernames.size() == 1) && (usernames.get(0) == UserController.getInstance().getCurrentUser().getName())) {
+                historyMoods = true;
+            }
+
+                String query = "";
+
+            // for history mood list
+            if (historyMoods) {
 
                 if(refresh) {
                     queryBuilder.setResultOffset(0);
@@ -424,9 +449,15 @@ public class MoodController extends ElasticSearchController {
                 query = queryBuilder.getMoodQuery();
 
             } else {
-                queryBuilder.setResultOffset(moodFollowList.size());
-                queryBuilder.setUsers(usernames);
-                query = queryBuilder.getMoodQuery();
+
+                if(refresh) {
+                    followQueryBuilder.setResultOffset(0);
+                    moodFollowList.clear();
+                } else {
+                    followQueryBuilder.setResultOffset(moodFollowList.size());
+                }
+                followQueryBuilder.setUsers(usernames);
+                query = followQueryBuilder.getMoodQuery();
 
             }
 
@@ -443,17 +474,15 @@ public class MoodController extends ElasticSearchController {
                     List<SearchResult.Hit<Mood, Void>> foundMoods = result.getHits(Mood.class);
 
                     // for your own list of moods
-                    if ((usernames.size() == 1) && (usernames.get(0) == UserController.getInstance().getCurrentUser().getName())) {
+                    if (historyMoods) {
                         for (int i = 0; i < foundMoods.size(); i++) {
                             Mood temp = foundMoods.get(i).source;
                             moodHistoryList.add(temp);
-
                         }
                     } else {
                         for (int i = 0; i < foundMoods.size(); i++) {
                             Mood temp = foundMoods.get(i).source;
                             moodFollowList.add(temp);
-
                         }
                     }
                 } else {
@@ -463,7 +492,7 @@ public class MoodController extends ElasticSearchController {
                 Log.i("Error", "Something went wrong when we tried to communicate with the elasticsearch server!");
             }
 
-            if ((usernames.size() == 1) && (usernames.get(0) == UserController.getInstance().getCurrentUser().getName())) {
+            if (historyMoods) {
                 return moodHistoryList;
             } else {
                 return moodFollowList;
@@ -471,7 +500,7 @@ public class MoodController extends ElasticSearchController {
         }
     }
 
-    /* ---------- Helpers ---------- */
+    /* ---------- Getters ---------- */
 
     public ArrayList<Mood> getHistoryMoods() {
         return moodHistoryList;

@@ -31,7 +31,6 @@ public class FollowingMoodAdapter extends ArrayAdapter<Mood> {
 
     private ArrayList<Mood> items;
     private int layoutResourceId;
-    private MoodHolder holder;
     private Context context;
 
     /**
@@ -59,7 +58,7 @@ public class FollowingMoodAdapter extends ArrayAdapter<Mood> {
         LayoutInflater inflater = ((Activity) context).getLayoutInflater();
         row = inflater.inflate(layoutResourceId, parent, false);
 
-        holder = new MoodHolder();
+        MoodHolder holder = new MoodHolder();
         holder.mood = items.get(position);
 
         holder.emotion = (TextView) row.findViewById(R.id.f_mood_emotion);
@@ -67,22 +66,12 @@ public class FollowingMoodAdapter extends ArrayAdapter<Mood> {
         holder.emoji = (ImageView) row.findViewById(R.id.f_emoji);
         holder.username = (TextView) row.findViewById(R.id.f_mood_owner);
 
-        setBackground(holder,row);
-
         setupItem(holder);
 
-        return row;
-    }
+        setBackground(holder,row);
 
-    private void setBackground(MoodHolder holder, View row) {
-        if (holder.mood.getEmotion() == 1) {row.setBackgroundColor(Color.parseColor("#E53935"));}
-        if (holder.mood.getEmotion() == 2) {row.setBackgroundColor(Color.parseColor("#BA68C8"));}
-        if (holder.mood.getEmotion() == 3) {row.setBackgroundColor(Color.parseColor("#4CAF50"));}
-        if (holder.mood.getEmotion() == 4) {row.setBackgroundColor(Color.parseColor("#FFA726"));}
-        if (holder.mood.getEmotion() == 5) {row.setBackgroundColor(Color.parseColor("#FFEE58"));}
-        if (holder.mood.getEmotion() == 6) {row.setBackgroundColor(Color.parseColor("#2196F3"));}
-        if (holder.mood.getEmotion() == 7) {row.setBackgroundColor(Color.parseColor("#F06292"));}
-        if (holder.mood.getEmotion() == 8) {row.setBackgroundColor(Color.parseColor("#FFFFFF"));}
+
+        return row;
     }
 
     /**
@@ -96,6 +85,19 @@ public class FollowingMoodAdapter extends ArrayAdapter<Mood> {
         holder.username.setText(holder.mood.getOwner());
         emotionToEmoji(holder.emoji, holder.mood.getEmotion());
     }
+
+
+    private void setBackground(MoodHolder holder, View row) {
+        if (holder.mood.getEmotion() == 1) {row.setBackgroundColor(Color.parseColor("#E53935"));}
+        if (holder.mood.getEmotion() == 2) {row.setBackgroundColor(Color.parseColor("#BA68C8"));}
+        if (holder.mood.getEmotion() == 3) {row.setBackgroundColor(Color.parseColor("#4CAF50"));}
+        if (holder.mood.getEmotion() == 4) {row.setBackgroundColor(Color.parseColor("#FFA726"));}
+        if (holder.mood.getEmotion() == 5) {row.setBackgroundColor(Color.parseColor("#FFEE58"));}
+        if (holder.mood.getEmotion() == 6) {row.setBackgroundColor(Color.parseColor("#2196F3"));}
+        if (holder.mood.getEmotion() == 7) {row.setBackgroundColor(Color.parseColor("#F06292"));}
+        if (holder.mood.getEmotion() == 8) {row.setBackgroundColor(Color.parseColor("#FFFFFF"));}
+    }
+
 
     /**
      * From our emotion enum, return the string representation of it
@@ -151,7 +153,7 @@ public class FollowingMoodAdapter extends ArrayAdapter<Mood> {
             case 7:
                 return "Shame";
             case 8:
-                return "Suprise";
+                return "Surprise";
             default:
                 return "None";
         }

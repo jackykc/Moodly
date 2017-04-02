@@ -10,13 +10,16 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.support.design.widget.FloatingActionButton;
+import android.widget.Toast;
 
 import com.example.moodly.Adapters.FollowingMoodAdapter;
 import com.example.moodly.Adapters.MoodAdapter;
@@ -41,7 +44,7 @@ public class TabBase extends Fragment {
     protected Mood mood;
     protected FollowingMoodAdapter adapter;
     protected ListView displayMoodList;
-    protected ArrayList<Mood> moodList = new ArrayList<Mood>();
+    protected ArrayList<Mood> moodList = new ArrayList<>();
     protected View rootView;
     protected Button loadMore;
 
@@ -52,25 +55,23 @@ public class TabBase extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
         currentUser = userController.getCurrentUser();
         userList = currentUser.getFollowing();
-
         refreshOnline(userList);
         setViews(inflater, container);
         hideViews();
-
         setListeners();
-
         return rootView;
     }
 
     /**
      * Sets the views in the activities
-     * @param inflater the layout inflater
+     *
+     * @param inflater  the layout inflater
      * @param container the view group
      */
     protected void setViews(LayoutInflater inflater, ViewGroup container) {
+        moodList = moodController.getMoodList(userList, true);
         rootView = inflater.inflate(R.layout.mood_history, container, false);
         displayMoodList = (ListView) rootView.findViewById(R.id.display_mood_list);
         adapter = new FollowingMoodAdapter(getActivity(), R.layout.following_mood_list_item, moodList);
@@ -82,7 +83,7 @@ public class TabBase extends Fragment {
      */
     protected void hideViews() {
         FloatingActionButton fab = (FloatingActionButton) rootView.findViewById(R.id.fab);
-        fab.hide();
+        fab.setVisibility(View.INVISIBLE);
     }
 
     // Used for project part 5 to set the listeners for the filter button
@@ -115,6 +116,87 @@ public class TabBase extends Fragment {
                 return false;
             }
         });
+
+        FloatingActionButton fab = (FloatingActionButton) rootView.findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                MoodController.getInstance().setMood(new Mood());
+                Intent intent = new Intent(getActivity(), ViewMood.class);
+                intent.putExtra("MOOD_POSITION", -1);
+                startActivityForResult(intent, 0);
+            }
+        });
+        final CharSequence[] filter_choices = {"Anger", "Confusion", "Disgust", "Fear", "Happiness", "Sadness", "Shame", "Surprise"};
+        final CharSequence[] recentWeekChoice = {"In Recent Week"};
+        final ArrayList<Integer> selectedEmotion = new ArrayList<>();
+        final ArrayList<Boolean> recentWeek = new ArrayList<>();
+        FloatingActionButton filter = (FloatingActionButton) rootView.findViewById(R.id.filterButton);
+        filter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                selectedEmotion.clear();
+                recentWeek.clear();
+                AlertDialog dialog;
+                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                builder.setTitle("Select filter(s)");
+                builder.setMultiChoiceItems(filter_choices, null, new DialogInterface.OnMultiChoiceClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which, boolean isChecked) {
+                        // offset of + 1 as the emotion starts with 1
+                        int emotion = which + 1;
+                        if (isChecked) {
+                            selectedEmotion.add(emotion);
+                        } else if (selectedEmotion.contains(emotion)) {
+                            selectedEmotion.remove(Integer.valueOf(emotion));
+                        }
+                    }
+                });
+
+                builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        moodController.setFilterEmotion(selectedEmotion, false);
+                        getFilterText();
+                    }
+                });
+                builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                });
+                dialog = builder.create();
+                dialog.show();
+
+            }
+        });
+
+
+        loadMore = (Button) rootView.findViewById(R.id.moreMoods);
+        loadMore.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                moodList = moodController.getMoodList(userList, false);
+                adapter = new FollowingMoodAdapter(getActivity(), R.layout.following_mood_list_item, moodList);
+                displayMoodList.setAdapter(adapter);
+                adapter.notifyDataSetChanged();
+            }
+        });
+
+        FloatingActionButton refresh = (FloatingActionButton) rootView.findViewById(R.id.refreshButton);
+        refresh.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                moodController.setFilterRecent(false, false);
+                moodController.clearEmotion(false);
+                moodController.clearFilterText(false);
+                moodList = moodController.getMoodList(userList, true);
+                adapter = new FollowingMoodAdapter(getActivity(), R.layout.following_mood_list_item, moodList);
+                displayMoodList.setAdapter(adapter);
+                adapter.notifyDataSetChanged();
+            }
+        });
     }
 
 
@@ -138,6 +220,59 @@ public class TabBase extends Fragment {
         displayMoodList.setAdapter(adapter);
         // needed ?
         adapter.notifyDataSetChanged();
+    }
+
+
+    protected void getFilterRecent() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        builder.setTitle("Show Only Moods From Recent Week?");
+        builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                moodController.setFilterRecent(true, false);
+                moodList = moodController.getMoodList(userList, true);
+                adapter = new FollowingMoodAdapter(getActivity(), R.layout.following_mood_list_item, moodList);
+                displayMoodList.setAdapter(adapter);
+                adapter.notifyDataSetChanged();
+            }
+        });
+        builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                moodController.setFilterRecent(false, false);
+                moodList = moodController.getMoodList(userList, true);
+                adapter = new FollowingMoodAdapter(getActivity(), R.layout.following_mood_list_item, moodList);
+                displayMoodList.setAdapter(adapter);
+                adapter.notifyDataSetChanged();
+                dialog.cancel();
+            }
+        });
+        builder.show();
+    }
+
+    protected void getFilterText(){
+        AlertDialog.Builder textBuilder = new AlertDialog.Builder(getContext());
+        textBuilder.setTitle("Search by Reason text ?");
+        final EditText input = new EditText(getContext());
+        input.setInputType(InputType.TYPE_CLASS_TEXT);
+        textBuilder.setView(input);
+        textBuilder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                String filterText = input.getText().toString();
+                Toast.makeText(getContext(), filterText, Toast.LENGTH_SHORT).show();
+                moodController.setFilterText(filterText, false);
+                getFilterRecent();
+            }
+        });
+        textBuilder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                getFilterRecent();
+                dialog.cancel();
+            }
+        });
+        textBuilder.show();
     }
 
 }

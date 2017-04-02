@@ -31,7 +31,6 @@ public class MoodAdapter extends ArrayAdapter<Mood> {
 
     private ArrayList<Mood> items;
     private int layoutResourceId;
-    private MoodHolder holder;
     private Context context;
 
     /**
