@@ -300,6 +300,7 @@ public class ViewMood extends AppCompatActivity {
                 public void onClick(View v) {
                     CommentController.getInstance();
                     Intent intent = new Intent(ViewMood.this, ViewComments.class);
+                    intent.putExtra("colorID", mood.getEmotion());
                     intent.putExtra("moodID",mood.getId());
                     startActivity(intent);
                 }
@@ -338,6 +339,7 @@ public class ViewMood extends AppCompatActivity {
                     CommentController.getInstance();
                     Intent intent = new Intent(ViewMood.this, ViewComments.class);
                     intent.putExtra("moodID",mood.getId());
+                    intent.putExtra("colorID", mood.getEmotion());
                     startActivity(intent);
                 }
             });
