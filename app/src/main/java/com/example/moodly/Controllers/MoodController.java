@@ -49,11 +49,11 @@ public class MoodController extends ElasticSearchController {
      */
     private MoodController() {
         // replace when we do offline, load from file etc
-        moodHistoryList = new ArrayList<Mood>();
-        moodFollowList = new ArrayList<Mood>();
+        moodHistoryList = new ArrayList<>();
+        moodFollowList = new ArrayList<>();
         tempMood = new Mood();
-        addSyncList = new ArrayList<Mood>();
-        deleteSyncList = new ArrayList<Mood>();
+        addSyncList = new ArrayList<>();
+        deleteSyncList = new ArrayList<>();
         queryBuilder = new QueryBuilder();
 
         addCompletion = true;
@@ -402,7 +402,7 @@ public class MoodController extends ElasticSearchController {
             ArrayList<String> usernames = search_parameters[0];
 
             if (usernames.size() == 0) {
-                return new ArrayList<Mood>();
+                return new ArrayList<>();
             }
 
             String query = "";
