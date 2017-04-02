@@ -1,5 +1,7 @@
 package com.example.moodly.Controllers;
 
+import com.example.moodly.Models.Mood;
+
 import java.util.ArrayList;
 
 /**
@@ -10,25 +12,44 @@ public class QueryBuilder {
 
     private String usernameString;
 
-    private int emotion;
+    private ArrayList<Integer> emotionList;
     private boolean recent;
     private String reason;
+    private int resultOffset;
+
 
     // ONLY TO BE INSTANTIATED WITHIN CONTROLLERS
     public QueryBuilder() {
 
         usernameString = "";
 
-        emotion = 0;
         recent = false;
         reason = "";
+        resultOffset = 0;
+        emotionList = new ArrayList<Integer>();
 
     }
 
 
+    // check if mood can be added locally given filters
+//    public boolean isValid(Mood m) {
+//
+//        if ((emotion != 0) && (emotion != m.getEmotion())) {
+//            return false;
+//        } else if
+//            ((reason != "") && (! m.getReasonText().contains(reason))) {
+//            return false;
+//        }
+//        return true;
+//    }
+
+    public void setResultOffset(int resultOffset) {
+        this.resultOffset = resultOffset;
+    }
+
     // sets the emotion to filter for
-    public void setEmotion(int emotion) {
-        this.emotion = emotion;
+    public void setEmotion(ArrayList<Integer> emotions) {
+        this.emotionList = emotions;
     }
 
     // if recent is true, search for the last 7 days of moods
@@ -59,6 +80,7 @@ public class QueryBuilder {
     public String getMoodQuery() {
 
         String emotionMatch, recentMatch, reasonMatch;
+        String emotionString;
 
         String ownerMatch = "\"must\" : { \n" +
                 "\"query_string\" : { \n" +
@@ -70,16 +92,28 @@ public class QueryBuilder {
         String sort = "\n\"sort\": { \"date\": { \"order\": \"desc\" } }";
 
         String query =
-                "{" +
+                "{ \n" +
+                        "\t\"from\" : "+Integer.toString(resultOffset)+", \"size\" : 10,\n" +
+                        //"\t\"terminate_after\" : 10," +
                     "\n\"query\" : {\n" +
                     "\"bool\" : {\n";
 
         query += ownerMatch;
 
-        if(emotion != 0) {
+        if(emotionList.size() > 0) {
+            // string that represents emotions "[1, 3, 5...]"
+            emotionString = "[";
+            emotionString += emotionList.get(0).toString();
+            for (int i = 1; i < emotionList.size(); i++) {
+                emotionString += ", ";
+                emotionString += emotionList.get(i).toString();
+            }
+            emotionString += "]";
+
+
             emotionMatch = ",\"must\" : { \n" +
-                        "\"term\" : { \n" +
-                            "\"emotion\" : \"" + emotion + "\"" +
+                        "\"terms\" : { \n" +
+                            "\"emotion\" : " + emotionString +
                         "\n}" +
                     "\n}";
             query += emotionMatch;
@@ -87,16 +121,16 @@ public class QueryBuilder {
 
         if(recent) {
             recentMatch = ",\"must\" : { \n" +
-                        "\"range\" : { \n" +
-                            "\"date\" : {\n" +
-                                "\"gte\" : \"now-7d\"" +
-                            "\n}" +
-                        "\n}" +
+                    "\"range\" : { \n" +
+                    "\"date\" : {\n" +
+                    "\"gte\" : \"now/w\"" +
+                    "\n}" +
+                    "\n}" +
                     "\n}";
             query += recentMatch;
         }
 
-        if(reason != "") {
+        if(!reason.isEmpty()) {
             reasonMatch = ",\"must\" : { \n" +
                     "\"query_string\" : { \n" +
                     "\"fields\" : [\"reasonText\"],\n" +
