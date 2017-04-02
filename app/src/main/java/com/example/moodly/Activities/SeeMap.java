@@ -186,8 +186,14 @@ public class SeeMap extends FragmentActivity implements OnMapReadyCallback, Goog
          * cases when a location is not available.
          */
         if (mLocationPermissionGranted) {
+
             mLastKnownLocation = LocationServices.FusedLocationApi
                     .getLastLocation(mGoogleApiClient);
+
+            if(mLastKnownLocation != null) {
+
+            }
+
         }
 
         // Set the map's camera position to the current location of the device.
