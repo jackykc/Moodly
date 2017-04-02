@@ -57,7 +57,6 @@
         android:text="user"
         android:textAlignment="textEnd"
         android:textAppearance="@android:style/TextAppearance" />
-<<<<<<< HEAD
 
     <ImageView
         android:id="@+id/f_emoji"
@@ -68,7 +67,6 @@
         android:layout_marginLeft="10dp"
         android:layout_marginTop="5dp"
         android:src="@drawable/afraid"/>
-=======
->>>>>>> bhinse-branch
+
 
 </RelativeLayout>

@@ -8,7 +8,6 @@
     android:orientation="vertical">
 
 
-<<<<<<< HEAD
     <TextView
         android:id="@+id/locationText"
         android:layout_width="wrap_content"
@@ -38,7 +37,6 @@
         app:fabSize="normal"
         app:srcCompat="@android:drawable/ic_menu_camera" />
 
-=======
     <ImageView
         android:id="@+id/moodImage"
         android:layout_width="match_parent"
@@ -107,7 +105,6 @@
         android:hint="Date  (MM/DD/YYYY)"
         android:inputType="textPersonName"
         android:textSize="16sp" />
->>>>>>> bhinse-branch
 
     <Spinner
         android:id="@+id/spinner_SS"
@@ -151,7 +148,6 @@
         android:textAppearance="@style/TextAppearance.AppCompat.Button"
         android:textSize="16sp"
         android:visibility="visible" />
-<<<<<<< HEAD
 
     <EditText
         android:id="@+id/view_date"
@@ -246,7 +242,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
-=======
+        />
 
 
     <android.support.design.widget.FloatingActionButton
@@ -297,7 +293,6 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
->>>>>>> bhinse-branch
         android:layout_toEndOf="@+id/mapButton"
         android:text="@string/save_mood"
         android:visibility="visible"

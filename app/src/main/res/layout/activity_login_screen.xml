@@ -22,11 +22,7 @@
         android:layout_alignParentStart="true" />
 
     <TextView
-<<<<<<< HEAD
         android:text="Username"
-=======
-        android:text="CCID"
->>>>>>> bhinse-branch
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_above="@+id/userName"
@@ -39,11 +35,7 @@
         android:layout_height="wrap_content"
         android:inputType="textPersonName"
         android:ems="10"
-<<<<<<< HEAD
         android:hint="Enter Username"
-=======
-        android:hint="Username"
->>>>>>> bhinse-branch
         android:layout_above="@+id/Login"
         android:layout_marginBottom="25dp"
         android:id="@+id/userName"
@@ -79,10 +71,6 @@
         android:text="@string/Register"
         android:textColor="#e74c3c"
         tools:text="@string/Register" />
-<<<<<<< HEAD
-=======
 
-
->>>>>>> bhinse-branch
 
 </RelativeLayout>
