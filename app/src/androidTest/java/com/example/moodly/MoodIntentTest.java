@@ -91,7 +91,7 @@ public class MoodIntentTest extends ActivityInstrumentationTestCase2<LoginScreen
         actionLogOut();
     }
 
-    public void t2_FilterByMood () {
+    public void test2_FilterByMood () {
         actionLogin();
         solo.clickOnView((FloatingActionButton) solo.getView(R.id.filterButton));
 
