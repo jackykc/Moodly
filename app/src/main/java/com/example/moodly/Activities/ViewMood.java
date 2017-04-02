@@ -473,13 +473,13 @@ public class ViewMood extends AppCompatActivity {
     protected void setColor(){
         int mood = emotionSpinner.getSelectedItemPosition();
 
-        if (mood == 1) {setActivityBackgroundColor(Color.parseColor("#E57373"));}
+        if (mood == 1) {setActivityBackgroundColor(Color.parseColor("#f1646c"));}
         if (mood == 2) {setActivityBackgroundColor(Color.parseColor("#B39DDB"));}
-        if (mood == 3) {setActivityBackgroundColor(Color.parseColor("#66BB6A"));}
-        if (mood == 4) {setActivityBackgroundColor(Color.parseColor("#FFB74D"));}
+        if (mood == 3) {setActivityBackgroundColor(Color.parseColor("#9dd5c0"));}
+        if (mood == 4) {setActivityBackgroundColor(Color.parseColor("#fac174"));}
         if (mood == 5) {setActivityBackgroundColor(Color.parseColor("#FFF176"));}
-        if (mood == 6) {setActivityBackgroundColor(Color.parseColor("#42A5F5"));}
-        if (mood == 7) {setActivityBackgroundColor(Color.parseColor("#90A4AE"));}
+        if (mood == 6) {setActivityBackgroundColor(Color.parseColor("#27a4dd"));}
+        if (mood == 7) {setActivityBackgroundColor(Color.parseColor("#f39cc3"));}
         if (mood == 8) {setActivityBackgroundColor(Color.parseColor("#FFFFFF"));}
 
         emotionSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -487,13 +487,13 @@ public class ViewMood extends AppCompatActivity {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 int mood = emotionSpinner.getSelectedItemPosition();
 
-                if (mood == 1) {setActivityBackgroundColor(Color.parseColor("#E57373"));}
+                if (mood == 1) {setActivityBackgroundColor(Color.parseColor("#f1646c"));}
                 if (mood == 2) {setActivityBackgroundColor(Color.parseColor("#B39DDB"));}
-                if (mood == 3) {setActivityBackgroundColor(Color.parseColor("#66BB6A"));}
-                if (mood == 4) {setActivityBackgroundColor(Color.parseColor("#FFB74D"));}
+                if (mood == 3) {setActivityBackgroundColor(Color.parseColor("#9dd5c0"));}
+                if (mood == 4) {setActivityBackgroundColor(Color.parseColor("#fac174"));}
                 if (mood == 5) {setActivityBackgroundColor(Color.parseColor("#FFF176"));}
-                if (mood == 6) {setActivityBackgroundColor(Color.parseColor("#42A5F5"));}
-                if (mood == 7) {setActivityBackgroundColor(Color.parseColor("#90A4AE"));}
+                if (mood == 6) {setActivityBackgroundColor(Color.parseColor("#27a4dd"));}
+                if (mood == 7) {setActivityBackgroundColor(Color.parseColor("#f39cc3"));}
                 if (mood == 8) {setActivityBackgroundColor(Color.parseColor("#FFFFFF"));}
             }
 
