@@ -55,7 +55,7 @@ public class SocialRequestList extends Fragment implements View.OnClickListener 
 
         displayUserList = (ListView) rootView.findViewById(R.id.display_request_list);
         // Multi-item selection
-        displayUserList.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
+        displayUserList.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
 
         acceptRequestButton = (Button) rootView.findViewById(R.id.accept_request_button);
         acceptRequestButton.setOnClickListener(this);
