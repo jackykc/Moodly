@@ -10,6 +10,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
+import android.location.Location;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
@@ -73,6 +74,7 @@ public class ViewMood extends AppCompatActivity {
     private Button viewComments;
     private Button viewMoodComment;
     private FloatingActionButton cameraButton;
+    private FloatingActionButton map;
     private ImageView moodImage;
 
     private Uri imageUri;
@@ -85,6 +87,9 @@ public class ViewMood extends AppCompatActivity {
 
     private int position = -1;
     private int edit = 0;
+    private double lat;
+    private double lon;
+
     /**
      * Gets the mood event and position,
      * sets view and listeners to it.
@@ -162,12 +167,14 @@ public class ViewMood extends AppCompatActivity {
         socialSituationSpinner.setSelection(mood.getSocialSituation());
         moodImage = (ImageView) findViewById(R.id.moodImage);
         viewMoodComment = (Button) findViewById(R.id.viewMoodComments);
+        map = (FloatingActionButton) findViewById(R.id.mapButton);
         base64Encoded = mood.getImage();
         if (base64Encoded != null) {
             decodeFromBase64(base64Encoded);
         }
 
         if (edit == 0) {
+            // set editable location pin if not null
             saveButton = (Button) findViewById(R.id.saveButton);
             cameraButton = (FloatingActionButton) findViewById(R.id.cameraButton);
             editDate = (EditText) findViewById(R.id.view_date);
@@ -181,6 +188,7 @@ public class ViewMood extends AppCompatActivity {
             }
         }
         else{
+            // set Location pin if not null
             addComments = (Button)findViewById(R.id.addComments);
             viewComments = (Button) findViewById(R.id.viewComments);
             viewDate = (TextView) findViewById(R.id.view_date);
@@ -235,7 +243,21 @@ public class ViewMood extends AppCompatActivity {
                     dpd.show();
                 }
             });
-
+            map.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intentMap = new Intent();
+                    intentMap.setClass(ViewMood.this, SeeMap.class);
+                    if (position != -1) {
+                        Mood.GeoLocation setLocation = mood.getLocation();
+                        Double oldLat = setLocation.lat;
+                        Double oldLon = setLocation.lon;
+                        intentMap.putExtra("lat",oldLat);
+                        intentMap.putExtra("lon",oldLon);
+                    }
+                    startActivityForResult(intentMap,1);
+                }
+            });
             cameraButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -280,6 +302,7 @@ public class ViewMood extends AppCompatActivity {
                         } catch (Exception e) {
                             Log.i("Error","Could not convert string to date.");
                         }
+                        mood.setLocation(lat,lon);
                         mood.setDate(selectedDate);
                         mood.setReasonText(reasonText);
                         mood.setEmotion(emotionEnum);
@@ -362,6 +385,12 @@ public class ViewMood extends AppCompatActivity {
             if (resultCode == RESULT_OK) {
                 moodImage.setImageDrawable(Drawable.createFromPath(imageUri.getPath()));
                 moodImage.setTag(imageUri.getPath());
+            }
+        }
+        else{
+            if (resultCode == RESULT_OK){
+                lat = intent.getDoubleExtra("lat",0);
+                lon = intent.getDoubleExtra("long",0);
             }
         }
     }
