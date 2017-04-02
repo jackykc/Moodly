@@ -76,7 +76,7 @@ public class MoodIntentTest extends ActivityInstrumentationTestCase2<LoginScreen
         solo.clickOnView(emoij);
         solo.clickOnText("Anger");
 
-        solo.clickOnEditText(R.id.view_date);
+        solo.clickOnView((EditText) solo.getView(R.id.view_date));
         solo.clickOnText("OK");
         solo.clickOnText("OK");
 
@@ -91,7 +91,7 @@ public class MoodIntentTest extends ActivityInstrumentationTestCase2<LoginScreen
         actionLogOut();
     }
 
-    public void test2_FilterByMood () {
+    public void t2_FilterByMood () {
         actionLogin();
         solo.clickOnView((FloatingActionButton) solo.getView(R.id.filterButton));
 
