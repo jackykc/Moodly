@@ -91,6 +91,7 @@ public class TabHistory extends TabBase {
                 return false;
             }
         });
+
         FloatingActionButton fab = (FloatingActionButton) rootView.findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -132,7 +133,7 @@ public class TabHistory extends TabBase {
                 builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        moodController.setFilterEmotion(selectedEmotion);
+                        moodController.setFilterEmotion(selectedEmotion, true);
                         getFilterText();
                     }
                 });
@@ -196,13 +197,14 @@ public class TabHistory extends TabBase {
         adapter.notifyDataSetChanged();
     }
 
+    @Override
     protected void getFilterRecent() {
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         builder.setTitle("Show Only Moods From Recent Week?");
         builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                moodController.setFilterRecent(true);
+                moodController.setFilterRecent(true, true);
                 moodList = moodController.getMoodList(userList, true);
                 adapter = new MoodAdapter(getActivity(), R.layout.mood_list_item, moodList);
                 displayMoodList.setAdapter(adapter);
@@ -212,7 +214,7 @@ public class TabHistory extends TabBase {
         builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                moodController.setFilterRecent(false);
+                moodController.setFilterRecent(false, true);
                 moodList = moodController.getMoodList(userList, true);
                 adapter = new MoodAdapter(getActivity(), R.layout.mood_list_item, moodList);
                 displayMoodList.setAdapter(adapter);
@@ -223,6 +225,8 @@ public class TabHistory extends TabBase {
         builder.show();
     }
 
+
+    @Override
     protected void getFilterText(){
         AlertDialog.Builder textBuilder = new AlertDialog.Builder(getContext());
         textBuilder.setTitle("Search by Reason text ?");
@@ -234,7 +238,7 @@ public class TabHistory extends TabBase {
             public void onClick(DialogInterface dialog, int which) {
                 String filterText = input.getText().toString();
                 Toast.makeText(getContext(), filterText, Toast.LENGTH_SHORT).show();
-                moodController.setFilterText(filterText);
+                moodController.setFilterText(filterText, true);
                 getFilterRecent();
             }
         });
