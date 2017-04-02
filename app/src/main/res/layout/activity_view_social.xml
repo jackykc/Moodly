@@ -7,172 +7,145 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
+    <ImageView
+        android:id="@+id/moodImage"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="10dp"
+        android:visibility="visible" />
+
+    <TextView
+        android:id="@+id/mood"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/moodImage"
+        android:layout_marginBottom="5dp"
+        android:layout_marginLeft="20dp"
+        android:text="Mood"
+        android:textSize="18sp" />
+
+    <Spinner
+        android:id="@+id/spinner_emotion"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/mood"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginLeft="11dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginBottom="5dp"
+        android:animateLayoutChanges="true"
+        android:visibility="visible" />
+
+    <EditText
+        android:id="@+id/view_date"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/spinner_emotion"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentStart="true"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginBottom="5dp"
+        android:ems="10"
+        android:focusable="false"
+        android:hint="Date  (MM/DD/YYYY)"
+        android:inputType="textPersonName"
+        android:textSize="16sp" />
+
+    <Spinner
+        android:id="@+id/spinner_SS"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/view_date"
+        android:layout_marginLeft="11dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginBottom="10dp" />
+
+    <TextView
+        android:id="@+id/ReasonText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/spinner_SS"
+        android:layout_marginLeft="20dp"
+        android:text="Reason"
+        android:textSize="18sp" />
+
+    <EditText
+        android:id="@+id/view_reason"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/ReasonText"
+        android:layout_marginRight="15dp"
+        android:layout_marginLeft="11dp"
+        android:layout_marginBottom="25dp"
+        android:ems="20"
+        android:hint="Why are you in this mood?"
+        android:inputType="textPersonName"
+        android:textAllCaps="false"
+        android:textAppearance="@style/TextAppearance.AppCompat.Button"
+        android:textSize="16sp"
+        android:visibility="visible" />
+
 
     <TextView
         android:id="@+id/locationText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/view_reason"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginLeft="20dp"
         android:text="@string/location"
         android:textAlignment="center"
         android:textAppearance="@android:style/TextAppearance"
         android:textColor="@color/colorPrimary"
-        android:textStyle="bold|italic"
-        tools:text="@string/location"
-        android:layout_below="@+id/ReasonText"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_toLeftOf="@+id/mapButton"
-        android:layout_toStartOf="@+id/mapButton" />
-
-    <TextView
-        android:id="@+id/SocialSituationText"
-        android:layout_width="120dp"
-        android:layout_height="wrap_content"
-        android:fontFamily="sans-serif-condensed"
-        android:text="@string/social_situation"
-        android:textAlignment="center"
-        android:textAppearance="@android:style/TextAppearance"
-        android:textColor="@color/colorPrimary"
-        android:textStyle="bold|italic"
-        tools:text="@string/social_situation"
-        android:layout_toLeftOf="@+id/spinner_SS"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignTop="@+id/spinner_SS" />
-
-    <TextView
-        android:id="@+id/DateText"
-        android:layout_width="69dp"
-        android:layout_height="wrap_content"
-        android:fontFamily="sans-serif-condensed"
-        android:text="@string/date"
-        android:textAlignment="center"
-        android:textAppearance="@android:style/TextAppearance"
-        android:textColor="@color/colorPrimary"
-        android:textStyle="bold|italic"
-        tools:text="@string/date"
-        android:layout_alignBaseline="@+id/view_date"
-        android:layout_alignBottom="@+id/view_date"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_toLeftOf="@+id/view_date"
-        android:layout_toStartOf="@+id/view_date" />
-
-    <Spinner
-        android:id="@+id/spinner_SS"
-        android:layout_width="200dp"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/ReasonText"
-        android:layout_alignLeft="@+id/view_reason"
-        android:layout_alignStart="@+id/view_reason"
-        android:layout_marginBottom="20dp" />
-
-    <TextView
-        android:id="@+id/ReasonText"
-        android:layout_width="150dp"
-        android:layout_height="wrap_content"
-        android:fontFamily="sans-serif-condensed"
-        android:text="@string/reason_text"
-        android:textAlignment="center"
-        android:textAppearance="@android:style/TextAppearance"
-        android:textColor="@color/colorPrimary"
-        android:textStyle="bold"
-        tools:text="@string/reason_text"
-        android:layout_marginBottom="25dp"
-        android:layout_above="@+id/mapButton"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
-
-    <TextView
-        android:id="@+id/view_reason"
-        android:layout_width="200dp"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:textAppearance="@style/TextAppearance.AppCompat.Button"
-        android:layout_alignBottom="@+id/ReasonText"
-        android:layout_toRightOf="@+id/ReasonText"
-        android:layout_toEndOf="@+id/ReasonText" />
-
-    <TextView
-        android:id="@+id/view_date"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:layout_centerVertical="true"
-        android:layout_toRightOf="@+id/SocialSituationText"
-        android:layout_alignRight="@+id/spinner_SS"
-        android:layout_alignEnd="@+id/spinner_SS" />
+        tools:text="@string/location" />
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/mapButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/locationText"
+        android:layout_marginLeft="40dp"
+        android:layout_marginStart="40dp"
+        android:layout_toEndOf="@+id/locationText"
+        android:layout_toRightOf="@+id/locationText"
         android:clickable="true"
+        app:elevation="2dp"
         app:fabSize="mini"
-        app:srcCompat="@android:drawable/ic_menu_mylocation"
-        android:layout_marginBottom="10dp"
-        android:layout_above="@+id/addComments"
-        android:layout_toRightOf="@+id/ReasonText"
-        android:layout_toEndOf="@+id/ReasonText" />
-
-    <TextView
-        android:id="@+id/EmotionText"
-        android:layout_width="match_parent"
-        android:layout_height="25dp"
-        android:fontFamily="sans-serif-condensed"
-        android:text="@string/emotion"
-        android:textAlignment="center"
-        android:textAppearance="@android:style/TextAppearance"
-        android:textColor="@color/colorPrimary"
-        android:textStyle="bold|italic"
-        tools:text="@string/emotion"
-        android:layout_alignBottom="@+id/spinner_emotion"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_toStartOf="@+id/spinner_emotion"
-        android:layout_toLeftOf="@+id/spinner_emotion" />
-
-    <Spinner
-        android:id="@+id/spinner_emotion"
-        android:layout_width="200dp"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/DateText"
-        android:layout_alignLeft="@+id/view_date"
-        android:layout_alignStart="@+id/view_date"
-        android:layout_marginBottom="20dp" />
-
-    <ImageView
-        android:id="@+id/moodImage"
-        android:layout_width="wrap_content"
-        android:layout_height="150dp"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="23dp" />
+        app:srcCompat="@android:drawable/ic_menu_mylocation" />
 
     <Button
         android:id="@+id/addComments"
-        style="@style/Widget.AppCompat.Button.Colored"
-        android:layout_width="wrap_content"
+        style="@android:style/Widget.Material.Button.Colored"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/add_comment"
-        tools:text="@string/add_comment"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginBottom="39dp"
         android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+        android:layout_toEndOf="@+id/mapButton"
+        android:text="@string/add_comment"
+        tools:text="@string/add_comment" />
 
     <Button
         android:id="@+id/viewComments"
-        style="@style/Widget.AppCompat.Button.Colored"
-        android:layout_width="wrap_content"
+        style="@android:style/Widget.Material.Button"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="true"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentStart="true"
+        android:layout_toStartOf="@+id/addComments"
         android:text="@string/view_comment"
         tools:text="@string/view_comment" />
 
