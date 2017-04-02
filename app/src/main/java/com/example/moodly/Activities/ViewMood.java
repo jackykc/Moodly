@@ -10,6 +10,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
+import android.location.Location;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
@@ -75,6 +76,9 @@ public class ViewMood extends AppCompatActivity {
     private Button viewMoodComment;
     private FloatingActionButton cameraButton;
     private ImageView moodImage;
+
+    private FloatingActionButton map;
+
 
     private Uri imageUri;
 
@@ -175,6 +179,9 @@ public class ViewMood extends AppCompatActivity {
             cameraButton = (FloatingActionButton) findViewById(R.id.cameraButton);
             editDate = (EditText) findViewById(R.id.view_date);
             editReasonText = (EditText) findViewById(R.id.view_reason);
+
+            map = (FloatingActionButton) findViewById(R.id.mapButton);
+
             currentDate = mood.getDate();
             editDate.setText(currentDate.toString(), TextView.BufferType.EDITABLE);
             if (position == -1){
@@ -350,7 +357,18 @@ public class ViewMood extends AppCompatActivity {
             });
         }
 
+        map.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intentMap = new Intent();
+                intentMap.setClass(ViewMood.this, SeeMap.class);
+                startActivityForResult(intentMap, 1);
+            }
+
+        });
     }
+
+
 
     // Taken from https://github.com/CMPUT301W17T20/MyCameraTest1
     protected void moodPhoto(){
@@ -372,6 +390,10 @@ public class ViewMood extends AppCompatActivity {
                 moodImage.setImageDrawable(Drawable.createFromPath(imageUri.getPath()));
                 moodImage.setTag(imageUri.getPath());
             }
+        } else if (requestCode == 1) {
+            double latitude = intent.getDoubleExtra("my_latitude", 0);
+            double longtitude = intent.getDoubleExtra("my_longtitude", 0);
+            mood.setLocation(latitude, longtitude);
         }
     }
 

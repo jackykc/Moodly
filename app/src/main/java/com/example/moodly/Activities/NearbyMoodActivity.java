@@ -1,0 +1,133 @@
+package com.example.moodly.Activities;
+
+import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
+import android.widget.Toast;
+
+import com.example.moodly.R;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
+
+public class NearbyMoodActivity extends FragmentActivity implements OnMapReadyCallback {
+
+    private GoogleMap mMap;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_nearby_mood);
+        // Obtain the SupportMapFragment and get notified when the map is ready to be used.
+        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
+                .findFragmentById(R.id.nearbymap);
+        mapFragment.getMapAsync(this);
+        Context context = getApplicationContext();
+        CharSequence text = "onCreate part";
+        int duration = Toast.LENGTH_SHORT;
+
+        Toast toast = Toast.makeText(context, text, duration);
+        toast.show();
+    }
+
+
+    /**
+     * Manipulates the map once available.
+     * This callback is triggered when the map is ready to be used.
+     * This is where we can add markers or lines, add listeners or move the camera. In this case,
+     * we just add a marker near Sydney, Australia.
+     * If Google Play services is not installed on the device, the user will be prompted to install
+     * it inside the SupportMapFragment. This method will only be triggered once the user has
+     * installed Google Play services and returned to the app.
+     */
+    @Override
+    public void onMapReady(GoogleMap map) {
+        Context context = getApplicationContext();
+        CharSequence text = "onMapReady part";
+        int duration = Toast.LENGTH_SHORT;
+
+        Toast toast = Toast.makeText(context, text, duration);
+        toast.show();
+
+        mMap = map;
+        int height = 120;
+        int width = 120;
+
+        Bundle bundle = getIntent().getParcelableExtra("mapBundle");
+        //MoodController moodList= bundle.getParcelable("myList");
+        BitmapDrawable  bitmapdraw = (BitmapDrawable)getResources().getDrawable(R.drawable.afraid);
+        Bitmap b = bitmapdraw.getBitmap();
+        Bitmap smallMarker = Bitmap.createScaledBitmap(b, width, height, false);
+
+        LatLng mood0 = new LatLng(53.5498, -113.469);
+        mMap.addMarker(new MarkerOptions().position(mood0).icon(BitmapDescriptorFactory.fromBitmap(smallMarker)).title("title"));
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(mood0));
+
+        LatLng mood1 = new LatLng(53.5501, -113.465);
+        mMap.addMarker(new MarkerOptions().position(mood1).icon(BitmapDescriptorFactory.fromBitmap(smallMarker)).title("title"));
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(mood1));
+
+        LatLng mood2 = new LatLng(53.5503, -113.472);
+        mMap.addMarker(new MarkerOptions().position(mood2).icon(BitmapDescriptorFactory.fromBitmap(smallMarker)).title("title"));
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(mood2));
+
+
+//
+//        if (icon.equals(AFRAID_WORD)) {BitmapDrawable bitmapdraw;
+//            bitmapdraw = (BitmapDrawable)getResources().getDrawable(R.drawable.afraid);
+//            Bitmap b=bitmapdraw.getBitmap();
+//            smallMarker = Bitmap.createScaledBitmap(b, width, height, false);
+//        }
+//
+//
+//
+
+//
+//        LatLng mood0 = new LatLng((i).getLatitude(), getLongitude());
+//        mMap.addMarker(new MarkerOptions().position(mood).icon(BitmapDescriptorFactory.fromBitmap(smallMarker)).title("title"));
+//        mMap.moveCamera(CameraUpdateFactory.newLatLng(mood));
+//
+//        LatLng mood1 = new LatLng((i).getLatitude(), getLongitude());
+//        mMap.addMarker(new MarkerOptions().position(mood).icon(BitmapDescriptorFactory.fromBitmap(smallMarker)).title("title"));
+//        mMap.moveCamera(CameraUpdateFactory.newLatLng(mood));
+//
+//        LatLng mood2 = new LatLng((i).getLatitude(), getLongitude());
+//        mMap.addMarker(new MarkerOptions().position(mood).icon(BitmapDescriptorFactory.fromBitmap(smallMarker)).title("title"));
+//        mMap.moveCamera(CameraUpdateFactory.newLatLng(mood));
+//
+//        /*
+//        ArrayList<double> longtitude =
+//
+//        for (int i = 0; i < moodList.size(); i++) {
+//            String icon = moodList.(i).getMood().getText();
+//
+//            // initialize the marker so it exists
+//            int height = 120;
+//            int width = 120;
+//
+//
+//            LatLng mood = new LatLng((i).getLatitude(), getLongitude());
+//            mMap.addMarker(new MarkerOptions().position(mood).icon(BitmapDescriptorFactory.fromBitmap(smallMarker)).title("title"));
+//            mMap.moveCamera(CameraUpdateFactory.newLatLng(mood));
+//        }
+//        */
+    }
+}
+
+
+
+//if (icon.equals(AFRAID_WORD)) {
+//BitmapDrawable bitmapdraw = (BitmapDrawable)getResources().getDrawable(R.drawable.afraid);
+//    Bitmap b=bitmapdraw.getBitmap();
+//smallMarker = Bitmap.createScaledBitmap(b, width, height, false);
+//        }
+//        LatLng mood = new LatLng(moodEventList.getMoodEvent(i).getLatitude(), moodEventList.getMoodEvent(i).getLongitude());
+//        mMap.addMarker(new MarkerOptions().position(mood).icon(BitmapDescriptorFactory.fromBitmap(smallMarker)).title(moodEventList.getMoodEvent(i).getMood().getText()));
+//        mMap.moveCamera(CameraUpdateFactory.newLatLng(mood));
+//        }
