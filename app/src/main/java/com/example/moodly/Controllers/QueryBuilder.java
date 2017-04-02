@@ -43,6 +43,17 @@ public class QueryBuilder {
 //        return true;
 //    }
 
+    public boolean withinFilter(Mood m) {
+        // mood's emotion does not match states emotion
+        if((emotionList.size() > 0 ) && (! emotionList.contains(m.getEmotion()))) {
+            return false;
+        // reason text does not match
+        } else if ((reason != "") && (! m.getReasonText().contains(reason))) {
+            return false;
+        }
+        return true;
+    }
+
     public void setResultOffset(int resultOffset) {
         this.resultOffset = resultOffset;
     }
