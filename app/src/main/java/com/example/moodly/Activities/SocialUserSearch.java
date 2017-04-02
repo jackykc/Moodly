@@ -12,6 +12,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.example.moodly.Controllers.UserController;
 import com.example.moodly.Models.User;
@@ -116,6 +117,7 @@ public class SocialUserSearch extends Fragment implements View.OnClickListener {
                 break;
             case R.id.send_request_button:
                 userController.makeRequest(outputStrArr);
+                Toast.makeText(getContext(),"Request Sent",Toast.LENGTH_SHORT).show();
                 break;
             default:
                 break;
