@@ -50,6 +50,8 @@ public class TabHistory extends TabBase {
         currentUser = userController.getCurrentUser();
         userList = new ArrayList<>();
         userList.add(currentUser.getName());
+        moodController.clearEmotion();
+        moodController.clearFilterText();
         // tries to get moods from elastic search server
         refreshOnline(userList);
         setViews(inflater, container);
