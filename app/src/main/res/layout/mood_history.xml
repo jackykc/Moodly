@@ -31,7 +31,7 @@
         android:layout_alignParentRight="true"
         android:elevation="10dp"
         android:layout_marginRight="15dp"
-        android:layout_marginBottom="10dp"
+        android:layout_marginBottom="15dp"
         />
 
     <ListView
@@ -58,19 +58,6 @@
         android:layout_toLeftOf="@id/fab"
         android:layout_alignParentBottom="true" />
 
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/filterButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginRight="10dp"
-        android:clickable="true"
-        app:fabSize="mini"
-        android:elevation="0dp"
-        android:layout_alignBaseline="@id/fab"
-        app:srcCompat="@android:drawable/ic_menu_sort_by_size"
-        android:layout_marginBottom="10dp"
-        android:layout_toLeftOf="@id/fab"
-        android:layout_alignParentBottom="true"/>
 
     <Button
         android:id="@+id/moreMoods"
