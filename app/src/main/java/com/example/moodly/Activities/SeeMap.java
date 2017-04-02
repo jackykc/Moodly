@@ -212,9 +212,11 @@ public class SeeMap extends FragmentActivity implements OnMapReadyCallback, Goog
          * cases when a location is not available.
          */
         if (oldLat != 0 && oldLon != 0){
+            LatLng current = new LatLng(mLastKnownLocation.getLatitude(), mLastKnownLocation.getLongitude());
             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(
-                    new LatLng(mLastKnownLocation.getLatitude(),
-                            mLastKnownLocation.getLongitude()), DEFAULT_ZOOM));
+                    current, DEFAULT_ZOOM));
+            mMap.addMarker(new MarkerOptions().position(current).title("You are here"));
+
         }
         else if (mLocationPermissionGranted) {
             mLastKnownLocation = LocationServices.FusedLocationApi
@@ -225,7 +227,7 @@ public class SeeMap extends FragmentActivity implements OnMapReadyCallback, Goog
             else {
                 Log.d(TAG, "Current location is null. Using defaults.");
                 mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(mDefaultLocation, DEFAULT_ZOOM));
-                mMap.getUiSettings().setMyLocationButtonEnabled(false);
+//                mMap.getUiSettings().setMyLocationButtonEnabled(false);
             }
         }
 
