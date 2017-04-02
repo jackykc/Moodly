@@ -93,7 +93,9 @@ public class MoodController extends ElasticSearchController {
 
         if (position == -1) {
             // add to offline temporary list of moods
-            moodHistoryList.add(0, m);
+            if(queryBuilder.withinFilter(m)) {
+                moodHistoryList.add(0, m);
+            }
             addSyncList.add(m);
         } else {
             // maybe do a check for out of range here?
@@ -291,7 +293,8 @@ public class MoodController extends ElasticSearchController {
                         if ((item.status == 201) && (moodHistoryList.get(localIndex).getId() == null)) {
                             // check if mood corresponding to i (the one sent to elastic search)
                             // pass filters
-                            if (true /*moodList.get(i)*/) {
+                            // so same date?
+                            if (moodHistoryList.get(localIndex).getDate().equals(moodList.get(i).getDate()) ) {
                                 // if so, update JestId locally
                                 String jestId = item.id;
                                 moodHistoryList.get(localIndex).setId(jestId);
