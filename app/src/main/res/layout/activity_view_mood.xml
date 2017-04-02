@@ -151,24 +151,24 @@
 
     <Button
         android:id="@+id/viewMoodComments"
-        style="@android:style/Widget.Material.Button.Borderless.Colored"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
         android:layout_toStartOf="@+id/saveButton"
         android:text="@string/view_comment"
+        android:textAppearance="@style/TextAppearance.AppCompat"
         tools:text="@string/view_comment" />
 
     <Button
         android:id="@+id/saveButton"
-        style="@android:style/Widget.Material.Button.Borderless.Colored"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
         android:layout_toEndOf="@+id/mapButton"
         android:text="@string/save_mood"
+        android:textAppearance="@style/TextAppearance.AppCompat"
         android:visibility="visible"
         tools:text="@string/save_mood" />
 
