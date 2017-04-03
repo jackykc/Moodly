@@ -18,7 +18,8 @@ import java.util.Random;
  */
 
 /*
-Test Search, Request to follow, Accept follow request, Deny follow request
+*Test Search, Request to follow, Accept follow request, Deny follow request
+*PLEASE NOTE THAT YOU HAVE TO LOGOUT OF THE APPLICATION FOR THE INTENT TESTS TO WORK.
  */
 
 public class SocialIntentTest extends ActivityInstrumentationTestCase2<LoginScreen> {

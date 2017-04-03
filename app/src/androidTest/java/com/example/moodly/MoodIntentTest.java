@@ -23,6 +23,7 @@ import java.util.Random;
 
 /*
 * Testing Add, Edit, Delete, Filters with Moods
+*PLEASE NOTE THAT YOU HAVE TO LOGOUT OF THE APPLICATION FOR THE INTENT TESTS TO WORK.
  */
 public class MoodIntentTest extends ActivityInstrumentationTestCase2<LoginScreen> {
     private Solo solo;
