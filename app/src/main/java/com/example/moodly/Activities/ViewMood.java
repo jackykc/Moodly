@@ -172,6 +172,8 @@ public class ViewMood extends AppCompatActivity {
         socialSituationSpinner.setSelection(mood.getSocialSituation());
         moodImage = (ImageView) findViewById(R.id.moodImage);
         viewMoodComment = (Button) findViewById(R.id.viewMoodComments);
+        map = (FloatingActionButton) findViewById(R.id.mapButton);
+
         base64Encoded = mood.getImage();
         if (base64Encoded != null) {
             decodeFromBase64(base64Encoded);
@@ -183,7 +185,6 @@ public class ViewMood extends AppCompatActivity {
             editDate = (EditText) findViewById(R.id.view_date);
             editReasonText = (EditText) findViewById(R.id.view_reason);
 
-            map = (FloatingActionButton) findViewById(R.id.mapButton);
 
             currentDate = mood.getDate();
             editDate.setText(currentDate.toString(), TextView.BufferType.EDITABLE);
@@ -248,6 +249,16 @@ public class ViewMood extends AppCompatActivity {
                     dpd.setTitle("Select date");
                     dpd.show();
                 }
+            });
+
+            map.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intentMap = new Intent();
+                    intentMap.setClass(ViewMood.this, SeeMap.class);
+                    startActivityForResult(intentMap, 1);
+                }
+
             });
 
             cameraButton.setOnClickListener(new View.OnClickListener() {
@@ -324,6 +335,18 @@ public class ViewMood extends AppCompatActivity {
             });
         }
         else{
+
+            // view only
+            map.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intentMap = new Intent();
+                    intentMap.setClass(ViewMood.this, SeeMap.class);
+                    startActivity(intentMap);
+                }
+
+            });
+
             addComments.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -359,17 +382,12 @@ public class ViewMood extends AppCompatActivity {
                     startActivity(intent);
                 }
             });
+
+
+
         }
 
-        map.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intentMap = new Intent();
-                intentMap.setClass(ViewMood.this, SeeMap.class);
-                startActivityForResult(intentMap, 1);
-            }
 
-        });
     }
 
 
