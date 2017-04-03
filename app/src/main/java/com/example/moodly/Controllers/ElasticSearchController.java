@@ -9,14 +9,14 @@ import com.searchly.jestdroid.JestDroidClient;
  */
 
 /**
- * Base elastic search controller that our MoodController and UserController inherit from
+ * Base elastic search controller that our MoodController and UserController inherits from.
  */
 public class ElasticSearchController {
 
     protected static JestDroidClient client;
 
     /**
-     * Checks if we are connected to elastic search, if not, then connect
+     * Checks if we are connected to elastic search, if not, then connect.
      */
     public static void verifySettings() {
         if (client == null) {

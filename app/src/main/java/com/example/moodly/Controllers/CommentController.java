@@ -33,7 +33,8 @@ public class CommentController extends ElasticSearchController {
     }
 
     /**
-     * Gets instance of the comment controler.
+     * Gets instance of the comment controller.
+     * If it is null, create a new instance.
      *
      * @return the instance
      */
@@ -50,7 +51,7 @@ public class CommentController extends ElasticSearchController {
      * Adds a comment to a mood.
      *
      * @param text   the comment text
-     * @param moodID the mood id the comment is accosiated with
+     * @param moodID the mood id the comment is associated with
      */
 
     public static void addComment(String text, String moodID) {
@@ -66,7 +67,7 @@ public class CommentController extends ElasticSearchController {
      *
      * @param moodID      the mood id
      * @param tempRefresh true for refreshing comments, false for loading more
-     * @return the a list of comments associated with the moodID
+     * @return tempCommentList a list of comments associated with the moodID
      */
     public ArrayList<Comment> getCommentList (String moodID, boolean tempRefresh) {
 
@@ -88,7 +89,8 @@ public class CommentController extends ElasticSearchController {
     /* ---------- Elastic Search Requests ---------- */
 
     /**
-     * Async task that adds comments onto elastic search
+     * Async task that adds comments onto elastic search based
+     * on the moodID.
      */
     private static class AddCommentTask extends AsyncTask<Comment, Void, Void> {
 
@@ -110,27 +112,23 @@ public class CommentController extends ElasticSearchController {
                             if(commentList.get(0).getId() == null) {
                                 commentList.get(0).setId(result.getId());
                             }
-
                         }
-
                     } else {
                         Log.i("Error", "Elasticsearch was not able to add the comment");
                     }
-                    // where is the client?
                 }
                 catch (Exception e) {
                     Log.i("Error", "The application failed to build and send the comment");
                 }
-
             }
-
             return null;
         }
     }
 
 
     /**
-     * Async task that gets comments from elastic search
+     * Async task that gets comments from elastic search.
+     * @return commentList the result from the getting comments from ElasticSearch
      */
     private static class GetCommentTask extends AsyncTask<String, Void, ArrayList<Comment>> {
         @Override

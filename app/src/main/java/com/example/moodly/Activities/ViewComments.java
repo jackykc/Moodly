@@ -26,6 +26,13 @@ public class ViewComments extends AppCompatActivity {
     Button loadMoreComments;
     String id;
 
+    /**
+     * Gets the moodID of the the mood with comments
+     * and sets the comments into an ArrayList
+     * @param savedInstanceState
+     * @see #showComments(ArrayList)
+     * @see #setListeners()
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,8 +47,10 @@ public class ViewComments extends AppCompatActivity {
     }
 
     /**
-     *
-     * @param commentList
+     * Implements a ViewSwitcher to either show comments from the
+     * given commentList or show a message that there are no comments
+     * in the mood.
+     * @param commentList the list of comments returned from the mood
      */
     protected void showComments(ArrayList<Comment> commentList) {
         ViewSwitcher viewSwitcher = (ViewSwitcher) findViewById(R.id.messageSwitcher);

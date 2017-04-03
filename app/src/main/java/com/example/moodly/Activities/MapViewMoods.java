@@ -266,7 +266,7 @@ public class MapViewMoods extends FragmentActivity implements OnMapReadyCallback
 
                         Bitmap tempEmoji = myEmojis.get(tempEmotion - 1);
 
-                        mMap.addMarker(new MarkerOptions().position(temp).icon(BitmapDescriptorFactory.fromBitmap(tempEmoji)).title("title"));
+                        mMap.addMarker(new MarkerOptions().position(temp).icon(BitmapDescriptorFactory.fromBitmap(tempEmoji)));
                         mMap.moveCamera(CameraUpdateFactory.newLatLng(temp));
 
 

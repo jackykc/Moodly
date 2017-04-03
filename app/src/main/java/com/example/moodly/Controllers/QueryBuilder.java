@@ -23,7 +23,6 @@ public class QueryBuilder {
     public QueryBuilder() {
 
         usernameString = "";
-
         recent = false;
         reason = "";
         resultOffset = 0;
@@ -32,7 +31,7 @@ public class QueryBuilder {
     }
 
     /**
-     * Checks if a mood is still kept after  going through the filter
+     * Checks if a mood is still kept after going through the filter
      *
      * @param m the mood
      * @return true if mood does not get filtered out, false otherwise
@@ -58,9 +57,9 @@ public class QueryBuilder {
     }
 
     /**
-     * Sets an arraylist emotion to filter for.
+     * Sets an ArrayList emotion to filter for.
      *
-     * @param emotions arraylist of emotions
+     * @param emotions ArrayList of emotions
      */
     public void setEmotion(ArrayList<Integer> emotions) {
         this.emotionList = emotions;
@@ -80,19 +79,17 @@ public class QueryBuilder {
      *
      * @param reason the reason text
      */
-// Assuming our reason text search is a single word
-    // sets the reason to search for
     public void setReason(String reason) {
         this.reason = reason;
     }
 
     /**
-     * Clears emotion list.
+     * Clears emotion list for filters.
      */
     public void clearEmotion() {emotionList.clear();}
 
     /**
-     * Clears reason text.
+     * Clears reason text for filters.
      */
     public void clearReason() {reason = "";}
 
@@ -110,7 +107,6 @@ public class QueryBuilder {
         }
 
     }
-
 
     /**
      * Gets mood query.
