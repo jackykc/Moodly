@@ -49,7 +49,7 @@ public class UserAdapter extends ArrayAdapter<User> {
      * @param position
      * @param convertView
      * @param parent
-     * @return
+     * @return row of item
      */
     public View getView(int position, View convertView, ViewGroup parent) {
         View row;
@@ -69,6 +69,5 @@ public class UserAdapter extends ArrayAdapter<User> {
      * @param holder
      */
     private void setupItem(UserHolder holder) {
-        ///////////TODO what to show here???
     }
 }

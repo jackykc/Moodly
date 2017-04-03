@@ -36,7 +36,6 @@ import java.util.List;
  * to add and confirm users as they use the app.
  */
 public class LoginScreen extends AppCompatActivity {
-    //final ArrayList<User> userList = new ArrayList<>();
     EditText userName;
     Button loginButton;
     Button signUpButton;
@@ -44,8 +43,6 @@ public class LoginScreen extends AppCompatActivity {
     UserController conn = UserController.getInstance();
     static String FILE_NAME = "UserName";
     Context context;
-    SharedPreferences sharedPref;
-    SharedPreferences.Editor editor;
     static List<User> users = new ArrayList<>();
 
     /**
@@ -60,7 +57,6 @@ public class LoginScreen extends AppCompatActivity {
         userName = (EditText) findViewById(R.id.userName);
         intent = new Intent(getApplicationContext(), MoodBase.class);
         context = getApplicationContext();
-        //sharedPref = context.getSharedPreferences(FILE_NAME, Context.MODE_PRIVATE);
         String logout = getIntent().getStringExtra("toClear");
         if (logout != null) {
             users.clear();
@@ -71,6 +67,7 @@ public class LoginScreen extends AppCompatActivity {
 
     /**
      * Provides a short toast to current user logging in
+     * @params name Name of the logged in person.
      */
     private void hello(String name) {
         String greetings = "Hello, " + name;
@@ -104,8 +101,6 @@ public class LoginScreen extends AppCompatActivity {
                     conn.setCurrentUser(userName.getText().toString());
                     if (conn.getCurrentUser() != null) {
                         hello(userName.getText().toString());
-//                    editor.putString("UserName", userName.getText().toString());
-//                    editor.commit();
                         users.add(conn.getCurrentUser());
                         saveInFile();
                         startActivity(intent);
@@ -142,6 +137,10 @@ public class LoginScreen extends AppCompatActivity {
         });
 
     }
+    /**
+     * Checks if the application is currently connected to the internet or not.
+     * @return boolean if the application is connected to the internet or not
+     */
     private boolean networkAvailable() {
         ConnectivityManager connectivityManager
                 = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -150,6 +149,9 @@ public class LoginScreen extends AppCompatActivity {
 
     }
 
+    /**
+     * Loads from a savefile containing usernames.
+     */
     private void loadFromFile() {
         try {
             FileInputStream fis = openFileInput(FILE_NAME);
@@ -158,14 +160,15 @@ public class LoginScreen extends AppCompatActivity {
             users = gson.fromJson(in, new TypeToken<ArrayList<User>>(){}.getType());
             fis.close();
         } catch (FileNotFoundException e) {
-            // TODO Auto-generated catch block
-            users = new ArrayList<User>();
+            users = new ArrayList<>();
         } catch (IOException e) {
-            // TODO Auto-generated catch block
             throw new RuntimeException();
         }
     }
 
+    /**
+     * Saves the list of users in JSON then to a file.
+     */
     private void saveInFile() {
         try {
             FileOutputStream fos = openFileOutput(FILE_NAME, Context.MODE_PRIVATE);
@@ -177,10 +180,8 @@ public class LoginScreen extends AppCompatActivity {
 
             fos.close();
         } catch (FileNotFoundException e) {
-            // TODO Auto-generated catch block
             throw new RuntimeException();
         } catch (IOException e) {
-            // TODO Auto-generated catch block
             throw new RuntimeException();
         }
     }

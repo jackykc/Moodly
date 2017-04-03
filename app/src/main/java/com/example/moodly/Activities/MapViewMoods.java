@@ -34,7 +34,10 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.ArrayList;
 
-
+/**
+ * MapViewMoods allows user to view mood events on a map
+ * that depend on filters such as near mood events or history moods.
+ */
 public class MapViewMoods extends FragmentActivity implements OnMapReadyCallback, GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener {
 
@@ -152,7 +155,10 @@ public class MapViewMoods extends FragmentActivity implements OnMapReadyCallback
         Log.d(TAG, "Play services connection suspended");
     }
 
-
+    /**
+     * Prepares the map to show current locations of mood events
+     * @param map Google Map
+     */
     @Override
     public void onMapReady(GoogleMap map) {
         mMap = map;
@@ -176,6 +182,9 @@ public class MapViewMoods extends FragmentActivity implements OnMapReadyCallback
 
     }
 
+    /**
+     * Shows the map with mood events with location.
+     */
     private void refreshMap() {
 
         mMap.clear();
@@ -279,12 +288,13 @@ public class MapViewMoods extends FragmentActivity implements OnMapReadyCallback
         }
     }
 
+    /**
+     * Request location permission, so that we can get the location of the
+     * device. The result of the permission request is handled by a callback,
+     * onRequestPermissionsResult.
+     */
     private void getDeviceLocation() {
-        /*
-         * Request location permission, so that we can get the location of the
-         * device. The result of the permission request is handled by a callback,
-         * onRequestPermissionsResult.
-         */
+
         if (ContextCompat.checkSelfPermission(this.getApplicationContext(),
                 android.Manifest.permission.ACCESS_FINE_LOCATION)
                 == PackageManager.PERMISSION_GRANTED) {
@@ -319,7 +329,12 @@ public class MapViewMoods extends FragmentActivity implements OnMapReadyCallback
         }
     }
 
-
+    /**
+     * Checks if we have permission for location. If not, request from user.
+     * @param requestCode
+     * @param permissions
+     * @param grantResults
+     */
     @Override
     public void onRequestPermissionsResult(int requestCode,
                                            @NonNull String permissions[],

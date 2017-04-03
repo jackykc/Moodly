@@ -87,7 +87,8 @@ public class MoodBase extends AppCompatActivity {
     };
 
     /**
-     *
+     * Synchronization of mood events depending if network is available or
+     * not.
      */
     private void updateElasticSearch() {
         if (networkAvailable())  {
@@ -117,7 +118,7 @@ public class MoodBase extends AppCompatActivity {
     /**
      * Inflate the menu; this adds items to the action bar if it is present.
      * @param menu
-     * @return
+     * @return true if successful
      */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -126,9 +127,9 @@ public class MoodBase extends AppCompatActivity {
     }
 
     /**
-     *
-     * @param item
-     * @return
+     * Based on MenuItem, it will start the relevant activity.
+     * @param item MenuItem chosen
+     * @return boolean if activity is started successfully
      */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -164,9 +165,6 @@ public class MoodBase extends AppCompatActivity {
                 }
             case R.id.log_out:
                 Toast.makeText(this, "Goodbye, " + UserController.getInstance().getCurrentUser().getName(), Toast.LENGTH_SHORT).show();
-//                SharedPreferences.Editor editor =getApplicationContext().getSharedPreferences(LoginScreen.FILE_NAME, Context.MODE_PRIVATE).edit();
-//                editor.clear();
-//                editor.commit();
                 Intent logOut = new Intent(this, LoginScreen.class);
                 logOut.putExtra("toClear", "YES");
                 logOut.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
@@ -204,8 +202,8 @@ public class MoodBase extends AppCompatActivity {
         }
 
         /**
-         *
-         * @return
+         * get page counts
+         * @return 2
          */
         @Override
         public int getCount() {
@@ -214,9 +212,9 @@ public class MoodBase extends AppCompatActivity {
         }
 
         /**
-         *
+         * Gets the page title.
          * @param position
-         * @return
+         * @return page title
          */
         @Override
         public CharSequence getPageTitle(int position) {
