@@ -35,7 +35,7 @@ import java.util.ArrayList;
 /**
  * This class is a fragment to display moods from followed users
  */
-public class TabBase extends Fragment {
+public class MoodFollowingList extends Fragment {
 
     protected User currentUser;
     protected ArrayList<String> userList;

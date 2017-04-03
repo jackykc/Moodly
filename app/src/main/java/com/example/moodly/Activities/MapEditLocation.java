@@ -44,12 +44,12 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 
 
-public class SeeMap extends FragmentActivity implements OnMapReadyCallback, GoogleApiClient.ConnectionCallbacks,
+public class MapEditLocation extends FragmentActivity implements OnMapReadyCallback, GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener {
 
     private GoogleMap mMap;
     int PLACE_PICKER_REQUEST = 1;
-    private static final String TAG = SeeMap.class.getSimpleName();
+    private static final String TAG = MapEditLocation.class.getSimpleName();
     private GoogleApiClient mGoogleApiClient;
     private CameraPosition mCameraPosition;
     private final LatLng mDefaultLocation = new LatLng(-33.8523341, 151.2106085);

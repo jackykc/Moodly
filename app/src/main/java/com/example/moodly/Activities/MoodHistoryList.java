@@ -32,7 +32,7 @@ import java.util.ArrayList;
 /**
  * This class is a fragment to display moods from the mood history
  */
-public class TabHistory extends TabBase {
+public class MoodHistoryList extends MoodFollowingList {
 
     private MoodAdapter adapter;
     /**

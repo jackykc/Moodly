@@ -13,6 +13,11 @@ import com.example.moodly.R;
 
 import java.util.ArrayList;
 
+/*
+* check jkc1-SizeBook's RecordListAdapter
+* as reference
+* */
+
 /**
  * Created by jkc1 on 2017-04-03.
  */

@@ -19,11 +19,6 @@ import java.util.ArrayList;
 /**
  * Created by mliew on 2017-02-25.
  */
-/*
-* check jkc1-SizeBook's RecordListAdapter
-* for references
-*
-* */
 
 /**
  * Custom adapter to adapt moods onto a listview
@@ -65,6 +60,5 @@ public class MoodAdapter extends MoodAdapterBase {
 
         return row;
     }
-
 
 }

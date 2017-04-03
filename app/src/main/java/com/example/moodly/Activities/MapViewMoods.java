@@ -18,7 +18,6 @@ import android.widget.CheckBox;
 import com.example.moodly.Controllers.MoodController;
 import com.example.moodly.Controllers.UserController;
 import com.example.moodly.Models.Mood;
-import com.example.moodly.Models.User;
 import com.example.moodly.R;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -36,12 +35,11 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import java.util.ArrayList;
 
 
-public class NearbyMoodActivity extends FragmentActivity implements OnMapReadyCallback, GoogleApiClient.ConnectionCallbacks,
+public class MapViewMoods extends FragmentActivity implements OnMapReadyCallback, GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener {
 
     private GoogleMap mMap;
-    int PLACE_PICKER_REQUEST = 1;
-    private static final String TAG = NearbyMoodActivity.class.getSimpleName();
+    private static final String TAG = MapViewMoods.class.getSimpleName();
     private GoogleApiClient mGoogleApiClient;
     private CameraPosition mCameraPosition;
     private final LatLng mDefaultLocation = new LatLng(-33.8523341, 151.2106085);
@@ -57,16 +55,8 @@ public class NearbyMoodActivity extends FragmentActivity implements OnMapReadyCa
     private static final String KEY_CAMERA_POSITION = "camera_position";
     private static final String KEY_LOCATION = "location";
 
-    // Used for selecting the current place.
-    private final int mMaxEntries = 5;
-    private String[] mLikelyPlaceNames = new String[mMaxEntries];
-    private String[] mLikelyPlaceAddresses = new String[mMaxEntries];
-    private String[] mLikelyPlaceAttributions = new String[mMaxEntries];
-    private LatLng[] mLikelyPlaceLatLngs = new LatLng[mMaxEntries];
-
     private CheckBox nearbyCheckbox;
 
-    private boolean listType;
     private ArrayList<Integer> arrayListType;
 
     @Override
@@ -81,7 +71,7 @@ public class NearbyMoodActivity extends FragmentActivity implements OnMapReadyCa
 
         setContentView(R.layout.activity_nearby_mood);
 
-        listType = getIntent().getBooleanExtra("list_type", true);
+        boolean listType = getIntent().getBooleanExtra("list_type", true);
         arrayListType = new ArrayList<Integer>();
         String mapType;
         if(listType) {

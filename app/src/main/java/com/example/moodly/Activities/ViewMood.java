@@ -13,7 +13,6 @@ import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.location.Location;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
@@ -41,7 +40,6 @@ import android.widget.Toast;
 
 import com.example.moodly.Controllers.CommentController;
 import com.example.moodly.Controllers.MoodController;
-import com.example.moodly.Models.Emotion;
 import com.example.moodly.Models.Mood;
 import com.example.moodly.R;
 
@@ -50,7 +48,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -62,7 +59,6 @@ import static com.example.moodly.Models.Emotion.CONFUSION;
 import static com.example.moodly.Models.Emotion.DISGUST;
 import static com.example.moodly.Models.Emotion.FEAR;
 import static com.example.moodly.Models.Emotion.HAPPINESS;
-import static com.example.moodly.Models.Emotion.NONE;
 import static com.example.moodly.Models.Emotion.SADNESS;
 import static com.example.moodly.Models.Emotion.SHAME;
 import static com.example.moodly.Models.Emotion.SURPRISE;
@@ -266,7 +262,7 @@ public class ViewMood extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
                     Intent intentMap = new Intent();
-                    intentMap.setClass(ViewMood.this, SeeMap.class);
+                    intentMap.setClass(ViewMood.this, MapEditLocation.class);
                     startActivityForResult(intentMap, 1);
                 }
 
@@ -328,7 +324,7 @@ public class ViewMood extends AppCompatActivity {
                         MoodController.getInstance().setMood(mood);
                         MoodController.getInstance().addMood(position, mood);
                         if (networkAvailable()) {MoodController.getInstance().syncAddList();}
-                        Intent output = new Intent(ViewMood.this, ViewMoodList.class);
+                        Intent output = new Intent(ViewMood.this, MoodBase.class);
                         setResult(RESULT_OK, output);
                         finish();
                     }
@@ -352,7 +348,7 @@ public class ViewMood extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
                     Intent intentMap = new Intent();
-                    intentMap.setClass(ViewMood.this, SeeMap.class);
+                    intentMap.setClass(ViewMood.this, MapEditLocation.class);
                     startActivity(intentMap);
                 }
 

@@ -182,7 +182,7 @@ public class SocialBase extends AppCompatActivity {
 
     private void returnBack(){
         Toast.makeText(this,"Cannot use social functionality when offline!",Toast.LENGTH_SHORT).show();
-        Intent intent = new Intent(SocialBase.this,ViewMoodList.class);
+        Intent intent = new Intent(SocialBase.this,MoodBase.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
     }
