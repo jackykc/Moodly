@@ -20,29 +20,28 @@ public class MoodTest extends ActivityInstrumentationTestCase2 {
     }
 
     MoodController con = MoodController.getInstance();
-    ArrayList<Mood> moodList = con.moodHistoryList;
+    ArrayList<Mood> moodList = con.getHistoryMoods();
 
     public void testAddMood() {
         Mood mood = new Mood();
-        Emotion emotion = Emotion.HAPPINESS;
+        int emotion = Emotion.HAPPINESS;
         String owner = "Harambe";
         String trigger = "Banana";
         String reasonText = "Ate a banana";
         mood.setOwner(owner);
         mood.setTrigger(trigger);
         mood.setReasonText(reasonText);
-        mood.setEmotion(emotion.ordinal());
+        mood.setEmotion(emotion);
         con.addMood(-1,mood);
         assertTrue(moodList.contains(mood));
     }
 
     public void testChooseEmotionalState() {
         Mood mood = new Mood();
-        Emotion emotion;
-        emotion = Emotion.HAPPINESS;
-        mood.setEmotion(emotion.ordinal());
+        int emotion = Emotion.HAPPINESS;
+        mood.setEmotion(emotion);
         con.addMood(-1,mood);
-        assertEquals(moodList.get(moodList.size() - 1).getEmotion(), emotion.ordinal());
+        assertEquals(moodList.get(moodList.size() - 1).getEmotion(), emotion);
     }
 
     public void testAddTextReason() {
@@ -64,16 +63,16 @@ public class MoodTest extends ActivityInstrumentationTestCase2 {
 
     public void testViewMoodDetails() {
         Mood mood = new Mood();
-        Emotion emotion = Emotion.ANGER;
+        int emotion = Emotion.ANGER;
         String owner = "Harambe";
         String trigger = "Banana";
         String reasonText = "Ate a banana";
         mood.setOwner(owner);
-        mood.setEmotion(emotion.ordinal());
+        mood.setEmotion(emotion);
         mood.setTrigger(trigger);
         mood.setReasonText(reasonText);
         con.addMood(-1,mood);
-        assertEquals(emotion.ordinal(), moodList.get(moodList.size() - 5).getEmotion());
+        assertEquals(emotion, moodList.get(moodList.size() - 5).getEmotion());
         assertEquals(trigger, moodList.get(moodList.size() - 5).getTrigger());
         assertEquals(reasonText, moodList.get(moodList.size() - 5).getReasonText());
     }
@@ -82,40 +81,40 @@ public class MoodTest extends ActivityInstrumentationTestCase2 {
         Mood mood = new Mood();
         Mood newMood = new Mood();
 
-        Emotion emotion = Emotion.ANGER;
+        int emotion = Emotion.ANGER;
         String owner = "Harambe";
         String trigger = "Banana";
         String reasonText = "Ate a banana";
 
         mood.setOwner(owner);
-        mood.setEmotion(emotion.ordinal());
+        mood.setEmotion(emotion);
         mood.setTrigger(trigger);
         mood.setReasonText(reasonText);
 
         con.addMood(-1,mood);
 
         String newTrigger = "a kid";
-        newMood.setEmotion(emotion.ordinal());
+        newMood.setEmotion(emotion);
         newMood.setOwner(owner);
         newMood.setTrigger(newTrigger);
         newMood.setReasonText(reasonText);
 
         con.addMood(0, newMood);
 
-        assertEquals(emotion.ordinal(), moodList.get(0).getEmotion());
+        assertEquals(emotion, moodList.get(0).getEmotion());
         assertEquals(newTrigger, moodList.get(0).getTrigger());
         assertEquals(reasonText, moodList.get(0).getReasonText());
     }
 
     public void testDeleteMood() {
         Mood mood = new Mood();
-        Emotion emotion = Emotion.ANGER;
+        int emotion = Emotion.ANGER;
         String owner = "Harambe";
         String trigger = "Kid fell down";
         String reasonText = "Someone shot me";
 
         mood.setOwner(owner);
-        mood.setEmotion(emotion.ordinal());
+        mood.setEmotion(emotion);
         mood.setTrigger(trigger);
         mood.setReasonText(reasonText);
         con.addMood(-1,mood);
