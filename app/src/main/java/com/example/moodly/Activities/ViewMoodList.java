@@ -134,7 +134,7 @@ public class ViewMoodList extends AppCompatActivity {
                 return true;
             case R.id.action_social:
 
-                if (networkAvailable()) {
+                if (!networkAvailable()) {
                     Toast.makeText(this, "Social", Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(this, SocialBase.class);
                     startActivity(intent);
@@ -146,10 +146,11 @@ public class ViewMoodList extends AppCompatActivity {
                 }
             case R.id.log_out:
                 Toast.makeText(this, "Goodbye, " + UserController.getInstance().getCurrentUser().getName(), Toast.LENGTH_SHORT).show();
-                SharedPreferences.Editor editor =getApplicationContext().getSharedPreferences(LoginScreen.FILE_NAME, Context.MODE_PRIVATE).edit();
-                editor.clear();
-                editor.commit();
+//                SharedPreferences.Editor editor =getApplicationContext().getSharedPreferences(LoginScreen.FILE_NAME, Context.MODE_PRIVATE).edit();
+//                editor.clear();
+//                editor.commit();
                 Intent logOut = new Intent(this, LoginScreen.class);
+                logOut.putExtra("toClear", "YES");
                 logOut.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(logOut);
             default:
