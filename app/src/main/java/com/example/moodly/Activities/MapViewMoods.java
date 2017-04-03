@@ -103,7 +103,7 @@ public class MapViewMoods extends FragmentActivity implements OnMapReadyCallback
 
         AlertDialog dialog;
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Which Map Do you want");
+        builder.setTitle("Which Map Do You Want?");
 
         builder.setNeutralButton(mapType, new DialogInterface.OnClickListener() {
             @Override
@@ -208,8 +208,8 @@ public class MapViewMoods extends FragmentActivity implements OnMapReadyCallback
             Bitmap shame = BitmapFactory.decodeResource(getResources(), R.drawable.shame);
             shame = Bitmap.createScaledBitmap(shame, width, height, false);
 
-            Bitmap suprise = BitmapFactory.decodeResource(getResources(), R.drawable.surprise);
-            suprise = Bitmap.createScaledBitmap(suprise, width, height, false);
+            Bitmap surprise = BitmapFactory.decodeResource(getResources(), R.drawable.surprise);
+            surprise = Bitmap.createScaledBitmap(surprise, width, height, false);
 
 
             ArrayList<Bitmap> myEmojis = new ArrayList<Bitmap>();
@@ -220,7 +220,7 @@ public class MapViewMoods extends FragmentActivity implements OnMapReadyCallback
             myEmojis.add(happiness);
             myEmojis.add(sadness);
             myEmojis.add(shame);
-            myEmojis.add(suprise);
+            myEmojis.add(surprise);
 
             MoodController moodController = MoodController.getInstance();
             // true for history list

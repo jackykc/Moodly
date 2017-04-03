@@ -32,7 +32,7 @@ public class FollowingMoodAdapter extends MoodAdapterBase {
     /**
      * Constructor for our FollowingMoodAdapter
      *
-     * @param context
+     * @param context the current state of the application
      * @param layoutResourceId resource id for our single list item
      * @param items            ArrayList of moods
      */
@@ -72,6 +72,7 @@ public class FollowingMoodAdapter extends MoodAdapterBase {
      * Sets up the XML elements in our MoodHolder
      *
      * @param holder
+     *
      */
     @Override
     protected void setupItem(MoodHolder holder) {

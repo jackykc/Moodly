@@ -47,36 +47,6 @@ public class LoginScreen extends AppCompatActivity {
         setListeners();
     }
 
-    /*
-    protected void showInput(String dialogText){
-        LayoutInflater layoutInflater = LayoutInflater.from(LoginScreen.this);
-        View view = layoutInflater.inflate(R.layout.input_dialog, null);
-        AlertDialog.Builder builder = new AlertDialog.Builder(LoginScreen.this);
-        builder.setView(view);
-        builder.setTitle(dialogText);
-        // Taken from http://stacktips.com/tutorials/android/android-input-dialog-example 3/11/2017
-        final EditText userInput = (EditText)view.findViewById(R.id.usernameText);
-        builder.setCancelable(false).setPositiveButton("OK", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                String username = userInput.getText().toString();
-                User person = new User(username);
-                userList.add(person);
-                Intent intent = new Intent(LoginScreen.this,MoodBase.class);
-                Toast.makeText(LoginScreen.this,"Login Successful",Toast.LENGTH_SHORT).show();
-                startActivity(intent);
-            }
-        });
-        builder.setCancelable(false).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.cancel();
-            }
-        });
-        AlertDialog alert = builder.create();
-        alert.show();
-    }*/
-
     /**
      * Provides a short toast to current user logging in
      */
@@ -131,7 +101,7 @@ public class LoginScreen extends AppCompatActivity {
                     startActivity(intent);
                 }
                 else {
-                    Toast.makeText(LoginScreen.this, "This username already exist", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(LoginScreen.this, "This username already exists", Toast.LENGTH_SHORT).show();
                 }
             }
         });

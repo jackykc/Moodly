@@ -29,7 +29,7 @@ public abstract class MoodAdapterBase extends ArrayAdapter<Mood> {
 
     /**
      * Constructor for our MoodAdapter
-     * @param context
+     * @param context the current state of the application
      * @param layoutResourceId resource id for our single list item
      * @param items ArrayList of moods
      */
@@ -72,9 +72,9 @@ public abstract class MoodAdapterBase extends ArrayAdapter<Mood> {
     }
 
     /**
-     * From our emotion enum, set drawable emoji to imageview
+     * From our emotion enum, set drawable emoji to ImageView
      * @param emotion an enum of emotions
-     * @param emoji is the imageview that holds the emoji
+     * @param emoji is the ImageView that holds the emoji
      */
     protected void emotionToEmoji (ImageView emoji, int emotion){
         switch (emotion) {
@@ -109,7 +109,7 @@ public abstract class MoodAdapterBase extends ArrayAdapter<Mood> {
 
     /**
      * From the emotion enum, return the string representation of it
-     * @param emotion
+     * @param emotion The representation of an emotion
      * @return String name of an emotion
      */
     protected String toStringEmotion(int emotion) {

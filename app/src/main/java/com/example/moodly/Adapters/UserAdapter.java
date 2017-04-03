@@ -33,7 +33,7 @@ public class UserAdapter extends ArrayAdapter<User> {
 
     /**
      * Constructor for our UserAdapter
-     * @param context
+     * @param context the current state of the application
      * @param layoutResourceId resource id for our single list item
      * @param items ArrayList of moods
      */

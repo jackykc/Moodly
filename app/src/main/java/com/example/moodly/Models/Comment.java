@@ -8,6 +8,13 @@ import io.searchbox.annotations.JestId;
  * Created by jkc1 on 2017-03-20.
  */
 
+/**
+ * The comment class implements comments for mood events.
+ * It provides getter and setters for the date, owner,
+ * text and moodID of the mood event and the person
+ * commenting.
+ *
+ */
 public class Comment {
 
     private Date date;
