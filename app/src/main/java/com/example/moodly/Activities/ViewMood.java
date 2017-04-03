@@ -57,7 +57,15 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
+import static com.example.moodly.Models.Emotion.ANGER;
+import static com.example.moodly.Models.Emotion.CONFUSION;
+import static com.example.moodly.Models.Emotion.DISGUST;
+import static com.example.moodly.Models.Emotion.FEAR;
+import static com.example.moodly.Models.Emotion.HAPPINESS;
 import static com.example.moodly.Models.Emotion.NONE;
+import static com.example.moodly.Models.Emotion.SADNESS;
+import static com.example.moodly.Models.Emotion.SHAME;
+import static com.example.moodly.Models.Emotion.SURPRISE;
 
 /**
  * ViewMood allows the user to view their
@@ -82,7 +90,6 @@ public class ViewMood extends AppCompatActivity {
 
     private FloatingActionButton map;
 
-
     private Uri imageUri;
 
     private String base64;
@@ -94,6 +101,7 @@ public class ViewMood extends AppCompatActivity {
 
     private int position = -1;
     private int edit = 0;
+
     /**
      * Gets the mood event and position,
      * sets view and listeners to it.
@@ -162,6 +170,9 @@ public class ViewMood extends AppCompatActivity {
     }
 
 
+    /**
+     * Sets views.
+     */
     protected void setViews() {
         // Taken from http://stackoverflow.com/questions/13408419/how-do-i-tell-if-intent-extras-exist-in-android 3/8/2017 22:08
         //https://www.tutorialspoint.com/android/android_spinner_control.htm
@@ -210,7 +221,6 @@ public class ViewMood extends AppCompatActivity {
     /**
      * Set save button listener to validate
      * and save edited mood event from user.
-     *
      */
     protected void setListeners() {
         if (edit == 0) {
@@ -251,6 +261,7 @@ public class ViewMood extends AppCompatActivity {
                 }
             });
 
+            // start activity for map, when editing a history mood
             map.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -336,7 +347,7 @@ public class ViewMood extends AppCompatActivity {
         }
         else{
 
-            // view only
+            // start activity for map, when viewing a mood
             map.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -390,7 +401,10 @@ public class ViewMood extends AppCompatActivity {
 
     }
 
-    // Taken from https://github.com/CMPUT301W17T20/MyCameraTest1
+    /**
+     * Mood photo.
+     */
+// Taken from https://github.com/CMPUT301W17T20/MyCameraTest1
     protected void moodPhoto(){
         String path = Environment.getExternalStorageDirectory().getAbsolutePath() + "/MoodlyPhotos";
         File folder = new File(path);
@@ -417,7 +431,12 @@ public class ViewMood extends AppCompatActivity {
         }
     }
 
-    // Taken from http://stackoverflow.com/questions/477572/strange-out-of-memory-issue-while-loading-an-image-to-a-bitmap-object/ 3/29/2017
+    /**
+     * Compress photo.
+     *
+     * @param f the f
+     */
+// Taken from http://stackoverflow.com/questions/477572/strange-out-of-memory-issue-while-loading-an-image-to-a-bitmap-object/ 3/29/2017
     protected void compressPhoto(String f){
         final int limit = 60;
         Bitmap b;
@@ -464,7 +483,13 @@ public class ViewMood extends AppCompatActivity {
         }
     }
 
-    // Taken from http://stackoverflow.com/questions/25299438/how-do-i-get-the-image-that-i-took-and-submit-it-to-my-server 3/22/2017
+    /**
+     * Convert to base 64 string.
+     *
+     * @param location the location
+     * @return the string
+     */
+// Taken from http://stackoverflow.com/questions/25299438/how-do-i-get-the-image-that-i-took-and-submit-it-to-my-server 3/22/2017
     protected String convertToBase64(String location){
         FileInputStream fis = null;
         byte[] b;
@@ -488,6 +513,11 @@ public class ViewMood extends AppCompatActivity {
         return base64;
     }
 
+    /**
+     * Decode from base 64.
+     *
+     * @param toBeDecoded the to be decoded
+     */
     protected void decodeFromBase64(String toBeDecoded){
         // Taken from http://stackoverflow.com/questions/4837110/how-to-convert-a-base64-string-into-a-bitmap-image-to-show-it-in-a-imageview 3/23/2017
         byte[] decodedText = Base64.decode(toBeDecoded,Base64.DEFAULT);
@@ -495,7 +525,10 @@ public class ViewMood extends AppCompatActivity {
         moodImage.setImageBitmap(decodedPhoto);
     }
 
-    // Taken from https://developer.android.com/training/permissions/requesting.html
+    /**
+     * Check permissions.
+     */
+// Taken from https://developer.android.com/training/permissions/requesting.html
     protected void checkPermissions(){
         if (Build.VERSION.SDK_INT >= 23) {
             if (checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED ){
@@ -507,36 +540,44 @@ public class ViewMood extends AppCompatActivity {
         }
     }
 
+    /**
+     * Sets activity background color.
+     *
+     * @param color the color
+     */
     protected void setActivityBackgroundColor(int color) {
         View view = this.getWindow().getDecorView();
         view.setBackgroundColor(color);
     }
 
+    /**
+     * Set color.
+     */
     protected void setColor(){
         int mood = emotionSpinner.getSelectedItemPosition();
 
-        if (mood == 1) {setActivityBackgroundColor(Color.parseColor("#f1646c"));}
-        if (mood == 2) {setActivityBackgroundColor(Color.parseColor("#B39DDB"));}
-        if (mood == 3) {setActivityBackgroundColor(Color.parseColor("#9dd5c0"));}
-        if (mood == 4) {setActivityBackgroundColor(Color.parseColor("#fac174"));}
-        if (mood == 5) {setActivityBackgroundColor(Color.parseColor("#FFF176"));}
-        if (mood == 6) {setActivityBackgroundColor(Color.parseColor("#27a4dd"));}
-        if (mood == 7) {setActivityBackgroundColor(Color.parseColor("#f39cc3"));}
-        if (mood == 8) {setActivityBackgroundColor(Color.parseColor("#FFFFFF"));}
+        if (mood == ANGER) {setActivityBackgroundColor(Color.parseColor("#f1646c"));}
+        if (mood == CONFUSION) {setActivityBackgroundColor(Color.parseColor("#B39DDB"));}
+        if (mood == DISGUST) {setActivityBackgroundColor(Color.parseColor("#9dd5c0"));}
+        if (mood == FEAR) {setActivityBackgroundColor(Color.parseColor("#fac174"));}
+        if (mood == HAPPINESS) {setActivityBackgroundColor(Color.parseColor("#FFF176"));}
+        if (mood == SADNESS) {setActivityBackgroundColor(Color.parseColor("#27a4dd"));}
+        if (mood == SHAME) {setActivityBackgroundColor(Color.parseColor("#f39cc3"));}
+        if (mood == SURPRISE) {setActivityBackgroundColor(Color.parseColor("#FFFFFF"));}
 
         emotionSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 int mood = emotionSpinner.getSelectedItemPosition();
 
-                if (mood == 1) {setActivityBackgroundColor(Color.parseColor("#f1646c"));}
-                if (mood == 2) {setActivityBackgroundColor(Color.parseColor("#B39DDB"));}
-                if (mood == 3) {setActivityBackgroundColor(Color.parseColor("#9dd5c0"));}
-                if (mood == 4) {setActivityBackgroundColor(Color.parseColor("#fac174"));}
-                if (mood == 5) {setActivityBackgroundColor(Color.parseColor("#FFF176"));}
-                if (mood == 6) {setActivityBackgroundColor(Color.parseColor("#27a4dd"));}
-                if (mood == 7) {setActivityBackgroundColor(Color.parseColor("#f39cc3"));}
-                if (mood == 8) {setActivityBackgroundColor(Color.parseColor("#FFFFFF"));}
+                if (mood == ANGER) {setActivityBackgroundColor(Color.parseColor("#f1646c"));}
+                if (mood == CONFUSION) {setActivityBackgroundColor(Color.parseColor("#B39DDB"));}
+                if (mood == DISGUST) {setActivityBackgroundColor(Color.parseColor("#9dd5c0"));}
+                if (mood == FEAR) {setActivityBackgroundColor(Color.parseColor("#fac174"));}
+                if (mood == HAPPINESS) {setActivityBackgroundColor(Color.parseColor("#FFF176"));}
+                if (mood == SADNESS) {setActivityBackgroundColor(Color.parseColor("#27a4dd"));}
+                if (mood == SHAME) {setActivityBackgroundColor(Color.parseColor("#f39cc3"));}
+                if (mood == SURPRISE) {setActivityBackgroundColor(Color.parseColor("#FFFFFF"));}
             }
 
             @Override
