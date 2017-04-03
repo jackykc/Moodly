@@ -15,6 +15,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
@@ -24,9 +25,11 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.PendingResult;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.PlaceLikelihood;
 import com.google.android.gms.location.places.PlaceLikelihoodBuffer;
 import com.google.android.gms.location.places.Places;
+import com.google.android.gms.location.places.ui.PlacePicker;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -36,10 +39,13 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+
+
 public class SeeMap extends FragmentActivity implements OnMapReadyCallback, GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener {
 
     private GoogleMap mMap;
+    int PLACE_PICKER_REQUEST = 1;
     private static final String TAG = SeeMap.class.getSimpleName();
     private GoogleApiClient mGoogleApiClient;
     private CameraPosition mCameraPosition;
@@ -62,6 +68,7 @@ public class SeeMap extends FragmentActivity implements OnMapReadyCallback, Goog
     private String[] mLikelyPlaceAddresses = new String[mMaxEntries];
     private String[] mLikelyPlaceAttributions = new String[mMaxEntries];
     private LatLng[] mLikelyPlaceLatLngs = new LatLng[mMaxEntries];
+    private Button ok;
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
@@ -85,6 +92,17 @@ public class SeeMap extends FragmentActivity implements OnMapReadyCallback, Goog
                 .addApi(Places.PLACE_DETECTION_API)
                 .build();
         mGoogleApiClient.connect();
+
+
+    }
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == PLACE_PICKER_REQUEST) {
+            if (resultCode == RESULT_OK) {
+                Place place = PlacePicker.getPlace(data, this);
+                String address = String.format("Place: %s", place.getName());
+                ok.setText(address);
+            }
+        }
     }
 
     protected void onSaveInstanceState(Bundle outState) {
@@ -161,12 +179,44 @@ public class SeeMap extends FragmentActivity implements OnMapReadyCallback, Goog
             }
         });
 
+        mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
+
+            @Override
+            public void onMapClick(LatLng point) {
+                // TODO Auto-generated method stub
+                mLastKnownLocation.setLatitude(point.latitude);
+                mLastKnownLocation.setLongitude(point.longitude);
+
+                mMap.clear();
+                mMap.addMarker(new MarkerOptions().position(point));
+            }
+        });
+
         // Turn on the My Location layer and the related control on the map.
         updateLocationUI();
 
         // Get the current location of the device and set the position of the map.
         getDeviceLocation();
 
+
+
+        ok=(Button)findViewById(R.id.okbutton);
+        ok.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                if (mLastKnownLocation != null) {
+                    Intent resultI = new Intent();
+                    resultI.putExtra("my_latitude", mLastKnownLocation.getLatitude());
+                    resultI.putExtra("my_longtitude", mLastKnownLocation.getLongitude());
+                    setResult(Activity.RESULT_OK, resultI);
+                    finish();
+                } else {
+                    //"show error toast message here"
+                }
+            }
+        });
+
+        //showCurrentPlace();
     }
     private void getDeviceLocation() {
         /*
@@ -192,15 +242,6 @@ public class SeeMap extends FragmentActivity implements OnMapReadyCallback, Goog
             mLastKnownLocation = LocationServices.FusedLocationApi
                     .getLastLocation(mGoogleApiClient);
 
-            if(mLastKnownLocation != null) {
-                Intent resultI = new Intent();
-                resultI.putExtra("my_latitude", mLastKnownLocation.getLatitude());
-                resultI.putExtra("my_longtitude", mLastKnownLocation.getLongitude());
-                setResult(Activity.RESULT_OK, resultI);
-                finish();
-
-            }
-
         }
 
         // Set the map's camera position to the current location of the device.
@@ -210,12 +251,18 @@ public class SeeMap extends FragmentActivity implements OnMapReadyCallback, Goog
             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(
                     new LatLng(mLastKnownLocation.getLatitude(),
                             mLastKnownLocation.getLongitude()), DEFAULT_ZOOM));
+            LatLng temp = new LatLng(mLastKnownLocation.getLatitude(), mLastKnownLocation.getLongitude());
+
+            mMap.clear();
+            mMap.addMarker(new MarkerOptions().position(temp));
+
         } else {
             Log.d(TAG, "Current location is null. Using defaults.");
             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(mDefaultLocation, DEFAULT_ZOOM));
             mMap.getUiSettings().setMyLocationButtonEnabled(false);
         }
     }
+
 
     @Override
     public void onRequestPermissionsResult(int requestCode,
