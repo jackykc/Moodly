@@ -17,6 +17,11 @@ import java.util.Random;
  * Created by Admin on 01/04/2017.
  */
 
+/*
+*Test Search, Request to follow, Accept follow request, Deny follow request
+*PLEASE NOTE THAT YOU HAVE TO LOGOUT OF THE APPLICATION FOR THE INTENT TESTS TO WORK.
+ */
+
 public class SocialIntentTest extends ActivityInstrumentationTestCase2<LoginScreen> {
     private Solo solo;
 
@@ -28,7 +33,9 @@ public class SocialIntentTest extends ActivityInstrumentationTestCase2<LoginScre
         super(com.example.moodly.Activities.LoginScreen.class);
     }
 
-
+    /*
+    Sign up a new user and log out
+     */
     public void actionSignUp(String username) {
         solo.assertCurrentActivity("Wrong Activity", LoginScreen.class);
         solo.enterText((EditText) solo.getView(R.id.userName), username);
@@ -37,6 +44,9 @@ public class SocialIntentTest extends ActivityInstrumentationTestCase2<LoginScre
         solo.clickOnMenuItem("Log Out");
     }
 
+    /*
+    Log in to a user and go to social activity
+     */
     public void actionLogin(String username) {
         solo.assertCurrentActivity("Wrong Activity", LoginScreen.class);
         solo.enterText((EditText) solo.getView(R.id.userName), username);
@@ -45,7 +55,9 @@ public class SocialIntentTest extends ActivityInstrumentationTestCase2<LoginScre
         solo.clickOnMenuItem("Social");
     }
 
-
+    /*
+    Log out from social activity
+     */
     public void actionLogOut() {
         solo.goBack();
         solo.sendKey(solo.MENU);
@@ -53,7 +65,9 @@ public class SocialIntentTest extends ActivityInstrumentationTestCase2<LoginScre
         solo.assertCurrentActivity("Wrong Activity", LoginScreen.class);
     }
 
-
+    /*
+    Generate random string for user name
+     */
     protected String getRDString() {
         String CHARS = "abcdefghijklmnopqrstuvwxyz1234567890";
         StringBuilder stringBuilder = new StringBuilder();
@@ -67,16 +81,25 @@ public class SocialIntentTest extends ActivityInstrumentationTestCase2<LoginScre
 
     }
 
-
+    /*
+    Check if when test start, a user is logged in or not.
+    If someone is logged in the log out.
+     */
     public void setUp() throws Exception{
         solo = new Solo(getInstrumentation(), getActivity());
+        solo.sendKey(solo.MENU);
+        if (solo.searchText("Log Out")) {
+            solo.clickOnText("Log Out");
+        }
     }
 
     public void testStart() throws Exception {
         Activity activity = getActivity();
     }
 
-
+    /*
+    Test search user. Create two users. Login to one and search for the other.
+     */
     public void test1_SearchUser() {
         if (userName1 == null){
             userName1 = getRDString();
@@ -94,6 +117,11 @@ public class SocialIntentTest extends ActivityInstrumentationTestCase2<LoginScre
         actionLogOut();
     }
 
+    /*
+    Test send request. Create two users.
+    Login to one and request to follow the other
+    Login to the other to check if the request is received
+     */
     public void test2_SendRequest() {
         if (userName1 == null){
             userName1 = getRDString();
@@ -119,6 +147,14 @@ public class SocialIntentTest extends ActivityInstrumentationTestCase2<LoginScre
         actionLogOut();
     }
 
+    /*
+    Test accept request. Create two users. Send request from one to the other.
+    Login to the other and accept the request
+    Add a mood and log out.
+    Log back in to the user requested to follow.
+    Check if the following list has a new user.
+    Check if can see their mood.
+     */
     public void test3_AcceptRequest() {
         if (userName1 == null){
             userName1 = getRDString();
@@ -170,6 +206,14 @@ public class SocialIntentTest extends ActivityInstrumentationTestCase2<LoginScre
         solo.clickOnText("Log Out");
     }
 
+    /*
+    Test accept request. Create two users. Send request from one to the other.
+    Login to the other and denied the request
+    Add a mood and log out.
+    Log back in to the user requested to follow.
+    Check if the following list has a new user.
+    Check if can see their mood.
+     */
     public void test4_DeclineRequest() {
         if (userName1 == null){
             userName1 = getRDString();

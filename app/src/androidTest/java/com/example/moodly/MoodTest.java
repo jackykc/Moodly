@@ -4,8 +4,10 @@ import android.test.ActivityInstrumentationTestCase2;
 
 import com.example.moodly.Adapters.MoodHolder;
 import com.example.moodly.Controllers.MoodController;
+import com.example.moodly.Controllers.UserController;
 import com.example.moodly.Models.Emotion;
 import com.example.moodly.Models.Mood;
+import com.example.moodly.Models.User;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -19,16 +21,19 @@ public class MoodTest extends ActivityInstrumentationTestCase2 {
         super(MoodHolder.class);
     }
 
-    MoodController con = MoodController.getInstance();
-    ArrayList<Mood> moodList = con.getHistoryMoods();
+    User u = new User("Harambe");
+    UserController ucon = UserController.getInstance();
 
     public void testAddMood() {
+        ucon.setCurrentUserOffline(u);
+        MoodController con = MoodController.getInstance();
+        ArrayList<Mood> moodList = con.getHistoryMoods();
         Mood mood = new Mood();
         int emotion = Emotion.HAPPINESS;
         String owner = "Harambe";
         String trigger = "Banana";
         String reasonText = "Ate a banana";
-        mood.setOwner(owner);
+        //mood.setOwner(owner);
         mood.setTrigger(trigger);
         mood.setReasonText(reasonText);
         mood.setEmotion(emotion);
@@ -37,6 +42,9 @@ public class MoodTest extends ActivityInstrumentationTestCase2 {
     }
 
     public void testChooseEmotionalState() {
+        ucon.setCurrentUserOffline(u);
+        MoodController con = MoodController.getInstance();
+        ArrayList<Mood> moodList = con.getHistoryMoods();
         Mood mood = new Mood();
         int emotion = Emotion.HAPPINESS;
         mood.setEmotion(emotion);
@@ -45,6 +53,9 @@ public class MoodTest extends ActivityInstrumentationTestCase2 {
     }
 
     public void testAddTextReason() {
+        ucon.setCurrentUserOffline(u);
+        MoodController con = MoodController.getInstance();
+        ArrayList<Mood> moodList = con.getHistoryMoods();
         Mood mood = new Mood();
         String textReason = "Happy";
         mood.setReasonText(textReason);
@@ -62,6 +73,9 @@ public class MoodTest extends ActivityInstrumentationTestCase2 {
 
 
     public void testViewMoodDetails() {
+        ucon.setCurrentUserOffline(u);
+        MoodController con = MoodController.getInstance();
+        ArrayList<Mood> moodList = con.getHistoryMoods();
         Mood mood = new Mood();
         int emotion = Emotion.ANGER;
         String owner = "Harambe";
@@ -78,6 +92,9 @@ public class MoodTest extends ActivityInstrumentationTestCase2 {
     }
 
     public void testEditMood() {
+        ucon.setCurrentUserOffline(u);
+        MoodController con = MoodController.getInstance();
+        ArrayList<Mood> moodList = con.getHistoryMoods();
         Mood mood = new Mood();
         Mood newMood = new Mood();
 
@@ -107,6 +124,9 @@ public class MoodTest extends ActivityInstrumentationTestCase2 {
     }
 
     public void testDeleteMood() {
+        ucon.setCurrentUserOffline(u);
+        MoodController con = MoodController.getInstance();
+        ArrayList<Mood> moodList = con.getHistoryMoods();
         Mood mood = new Mood();
         int emotion = Emotion.ANGER;
         String owner = "Harambe";

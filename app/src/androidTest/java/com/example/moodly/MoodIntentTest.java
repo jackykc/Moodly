@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.example.moodly.Activities.LoginScreen;
 import com.example.moodly.Activities.MoodBase;
@@ -19,6 +20,11 @@ import java.util.Random;
  * Created by tuongmin on 3/16/17.
  */
 
+
+/*
+* Testing Add, Edit, Delete, Filters with Moods
+*PLEASE NOTE THAT YOU HAVE TO LOGOUT OF THE APPLICATION FOR THE INTENT TESTS TO WORK.
+ */
 public class MoodIntentTest extends ActivityInstrumentationTestCase2<LoginScreen> {
     private Solo solo;
 
@@ -34,6 +40,9 @@ public class MoodIntentTest extends ActivityInstrumentationTestCase2<LoginScreen
         Activity activity = getActivity();
     }
 
+    /*
+    * Login to user "Minh"
+     */
     public void actionLogin() {
         solo.assertCurrentActivity("Wrong Activity", LoginScreen.class);
 
@@ -44,6 +53,9 @@ public class MoodIntentTest extends ActivityInstrumentationTestCase2<LoginScreen
         solo.assertCurrentActivity("Wrong Activities", MoodBase.class);
     }
 
+    /*
+    Log out of current user
+     */
     public void actionLogOut() {
         solo.sendKey(solo.MENU);
 
@@ -52,6 +64,9 @@ public class MoodIntentTest extends ActivityInstrumentationTestCase2<LoginScreen
         solo.assertCurrentActivity("Wrong Activity", LoginScreen.class);
     }
 
+    /*
+    Generate random strinf for test comment
+     */
     protected String getRDString() {
         String CHARS = "abcdefghijklmnopqrstuvwxyz1234567890";
         StringBuilder stringBuilder = new StringBuilder();
@@ -65,6 +80,9 @@ public class MoodIntentTest extends ActivityInstrumentationTestCase2<LoginScreen
 
     }
 
+    /*
+    Test add mood Anger
+     */
     public void test1_AddMood() {
         actionLogin();
 
@@ -89,6 +107,11 @@ public class MoodIntentTest extends ActivityInstrumentationTestCase2<LoginScreen
         actionLogOut();
     }
 
+    /*
+    Test filter mood
+    Add a Shame mood
+    Filter it out and check if shame is still visible
+     */
     public void test2_FilterByMood () {
         actionLogin();
 
@@ -117,6 +140,10 @@ public class MoodIntentTest extends ActivityInstrumentationTestCase2<LoginScreen
         actionLogOut();
     }
 
+    /*
+    Add a mood with random reason generated
+    Filter it and chekc if it is visible
+     */
     public void test2_1_FilterByText () {
         actionLogin();
 
@@ -150,6 +177,11 @@ public class MoodIntentTest extends ActivityInstrumentationTestCase2<LoginScreen
         actionLogOut();
     }
 
+    /*
+    Filter by date
+    A mood is already added dated back few months
+    Filtering by date would hide the mood
+     */
     public void test2_2_FilterByDate () {
         actionLogin();
 
@@ -177,6 +209,9 @@ public class MoodIntentTest extends ActivityInstrumentationTestCase2<LoginScreen
         actionLogOut();
     }
 
+    /*
+    Edit mood added in test1 to a Sad Mood
+     */
     public void test3_EditMood() {
         actionLogin();
         solo.clickLongInList(0);
@@ -199,6 +234,9 @@ public class MoodIntentTest extends ActivityInstrumentationTestCase2<LoginScreen
         actionLogOut();
     }
 
+    /*
+    Delete Mood added in test1
+     */
     public void test4_DeleteMood() {
         actionLogin();
         solo.clickLongInList(0);
@@ -209,6 +247,11 @@ public class MoodIntentTest extends ActivityInstrumentationTestCase2<LoginScreen
         actionLogOut();
     }
 
+    /*
+    Test adding comment to a mood of people following
+    Add a comment of random generated string
+    Check if it's in the comments
+     */
     public void test5_AddComment() {
         actionLogin();
         solo.clickOnText("Following");
@@ -237,6 +280,9 @@ public class MoodIntentTest extends ActivityInstrumentationTestCase2<LoginScreen
         actionLogOut();
     }
 
+    /*
+    Decode string to ascii to input in pop up textEdit
+     */
     public int android_keycode(char ch) {
         int keycode = ch;//String.valueOf(ch).codePointAt(0);
         Log.v("T","in fun : "+ch+" : "+keycode + "");
