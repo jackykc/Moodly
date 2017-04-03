@@ -87,8 +87,8 @@ public class ViewMood extends AppCompatActivity {
 
     private int position = -1;
     private int edit = 0;
-    private double lat;
-    private double lon;
+    private double lat = 0;
+    private double lon = 0;
 
     /**
      * Gets the mood event and position,
@@ -243,21 +243,6 @@ public class ViewMood extends AppCompatActivity {
                     dpd.show();
                 }
             });
-            map.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent intentMap = new Intent();
-                    intentMap.setClass(ViewMood.this, SeeMap.class);
-                    if (position != -1) {
-                        Mood.GeoLocation setLocation = mood.getLocation();
-                        Double oldLat = setLocation.lat;
-                        Double oldLon = setLocation.lon;
-                        intentMap.putExtra("lat",oldLat);
-                        intentMap.putExtra("lon",oldLon);
-                    }
-                    startActivityForResult(intentMap,1);
-                }
-            });
             cameraButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -302,7 +287,9 @@ public class ViewMood extends AppCompatActivity {
                         } catch (Exception e) {
                             Log.i("Error","Could not convert string to date.");
                         }
-                        mood.setLocation(lat,lon);
+                        if (lat != 0 && lon != 0) {
+                            mood.setLocation(lat, lon);
+                        }
                         mood.setDate(selectedDate);
                         mood.setReasonText(reasonText);
                         mood.setEmotion(emotionEnum);
@@ -363,6 +350,27 @@ public class ViewMood extends AppCompatActivity {
                 }
             });
         }
+        map.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intentMap = new Intent();
+                intentMap.setClass(ViewMood.this, SeeMap.class);
+                Mood.GeoLocation setLocation = mood.getLocation();
+                if (position != 1)
+                {
+                    if (edit != 0) {
+                        intentMap.putExtra("editable", 1);
+                    }
+                    if (setLocation != null) {
+                        Double oldLat = setLocation.lat;
+                        Double oldLon = setLocation.lon;
+                        intentMap.putExtra("lat", oldLat);
+                        intentMap.putExtra("lon", oldLon);
+                    }
+                }
+                startActivityForResult(intentMap,1);
+            }
+        });
 
     }
 

@@ -28,7 +28,6 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -39,7 +38,6 @@ public class SeeMap extends FragmentActivity implements OnMapReadyCallback, Goog
     private GoogleMap mMap;
     private static final String TAG = SeeMap.class.getSimpleName();
     private GoogleApiClient mGoogleApiClient;
-    private static final int DEFAULT_ZOOM = 15;
     private static final int PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1;
     private boolean mLocationPermissionGranted;
     private Location mLastKnownLocation = new Location("Moodly");
@@ -48,6 +46,8 @@ public class SeeMap extends FragmentActivity implements OnMapReadyCallback, Goog
     private Double oldLon;
     private Double latitude;
     private Double longitude;
+    private int editable;
+    private boolean done = false;
 
 
     @Override
@@ -55,12 +55,12 @@ public class SeeMap extends FragmentActivity implements OnMapReadyCallback, Goog
         super.onCreate(savedInstanceState);
         oldLat = getIntent().getDoubleExtra("lat",0);
         oldLon = getIntent().getDoubleExtra("lon",0);
+        editable = getIntent().getIntExtra("editable",0);
+        setContentView(R.layout.activity_see_map);
         if (oldLat != 0 && oldLon != 0){
             mLastKnownLocation.setLatitude(oldLat);
             mLastKnownLocation.setLongitude(oldLon);
         }
-        setContentView(R.layout.activity_see_map);
-
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
@@ -101,7 +101,6 @@ public class SeeMap extends FragmentActivity implements OnMapReadyCallback, Goog
 
             @Override
             public View getInfoContents(Marker marker) {
-                // Inflate the layouts for the info window, title and snippet.
                 View infoWindow = getLayoutInflater().inflate(R.layout.custom_info_contents,
                         (FrameLayout)findViewById(R.id.map), false);
 
@@ -121,6 +120,12 @@ public class SeeMap extends FragmentActivity implements OnMapReadyCallback, Goog
 
     private void setListeners(){
         Button ok = (Button) findViewById(R.id.okButton);
+        Button cancel = (Button) findViewById(R.id.cancelButton);
+        if (editable == 1){
+            mMap.getUiSettings().setMyLocationButtonEnabled(false);
+            ok.setVisibility(View.INVISIBLE);
+            cancel.setText("Go Back");
+        }
         ok.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -128,6 +133,14 @@ public class SeeMap extends FragmentActivity implements OnMapReadyCallback, Goog
                 intent.putExtra("long",longitude);
                 intent.putExtra("lat",latitude);
                 setResult(Activity.RESULT_OK,intent);
+                finish();
+            }
+        });
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(SeeMap.this,ViewMood.class);
+                setResult(Activity.RESULT_CANCELED,intent);
                 finish();
             }
         });
@@ -144,11 +157,12 @@ public class SeeMap extends FragmentActivity implements OnMapReadyCallback, Goog
                     PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION);
         }
 
-        if (oldLat != 0 && oldLon != 0){
+        if (oldLat != 0 && oldLon != 0 && !done){
             LatLng current = new LatLng(mLastKnownLocation.getLatitude(), mLastKnownLocation.getLongitude());
-            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(
-                    current, DEFAULT_ZOOM));
-            mMap.addMarker(new MarkerOptions().position(current).title("You were here"));
+            CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(current, 10);
+            mMap.animateCamera(cameraUpdate);
+            mMap.addMarker(new MarkerOptions().position(current));
+            done = true;
         }
         else if (mLocationPermissionGranted) {
             LocationManager lm = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
@@ -158,11 +172,11 @@ public class SeeMap extends FragmentActivity implements OnMapReadyCallback, Goog
     }
     private final LocationListener locationListener = new LocationListener() {
         public void onLocationChanged(Location location) {
-            LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
-            CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, 10);
-            mMap.animateCamera(cameraUpdate);
             longitude = location.getLongitude();
             latitude = location.getLatitude();
+            LatLng latLng = new LatLng(latitude, longitude);
+            CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, 10);
+            mMap.animateCamera(cameraUpdate);
         }
 
         @Override
