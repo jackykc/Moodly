@@ -47,10 +47,6 @@ public class User {
         return requests;
     }
 
-    public void setRequests(ArrayList<String> requests) {
-        this.requests = requests;
-    }
-
     public String getId() { return id; }
 
     public void setId(String id) { this.id = id; }

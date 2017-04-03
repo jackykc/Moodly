@@ -6,6 +6,7 @@ import android.os.AsyncTask;
 import android.util.Log;
 
 import com.example.moodly.Models.Mood;
+import com.google.android.gms.maps.model.LatLng;
 
 import java.util.Date;
 import java.util.List;
@@ -79,6 +80,39 @@ public class MoodController extends ElasticSearchController {
         return instance;
     }
 
+    public ArrayList<LatLng> getLocations(boolean historyMoods) {
+
+        ArrayList<LatLng> returnList = new ArrayList<LatLng>();
+
+        if(historyMoods) {
+            for (int i = 0; i < moodHistoryList.size(); i++) {
+                returnList.add(moodHistoryList.get(i).getLocation());
+            }
+        } else {
+            for (int i = 0; i < moodFollowList.size(); i++) {
+                returnList.add(moodFollowList.get(i).getLocation());
+            }
+        }
+
+        return returnList;
+    }
+
+    public ArrayList<Integer> getEmotions(boolean historyMoods) {
+
+        ArrayList<Integer> returnList = new ArrayList<Integer>();
+
+        if(historyMoods) {
+            for (int i = 0; i < moodHistoryList.size(); i++) {
+                returnList.add(moodHistoryList.get(i).getEmotion());
+            }
+        } else {
+            for (int i = 0; i < moodFollowList.size(); i++) {
+                returnList.add(moodFollowList.get(i).getEmotion());
+            }
+        }
+
+        return returnList;
+    }
 
     /* ---------- Controller Functions ---------- */
     // Use these to interact with the views
@@ -93,7 +127,9 @@ public class MoodController extends ElasticSearchController {
 
         if (position == -1) {
             // add to offline temporary list of moods
-            moodHistoryList.add(0, m);
+            if(queryBuilder.withinFilter(m)) {
+                moodHistoryList.add(0, m);
+            }
             addSyncList.add(m);
         } else {
             // maybe do a check for out of range here?
@@ -291,7 +327,8 @@ public class MoodController extends ElasticSearchController {
                         if ((item.status == 201) && (moodHistoryList.get(localIndex).getId() == null)) {
                             // check if mood corresponding to i (the one sent to elastic search)
                             // pass filters
-                            if (true /*moodList.get(i)*/) {
+                            // so same date?
+                            if (moodHistoryList.get(localIndex).getDate().equals(moodList.get(i).getDate()) ) {
                                 // if so, update JestId locally
                                 String jestId = item.id;
                                 moodHistoryList.get(localIndex).setId(jestId);

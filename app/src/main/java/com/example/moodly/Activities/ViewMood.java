@@ -13,6 +13,7 @@ import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.location.Location;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
@@ -78,6 +79,9 @@ public class ViewMood extends AppCompatActivity {
     private Button viewMoodComment;
     private FloatingActionButton cameraButton;
     private ImageView moodImage;
+
+    private FloatingActionButton map;
+
 
     private Uri imageUri;
 
@@ -178,6 +182,9 @@ public class ViewMood extends AppCompatActivity {
             cameraButton = (FloatingActionButton) findViewById(R.id.cameraButton);
             editDate = (EditText) findViewById(R.id.view_date);
             editReasonText = (EditText) findViewById(R.id.view_reason);
+
+            map = (FloatingActionButton) findViewById(R.id.mapButton);
+
             currentDate = mood.getDate();
             editDate.setText(currentDate.toString(), TextView.BufferType.EDITABLE);
             if (position == -1){
@@ -354,7 +361,18 @@ public class ViewMood extends AppCompatActivity {
             });
         }
 
+        map.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intentMap = new Intent();
+                intentMap.setClass(ViewMood.this, SeeMap.class);
+                startActivityForResult(intentMap, 1);
+            }
+
+        });
     }
+
+
 
     // Taken from https://github.com/CMPUT301W17T20/MyCameraTest1
     protected void moodPhoto(){
@@ -376,6 +394,10 @@ public class ViewMood extends AppCompatActivity {
                 moodImage.setImageDrawable(Drawable.createFromPath(imageUri.getPath()));
                 moodImage.setTag(imageUri.getPath());
             }
+        } else if (requestCode == 1) {
+            double latitude = intent.getDoubleExtra("my_latitude", 0);
+            double longtitude = intent.getDoubleExtra("my_longtitude", 0);
+            mood.setLocation(latitude, longtitude);
         }
     }
 
@@ -477,13 +499,13 @@ public class ViewMood extends AppCompatActivity {
     protected void setColor(){
         int mood = emotionSpinner.getSelectedItemPosition();
 
-        if (mood == 1) {setActivityBackgroundColor(Color.parseColor("#E57373"));}
+        if (mood == 1) {setActivityBackgroundColor(Color.parseColor("#f1646c"));}
         if (mood == 2) {setActivityBackgroundColor(Color.parseColor("#B39DDB"));}
-        if (mood == 3) {setActivityBackgroundColor(Color.parseColor("#66BB6A"));}
-        if (mood == 4) {setActivityBackgroundColor(Color.parseColor("#FFB74D"));}
+        if (mood == 3) {setActivityBackgroundColor(Color.parseColor("#9dd5c0"));}
+        if (mood == 4) {setActivityBackgroundColor(Color.parseColor("#fac174"));}
         if (mood == 5) {setActivityBackgroundColor(Color.parseColor("#FFF176"));}
-        if (mood == 6) {setActivityBackgroundColor(Color.parseColor("#42A5F5"));}
-        if (mood == 7) {setActivityBackgroundColor(Color.parseColor("#90A4AE"));}
+        if (mood == 6) {setActivityBackgroundColor(Color.parseColor("#27a4dd"));}
+        if (mood == 7) {setActivityBackgroundColor(Color.parseColor("#f39cc3"));}
         if (mood == 8) {setActivityBackgroundColor(Color.parseColor("#FFFFFF"));}
 
         emotionSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -491,13 +513,13 @@ public class ViewMood extends AppCompatActivity {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 int mood = emotionSpinner.getSelectedItemPosition();
 
-                if (mood == 1) {setActivityBackgroundColor(Color.parseColor("#E57373"));}
+                if (mood == 1) {setActivityBackgroundColor(Color.parseColor("#f1646c"));}
                 if (mood == 2) {setActivityBackgroundColor(Color.parseColor("#B39DDB"));}
-                if (mood == 3) {setActivityBackgroundColor(Color.parseColor("#66BB6A"));}
-                if (mood == 4) {setActivityBackgroundColor(Color.parseColor("#FFB74D"));}
+                if (mood == 3) {setActivityBackgroundColor(Color.parseColor("#9dd5c0"));}
+                if (mood == 4) {setActivityBackgroundColor(Color.parseColor("#fac174"));}
                 if (mood == 5) {setActivityBackgroundColor(Color.parseColor("#FFF176"));}
-                if (mood == 6) {setActivityBackgroundColor(Color.parseColor("#42A5F5"));}
-                if (mood == 7) {setActivityBackgroundColor(Color.parseColor("#90A4AE"));}
+                if (mood == 6) {setActivityBackgroundColor(Color.parseColor("#27a4dd"));}
+                if (mood == 7) {setActivityBackgroundColor(Color.parseColor("#f39cc3"));}
                 if (mood == 8) {setActivityBackgroundColor(Color.parseColor("#FFFFFF"));}
             }
 
