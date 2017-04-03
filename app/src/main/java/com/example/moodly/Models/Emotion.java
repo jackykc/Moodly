@@ -5,8 +5,8 @@ package com.example.moodly.Models;
  */
 
 /**
- * Enum for emotion
-// */
+ * Class that holds constants that describe an emotion
+ */
 public class Emotion {
     public static final int NONE = 0;
     public static final int ANGER = 1;

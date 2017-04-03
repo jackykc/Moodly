@@ -318,6 +318,9 @@ public class UserController extends ElasticSearchController {
         }
     }
 
+    /**
+     * Async task that adds a user object onto Elastic Search
+     */
     private static class AddUserTask extends AsyncTask<User, Void, Void> {
 
         @Override
@@ -333,23 +336,15 @@ public class UserController extends ElasticSearchController {
                     if (result.isSucceeded()) {
                         if (user.getId() == null) {
                             user.setId(result.getId());
-                            // dont think we have a userlist ?!?
-//                            if(moodHistoryList.get(0).getId() == null) {
-//                                moodHistoryList.get(0).setId(result.getId());
-//                            }
-
                         }
-
 
                     } else {
                         Log.i("Error", "Elasticsearch was not able to add the mood");
                     }
-                    // where is the client?
                 }
                 catch (Exception e) {
                     Log.i("Error", "The application failed to build and send the mood");
                 }
-
             }
 
             return null;
