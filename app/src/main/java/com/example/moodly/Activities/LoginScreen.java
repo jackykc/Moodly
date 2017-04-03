@@ -3,6 +3,8 @@ package com.example.moodly.Activities;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -11,7 +13,21 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.moodly.Controllers.UserController;
+import com.example.moodly.Models.User;
 import com.example.moodly.R;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * This class is the login screen of the app.
@@ -26,10 +42,11 @@ public class LoginScreen extends AppCompatActivity {
     Button signUpButton;
     Intent intent;
     UserController conn = UserController.getInstance();
-    static String FILE_NAME = "SharedPref";
+    static String FILE_NAME = "UserName";
     Context context;
     SharedPreferences sharedPref;
     SharedPreferences.Editor editor;
+    static List<User> users = new ArrayList<>();
 
     /**
      * Creates the MoodBase intent and calls upon setListeners()
@@ -43,7 +60,12 @@ public class LoginScreen extends AppCompatActivity {
         userName = (EditText) findViewById(R.id.userName);
         intent = new Intent(getApplicationContext(), MoodBase.class);
         context = getApplicationContext();
-        sharedPref = context.getSharedPreferences(FILE_NAME, Context.MODE_PRIVATE);
+        //sharedPref = context.getSharedPreferences(FILE_NAME, Context.MODE_PRIVATE);
+        String logout = getIntent().getStringExtra("toClear");
+        if (logout != null) {
+            users.clear();
+            saveInFile();
+        }
         setListeners();
     }
 
@@ -63,27 +85,36 @@ public class LoginScreen extends AppCompatActivity {
         loginButton = (Button) findViewById(R.id.Login);
         signUpButton = (Button) findViewById(R.id.Register);
 
-        editor = sharedPref.edit();
-        String user = sharedPref.getString("UserName", null);
-        System.out.println(user);
-        if (user != null) {
-            conn.setCurrentUser(user);
-            hello(user);
+        loadFromFile();
+        if (users.size() != 0 && networkAvailable()) {
+            conn.setCurrentUser(users.get(0).getName());
+            hello(users.get(0).getName());
+            startActivity(intent);
+        }
+        else if (users.size() != 0 && !networkAvailable()) {
+            conn.setCurrentUserOffline(users.get(0));
+            hello(conn.getCurrentUser().getName());
             startActivity(intent);
         }
 
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                conn.setCurrentUser(userName.getText().toString());
-                if (conn.getCurrentUser() != null) {
-                    hello(userName.getText().toString());
-                    editor.putString("UserName", userName.getText().toString());
-                    editor.commit();
-                    startActivity(intent);
+                if (networkAvailable()) {
+                    conn.setCurrentUser(userName.getText().toString());
+                    if (conn.getCurrentUser() != null) {
+                        hello(userName.getText().toString());
+//                    editor.putString("UserName", userName.getText().toString());
+//                    editor.commit();
+                        users.add(conn.getCurrentUser());
+                        saveInFile();
+                        startActivity(intent);
+                    } else {
+                        Toast.makeText(LoginScreen.this, "This username does not exist", Toast.LENGTH_SHORT).show();
+                    }
                 }
                 else {
-                    Toast.makeText(LoginScreen.this, "This username does not exist", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(LoginScreen.this, "Network unavailable", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -92,20 +123,66 @@ public class LoginScreen extends AppCompatActivity {
         signUpButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                conn.setCurrentUser(userName.getText().toString());
-                if (conn.getCurrentUser() == null) {
-                    conn.createUser(userName.getText().toString());
-                    hello(userName.getText().toString());
-                    editor.putString("UserName", userName.getText().toString());
-                    editor.commit();
-                    startActivity(intent);
+                if (networkAvailable()) {
+                    conn.setCurrentUser(userName.getText().toString());
+                    if (conn.getCurrentUser() == null) {
+                        conn.createUser(userName.getText().toString());
+                        hello(userName.getText().toString());
+                        users.add(conn.getCurrentUser());
+                        saveInFile();
+                        startActivity(intent);
+                    } else {
+                        Toast.makeText(LoginScreen.this, "This username already exist", Toast.LENGTH_SHORT).show();
+                    }
                 }
                 else {
-                    Toast.makeText(LoginScreen.this, "This username already exists", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(LoginScreen.this, "Network unavailable", Toast.LENGTH_SHORT).show();
                 }
             }
         });
 
+    }
+    private boolean networkAvailable() {
+        ConnectivityManager connectivityManager
+                = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
+
+    }
+
+    private void loadFromFile() {
+        try {
+            FileInputStream fis = openFileInput(FILE_NAME);
+            BufferedReader in = new BufferedReader(new InputStreamReader(fis));
+            Gson gson = new Gson();
+            users = gson.fromJson(in, new TypeToken<ArrayList<User>>(){}.getType());
+            fis.close();
+        } catch (FileNotFoundException e) {
+            // TODO Auto-generated catch block
+            users = new ArrayList<User>();
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            throw new RuntimeException();
+        }
+    }
+
+    private void saveInFile() {
+        try {
+            FileOutputStream fos = openFileOutput(FILE_NAME, Context.MODE_PRIVATE);
+            BufferedWriter out = new BufferedWriter(new OutputStreamWriter(fos));
+
+            Gson gson = new Gson();
+            gson.toJson(users, out);
+            out.flush();
+
+            fos.close();
+        } catch (FileNotFoundException e) {
+            // TODO Auto-generated catch block
+            throw new RuntimeException();
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            throw new RuntimeException();
+        }
     }
 
 }
