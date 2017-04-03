@@ -164,10 +164,11 @@ public class MoodBase extends AppCompatActivity {
                 }
             case R.id.log_out:
                 Toast.makeText(this, "Goodbye, " + UserController.getInstance().getCurrentUser().getName(), Toast.LENGTH_SHORT).show();
-                SharedPreferences.Editor editor =getApplicationContext().getSharedPreferences(LoginScreen.FILE_NAME, Context.MODE_PRIVATE).edit();
-                editor.clear();
-                editor.commit();
+//                SharedPreferences.Editor editor =getApplicationContext().getSharedPreferences(LoginScreen.FILE_NAME, Context.MODE_PRIVATE).edit();
+//                editor.clear();
+//                editor.commit();
                 Intent logOut = new Intent(this, LoginScreen.class);
+                logOut.putExtra("toClear", "YES");
                 logOut.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(logOut);
             default:

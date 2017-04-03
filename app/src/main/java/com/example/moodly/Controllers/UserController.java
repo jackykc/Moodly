@@ -72,6 +72,10 @@ public class UserController extends ElasticSearchController {
         }
     }
 
+    public void setCurrentUserOffline (User u) {
+        currentUser = u;
+    }
+
     public ArrayList<String> searchUsers(String searchText){
         UserController.SearchUsersTask searchUsersTask = new UserController.SearchUsersTask();
         searchUsersTask.execute(searchText);

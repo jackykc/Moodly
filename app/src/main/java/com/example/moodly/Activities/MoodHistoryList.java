@@ -22,7 +22,17 @@ import com.example.moodly.Adapters.MoodAdapter;
 import com.example.moodly.Controllers.MoodController;
 import com.example.moodly.Models.Mood;
 import com.example.moodly.R;
+import com.google.common.reflect.TypeToken;
+import com.google.gson.Gson;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 
 /**
@@ -35,6 +45,7 @@ import java.util.ArrayList;
 public class MoodHistoryList extends MoodFollowingList {
 
     private MoodAdapter adapter;
+    private String MOOD_FILE_NAME = "mood.json";
     /**
      * Gets the current user's mood history from ElasticSearch
      * and sets the views and listeners to update when a change
@@ -201,7 +212,15 @@ public class MoodHistoryList extends MoodFollowingList {
      */
     @Override
     protected void setViews(LayoutInflater inflater, ViewGroup container) {
-        moodList = moodController.getMoodList(userList, true);
+        if (networkAvailable()) {
+            moodList = new ArrayList<>();
+            saveInFile();
+            moodList = moodController.getMoodList(userList, true);
+            saveInFile();
+        }
+        else {
+            loadFromFile();
+        }
         rootView = inflater.inflate(R.layout.mood_history, container, false);
         displayMoodList = (ListView) rootView.findViewById(R.id.display_mood_list);
         adapter = new MoodAdapter(getActivity(), R.layout.mood_list_item, moodList);
@@ -289,6 +308,41 @@ public class MoodHistoryList extends MoodFollowingList {
         NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
         return activeNetworkInfo != null && activeNetworkInfo.isConnected();
 
+    }
+
+    private void loadFromFile() {
+        try {
+            FileInputStream fis = getActivity().openFileInput(MOOD_FILE_NAME);
+            BufferedReader in = new BufferedReader(new InputStreamReader(fis));
+            Gson gson = new Gson();
+            moodList = gson.fromJson(in, new TypeToken<ArrayList<Mood>>(){}.getType());
+            fis.close();
+        } catch (FileNotFoundException e) {
+            // TODO Auto-generated catch block
+            moodList = new ArrayList<Mood>();
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            throw new RuntimeException();
+        }
+    }
+
+    private void saveInFile() {
+        try {
+            FileOutputStream fos = getActivity().openFileOutput(MOOD_FILE_NAME, Context.MODE_PRIVATE);
+            BufferedWriter out = new BufferedWriter(new OutputStreamWriter(fos));
+
+            Gson gson = new Gson();
+            gson.toJson(moodList, out);
+            out.flush();
+
+            fos.close();
+        } catch (FileNotFoundException e) {
+            // TODO Auto-generated catch block
+            throw new RuntimeException();
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            throw new RuntimeException();
+        }
     }
 
 }
