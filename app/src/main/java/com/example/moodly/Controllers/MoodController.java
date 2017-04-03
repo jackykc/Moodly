@@ -87,17 +87,17 @@ public class MoodController extends ElasticSearchController {
     /**
      * Gets locations from a list of moods
      *
-     * @param historyMoods integer representing which mood list to use
+     * @param listType integer representing which mood list to use
      * @return an ArrayList of LatLng associated with the moods
      */
-    public ArrayList<LatLng> getLocations(int historyMoods) {
+    public ArrayList<LatLng> getLocations(int listType) {
         ArrayList<LatLng> returnList = new ArrayList<LatLng>();
 
-        if(historyMoods == 0) {
+        if(listType == 0) {
             for (int i = 0; i < moodHistoryList.size(); i++) {
                 returnList.add(moodHistoryList.get(i).getLocation());
             }
-        } else if (historyMoods == 1){
+        } else if (listType == 1){
             for (int i = 0; i < moodFollowList.size(); i++) {
                 returnList.add(moodFollowList.get(i).getLocation());
             }
@@ -113,18 +113,18 @@ public class MoodController extends ElasticSearchController {
     /**
      * Gets emotions from a list of moods
      *
-     * @param historyMoods integer representing which mood list to use
+     * @param listType integer representing which mood list to use
      * @return an array list of emotions associated with the moods
      */
-    public ArrayList<Integer> getEmotions(int historyMoods) {
+    public ArrayList<Integer> getEmotions(int listType) {
 
         ArrayList<Integer> returnList = new ArrayList<Integer>();
 
-        if(historyMoods == 0) {
+        if(listType == 0) {
             for (int i = 0; i < moodHistoryList.size(); i++) {
                 returnList.add(moodHistoryList.get(i).getEmotion());
             }
-        } else if (historyMoods == 1){
+        } else if (listType == 1){
             for (int i = 0; i < moodFollowList.size(); i++) {
                 returnList.add(moodFollowList.get(i).getEmotion());
             }

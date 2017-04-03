@@ -65,7 +65,6 @@ public class FollowingMoodAdapter extends MoodAdapterBase {
 
         setBackground(holder, row);
 
-
         return row;
     }
 
