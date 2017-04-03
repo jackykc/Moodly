@@ -22,16 +22,12 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 
-import com.example.moodly.Adapters.MoodAdapter;
 import com.example.moodly.Controllers.MoodController;
-import com.example.moodly.Activities.SocialBase;
-import com.example.moodly.Activities.TabBase;
-import com.example.moodly.Activities.TabHistory;
 import com.example.moodly.Controllers.UserController;
 
 import com.example.moodly.R;
 
-public class ViewMoodList extends AppCompatActivity {
+public class MoodBase extends AppCompatActivity {
 
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
@@ -98,10 +94,10 @@ public class ViewMoodList extends AppCompatActivity {
             if(MoodController.getInstance().getDeleteCompletion()) {
                 MoodController.getInstance().syncDeleteList();
             }
-            Toast.makeText(ViewMoodList.this, "Connected", Toast.LENGTH_SHORT).show();
+            //Toast.makeText(MoodBase.this, "Connected", Toast.LENGTH_SHORT).show();
         }
         else {
-            Toast.makeText(ViewMoodList.this, "Not connected", Toast.LENGTH_SHORT).show();
+            Toast.makeText(MoodBase.this, "Not connected", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -127,9 +123,10 @@ public class ViewMoodList extends AppCompatActivity {
         // as you specify a parent activity in AndroidManifest.xml.
         switch (item.getItemId()) {
             case R.id.show_map:
+
                 Toast.makeText(this, "Showing Map", Toast.LENGTH_SHORT).show();
-                Intent intentMap = new Intent();
-                intentMap.setClass(ViewMoodList.this, NearbyMoodActivity.class);
+                final Intent intentMap = new Intent();
+                intentMap.setClass(MoodBase.this, MapViewMoods.class);
                 if(mViewPager.getCurrentItem() == 0) {
                     // for history moods
                     intentMap.putExtra("list_type", true);
@@ -182,10 +179,10 @@ public class ViewMoodList extends AppCompatActivity {
             // return current tab
             switch (position) {
                 case 0:
-                    TabHistory tab1 = new TabHistory();
+                    MoodHistoryList tab1 = new MoodHistoryList();
                     return tab1;
                 case 1:
-                    TabBase tab2 = new TabBase();
+                    MoodFollowingList tab2 = new MoodFollowingList();
                     return tab2;
                 default:
                     return null;

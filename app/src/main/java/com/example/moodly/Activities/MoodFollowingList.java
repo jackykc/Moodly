@@ -1,13 +1,14 @@
 package com.example.moodly.Activities;
 
+/**
+ * Created by jkc1 on 2017-03-05.
+ */
+
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
+import android.support.v4.app.Fragment;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,77 +17,97 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.support.design.widget.FloatingActionButton;
 import android.widget.Toast;
 
-import com.example.moodly.Adapters.MoodAdapter;
+import com.example.moodly.Adapters.FollowingMoodAdapter;
 import com.example.moodly.Controllers.MoodController;
+import com.example.moodly.Controllers.UserController;
 import com.example.moodly.Models.Mood;
+import com.example.moodly.Models.User;
 import com.example.moodly.R;
 
 import java.util.ArrayList;
 
-/**
- * Created by jkc1 on 2017-03-05.
- */
 
 /**
- * This class is a fragment to display moods from the mood history
+ * This class is a fragment to display moods from followed users
  */
-public class TabHistory extends TabBase {
+public class MoodFollowingList extends Fragment {
 
-    private MoodAdapter adapter;
-    /**
-     * Gets the current user's mood history from ElasticSearch
-     * and sets the views and listeners to update when a change
-     * has occured.
-     * @param inflater
-     * @param container
-     * @param savedInstanceState
-     * @return rootView
-     * @see #refreshOnline(ArrayList)
-     * @see #setViews(LayoutInflater, ViewGroup)
-     * @see #setListeners()
-     */
+    protected User currentUser;
+    protected ArrayList<String> userList;
+
+    protected Mood mood;
+    protected FollowingMoodAdapter adapter;
+    protected ListView displayMoodList;
+    protected ArrayList<Mood> moodList = new ArrayList<>();
+    protected View rootView;
+    protected Button loadMore;
+
+    protected MoodController moodController = MoodController.getInstance();
+    protected UserController userController = UserController.getInstance();
+
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         currentUser = userController.getCurrentUser();
-        userList = new ArrayList<>();
-        userList.add(currentUser.getName());
-        moodController.clearEmotion(true);
-        moodController.clearFilterText(true);
-        // tries to get moods from elastic search server
+        userList = currentUser.getFollowing();
         refreshOnline(userList);
         setViews(inflater, container);
+        hideViews();
         setListeners();
         return rootView;
     }
 
     /**
-     * Sets listeners for the activity
+     * Sets the views in the activities
+     *
+     * @param inflater  the layout inflater
+     * @param container the view group
      */
-    @Override
+    protected void setViews(LayoutInflater inflater, ViewGroup container) {
+        moodList = moodController.getMoodList(userList, true);
+        rootView = inflater.inflate(R.layout.mood_history, container, false);
+        displayMoodList = (ListView) rootView.findViewById(R.id.display_mood_list);
+        adapter = new FollowingMoodAdapter(getActivity(), R.layout.following_mood_list_item, moodList);
+        displayMoodList.setAdapter(adapter);
+    }
+
+    /**
+     * Hides views specific to the history list (Such as the add button)
+     */
+    protected void hideViews() {
+        FloatingActionButton fab = (FloatingActionButton) rootView.findViewById(R.id.fab);
+        fab.setVisibility(View.INVISIBLE);
+    }
+
+
+    /**
+     * Sets listeners for buttons and clicking on moods.
+     */
     protected void setListeners() {
         displayMoodList.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, final int position, long id) {
+
                 final Mood mood = moodList.get(position);
                 AlertDialog.Builder adb = new AlertDialog.Builder(getActivity());
                 adb.setMessage("Selecting mood to");
                 adb.setCancelable(true);
-                adb.setPositiveButton("Delete", new DialogInterface.OnClickListener() {
+                adb.setPositiveButton("Cancel", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        MoodController.getInstance().deleteMood(position);
-                        if (networkAvailable()) { MoodController.getInstance().syncDeleteList(); }
-                        refreshOffline();
+                        dialog.cancel();
                     }
                 });
-                adb.setNegativeButton("View/Edit", new DialogInterface.OnClickListener() {
+                adb.setNegativeButton("View", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         Intent intent = new Intent(getActivity(), ViewMood.class);
                         intent.putExtra("MOOD_POSITION", position);
+                        intent.putExtra("edit", 1);
                         MoodController.getInstance().setMood(mood);
                         startActivityForResult(intent, 0);
                     }
@@ -96,17 +117,9 @@ public class TabHistory extends TabBase {
             }
         });
 
-        FloatingActionButton fab = (FloatingActionButton) rootView.findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                MoodController.getInstance().setMood(new Mood());
-                Intent intent = new Intent(getActivity(), ViewMood.class);
-                intent.putExtra("MOOD_POSITION", -1);
-                startActivityForResult(intent, 0);
-            }
-        });
-        final CharSequence[] filter_choices = {"Anger","Confusion","Disgust","Fear","Happiness","Sadness","Shame","Surprise"};
+        // first alert dialogue for filter popup
+        // filters for emotion
+        final CharSequence[] filter_choices = {"Anger", "Confusion", "Disgust", "Fear", "Happiness", "Sadness", "Shame", "Surprise"};
         final CharSequence[] recentWeekChoice = {"In Recent Week"};
         final ArrayList<Integer> selectedEmotion = new ArrayList<>();
         final ArrayList<Boolean> recentWeek = new ArrayList<>();
@@ -124,10 +137,9 @@ public class TabHistory extends TabBase {
                     public void onClick(DialogInterface dialog, int which, boolean isChecked) {
                         // offset of + 1 as the emotion starts with 1
                         int emotion = which + 1;
-                        if (isChecked){
+                        if (isChecked) {
                             selectedEmotion.add(emotion);
-                        }
-                        else if(selectedEmotion.contains(emotion)){
+                        } else if (selectedEmotion.contains(emotion)) {
                             selectedEmotion.remove(Integer.valueOf(emotion));
                         }
                     }
@@ -136,7 +148,7 @@ public class TabHistory extends TabBase {
                 builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        moodController.setFilterEmotion(selectedEmotion, true);
+                        moodController.setFilterEmotion(selectedEmotion, false);
                         getFilterText();
                     }
                 });
@@ -152,98 +164,62 @@ public class TabHistory extends TabBase {
             }
         });
 
+        // used to refresh current mood list
         FloatingActionButton refresh = (FloatingActionButton) rootView.findViewById(R.id.refreshButton);
         refresh.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                moodController.setFilterRecent(false, true);
-                moodController.clearEmotion(true);
-                moodController.clearFilterText(true);
+                moodController.setFilterRecent(false, false);
+                moodController.clearEmotion(false);
+                moodController.clearFilterText(false);
                 moodList = moodController.getMoodList(userList, true);
-                adapter = new MoodAdapter(getActivity(), R.layout.mood_list_item, moodList);
+                adapter = new FollowingMoodAdapter(getActivity(), R.layout.following_mood_list_item, moodList);
                 displayMoodList.setAdapter(adapter);
                 adapter.notifyDataSetChanged();
             }
         });
 
-        loadMore = (Button)rootView.findViewById(R.id.moreMoods);
+        // used to load more moods
+        loadMore = (Button) rootView.findViewById(R.id.moreMoods);
         loadMore.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 moodList = moodController.getMoodList(userList, false);
-                adapter = new MoodAdapter(getActivity(), R.layout.mood_list_item, moodList);
+                adapter = new FollowingMoodAdapter(getActivity(), R.layout.following_mood_list_item, moodList);
                 displayMoodList.setAdapter(adapter);
                 adapter.notifyDataSetChanged();
             }
         });
+
+
+    }
+
+
+    /* ---------- Refreshing Moods ---------- */
+    // by part 5 of the project these two will be reduced to a single method
+
+    /**
+     * Gets our mood list from elastic search
+     * @param tempUserList list of users (Strings) to match with the moods we want to get
+     */
+    protected void refreshOnline(ArrayList<String> tempUserList) {
+        moodList = moodController.getMoodList(tempUserList, false);
     }
 
     /**
-     * On the result of adding or editing moods, refreshes the mood list
-     * @param requestCode
-     * @param resultCode
-     * @param data
+     * Gets the mood list from our controller and updates the adapters
      */
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        refreshOffline();
-    }
-
-    /**
-     * Sets the views for the activity
-     * @param inflater the layout inflater
-     * @param container the view group
-     */
-    @Override
-    protected void setViews(LayoutInflater inflater, ViewGroup container) {
-        moodList = moodController.getMoodList(userList, true);
-        rootView = inflater.inflate(R.layout.mood_history, container, false);
-        displayMoodList = (ListView) rootView.findViewById(R.id.display_mood_list);
-        adapter = new MoodAdapter(getActivity(), R.layout.mood_list_item, moodList);
-        displayMoodList.setAdapter(adapter);
-    }
-
-    /**
-     * Gets the latest mood list from the controller and refreshes adapters
-     */
-    @Override
     protected void refreshOffline() {
-        moodList = MoodController.getInstance().getHistoryMoods();
-        adapter = new MoodAdapter(getActivity(), R.layout.mood_list_item, moodList);
+        moodList = MoodController.getInstance().getFollowMoods();
+        adapter = new FollowingMoodAdapter(getActivity(), R.layout.following_mood_list_item, moodList);
         displayMoodList.setAdapter(adapter);
+        // needed ?
         adapter.notifyDataSetChanged();
     }
 
-    @Override
-    protected void getFilterRecent() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-        builder.setTitle("Show Only Moods From Recent Week?");
-        builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                moodController.setFilterRecent(true, true);
-                moodList = moodController.getMoodList(userList, true);
-                adapter = new MoodAdapter(getActivity(), R.layout.mood_list_item, moodList);
-                displayMoodList.setAdapter(adapter);
-                adapter.notifyDataSetChanged();
-            }
-        });
-        builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                moodController.setFilterRecent(false, true);
-                moodList = moodController.getMoodList(userList, true);
-                adapter = new MoodAdapter(getActivity(), R.layout.mood_list_item, moodList);
-                displayMoodList.setAdapter(adapter);
-                adapter.notifyDataSetChanged();
-                dialog.cancel();
-            }
-        });
-        builder.show();
-    }
-
-
-    @Override
+    /**
+     * Alert dialogue that allows user to filter for text
+     */
     protected void getFilterText(){
         AlertDialog.Builder textBuilder = new AlertDialog.Builder(getContext());
         textBuilder.setTitle("Search by Reason text ?");
@@ -255,7 +231,7 @@ public class TabHistory extends TabBase {
             public void onClick(DialogInterface dialog, int which) {
                 String filterText = input.getText().toString();
                 Toast.makeText(getContext(), filterText, Toast.LENGTH_SHORT).show();
-                moodController.setFilterText(filterText, true);
+                moodController.setFilterText(filterText, false);
                 getFilterRecent();
             }
         });
@@ -269,15 +245,36 @@ public class TabHistory extends TabBase {
         textBuilder.show();
     }
 
-    private boolean networkAvailable() {
-        ConnectivityManager connectivityManager
-                = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
-        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
 
+    /**
+     * Alert dialogue that allows user to filter for recent moods
+     */
+    protected void getFilterRecent() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        builder.setTitle("Show Only Moods From Recent Week?");
+        builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                moodController.setFilterRecent(true, false);
+                moodList = moodController.getMoodList(userList, true);
+                adapter = new FollowingMoodAdapter(getActivity(), R.layout.following_mood_list_item, moodList);
+                displayMoodList.setAdapter(adapter);
+                adapter.notifyDataSetChanged();
+            }
+        });
+        builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                moodController.setFilterRecent(false, false);
+                moodList = moodController.getMoodList(userList, true);
+                adapter = new FollowingMoodAdapter(getActivity(), R.layout.following_mood_list_item, moodList);
+                displayMoodList.setAdapter(adapter);
+                adapter.notifyDataSetChanged();
+                dialog.cancel();
+            }
+        });
+        builder.show();
     }
 
+
 }
-
-
-

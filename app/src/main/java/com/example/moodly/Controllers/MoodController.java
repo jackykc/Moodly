@@ -20,22 +20,20 @@ import io.searchbox.core.Index;
 import io.searchbox.core.Search;
 import io.searchbox.core.SearchResult;
 
-import static junit.framework.Assert.assertEquals;
-
-/**
- * Created by MinhNguyen on 06/03/2017.
- */
 
 /**
  * Mood controller that allows access to moods on elastic search
+ *
  * @author Jacky Chung
  */
 public class MoodController extends ElasticSearchController {
 
     private static MoodController instance = null;
     private Mood tempMood;
-    public static ArrayList<Mood> moodHistoryList;
+    private static ArrayList<Mood> moodHistoryList;
     private static ArrayList<Mood> moodFollowList;
+    private static ArrayList<Mood> moodNearbyList;
+
     private static ArrayList<Mood> addSyncList;
     private static ArrayList<Mood> deleteSyncList;
     private static boolean addCompletion;
@@ -45,6 +43,9 @@ public class MoodController extends ElasticSearchController {
 
     private static QueryBuilder queryBuilder;
     private static QueryBuilder followQueryBuilder;
+
+    private static double latitude;
+    private static double longitude;
 
     /**
      * Constructor for our mood controller, initializes members
@@ -64,6 +65,9 @@ public class MoodController extends ElasticSearchController {
         addCompletion = true;
         deleteCompletion = true;
         refresh = true;
+
+        latitude = 0;
+        longitude = 0;
     }
 
     /**
@@ -80,34 +84,53 @@ public class MoodController extends ElasticSearchController {
         return instance;
     }
 
-    public ArrayList<LatLng> getLocations(boolean historyMoods) {
-
+    /**
+     * Gets locations from a list of moods
+     *
+     * @param listType integer representing which mood list to use
+     * @return an ArrayList of LatLng associated with the moods
+     */
+    public ArrayList<LatLng> getLocations(int listType) {
         ArrayList<LatLng> returnList = new ArrayList<LatLng>();
 
-        if(historyMoods) {
+        if(listType == 0) {
             for (int i = 0; i < moodHistoryList.size(); i++) {
                 returnList.add(moodHistoryList.get(i).getLocation());
             }
-        } else {
+        } else if (listType == 1){
             for (int i = 0; i < moodFollowList.size(); i++) {
                 returnList.add(moodFollowList.get(i).getLocation());
+            }
+        } else {
+            for (int i = 0; i < moodNearbyList.size(); i++) {
+                returnList.add(moodNearbyList.get(i).getLocation());
             }
         }
 
         return returnList;
     }
 
-    public ArrayList<Integer> getEmotions(boolean historyMoods) {
+    /**
+     * Gets emotions from a list of moods
+     *
+     * @param listType integer representing which mood list to use
+     * @return an array list of emotions associated with the moods
+     */
+    public ArrayList<Integer> getEmotions(int listType) {
 
         ArrayList<Integer> returnList = new ArrayList<Integer>();
 
-        if(historyMoods) {
+        if(listType == 0) {
             for (int i = 0; i < moodHistoryList.size(); i++) {
                 returnList.add(moodHistoryList.get(i).getEmotion());
             }
-        } else {
+        } else if (listType == 1){
             for (int i = 0; i < moodFollowList.size(); i++) {
                 returnList.add(moodFollowList.get(i).getEmotion());
+            }
+        } else {
+            for (int i = 0; i < moodNearbyList.size(); i++) {
+                returnList.add(moodNearbyList.get(i).getEmotion());
             }
         }
 
@@ -115,7 +138,6 @@ public class MoodController extends ElasticSearchController {
     }
 
     /* ---------- Controller Functions ---------- */
-    // Use these to interact with the views
 
     /**
      * Adds a mood both locally to the array list on the controller and on elastic search
@@ -137,8 +159,7 @@ public class MoodController extends ElasticSearchController {
             if (m.getId() != null) {
                 addSyncList.add(m);
             } else {
-                // it is not on elastic search yet, therefore we update
-                // locally
+                // it is not on elastic search yet, therefore we update locally
                 Date date = m.getDate();
 
                 for (int i = 0; i < addSyncList.size(); i++) {
@@ -151,12 +172,40 @@ public class MoodController extends ElasticSearchController {
         }
     }
 
+    /**
+     * Sees if we are in the process of syncing added/edited moods to elastic search
+     *
+     * @return boolean that checks if we are finished syncing
+     */
     public boolean getAddCompletion() {
         return addCompletion;
     }
 
+    /**
+     * Sees if we are in the process of syncing deleted moods to elastic search
+     *
+     * @return boolean that checks if we are finished syncing
+     */
     public boolean getDeleteCompletion() {
         return deleteCompletion;
+    }
+
+    /**
+     * Sets latitude.
+     *
+     * @param lat the latitude
+     */
+    public void setLatitude(double lat) {
+        this.latitude = lat;
+    }
+
+    /**
+     * Sets longitude.
+     *
+     * @param lon the longitude
+     */
+    public void setLongitude(double lon) {
+        this.longitude = lon;
     }
 
     /**
@@ -167,18 +216,14 @@ public class MoodController extends ElasticSearchController {
     public void deleteMood(int position) {
 
         Mood m = moodHistoryList.get(position);
-
         instance.moodHistoryList.remove(position);
 
         if (m.getId() != null) {
             //DeleteSyncTask deleteSyncTask = new DeleteSyncTask(m);
             deleteSyncList.add(m);
         } else {
-
-            // it is not on elastic search yet, therefore we update
-            // locally
+            // it is not on elastic search yet, therefore we update locally
             Date date = m.getDate();
-
             for (int i = 0; i < addSyncList.size(); i++) {
                 if (addSyncList.get(i).getDate() == date) {
                     addSyncList.remove(i);
@@ -192,7 +237,9 @@ public class MoodController extends ElasticSearchController {
     /**
      * Gets the moods by calling getMoodTask.execute() to get moods from elastic search
      *
-     * @param userList the list of users who we want the retrieved moods to belong to
+     *
+     * @param userList    the list of users who we want the retrieved moods to belong to
+     * @param tempRefresh the temp refresh
      * @return a list of moods
      */
     public ArrayList<Mood> getMoodList(ArrayList<String> userList, boolean tempRefresh) {
@@ -210,40 +257,70 @@ public class MoodController extends ElasticSearchController {
         return tempMoodList;
     }
 
-    // sets the emotion to filter for
-    public void setFilterEmotion(ArrayList<Integer> emotions, boolean historyMoods) {
-        if(historyMoods) {
+    /**
+     * Sets filter emotion.
+     *
+     * @param emotions     array list of emotions
+     * @param listType boolean that determines which arraylist we use
+     */
+// sets the emotion to filter for
+    public void setFilterEmotion(ArrayList<Integer> emotions, boolean listType) {
+        if(listType) {
             queryBuilder.setEmotion(emotions);
         } else {
             followQueryBuilder.setEmotion(emotions);
         }
     }
 
-    // set to true if we want moods from last seven days
-    public void setFilterRecent(boolean recent, boolean historyMoods) {
-        if(historyMoods) {
+    /**
+     * Sets filter recent.
+     *
+     * @param recent       the recent
+     * @param listType boolean that determines which arraylist we use
+     */
+// set to true if we want moods from last seven days
+    public void setFilterRecent(boolean recent, boolean listType) {
+        if(listType) {
             queryBuilder.setRecent(recent);
         } else {
             followQueryBuilder.setRecent(recent);
         }
     }
 
-    public void setFilterText(String reasonText, boolean historyMoods) {
-        if(historyMoods) {
+    /**
+     * Sets filter text.
+     *
+     * @param reasonText   the reason text
+     * @param listType boolean that determines which arraylist we use
+     */
+    public void setFilterText(String reasonText, boolean listType) {
+        if(listType) {
             queryBuilder.setReason(reasonText);
+        } else {
+            followQueryBuilder.setReason(reasonText);
         }
     }
 
-    public void clearFilterText(boolean historyMoods) {
-        if(historyMoods) {
+    /**
+     * Clear filter text.
+     *
+     * @param listType boolean that determines which arraylist we use
+     */
+    public void clearFilterText(boolean listType) {
+        if(listType) {
             queryBuilder.clearReason();
         } else {
             followQueryBuilder.clearReason();
         }
     }
 
-    public void clearEmotion(boolean historyMoods) {
-        if (historyMoods) {
+    /**
+     * Clear emotion.
+     *
+     * @param listType boolean that determines which arraylist we use
+     */
+    public void clearEmotion(boolean listType) {
+        if (listType) {
             queryBuilder.clearEmotion();
         }
         else {
@@ -261,8 +338,10 @@ public class MoodController extends ElasticSearchController {
 
     /* ---------- Elastic Search Requests ---------- */
 
-    int completion = 0;
 
+    /**
+     * Sync add list on to elastic search.
+     */
     public void syncAddList() {
 
         if (addSyncList.size() > 0) {
@@ -274,6 +353,9 @@ public class MoodController extends ElasticSearchController {
         }
     }
 
+    /**
+     * Sync delete list on to elastic search.
+     */
     public void syncDeleteList() {
 
         if (deleteSyncList.size() > 0) {
@@ -285,7 +367,7 @@ public class MoodController extends ElasticSearchController {
 
 
     /**
-     * Async task that adds a mood to elastic search
+     * Async task that adds a moods to elastic search
      */
     private static class AddMoodTask extends AsyncTask<ArrayList<Mood>, Void, Integer> {
         // return value is the number of moods that succeeded
@@ -302,13 +384,10 @@ public class MoodController extends ElasticSearchController {
                 bulkAction.add(new Index.Builder(mood).build());
             }
 
-
             Bulk bulk = new Bulk.Builder()
                     .defaultIndex("cmput301w17t20").defaultType("mood")
                     .addAction(bulkAction)
                     .build();
-
-            // I have to check in case of errors
 
             try {
                 BulkResult result = client.execute(bulk);
@@ -326,31 +405,30 @@ public class MoodController extends ElasticSearchController {
                         BulkResult.BulkResultItem item = items.get(i);
                         if ((item.status == 201) && (moodHistoryList.get(localIndex).getId() == null)) {
                             // check if mood corresponding to i (the one sent to elastic search)
-                            // pass filters
-                            // so same date?
+                            // pass filters (so they have the same date as local)
                             if (moodHistoryList.get(localIndex).getDate().equals(moodList.get(i).getDate()) ) {
                                 // if so, update JestId locally
                                 String jestId = item.id;
                                 moodHistoryList.get(localIndex).setId(jestId);
-                                //update local index
+                                //increment local index
                                 localIndex += 1;
-
                             }
                         }
-                        //if(items.get(i).id)
                     }
 
                 } else {
+                    Log.i("Error", "The application failed to  send the moods");
 
                 }
             } catch (Exception e) {
-                Log.i("Error", "The application failed to build and send the mood");
+                Log.i("Error", "The application failed to build and send the moods");
 
                 addCompletion = true;
                 return count;
             }
 
             // in case we add more elements to the list
+            // remove only the moods successfully syncs
             for (int j = 0; j < count; j++) {
                 addSyncList.remove(0);
             }
@@ -385,18 +463,16 @@ public class MoodController extends ElasticSearchController {
 
             try {
                 BulkResult result = client.execute(bulk);
-                if (result.isSucceeded()) {
-
-                } else {
-//                    deleteCompletion = false;
-//                    return false;
+                if (!result.isSucceeded()) {
+                    Log.i("Error", "The application failed to delete the moods");
                 }
             } catch (Exception e) {
-                Log.i("Error", "The application failed to build and send the mood");
+                Log.i("Error", "The application failed to build and delete the moods");
                 deleteCompletion = true;
                 return false;
             }
 
+            // following code deletes comments associated with the deleted moods
             boolean commentsDeleted = false;
 
             String query = "{\n" +
@@ -456,25 +532,35 @@ public class MoodController extends ElasticSearchController {
      * Async task that gets an arraylist of moods from elastic search
      */
     private static class GetMoodTask extends AsyncTask<ArrayList<String>, Void, ArrayList<Mood>> {
+        // constants that define which list to use
+        final static int HISTORY = 0;
+        final static int FOLLOWING = 1;
+        final static int NEARBY = 2;
         @Override
         protected ArrayList<Mood> doInBackground(ArrayList<String>... search_parameters) {
+
             verifySettings();
-
             ArrayList<String> usernames = search_parameters[0];
-
             if (usernames.size() == 0) {
                 return new ArrayList<>();
             }
 
-            boolean historyMoods = false;
+            //
+            int historyMoods = FOLLOWING;
+
             if ((usernames.size() == 1) && (usernames.get(0) == UserController.getInstance().getCurrentUser().getName())) {
-                historyMoods = true;
+                historyMoods = HISTORY;
             }
 
-                String query = "";
+            // for nearby moods
+            if ((usernames.size() > 1) && (usernames.get(0) == UserController.getInstance().getCurrentUser().getName())) {
+                historyMoods = NEARBY;
+            }
+
+            String query = "";
 
             // for history mood list
-            if (historyMoods) {
+            if (historyMoods == HISTORY) {
 
                 if(refresh) {
                     queryBuilder.setResultOffset(0);
@@ -485,7 +571,8 @@ public class MoodController extends ElasticSearchController {
                 queryBuilder.setUsers(usernames);
                 query = queryBuilder.getMoodQuery();
 
-            } else {
+            // for following mood list
+            } else if (historyMoods == FOLLOWING){
 
                 if(refresh) {
                     followQueryBuilder.setResultOffset(0);
@@ -496,8 +583,24 @@ public class MoodController extends ElasticSearchController {
                 followQueryBuilder.setUsers(usernames);
                 query = followQueryBuilder.getMoodQuery();
 
+            } else if (historyMoods == NEARBY) {
+                query = "{ \n" +
+                        "\t\"from\" : 0, \"size\" : 10\n" +
+                        "\t, \"filter\" : {\n" +
+                        "                \"geo_distance_range\" : {\n" +
+                        "                    \"from\" : \"0km\",\n" +
+                        "                    \"to\" : \"5km\",\n" +
+                        "                    \"geo_location\" : {\n" +
+                        "                        \"lat\" : " + Double.toString(latitude) +  ",\n" +
+                        "                        \"lon\" : " + Double.toString(longitude) + "\n" +
+                        "                    }\n" +
+                        "                }\n" +
+                        "            }\n" +
+                        "    , \"sort\": { \"date\": { \"order\": \"desc\" } } \n" +
+                        "} ";
             }
 
+            ArrayList<Mood> nearbyMoods = new ArrayList<Mood>();
             Search search = new Search.Builder(query)
                     .addIndex("cmput301w17t20")
                     .addType("mood")
@@ -511,16 +614,22 @@ public class MoodController extends ElasticSearchController {
                     List<SearchResult.Hit<Mood, Void>> foundMoods = result.getHits(Mood.class);
 
                     // for your own list of moods
-                    if (historyMoods) {
+                    if (historyMoods == HISTORY) {
                         for (int i = 0; i < foundMoods.size(); i++) {
                             Mood temp = foundMoods.get(i).source;
                             moodHistoryList.add(temp);
                         }
-                    } else {
+                    } else if (historyMoods == FOLLOWING){
                         for (int i = 0; i < foundMoods.size(); i++) {
                             Mood temp = foundMoods.get(i).source;
                             moodFollowList.add(temp);
                         }
+                    } else {
+                        for (int i = 0; i < foundMoods.size(); i++) {
+                            Mood temp = foundMoods.get(i).source;
+                            nearbyMoods.add(temp);
+                        }
+                        moodNearbyList = nearbyMoods;
                     }
                 } else {
                     Log.i("Error", "Search query failed to find any moods that matched");
@@ -529,20 +638,32 @@ public class MoodController extends ElasticSearchController {
                 Log.i("Error", "Something went wrong when we tried to communicate with the elasticsearch server!");
             }
 
-            if (historyMoods) {
+            if (historyMoods == HISTORY) {
                 return moodHistoryList;
-            } else {
+            } else if (historyMoods == FOLLOWING){
                 return moodFollowList;
+            } else {
+                return nearbyMoods;
             }
         }
     }
 
     /* ---------- Getters ---------- */
 
+    /**
+     * Gets a list of history moods.
+     *
+     * @return arraylist of history moods
+     */
     public ArrayList<Mood> getHistoryMoods() {
         return moodHistoryList;
     }
 
+    /**
+     * Gets a list of following moods.
+     *
+     * @return arraylist of following moods
+     */
     public ArrayList<Mood> getFollowMoods() {
         return moodFollowList;
     }

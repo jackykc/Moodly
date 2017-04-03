@@ -32,7 +32,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".Activities.ViewMoodList"
+            android:name=".Activities.MoodBase"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
@@ -71,11 +71,11 @@
             android:value="@string/google_maps_key" />
 
         <activity
-            android:name=".Activities.SeeMap"
+            android:name=".Activities.MapEditLocation"
             android:label="@string/title_activity_see_map"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".Activities.NearbyMoodActivity"
+            android:name=".Activities.MapViewMoods"
             android:label="@string/title_activity_nearby_mood"></activity>
     </application>
 

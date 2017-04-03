@@ -7,8 +7,8 @@ import android.widget.EditText;
 import android.widget.Spinner;
 
 import com.example.moodly.Activities.LoginScreen;
+import com.example.moodly.Activities.MoodBase;
 import com.example.moodly.Activities.ViewMood;
-import com.example.moodly.Activities.ViewMoodList;
 import com.robotium.solo.Solo;
 
 import java.util.Random;
@@ -33,7 +33,7 @@ public class SocialIntentTest extends ActivityInstrumentationTestCase2<LoginScre
         solo.assertCurrentActivity("Wrong Activity", LoginScreen.class);
         solo.enterText((EditText) solo.getView(R.id.userName), username);
         solo.clickOnButton("Sign Up");
-        solo.assertCurrentActivity("Wrong Activities", ViewMoodList.class);
+        solo.assertCurrentActivity("Wrong Activities", MoodBase.class);
         solo.clickOnMenuItem("Log Out");
     }
 
@@ -41,7 +41,7 @@ public class SocialIntentTest extends ActivityInstrumentationTestCase2<LoginScre
         solo.assertCurrentActivity("Wrong Activity", LoginScreen.class);
         solo.enterText((EditText) solo.getView(R.id.userName), username);
         solo.clickOnButton("Login");
-        solo.assertCurrentActivity("Wrong Activities", ViewMoodList.class);
+        solo.assertCurrentActivity("Wrong Activities", MoodBase.class);
         solo.clickOnMenuItem("Social");
     }
 

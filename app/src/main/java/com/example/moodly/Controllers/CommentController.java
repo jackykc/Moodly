@@ -4,7 +4,6 @@ import android.os.AsyncTask;
 import android.util.Log;
 
 import com.example.moodly.Models.Comment;
-import com.example.moodly.Models.Mood;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,8 +15,8 @@ import io.searchbox.core.SearchResult;
 
 /**
  * Created by jkc1 on 2017-03-20.
+ * Controller to access a mood's comments
  */
-
 public class CommentController extends ElasticSearchController {
 
     private static CommentController instance = null;
@@ -33,6 +32,11 @@ public class CommentController extends ElasticSearchController {
 
     }
 
+    /**
+     * Gets instance of the comment controler.
+     *
+     * @return the instance
+     */
     public static CommentController getInstance() {
         if(instance == null) {
             instance = new CommentController();
@@ -42,16 +46,28 @@ public class CommentController extends ElasticSearchController {
     }
 
     /* ---------- Controller Functions ---------- */
-    // Use these to interact with the views
+    /**
+     * Adds a comment to a mood.
+     *
+     * @param text   the comment text
+     * @param moodID the mood id the comment is accosiated with
+     */
+
     public static void addComment(String text, String moodID) {
         Comment tempComment = new Comment(text, owner, moodID);
-        // add offline
+        // add to local list for display
         commentList.add(0, tempComment);
         CommentController.AddCommentTask addCommentTask = new CommentController.AddCommentTask();
         addCommentTask.execute(tempComment);
     }
 
-    // given the mood id, return the comment
+    /**
+     * Gets a list of comments from a mood
+     *
+     * @param moodID      the mood id
+     * @param tempRefresh true for refreshing comments, false for loading more
+     * @return the a list of comments associated with the moodID
+     */
     public ArrayList<Comment> getCommentList (String moodID, boolean tempRefresh) {
 
         refresh = tempRefresh;
@@ -70,6 +86,10 @@ public class CommentController extends ElasticSearchController {
     }
 
     /* ---------- Elastic Search Requests ---------- */
+
+    /**
+     * Async task that adds comments onto elastic search
+     */
     private static class AddCommentTask extends AsyncTask<Comment, Void, Void> {
 
         @Override
@@ -108,6 +128,10 @@ public class CommentController extends ElasticSearchController {
         }
     }
 
+
+    /**
+     * Async task that gets comments from elastic search
+     */
     private static class GetCommentTask extends AsyncTask<String, Void, ArrayList<Comment>> {
         @Override
         protected ArrayList<Comment> doInBackground(String... search_parameters) {

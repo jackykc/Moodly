@@ -44,12 +44,12 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 
 
-public class SeeMap extends FragmentActivity implements OnMapReadyCallback, GoogleApiClient.ConnectionCallbacks,
+public class MapEditLocation extends FragmentActivity implements OnMapReadyCallback, GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener {
 
     private GoogleMap mMap;
     int PLACE_PICKER_REQUEST = 1;
-    private static final String TAG = SeeMap.class.getSimpleName();
+    private static final String TAG = MapEditLocation.class.getSimpleName();
     private GoogleApiClient mGoogleApiClient;
     private CameraPosition mCameraPosition;
     private final LatLng mDefaultLocation = new LatLng(-33.8523341, 151.2106085);
@@ -87,8 +87,6 @@ public class SeeMap extends FragmentActivity implements OnMapReadyCallback, Goog
         }
         setContentView(R.layout.activity_see_map);
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
-
-
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
