@@ -35,17 +35,28 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import java.util.ArrayList;
 
 /**
+ * Created by yxi on 2017-03-13.
+ */
+
+/**
  * MapViewMoods allows user to view mood events on a map
  * that depend on filters such as near mood events or history moods.
  */
+
+
 public class MapViewMoods extends FragmentActivity implements OnMapReadyCallback, GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener {
 
     private GoogleMap mMap;
     private static final String TAG = MapViewMoods.class.getSimpleName();
+
+    // The entry point to Google Play services, used by the Places API and Fused Location Provider.
     private GoogleApiClient mGoogleApiClient;
     private CameraPosition mCameraPosition;
+
+    // A default location (Sydney, Australia) and default zoom to use when location permission is
     private final LatLng mDefaultLocation = new LatLng(-33.8523341, 151.2106085);
+
     private static final int DEFAULT_ZOOM = 15;
     private static final int PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1;
     private boolean mLocationPermissionGranted;
@@ -66,12 +77,14 @@ public class MapViewMoods extends FragmentActivity implements OnMapReadyCallback
     protected void onCreate(Bundle savedInstanceState){
 
         super.onCreate(savedInstanceState);
+
+        // Retrieve location and camera position from saved instance state.
         if (savedInstanceState != null) {
             mLastKnownLocation = savedInstanceState.getParcelable(KEY_LOCATION);
             mCameraPosition = savedInstanceState.getParcelable(KEY_CAMERA_POSITION);
         }
 
-
+        // Retrieve the content view that renders the map.
         setContentView(R.layout.activity_nearby_mood);
 
         boolean listType = getIntent().getBooleanExtra("list_type", true);
@@ -85,7 +98,6 @@ public class MapViewMoods extends FragmentActivity implements OnMapReadyCallback
             mapType = "Following";
         }
 
-
         // set checkbox for nearby distance
         nearbyCheckbox = ((CheckBox) findViewById(R.id.nearby));
 
@@ -94,6 +106,10 @@ public class MapViewMoods extends FragmentActivity implements OnMapReadyCallback
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.nearbymap);
         mapFragment.getMapAsync(this);
+
+
+        // Build the Play services client for use by the Fused Location Provider and the Places API.
+        // Use the addApi() method to request the Google Places API and the Fused Location Provider.
         mGoogleApiClient = new GoogleApiClient.Builder(this)
                 .enableAutoManage(this /* FragmentActivity */,
                         this /* OnConnectionFailedListener */)
@@ -130,6 +146,9 @@ public class MapViewMoods extends FragmentActivity implements OnMapReadyCallback
 
     }
 
+    /**
+     * Saves the state of the map when the activity is paused.
+     */
     protected void onSaveInstanceState(Bundle outState) {
         if (mMap != null) {
             outState.putParcelable(KEY_CAMERA_POSITION, mMap.getCameraPosition());
@@ -137,6 +156,9 @@ public class MapViewMoods extends FragmentActivity implements OnMapReadyCallback
             super.onSaveInstanceState(outState);
         }
     }
+    /**
+     * Builds the map when the Google Play services client is successfully connected.
+     */
     public void onConnected(Bundle connectionHint) {
         // Build the map.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
@@ -149,6 +171,10 @@ public class MapViewMoods extends FragmentActivity implements OnMapReadyCallback
         Log.d(TAG, "Play services connection failed: ConnectionResult.getErrorCode() = "
                 + result.getErrorCode());
     }
+
+    /**
+     * Handles suspension of the connection to the Google Play services client.
+     */
     @Override
     public void onConnectionSuspended(int cause) {
 

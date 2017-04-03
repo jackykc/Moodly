@@ -44,6 +44,10 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 
 /**
+ * Created by yxi on 2017-03-27.
+ */
+
+/**
  * MapEditLocation allows the user to set and edit a location for their mood event
  * using Google Maps API.
  */
@@ -53,8 +57,12 @@ public class MapEditLocation extends FragmentActivity implements OnMapReadyCallb
     private GoogleMap mMap;
     int PLACE_PICKER_REQUEST = 1;
     private static final String TAG = MapEditLocation.class.getSimpleName();
+
+    // The entry point to Google Play services, used by the Places API and Fused Location Provider.
     private GoogleApiClient mGoogleApiClient;
     private CameraPosition mCameraPosition;
+
+    // A default location (Sydney, Australia) and default zoom to use when location permission is
     private final LatLng mDefaultLocation = new LatLng(-33.8523341, 151.2106085);
     private static final int DEFAULT_ZOOM = 15;
     private static final int PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1;
@@ -83,6 +91,8 @@ public class MapEditLocation extends FragmentActivity implements OnMapReadyCallb
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
+
+        // Retrieve location and camera position from saved instance state.
         if (savedInstanceState != null) {
             mLastKnownLocation = savedInstanceState.getParcelable(KEY_LOCATION);
             mCameraPosition = savedInstanceState.getParcelable(KEY_CAMERA_POSITION);
@@ -93,6 +103,10 @@ public class MapEditLocation extends FragmentActivity implements OnMapReadyCallb
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+
+
+        // Build the Play services client for use by the Fused Location Provider and the Places API.
+        // Use the addApi() method to request the Google Places API and the Fused Location Provider.
         mGoogleApiClient = new GoogleApiClient.Builder(this)
                 .enableAutoManage(this /* FragmentActivity */,
                         this /* OnConnectionFailedListener */)
@@ -115,6 +129,9 @@ public class MapEditLocation extends FragmentActivity implements OnMapReadyCallb
         }
     }
 
+    /**
+     * Saves the state of the map when the activity is paused.
+     */
     protected void onSaveInstanceState(Bundle outState) {
         if (mMap != null) {
             outState.putParcelable(KEY_CAMERA_POSITION, mMap.getCameraPosition());
@@ -122,18 +139,30 @@ public class MapEditLocation extends FragmentActivity implements OnMapReadyCallb
             super.onSaveInstanceState(outState);
         }
     }
+
+    /**
+     * Builds the map when the Google Play services client is successfully connected.
+     */
     public void onConnected(Bundle connectionHint) {
         // Build the map.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
     }
+
+    /**
+     * Handles failure to connect to the Google Play services client.
+     */
     public void onConnectionFailed(@NonNull ConnectionResult result) {
         // Refer to the reference doc for ConnectionResult to see what error codes might
         // be returned in onConnectionFailed.
         Log.d(TAG, "Play services connection failed: ConnectionResult.getErrorCode() = "
                 + result.getErrorCode());
     }
+
+    /**
+     * Handles suspension of the connection to the Google Play services client.
+     */
     @Override
     public void onConnectionSuspended(int cause) {
 
@@ -163,6 +192,10 @@ public class MapEditLocation extends FragmentActivity implements OnMapReadyCallb
      * if there is a previous mood event location or
      * if it is a new mood event.
      * @param map Google Map
+     */
+    /**
+     * Manipulates the map when it's available.
+     * This callback is triggered when the map is ready to be used.
      */
     @Override
     public void onMapReady(GoogleMap map) {
@@ -280,6 +313,10 @@ public class MapEditLocation extends FragmentActivity implements OnMapReadyCallb
                     new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION},
                     PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION);
         }
+        /*
+         * Get the best and most recent location of the device, which may be null in rare
+         * cases when a location is not available.
+         */
 
         if (mLocationPermissionGranted) {
 
@@ -313,6 +350,7 @@ public class MapEditLocation extends FragmentActivity implements OnMapReadyCallb
      * @param permissions
      * @param grantResults
      */
+    
     @Override
     public void onRequestPermissionsResult(int requestCode,
                                            @NonNull String permissions[],
