@@ -183,6 +183,7 @@ import android.os.SystemClock;
 
 import com.example.moodly.Controllers.MoodController;
 import com.example.moodly.Controllers.UserController;
+import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.vision.barcode.Barcode;
 
 import java.util.Date;
@@ -256,8 +257,8 @@ public class Mood {
         this.owner = owner;
     }
 
-    public GeoLocation getLocation() {
-        return geo_location;
+    public LatLng getLocation() {
+        return new LatLng(geo_location.lat, geo_location.lon);
     }
 
     public void setLocation(double lat, double lon) {

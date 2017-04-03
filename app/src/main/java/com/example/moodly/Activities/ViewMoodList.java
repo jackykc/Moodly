@@ -129,7 +129,15 @@ public class ViewMoodList extends AppCompatActivity {
             case R.id.show_map:
                 Toast.makeText(this, "Showing Map", Toast.LENGTH_SHORT).show();
                 Intent intentMap = new Intent();
-                intentMap.setClass(ViewMoodList.this, SeeMap.class);
+                intentMap.setClass(ViewMoodList.this, NearbyMoodActivity.class);
+                if(mViewPager.getCurrentItem() == 0) {
+                    // for history moods
+                    intentMap.putExtra("list_type", true);
+                } else {
+                    // for following moods
+                    intentMap.putExtra("list_type", false);
+
+                }
                 startActivity(intentMap);
                 return true;
             case R.id.action_social:
