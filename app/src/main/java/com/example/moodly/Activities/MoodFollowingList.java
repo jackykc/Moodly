@@ -1,6 +1,6 @@
 package com.example.moodly.Activities;
 
-/**
+/*
  * Created by jkc1 on 2017-03-05.
  */
 
@@ -190,13 +190,7 @@ public class MoodFollowingList extends Fragment {
                 adapter.notifyDataSetChanged();
             }
         });
-
-
     }
-
-
-    /* ---------- Refreshing Moods ---------- */
-    // by part 5 of the project these two will be reduced to a single method
 
     /**
      * Gets our mood list from elastic search
@@ -207,7 +201,9 @@ public class MoodFollowingList extends Fragment {
     }
 
     /**
-     * Gets the mood list from our controller and updates the adapters
+     * Gets the mood list from our controller and updates the adapters for
+     * the ListView.
+     *
      */
     protected void refreshOffline() {
         moodList = MoodController.getInstance().getFollowMoods();
@@ -218,7 +214,7 @@ public class MoodFollowingList extends Fragment {
     }
 
     /**
-     * Alert dialogue that allows user to filter for text
+     * Alert dialog that allows user to filter for text.
      */
     protected void getFilterText(){
         AlertDialog.Builder textBuilder = new AlertDialog.Builder(getContext());
@@ -247,7 +243,7 @@ public class MoodFollowingList extends Fragment {
 
 
     /**
-     * Alert dialogue that allows user to filter for recent moods
+     * Alert dialogue that allows user to filter for recent moods.
      */
     protected void getFilterRecent() {
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());

@@ -1,6 +1,5 @@
 package com.example.moodly.Activities;
 
-import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -11,21 +10,29 @@ import android.widget.TextView;
 import android.widget.ViewSwitcher;
 
 import com.example.moodly.Controllers.CommentController;
-import com.example.moodly.Controllers.MoodController;
 import com.example.moodly.Models.Comment;
-import com.example.moodly.Models.Mood;
 import com.example.moodly.R;
 
 import java.util.ArrayList;
 
+/**
+ * ViewComments implements methods to show comments
+ * added by other users to a mood event.
+ */
 public class ViewComments extends AppCompatActivity {
     ArrayList<Comment> commentList = new ArrayList<>();
     ListView displayCommentList;
     TextView displayNoComment;
     Button loadMoreComments;
-
     String id;
 
+    /**
+     * Gets the moodID of the the mood with comments
+     * and sets the comments into an ArrayList
+     * @param savedInstanceState
+     * @see #showComments(ArrayList)
+     * @see #setListeners()
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,13 +40,18 @@ public class ViewComments extends AppCompatActivity {
         android.support.v7.app.ActionBar action = getSupportActionBar();
         action.setTitle("Comments");
         id = getIntent().getStringExtra("moodID");
-        // refresh comments
         commentList = CommentController.getInstance().getCommentList(id, true);
         showComments(commentList);
         setListeners();
 
     }
 
+    /**
+     * Implements a ViewSwitcher to either show comments from the
+     * given commentList or show a message that there are no comments
+     * in the mood.
+     * @param commentList the list of comments returned from the mood
+     */
     protected void showComments(ArrayList<Comment> commentList) {
         ViewSwitcher viewSwitcher = (ViewSwitcher) findViewById(R.id.messageSwitcher);
         displayCommentList = (ListView) findViewById(R.id.commentsView);
@@ -54,6 +66,11 @@ public class ViewComments extends AppCompatActivity {
         }
     }
 
+    /**
+     * Set a listener to the "Load More Comments" button
+     * to load any additional comment and update the
+     * ListView with the additional comments.
+     */
     protected void setListeners() {
         loadMoreComments.setOnClickListener((new View.OnClickListener() {
             @Override

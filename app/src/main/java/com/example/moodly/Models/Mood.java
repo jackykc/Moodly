@@ -192,6 +192,13 @@ import io.searchbox.annotations.JestId;
 /**
  * Created by mliew on 2017-02-25.
  */
+
+/**
+ * The Mood class implements a mood event.
+ * It provides getters and setters for the date,
+ * owner, trigger, reason, image, emotional state,
+ * social situation and the location if applicable.
+ */
 public class Mood {
     private Date date;
     private String owner;

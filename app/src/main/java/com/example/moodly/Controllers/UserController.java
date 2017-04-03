@@ -37,7 +37,8 @@ public class UserController extends ElasticSearchController {
 
 
     /**
-     * Gets an instance of the user controller
+     * Gets an instance of the user controller.
+     * If it is null, create a new instance.
      * @return the controller
      */
     public static UserController getInstance() {
@@ -96,7 +97,8 @@ public class UserController extends ElasticSearchController {
 
     /**
      * Gets the user that logged in the app
-     * @return current user
+     * @return currentUser user that is using the app
+     * @throws
      */
     public User getCurrentUser() {
 
@@ -119,7 +121,7 @@ public class UserController extends ElasticSearchController {
     /* ---------- Following users ---------- */
 
     /**
-     * Makes a follow request
+     * Makes a follow request.
      * @param names the list of people who you want to follow
      * @return true for success, false for failure
      */
@@ -145,9 +147,7 @@ public class UserController extends ElasticSearchController {
                 // update on elastic search
                 AddUserTask addUserTask = new AddUserTask();
                 addUserTask.execute(toFollow);
-
             }
-
         }
 
         return true;
@@ -159,7 +159,6 @@ public class UserController extends ElasticSearchController {
      * @return true for success, false for failure
      */
     public boolean acceptRequest(ArrayList<String> names) {
-
 
         for (String name: names) {
             UserController.GetUserTask getUserTask = new UserController.GetUserTask();

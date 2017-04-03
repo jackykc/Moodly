@@ -22,7 +22,7 @@ import io.searchbox.core.SearchResult;
 
 
 /**
- * Mood controller that allows access to moods on elastic search
+ * Mood controller that allows access to moods on elastic search.
  *
  * @author Jacky Chung
  */
@@ -71,7 +71,8 @@ public class MoodController extends ElasticSearchController {
     }
 
     /**
-     * Gets an instance of the mood controller
+     * Gets an instance of the mood controller.
+     * If it is null, create a new instance.
      *
      * @return the controller
      */
@@ -88,7 +89,7 @@ public class MoodController extends ElasticSearchController {
      * Gets locations from a list of moods
      *
      * @param listType integer representing which mood list to use
-     * @return an ArrayList of LatLng associated with the moods
+     * @return returnList an ArrayList of LatLng associated with the moods
      */
     public ArrayList<LatLng> getLocations(int listType) {
         ArrayList<LatLng> returnList = new ArrayList<LatLng>();
@@ -114,7 +115,7 @@ public class MoodController extends ElasticSearchController {
      * Gets emotions from a list of moods
      *
      * @param listType integer representing which mood list to use
-     * @return an array list of emotions associated with the moods
+     * @return returnList an array list of emotions associated with the moods
      */
     public ArrayList<Integer> getEmotions(int listType) {
 
@@ -143,7 +144,7 @@ public class MoodController extends ElasticSearchController {
      * Adds a mood both locally to the array list on the controller and on elastic search
      *
      * @param position if position is -1, add to front of list, else update mood at position
-     * @param m        the moods to add/update
+     * @param m  the moods to add/update
      */
     public void addMood(int position, Mood m) {
 
@@ -154,7 +155,6 @@ public class MoodController extends ElasticSearchController {
             }
             addSyncList.add(m);
         } else {
-            // maybe do a check for out of range here?
             moodHistoryList.set(position, m);
             if (m.getId() != null) {
                 addSyncList.add(m);
@@ -240,14 +240,13 @@ public class MoodController extends ElasticSearchController {
      *
      * @param userList    the list of users who we want the retrieved moods to belong to
      * @param tempRefresh the temp refresh
-     * @return a list of moods
+     * @return tempMoodList a list of moods
      */
     public ArrayList<Mood> getMoodList(ArrayList<String> userList, boolean tempRefresh) {
 
         this.refresh = tempRefresh;
         MoodController.GetMoodTask getMoodTask = new MoodController.GetMoodTask();
         getMoodTask.execute(userList);
-        // do I need to construct the array list or can i just declare it?
         ArrayList<Mood> tempMoodList = new ArrayList<Mood>();
         try {
             tempMoodList = getMoodTask.get();
@@ -260,10 +259,10 @@ public class MoodController extends ElasticSearchController {
     /**
      * Sets filter emotion.
      *
-     * @param emotions     array list of emotions
-     * @param listType boolean that determines which arraylist we use
+     * @param emotions  ArrayList of emotions
+     * @param listType boolean that determines which ArrayList we use
      */
-// sets the emotion to filter for
+    // sets the emotion to filter for
     public void setFilterEmotion(ArrayList<Integer> emotions, boolean listType) {
         if(listType) {
             queryBuilder.setEmotion(emotions);
@@ -275,8 +274,8 @@ public class MoodController extends ElasticSearchController {
     /**
      * Sets filter recent.
      *
-     * @param recent       the recent
-     * @param listType boolean that determines which arraylist we use
+     * @param recent  the recent
+     * @param listType boolean that determines which ArrayList we use
      */
 // set to true if we want moods from last seven days
     public void setFilterRecent(boolean recent, boolean listType) {
@@ -291,7 +290,7 @@ public class MoodController extends ElasticSearchController {
      * Sets filter text.
      *
      * @param reasonText   the reason text
-     * @param listType boolean that determines which arraylist we use
+     * @param listType boolean that determines which ArrayList we use
      */
     public void setFilterText(String reasonText, boolean listType) {
         if(listType) {
@@ -302,9 +301,9 @@ public class MoodController extends ElasticSearchController {
     }
 
     /**
-     * Clear filter text.
+     * Clear filter text from filtering.
      *
-     * @param listType boolean that determines which arraylist we use
+     * @param listType boolean that determines which ArrayList we use
      */
     public void clearFilterText(boolean listType) {
         if(listType) {
@@ -315,9 +314,9 @@ public class MoodController extends ElasticSearchController {
     }
 
     /**
-     * Clear emotion.
+     * Clear emotion from filtering.
      *
-     * @param listType boolean that determines which arraylist we use
+     * @param listType boolean that determines which ArrayList we use
      */
     public void clearEmotion(boolean listType) {
         if (listType) {
@@ -338,9 +337,10 @@ public class MoodController extends ElasticSearchController {
 
     /* ---------- Elastic Search Requests ---------- */
 
-
     /**
-     * Sync add list on to elastic search.
+     * Sync add list on to elastic search and sets
+     * addCompletion to show if the task is finished or
+     * not.
      */
     public void syncAddList() {
 
@@ -415,7 +415,6 @@ public class MoodController extends ElasticSearchController {
                             }
                         }
                     }
-
                 } else {
                     Log.i("Error", "The application failed to  send the moods");
 
@@ -426,13 +425,11 @@ public class MoodController extends ElasticSearchController {
                 addCompletion = true;
                 return count;
             }
-
             // in case we add more elements to the list
             // remove only the moods successfully syncs
             for (int j = 0; j < count; j++) {
                 addSyncList.remove(0);
             }
-
             addCompletion = true;
             return count;
         }
@@ -529,7 +526,7 @@ public class MoodController extends ElasticSearchController {
     }
 
     /**
-     * Async task that gets an arraylist of moods from elastic search
+     * Async task that gets an ArrayList of moods from elastic search
      */
     private static class GetMoodTask extends AsyncTask<ArrayList<String>, Void, ArrayList<Mood>> {
         // constants that define which list to use
@@ -545,7 +542,6 @@ public class MoodController extends ElasticSearchController {
                 return new ArrayList<>();
             }
 
-            //
             int historyMoods = FOLLOWING;
 
             if ((usernames.size() == 1) && (usernames.get(0) == UserController.getInstance().getCurrentUser().getName())) {
@@ -653,7 +649,7 @@ public class MoodController extends ElasticSearchController {
     /**
      * Gets a list of history moods.
      *
-     * @return arraylist of history moods
+     * @return moodHistoryList ArrayList of history moods
      */
     public ArrayList<Mood> getHistoryMoods() {
         return moodHistoryList;
@@ -662,7 +658,7 @@ public class MoodController extends ElasticSearchController {
     /**
      * Gets a list of following moods.
      *
-     * @return arraylist of following moods
+     * @return moodFollowList ArrayList of following moods
      */
     public ArrayList<Mood> getFollowMoods() {
         return moodFollowList;

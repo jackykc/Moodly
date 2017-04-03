@@ -279,8 +279,9 @@ public class MoodHistoryList extends MoodFollowingList {
         builder.show();
     }
 
-    /***
-     * Checks connection to network
+    /**
+     * Checks if the application is currently connected to the internet or not.
+     * @return boolean if the application is connected to the internet or not
      */
     private boolean networkAvailable() {
         ConnectivityManager connectivityManager

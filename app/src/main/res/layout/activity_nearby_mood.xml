@@ -10,12 +10,12 @@
 
 
     <CheckBox
-        android:layout_width="wrap_content"
         android:id="@+id/nearby"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center|bottom"
         android:checked="false"
-        android:text="nearby mood"
-        android:paddingRight="10dp"/>
+        android:paddingRight="10dp"
+        android:text="Nearby Mood" />
 
 </fragment>

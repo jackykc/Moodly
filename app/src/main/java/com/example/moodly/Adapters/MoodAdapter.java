@@ -21,13 +21,13 @@ import java.util.ArrayList;
  */
 
 /**
- * Custom adapter to adapt moods onto a listview
+ * Custom adapter to adapt moods onto a ListView
  */
 public class MoodAdapter extends MoodAdapterBase {
 
     /**
      * Constructor for our MoodAdapter
-     * @param context
+     * @param context the current state of the application
      * @param layoutResourceId resource id for our single list item
      * @param items ArrayList of moods
      */
@@ -40,7 +40,7 @@ public class MoodAdapter extends MoodAdapterBase {
      * @param position
      * @param convertView
      * @param parent
-     * @return
+     * @return the row that the mood event is shown
      */
     public View getView(int position, View convertView, ViewGroup parent) {
         View row;

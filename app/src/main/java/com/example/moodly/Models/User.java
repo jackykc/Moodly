@@ -8,6 +8,12 @@ import io.searchbox.annotations.JestId;
  * Created by mliew on 2017-02-25.
  */
 
+/**
+ * The user class implements instances of users in
+ * the application. It provides getters and setters for
+ * the name, followers of the user, user's following and
+ * pending request to be followed.
+ */
 public class User {
 
     private String name;

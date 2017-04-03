@@ -86,6 +86,9 @@ public class MoodBase extends AppCompatActivity {
         }
     };
 
+    /**
+     *
+     */
     private void updateElasticSearch() {
         if (networkAvailable())  {
             if (MoodController.getInstance().getAddCompletion()) {
@@ -94,13 +97,15 @@ public class MoodBase extends AppCompatActivity {
             if(MoodController.getInstance().getDeleteCompletion()) {
                 MoodController.getInstance().syncDeleteList();
             }
-            //Toast.makeText(MoodBase.this, "Connected", Toast.LENGTH_SHORT).show();
         }
         else {
             Toast.makeText(MoodBase.this, "Not connected", Toast.LENGTH_SHORT).show();
         }
     }
-
+    /**
+     * Checks if the application is currently connected to the internet or not.
+     * @return boolean if the application is connected to the internet or not
+     */
     private boolean networkAvailable() {
         ConnectivityManager connectivityManager
                 = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -109,13 +114,22 @@ public class MoodBase extends AppCompatActivity {
 
     }
 
+    /**
+     * Inflate the menu; this adds items to the action bar if it is present.
+     * @param menu
+     * @return
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_view_mood_list, menu);
         return true;
     }
 
+    /**
+     *
+     * @param item
+     * @return
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
@@ -133,7 +147,6 @@ public class MoodBase extends AppCompatActivity {
                 } else {
                     // for following moods
                     intentMap.putExtra("list_type", false);
-
                 }
                 startActivity(intentMap);
                 return true;
@@ -189,12 +202,21 @@ public class MoodBase extends AppCompatActivity {
             }
         }
 
+        /**
+         *
+         * @return
+         */
         @Override
         public int getCount() {
             // Show 3 total pages.
             return 2;
         }
 
+        /**
+         *
+         * @param position
+         * @return
+         */
         @Override
         public CharSequence getPageTitle(int position) {
             switch (position) {
