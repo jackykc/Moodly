@@ -390,8 +390,6 @@ public class ViewMood extends AppCompatActivity {
 
     }
 
-
-
     // Taken from https://github.com/CMPUT301W17T20/MyCameraTest1
     protected void moodPhoto(){
         String path = Environment.getExternalStorageDirectory().getAbsolutePath() + "/MoodlyPhotos";

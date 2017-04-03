@@ -1,5 +1,7 @@
 package com.example.moodly.Activities;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -14,6 +16,9 @@ import android.view.View;
 import android.widget.CheckBox;
 
 import com.example.moodly.Controllers.MoodController;
+import com.example.moodly.Controllers.UserController;
+import com.example.moodly.Models.Mood;
+import com.example.moodly.Models.User;
 import com.example.moodly.R;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -61,6 +66,9 @@ public class NearbyMoodActivity extends FragmentActivity implements OnMapReadyCa
 
     private CheckBox nearbyCheckbox;
 
+    private boolean listType;
+    private ArrayList<Integer> arrayListType;
+
     @Override
     protected void onCreate(Bundle savedInstanceState){
 
@@ -69,7 +77,22 @@ public class NearbyMoodActivity extends FragmentActivity implements OnMapReadyCa
             mLastKnownLocation = savedInstanceState.getParcelable(KEY_LOCATION);
             mCameraPosition = savedInstanceState.getParcelable(KEY_CAMERA_POSITION);
         }
+
+
         setContentView(R.layout.activity_nearby_mood);
+
+        listType = getIntent().getBooleanExtra("list_type", true);
+        arrayListType = new ArrayList<Integer>();
+        String mapType;
+        if(listType) {
+            arrayListType.add(0);
+            mapType = "My History";
+        } else {
+            arrayListType.add(1);
+            mapType = "Following";
+        }
+
+
         // set checkbox for nearby distance
         nearbyCheckbox = ((CheckBox) findViewById(R.id.nearby));
 
@@ -87,6 +110,29 @@ public class NearbyMoodActivity extends FragmentActivity implements OnMapReadyCa
                 .addApi(Places.PLACE_DETECTION_API)
                 .build();
         mGoogleApiClient.connect();
+
+        AlertDialog dialog;
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Which Map Do you want");
+
+        builder.setNeutralButton(mapType, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+        builder.setNegativeButton("All Nearby Moods", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                arrayListType.clear();
+                arrayListType.add(2);
+                refreshMap();
+                nearbyCheckbox.setVisibility(View.INVISIBLE);
+                dialog.cancel();
+            }
+        });
+        dialog = builder.create();
+        dialog.show();
 
 
     }
@@ -149,7 +195,7 @@ public class NearbyMoodActivity extends FragmentActivity implements OnMapReadyCa
             int width = 100;
             int height = 100;
 
-            boolean listType = getIntent().getBooleanExtra("list_type", true);
+
 
             Bitmap anger = BitmapFactory.decodeResource(getResources(), R.drawable.angry);
             anger = Bitmap.createScaledBitmap(anger, width, height, false);
@@ -188,8 +234,20 @@ public class NearbyMoodActivity extends FragmentActivity implements OnMapReadyCa
 
             MoodController moodController = MoodController.getInstance();
             // true for history list
-            ArrayList<LatLng> myLocations = moodController.getLocations(listType);
-            ArrayList<Integer> myEmotions = moodController.getEmotions(listType);
+            int intListType = arrayListType.get(0);
+
+            if (intListType == 2) {
+                ArrayList<String> userArray = new ArrayList<String>();
+                userArray.add(UserController.getInstance().getCurrentUser().getName());
+                userArray.add("");
+                moodController.setLatitude(mLastKnownLocation.getLatitude());
+                moodController.setLongitude(mLastKnownLocation.getLongitude());
+                ArrayList<Mood> nearbyMood = moodController.getMoodList(userArray, true);
+
+            }
+
+            ArrayList<LatLng> myLocations = moodController.getLocations(intListType);
+            ArrayList<Integer> myEmotions = moodController.getEmotions(intListType);
 
             LatLng invalidLatLng = new LatLng(0, 0);
             for (int i = 0; i < myLocations.size(); i++) {

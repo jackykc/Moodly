@@ -34,8 +34,10 @@ public class MoodController extends ElasticSearchController {
 
     private static MoodController instance = null;
     private Mood tempMood;
-    public static ArrayList<Mood> moodHistoryList;
+    private static ArrayList<Mood> moodHistoryList;
     private static ArrayList<Mood> moodFollowList;
+    private static ArrayList<Mood> moodNearbyList;
+
     private static ArrayList<Mood> addSyncList;
     private static ArrayList<Mood> deleteSyncList;
     private static boolean addCompletion;
@@ -45,6 +47,9 @@ public class MoodController extends ElasticSearchController {
 
     private static QueryBuilder queryBuilder;
     private static QueryBuilder followQueryBuilder;
+
+    private static double latitude;
+    private static double longitude;
 
     /**
      * Constructor for our mood controller, initializes members
@@ -64,6 +69,9 @@ public class MoodController extends ElasticSearchController {
         addCompletion = true;
         deleteCompletion = true;
         refresh = true;
+
+        latitude = 0;
+        longitude = 0;
     }
 
     /**
@@ -80,34 +88,42 @@ public class MoodController extends ElasticSearchController {
         return instance;
     }
 
-    public ArrayList<LatLng> getLocations(boolean historyMoods) {
+    public ArrayList<LatLng> getLocations(int historyMoods) {
 
         ArrayList<LatLng> returnList = new ArrayList<LatLng>();
 
-        if(historyMoods) {
+        if(historyMoods == 0) {
             for (int i = 0; i < moodHistoryList.size(); i++) {
                 returnList.add(moodHistoryList.get(i).getLocation());
             }
-        } else {
+        } else if (historyMoods == 1){
             for (int i = 0; i < moodFollowList.size(); i++) {
                 returnList.add(moodFollowList.get(i).getLocation());
+            }
+        } else {
+            for (int i = 0; i < moodNearbyList.size(); i++) {
+                returnList.add(moodNearbyList.get(i).getLocation());
             }
         }
 
         return returnList;
     }
 
-    public ArrayList<Integer> getEmotions(boolean historyMoods) {
+    public ArrayList<Integer> getEmotions(int historyMoods) {
 
         ArrayList<Integer> returnList = new ArrayList<Integer>();
 
-        if(historyMoods) {
+        if(historyMoods == 0) {
             for (int i = 0; i < moodHistoryList.size(); i++) {
                 returnList.add(moodHistoryList.get(i).getEmotion());
             }
-        } else {
+        } else if (historyMoods == 1){
             for (int i = 0; i < moodFollowList.size(); i++) {
                 returnList.add(moodFollowList.get(i).getEmotion());
+            }
+        } else {
+            for (int i = 0; i < moodNearbyList.size(); i++) {
+                returnList.add(moodNearbyList.get(i).getEmotion());
             }
         }
 
@@ -159,6 +175,13 @@ public class MoodController extends ElasticSearchController {
         return deleteCompletion;
     }
 
+    public void setLatitude(double lat) {
+        this.latitude = lat;
+    }
+
+    public void setLongitude(double lon) {
+        this.longitude = lon;
+    }
     /**
      * Deletes a mood both locally from the array list on the controller and on elastic search
      *
@@ -462,19 +485,26 @@ public class MoodController extends ElasticSearchController {
 
             ArrayList<String> usernames = search_parameters[0];
 
+
             if (usernames.size() == 0) {
                 return new ArrayList<>();
             }
 
-            boolean historyMoods = false;
+            int historyMoods = 1;
+
             if ((usernames.size() == 1) && (usernames.get(0) == UserController.getInstance().getCurrentUser().getName())) {
-                historyMoods = true;
+                historyMoods = 0;
             }
 
-                String query = "";
+            // for nearby moods
+            if ((usernames.size() > 1) && (usernames.get(0) == UserController.getInstance().getCurrentUser().getName())) {
+                historyMoods = 2;
+            }
+
+            String query = "";
 
             // for history mood list
-            if (historyMoods) {
+            if (historyMoods == 0) {
 
                 if(refresh) {
                     queryBuilder.setResultOffset(0);
@@ -485,7 +515,8 @@ public class MoodController extends ElasticSearchController {
                 queryBuilder.setUsers(usernames);
                 query = queryBuilder.getMoodQuery();
 
-            } else {
+            // for following mood list
+            } else if (historyMoods == 1){
 
                 if(refresh) {
                     followQueryBuilder.setResultOffset(0);
@@ -496,8 +527,24 @@ public class MoodController extends ElasticSearchController {
                 followQueryBuilder.setUsers(usernames);
                 query = followQueryBuilder.getMoodQuery();
 
+            } else if (historyMoods == 2) {
+                query = "{ \n" +
+                        "\t\"from\" : 0, \"size\" : 10\n" +
+                        "\t, \"filter\" : {\n" +
+                        "                \"geo_distance_range\" : {\n" +
+                        "                    \"from\" : \"0km\",\n" +
+                        "                    \"to\" : \"5km\",\n" +
+                        "                    \"geo_location\" : {\n" +
+                        "                        \"lat\" : " + Double.toString(latitude) +  ",\n" +
+                        "                        \"lon\" : " + Double.toString(longitude) + "\n" +
+                        "                    }\n" +
+                        "                }\n" +
+                        "            }\n" +
+                        "    , \"sort\": { \"date\": { \"order\": \"desc\" } } \n" +
+                        "} ";
             }
 
+            ArrayList<Mood> nearbyMoods = new ArrayList<Mood>();
             Search search = new Search.Builder(query)
                     .addIndex("cmput301w17t20")
                     .addType("mood")
@@ -511,16 +558,22 @@ public class MoodController extends ElasticSearchController {
                     List<SearchResult.Hit<Mood, Void>> foundMoods = result.getHits(Mood.class);
 
                     // for your own list of moods
-                    if (historyMoods) {
+                    if (historyMoods == 0) {
                         for (int i = 0; i < foundMoods.size(); i++) {
                             Mood temp = foundMoods.get(i).source;
                             moodHistoryList.add(temp);
                         }
-                    } else {
+                    } else if (historyMoods == 1){
                         for (int i = 0; i < foundMoods.size(); i++) {
                             Mood temp = foundMoods.get(i).source;
                             moodFollowList.add(temp);
                         }
+                    } else {
+                        for (int i = 0; i < foundMoods.size(); i++) {
+                            Mood temp = foundMoods.get(i).source;
+                            nearbyMoods.add(temp);
+                        }
+                        moodNearbyList = nearbyMoods;
                     }
                 } else {
                     Log.i("Error", "Search query failed to find any moods that matched");
@@ -529,10 +582,12 @@ public class MoodController extends ElasticSearchController {
                 Log.i("Error", "Something went wrong when we tried to communicate with the elasticsearch server!");
             }
 
-            if (historyMoods) {
+            if (historyMoods == 0) {
                 return moodHistoryList;
-            } else {
+            } else if (historyMoods == 1){
                 return moodFollowList;
+            } else {
+                return nearbyMoods;
             }
         }
     }

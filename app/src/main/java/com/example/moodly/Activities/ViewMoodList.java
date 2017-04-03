@@ -1,6 +1,8 @@
 package com.example.moodly.Activities;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -98,7 +100,7 @@ public class ViewMoodList extends AppCompatActivity {
             if(MoodController.getInstance().getDeleteCompletion()) {
                 MoodController.getInstance().syncDeleteList();
             }
-            Toast.makeText(ViewMoodList.this, "Connected", Toast.LENGTH_SHORT).show();
+            //Toast.makeText(ViewMoodList.this, "Connected", Toast.LENGTH_SHORT).show();
         }
         else {
             Toast.makeText(ViewMoodList.this, "Not connected", Toast.LENGTH_SHORT).show();
@@ -127,8 +129,9 @@ public class ViewMoodList extends AppCompatActivity {
         // as you specify a parent activity in AndroidManifest.xml.
         switch (item.getItemId()) {
             case R.id.show_map:
+
                 Toast.makeText(this, "Showing Map", Toast.LENGTH_SHORT).show();
-                Intent intentMap = new Intent();
+                final Intent intentMap = new Intent();
                 intentMap.setClass(ViewMoodList.this, NearbyMoodActivity.class);
                 if(mViewPager.getCurrentItem() == 0) {
                     // for history moods
