@@ -19,6 +19,9 @@ import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
+import com.example.moodly.Controllers.MoodController;
+import com.example.moodly.Controllers.UserController;
+import com.example.moodly.Models.Mood;
 import com.example.moodly.R;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -70,15 +73,21 @@ public class SeeMap extends FragmentActivity implements OnMapReadyCallback, Goog
     private LatLng[] mLikelyPlaceLatLngs = new LatLng[mMaxEntries];
     private Button ok;
 
+    private LatLng received;
+
+    private Mood mood = MoodController.getInstance().getMood();
+
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         if (savedInstanceState != null) {
             mLastKnownLocation = savedInstanceState.getParcelable(KEY_LOCATION);
             mCameraPosition = savedInstanceState.getParcelable(KEY_CAMERA_POSITION);
+
         }
         setContentView(R.layout.activity_see_map);
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
+
 
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
@@ -179,24 +188,41 @@ public class SeeMap extends FragmentActivity implements OnMapReadyCallback, Goog
             }
         });
 
-        mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
+        // we are editing it
+        if(mood.getOwner().equals(UserController.getInstance().getCurrentUser().getName())) {
+            mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
 
-            @Override
-            public void onMapClick(LatLng point) {
-                // TODO Auto-generated method stub
-                mLastKnownLocation.setLatitude(point.latitude);
-                mLastKnownLocation.setLongitude(point.longitude);
+                @Override
+                public void onMapClick(LatLng point) {
+                    // TODO Auto-generated method stub
+                    mLastKnownLocation.setLatitude(point.latitude);
+                    mLastKnownLocation.setLongitude(point.longitude);
 
-                mMap.clear();
-                mMap.addMarker(new MarkerOptions().position(point));
-            }
-        });
+                    mMap.clear();
+                    mMap.addMarker(new MarkerOptions().position(point));
+                }
+            });
 
+        }
         // Turn on the My Location layer and the related control on the map.
         updateLocationUI();
 
-        // Get the current location of the device and set the position of the map.
-        getDeviceLocation();
+        received = mood.getLocation();
+        if(received.equals(new LatLng(0,0))) {
+            // Get the current location of the device and set the position of the map.
+            if((mood.getOwner().equals(UserController.getInstance().getCurrentUser().getName()))) {
+                getDeviceLocation();
+            }
+        } else {
+            mLastKnownLocation = new Location("");
+            mLastKnownLocation.setLatitude(received.latitude);
+            mLastKnownLocation.setLongitude(received.longitude);
+            mMap.clear();
+            mMap.addMarker(new MarkerOptions().position(received));
+            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(
+                    received, DEFAULT_ZOOM));
+
+        }
 
 
 
@@ -205,11 +231,15 @@ public class SeeMap extends FragmentActivity implements OnMapReadyCallback, Goog
             @Override
             public void onClick(View v){
                 if (mLastKnownLocation != null) {
-                    Intent resultI = new Intent();
-                    resultI.putExtra("my_latitude", mLastKnownLocation.getLatitude());
-                    resultI.putExtra("my_longtitude", mLastKnownLocation.getLongitude());
-                    setResult(Activity.RESULT_OK, resultI);
-                    finish();
+                    if(mood.getOwner().equals(UserController.getInstance().getCurrentUser().getName())) {
+                        Intent resultI = new Intent();
+                        resultI.putExtra("my_latitude", mLastKnownLocation.getLatitude());
+                        resultI.putExtra("my_longtitude", mLastKnownLocation.getLongitude());
+                        setResult(Activity.RESULT_OK, resultI);
+                        finish();
+                    } else {
+                        finish();
+                    }
                 } else {
                     //"show error toast message here"
                 }
@@ -218,6 +248,16 @@ public class SeeMap extends FragmentActivity implements OnMapReadyCallback, Goog
 
         //showCurrentPlace();
     }
+
+    @Override
+    public void onBackPressed() {
+        Intent resultI = new Intent();
+        resultI.putExtra("my_latitude", received.latitude);
+        resultI.putExtra("my_longtitude", received.longitude);
+        setResult(Activity.RESULT_OK, resultI);
+        finish();
+    }
+
     private void getDeviceLocation() {
         /*
          * Request location permission, so that we can get the location of the
