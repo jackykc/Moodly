@@ -10,7 +10,6 @@
     <EditText
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:padding="10dp"
         android:id="@+id/usernameText"
         android:hint="@string/username" />
 </LinearLayout>
