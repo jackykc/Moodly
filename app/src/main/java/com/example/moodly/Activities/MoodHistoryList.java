@@ -310,6 +310,11 @@ public class MoodHistoryList extends MoodFollowingList {
 
     }
 
+    /**
+     * Loads the offline list of moods that correspond to an user.
+     * @throws FileNotFoundException if file is not found
+     * @throws IOException if cannot be converted
+     */
     private void loadFromFile() {
         try {
             FileInputStream fis = getActivity().openFileInput(MOOD_FILE_NAME);
@@ -318,14 +323,17 @@ public class MoodHistoryList extends MoodFollowingList {
             moodList = gson.fromJson(in, new TypeToken<ArrayList<Mood>>(){}.getType());
             fis.close();
         } catch (FileNotFoundException e) {
-            // TODO Auto-generated catch block
-            moodList = new ArrayList<Mood>();
+            moodList = new ArrayList<>();
         } catch (IOException e) {
-            // TODO Auto-generated catch block
             throw new RuntimeException();
         }
     }
 
+    /**
+     * Saves the current list of moods that correspond to an user.
+     * @throws FileNotFoundException if file is not found
+     * @throws IOException if cannot be converted
+     */
     private void saveInFile() {
         try {
             FileOutputStream fos = getActivity().openFileOutput(MOOD_FILE_NAME, Context.MODE_PRIVATE);
@@ -337,10 +345,8 @@ public class MoodHistoryList extends MoodFollowingList {
 
             fos.close();
         } catch (FileNotFoundException e) {
-            // TODO Auto-generated catch block
             throw new RuntimeException();
         } catch (IOException e) {
-            // TODO Auto-generated catch block
             throw new RuntimeException();
         }
     }

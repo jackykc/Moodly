@@ -11,10 +11,11 @@ import java.util.ArrayList;
  * Created by mliew on 2017-02-25.
  */
 
+/**
+ * UserHolder holds a user and its mood list.
+ */
 public class UserHolder {
     User user;
-
-    // Figure out how to use for adapter?
     CheckBox checkBox;
     ArrayList<Mood> moodList = new ArrayList<>();
 }

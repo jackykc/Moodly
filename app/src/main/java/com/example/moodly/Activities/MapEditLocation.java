@@ -43,7 +43,10 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 
-
+/**
+ * MapEditLocation allows the user to set and edit a location for their mood event
+ * using Google Maps API.
+ */
 public class MapEditLocation extends FragmentActivity implements OnMapReadyCallback, GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener {
 
@@ -155,7 +158,12 @@ public class MapEditLocation extends FragmentActivity implements OnMapReadyCallb
         return true;
     }
 
-
+    /**
+     * Prepares the map to be shown given
+     * if there is a previous mood event location or
+     * if it is a new mood event.
+     * @param map Google Map
+     */
     @Override
     public void onMapReady(GoogleMap map) {
         mMap = map;
@@ -238,15 +246,16 @@ public class MapEditLocation extends FragmentActivity implements OnMapReadyCallb
                     } else {
                         finish();
                     }
-                } else {
-                    //"show error toast message here"
                 }
             }
         });
-
-        //showCurrentPlace();
     }
 
+    /**
+     * If user exits maps using back button,
+     * send the current location back to ViewMood
+     * activity.
+     */
     @Override
     public void onBackPressed() {
         Intent resultI = new Intent();
@@ -256,12 +265,12 @@ public class MapEditLocation extends FragmentActivity implements OnMapReadyCallb
         finish();
     }
 
+    /**
+     * Request location permission, so that we can get the location of the
+     * device. The result of the permission request is handled by a callback,
+     * onRequestPermissionsResult.
+     */
     private void getDeviceLocation() {
-        /*
-         * Request location permission, so that we can get the location of the
-         * device. The result of the permission request is handled by a callback,
-         * onRequestPermissionsResult.
-         */
         if (ContextCompat.checkSelfPermission(this.getApplicationContext(),
                 android.Manifest.permission.ACCESS_FINE_LOCATION)
                 == PackageManager.PERMISSION_GRANTED) {
@@ -271,10 +280,7 @@ public class MapEditLocation extends FragmentActivity implements OnMapReadyCallb
                     new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION},
                     PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION);
         }
-        /*
-         * Get the best and most recent location of the device, which may be null in rare
-         * cases when a location is not available.
-         */
+
         if (mLocationPermissionGranted) {
 
             mLastKnownLocation = LocationServices.FusedLocationApi
@@ -301,7 +307,12 @@ public class MapEditLocation extends FragmentActivity implements OnMapReadyCallb
         }
     }
 
-
+    /**
+     * Checks if we have permission for location. If not, request from user.
+     * @param requestCode
+     * @param permissions
+     * @param grantResults
+     */
     @Override
     public void onRequestPermissionsResult(int requestCode,
                                            @NonNull String permissions[],
