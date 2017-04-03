@@ -1,8 +1,11 @@
 package com.example.moodly.Activities;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.text.InputType;
@@ -75,6 +78,7 @@ public class TabHistory extends TabBase {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         MoodController.getInstance().deleteMood(position);
+                        if (networkAvailable()) { MoodController.getInstance().syncDeleteList(); }
                         refreshOffline();
                     }
                 });
@@ -263,6 +267,14 @@ public class TabHistory extends TabBase {
             }
         });
         textBuilder.show();
+    }
+
+    private boolean networkAvailable() {
+        ConnectivityManager connectivityManager
+                = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
+
     }
 
 }
