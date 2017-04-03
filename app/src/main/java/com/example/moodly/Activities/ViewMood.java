@@ -3,6 +3,7 @@ package com.example.moodly.Activities;
 import android.Manifest;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -10,6 +11,8 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
@@ -295,6 +298,7 @@ public class ViewMood extends AppCompatActivity {
                         mood.setSocialSituation(socialEnum);
                         MoodController.getInstance().setMood(mood);
                         MoodController.getInstance().addMood(position, mood);
+                        if (networkAvailable()) {MoodController.getInstance().syncAddList();}
                         Intent output = new Intent(ViewMood.this, ViewMoodList.class);
                         setResult(RESULT_OK, output);
                         finish();
@@ -502,6 +506,14 @@ public class ViewMood extends AppCompatActivity {
                 //Another interface callback
             }
         });
+    }
+
+
+    private boolean networkAvailable() {
+        ConnectivityManager connectivityManager
+                = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
 
     }
 }

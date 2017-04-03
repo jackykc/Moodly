@@ -93,21 +93,89 @@ public class MoodIntentTest extends ActivityInstrumentationTestCase2<LoginScreen
 
     public void test2_FilterByMood () {
         actionLogin();
-        solo.clickOnView((FloatingActionButton) solo.getView(R.id.filterButton));
 
-        solo.clickOnText("Sad");
-
+        solo.clickOnView((FloatingActionButton) solo.getView(R.id.fab));
+        solo.assertCurrentActivity("Wrong Activities", ViewMood.class);
+        Spinner emoij = (Spinner) solo.getView(R.id.spinner_emotion);
+        solo.clickOnView(emoij);
+        solo.clickOnText("Shame");
+        solo.clickOnView((EditText) solo.getView(R.id.view_date));
         solo.clickOnText("OK");
+        solo.clickOnText("OK");
+        solo.enterText((EditText) solo.getView(R.id.view_reason), "test reason");
+        solo.clickOnText("Save Mood");
 
+        solo.clickOnView((FloatingActionButton) solo.getView(R.id.filterButton));
+        solo.clickOnText("Anger");
+        solo.clickOnText("OK");
         solo.clickOnText("No");
+        solo.clickOnText("No");
+        assertFalse(solo.searchText("Shame"));
 
-        solo.clickOnText("Yes");
+        solo.clickOnView((FloatingActionButton) solo.getView(R.id.refreshButton));
+        solo.clickLongOnText("Shame");
+        solo.clickOnText("Delete");
 
-        ArrayList<String> moods = new ArrayList<>(Arrays.asList("Anger","Confusion","Disgust","Fear","Shame","Surprise"));
-        for (String mood: moods) {
-            Log.i("Mood", mood);
-            assertFalse(solo.searchText(mood));
+        actionLogOut();
+    }
+
+    public void test2_1_FilterByText () {
+        actionLogin();
+
+        solo.clickOnView((FloatingActionButton) solo.getView(R.id.fab));
+        solo.assertCurrentActivity("Wrong Activities", ViewMood.class);
+        Spinner emoij = (Spinner) solo.getView(R.id.spinner_emotion);
+        solo.clickOnView(emoij);
+        solo.clickOnText("Shame");
+        solo.clickOnView((EditText) solo.getView(R.id.view_date));
+        solo.clickOnText("OK");
+        solo.clickOnText("OK");
+        String reason = getRDString();
+        solo.enterText((EditText) solo.getView(R.id.view_reason), reason);
+        solo.clickOnText("Save Mood");
+
+        solo.clickOnView((FloatingActionButton) solo.getView(R.id.filterButton));
+        solo.clickOnText("OK");
+        char[] ch_array = reason.toCharArray();
+        for(int i=0;i<ch_array.length;i++)
+        {
+            solo.sendKey( android_keycode(ch_array[i]) );
         }
+        solo.clickOnText("Yes");
+        solo.clickOnText("No");
+        assertTrue(solo.searchText("Shame"));
+
+        solo.clickOnView((FloatingActionButton) solo.getView(R.id.refreshButton));
+        solo.clickLongOnText("Shame");
+        solo.clickOnText("Delete");
+
+        actionLogOut();
+    }
+
+    public void test2_2_FilterByDate () {
+        actionLogin();
+
+        solo.clickOnView((FloatingActionButton) solo.getView(R.id.fab));
+        solo.assertCurrentActivity("Wrong Activities", ViewMood.class);
+        Spinner emoij = (Spinner) solo.getView(R.id.spinner_emotion);
+        solo.clickOnView(emoij);
+        solo.clickOnText("Shame");
+        solo.clearEditText((EditText) solo.getView(R.id.view_date));
+        solo.clickOnText("OK");
+        solo.clickOnText("OK");
+        solo.clickOnText("Save Mood");
+
+        solo.clickOnView((FloatingActionButton) solo.getView(R.id.filterButton));
+        solo.clickOnText("OK");
+        solo.clickOnText("No");
+        solo.clickOnText("Yes");
+        assertFalse(solo.searchText("Surprise"));
+        assertTrue(solo.searchText("Shame"));
+
+        solo.clickOnView((FloatingActionButton) solo.getView(R.id.refreshButton));
+        solo.clickLongOnText("Shame");
+        solo.clickOnText("Delete");
+
         actionLogOut();
     }
 
