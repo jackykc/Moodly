@@ -4,7 +4,6 @@ package com.example.moodly.Activities;
  * Created by jkc1 on 2017-03-05.
  */
 
-
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -22,7 +21,6 @@ import android.support.design.widget.FloatingActionButton;
 import android.widget.Toast;
 
 import com.example.moodly.Adapters.FollowingMoodAdapter;
-import com.example.moodly.Adapters.MoodAdapter;
 import com.example.moodly.Controllers.MoodController;
 import com.example.moodly.Controllers.UserController;
 import com.example.moodly.Models.Mood;
@@ -40,7 +38,6 @@ public class MoodFollowingList extends Fragment {
     protected User currentUser;
     protected ArrayList<String> userList;
 
-    // we want to move the arraylist onto the controller
     protected Mood mood;
     protected FollowingMoodAdapter adapter;
     protected ListView displayMoodList;
@@ -86,7 +83,10 @@ public class MoodFollowingList extends Fragment {
         fab.setVisibility(View.INVISIBLE);
     }
 
-    // Used for project part 5 to set the listeners for the filter button
+
+    /**
+     * Sets listeners for buttons and clicking on moods.
+     */
     protected void setListeners() {
         displayMoodList.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
@@ -117,16 +117,8 @@ public class MoodFollowingList extends Fragment {
             }
         });
 
-        FloatingActionButton fab = (FloatingActionButton) rootView.findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                MoodController.getInstance().setMood(new Mood());
-                Intent intent = new Intent(getActivity(), ViewMood.class);
-                intent.putExtra("MOOD_POSITION", -1);
-                startActivityForResult(intent, 0);
-            }
-        });
+        // first alert dialogue for filter popup
+        // filters for emotion
         final CharSequence[] filter_choices = {"Anger", "Confusion", "Disgust", "Fear", "Happiness", "Sadness", "Shame", "Surprise"};
         final CharSequence[] recentWeekChoice = {"In Recent Week"};
         final ArrayList<Integer> selectedEmotion = new ArrayList<>();
@@ -172,18 +164,7 @@ public class MoodFollowingList extends Fragment {
             }
         });
 
-
-        loadMore = (Button) rootView.findViewById(R.id.moreMoods);
-        loadMore.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                moodList = moodController.getMoodList(userList, false);
-                adapter = new FollowingMoodAdapter(getActivity(), R.layout.following_mood_list_item, moodList);
-                displayMoodList.setAdapter(adapter);
-                adapter.notifyDataSetChanged();
-            }
-        });
-
+        // used to refresh current mood list
         FloatingActionButton refresh = (FloatingActionButton) rootView.findViewById(R.id.refreshButton);
         refresh.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -197,6 +178,20 @@ public class MoodFollowingList extends Fragment {
                 adapter.notifyDataSetChanged();
             }
         });
+
+        // used to load more moods
+        loadMore = (Button) rootView.findViewById(R.id.moreMoods);
+        loadMore.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                moodList = moodController.getMoodList(userList, false);
+                adapter = new FollowingMoodAdapter(getActivity(), R.layout.following_mood_list_item, moodList);
+                displayMoodList.setAdapter(adapter);
+                adapter.notifyDataSetChanged();
+            }
+        });
+
+
     }
 
 
@@ -222,7 +217,38 @@ public class MoodFollowingList extends Fragment {
         adapter.notifyDataSetChanged();
     }
 
+    /**
+     * Alert dialogue that allows user to filter for text
+     */
+    protected void getFilterText(){
+        AlertDialog.Builder textBuilder = new AlertDialog.Builder(getContext());
+        textBuilder.setTitle("Search by Reason text ?");
+        final EditText input = new EditText(getContext());
+        input.setInputType(InputType.TYPE_CLASS_TEXT);
+        textBuilder.setView(input);
+        textBuilder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                String filterText = input.getText().toString();
+                Toast.makeText(getContext(), filterText, Toast.LENGTH_SHORT).show();
+                moodController.setFilterText(filterText, false);
+                getFilterRecent();
+            }
+        });
+        textBuilder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                getFilterRecent();
+                dialog.cancel();
+            }
+        });
+        textBuilder.show();
+    }
 
+
+    /**
+     * Alert dialogue that allows user to filter for recent moods
+     */
     protected void getFilterRecent() {
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         builder.setTitle("Show Only Moods From Recent Week?");
@@ -250,29 +276,5 @@ public class MoodFollowingList extends Fragment {
         builder.show();
     }
 
-    protected void getFilterText(){
-        AlertDialog.Builder textBuilder = new AlertDialog.Builder(getContext());
-        textBuilder.setTitle("Search by Reason text ?");
-        final EditText input = new EditText(getContext());
-        input.setInputType(InputType.TYPE_CLASS_TEXT);
-        textBuilder.setView(input);
-        textBuilder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                String filterText = input.getText().toString();
-                Toast.makeText(getContext(), filterText, Toast.LENGTH_SHORT).show();
-                moodController.setFilterText(filterText, false);
-                getFilterRecent();
-            }
-        });
-        textBuilder.setNegativeButton("No", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                getFilterRecent();
-                dialog.cancel();
-            }
-        });
-        textBuilder.show();
-    }
 
 }

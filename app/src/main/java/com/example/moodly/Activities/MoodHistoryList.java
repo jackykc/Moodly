@@ -63,7 +63,7 @@ public class MoodHistoryList extends MoodFollowingList {
     }
 
     /**
-     * Sets listeners for the activity
+     * Sets listeners for buttons and clicking on moods.
      */
     @Override
     protected void setListeners() {
@@ -96,6 +96,7 @@ public class MoodHistoryList extends MoodFollowingList {
             }
         });
 
+        // button to add new moods
         FloatingActionButton fab = (FloatingActionButton) rootView.findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -106,6 +107,9 @@ public class MoodHistoryList extends MoodFollowingList {
                 startActivityForResult(intent, 0);
             }
         });
+
+        // first alert dialogue for filter popup
+        // filters for emotion
         final CharSequence[] filter_choices = {"Anger","Confusion","Disgust","Fear","Happiness","Sadness","Shame","Surprise"};
         final CharSequence[] recentWeekChoice = {"In Recent Week"};
         final ArrayList<Integer> selectedEmotion = new ArrayList<>();
@@ -152,6 +156,7 @@ public class MoodHistoryList extends MoodFollowingList {
             }
         });
 
+        // used to refresh current mood list
         FloatingActionButton refresh = (FloatingActionButton) rootView.findViewById(R.id.refreshButton);
         refresh.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -214,6 +219,38 @@ public class MoodHistoryList extends MoodFollowingList {
         adapter.notifyDataSetChanged();
     }
 
+    /**
+     * Alert dialogue that allows user to filter for text
+     */
+    @Override
+    protected void getFilterText(){
+        AlertDialog.Builder textBuilder = new AlertDialog.Builder(getContext());
+        textBuilder.setTitle("Search by Reason text ?");
+        final EditText input = new EditText(getContext());
+        input.setInputType(InputType.TYPE_CLASS_TEXT);
+        textBuilder.setView(input);
+        textBuilder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                String filterText = input.getText().toString();
+                Toast.makeText(getContext(), filterText, Toast.LENGTH_SHORT).show();
+                moodController.setFilterText(filterText, true);
+                getFilterRecent();
+            }
+        });
+        textBuilder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                getFilterRecent();
+                dialog.cancel();
+            }
+        });
+        textBuilder.show();
+    }
+
+    /**
+     * Alert dialogue that allows user to filter for recent moods
+     */
     @Override
     protected void getFilterRecent() {
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
@@ -242,33 +279,9 @@ public class MoodHistoryList extends MoodFollowingList {
         builder.show();
     }
 
-
-    @Override
-    protected void getFilterText(){
-        AlertDialog.Builder textBuilder = new AlertDialog.Builder(getContext());
-        textBuilder.setTitle("Search by Reason text ?");
-        final EditText input = new EditText(getContext());
-        input.setInputType(InputType.TYPE_CLASS_TEXT);
-        textBuilder.setView(input);
-        textBuilder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                String filterText = input.getText().toString();
-                Toast.makeText(getContext(), filterText, Toast.LENGTH_SHORT).show();
-                moodController.setFilterText(filterText, true);
-                getFilterRecent();
-            }
-        });
-        textBuilder.setNegativeButton("No", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                getFilterRecent();
-                dialog.cancel();
-            }
-        });
-        textBuilder.show();
-    }
-
+    /***
+     * Checks connection to network
+     */
     private boolean networkAvailable() {
         ConnectivityManager connectivityManager
                 = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
