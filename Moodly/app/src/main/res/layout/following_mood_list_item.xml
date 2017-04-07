@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true">
+
+
+    <ImageView
+        android:id="@+id/f_emoji"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_gravity="end"
+        android:layout_marginBottom="5dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="5dp"
+        android:src="@drawable/afraid" />
+
+    <TextView
+        android:id="@+id/f_mood_emotion"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/f_mood_date"
+        android:layout_alignLeft="@+id/f_emoji"
+        android:layout_alignStart="@+id/f_emoji"
+        android:layout_marginLeft="60dp"
+        android:layout_marginStart="60dp"
+        android:text="placeholder"
+        android:textAlignment="textStart"
+        android:textAppearance="@android:style/TextAppearance"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/f_mood_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:text="placeholder"
+        android:textAlignment="textStart"
+        android:textSize="12sp"
+        android:layout_marginBottom="5dp"
+        android:layout_alignBottom="@+id/f_emoji"
+        android:layout_alignLeft="@+id/f_mood_emotion"
+        android:layout_alignStart="@+id/f_mood_emotion" />
+
+    <TextView
+        android:id="@+id/f_mood_owner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/f_mood_emotion"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_gravity="center_vertical"
+        android:layout_marginEnd="15dp"
+        android:layout_marginRight="15dp"
+        android:text="user"
+        android:textAlignment="textEnd"
+        android:textAppearance="@android:style/TextAppearance" />
+
+
+</RelativeLayout>
